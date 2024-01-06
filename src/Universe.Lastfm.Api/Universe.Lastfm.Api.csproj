@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="Unity" Version="5.11.10" />
+    <PackageReference Include="Universe.NetCore.CQRS" Version="1.0.0" />
+  </ItemGroup>
+
+</Project>
