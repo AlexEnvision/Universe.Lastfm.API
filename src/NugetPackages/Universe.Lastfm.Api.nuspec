@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>Universe.Lastfm.Api</id>
-    <version>0.9.3.5</version>
+    <version>0.9.3.7</version>
     <authors>Alex Envision</authors>
     <owners>Alex Envision</owners>
     <license type="file">APACHE-2.0 LICENSE.txt</license>
@@ -20,6 +20,7 @@
 	       <dependency id="System.ValueTuple" version="4.3.0"  />
          <dependency id="Unity" version="5.11.10" />
          <dependency id="Universe.NetCore.CQRS" version="1.0.0" />
+         <dependency id="Newtonsoft.Json" version="13.0.3" />
        </group>
       <group targetFramework=".NET5.0" >
         <dependency id="Universe.NetCore.Types" version="1.0.0.0" />
@@ -28,6 +29,7 @@
         <dependency id="System.ValueTuple" version="4.3.0"  />
         <dependency id="Unity" version="5.11.10" />
         <dependency id="Universe.NetCore.CQRS" version="1.0.0" />
+        <dependency id="Newtonsoft.Json" version="13.0.3" />
       </group>
       <group targetFramework=".NET6.0" >
         <dependency id="Universe.NetCore.Types" version="1.0.0.0" />
@@ -36,6 +38,7 @@
         <dependency id="System.ValueTuple" version="4.3.0"  />
         <dependency id="Unity" version="5.11.10" />
         <dependency id="Universe.NetCore.CQRS" version="1.0.0" />
+        <dependency id="Newtonsoft.Json" version="13.0.3" />
       </group>
       <group targetFramework="monoandroid8.0" >
         <dependency id="Universe.NetCore.Types" version="1.0.0.0" />
@@ -44,13 +47,13 @@
         <dependency id="System.ValueTuple" version="4.3.0"  />
         <dependency id="Unity" version="5.11.10" />
         <dependency id="Universe.NetCore.CQRS" version="1.0.0" />
+        <dependency id="Newtonsoft.Json" version="13.0.3" />
       </group>
     </dependencies>
   </metadata>
   <files>
     <file src="..\License\APACHE-2.0 LICENSE.txt" target="" />
     <file src="..\Universe.Lastfm.Api\bin\Release\net5.0\Universe.Lastfm.Api.dll" target="lib\net5.0" />
-
     <file src="..\Universe.Lastfm.Api\bin\Release\net5.0\Universe.Lastfm.Api.dll" target="lib\monoandroid8.0" />
   </files>
 </package>

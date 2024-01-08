@@ -42,15 +42,14 @@ namespace Universe.Lastfm.Api.FormsApp.Forms.Users
     {
         protected string UserName => tbUser?.Text;
 
-        public string User { get; private set; }
-
+        public string User { get; protected set; }
 
         public UserInfoReqForm()
         {
             InitializeComponent();
         }
 
-        private void btOk_Click(object sender, EventArgs e)
+        protected virtual void btOk_Click(object sender, EventArgs e)
         {
             User = UserName.Trim();
             Close();

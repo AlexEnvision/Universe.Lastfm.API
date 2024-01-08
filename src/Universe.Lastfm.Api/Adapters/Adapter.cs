@@ -83,7 +83,8 @@ namespace Universe.Lastfm.Api.Adapters
             sb.Append(reqUrl);
             foreach (var argument in arguments)
             {
-                sb.Append($"&{argument.ArgumentName}={argument.ArgumentValue}");
+                if (argument != null)
+                    sb.Append($"&{argument.ArgumentName}={argument.ArgumentValue}");
             }
             reqUrl = sb.ToString();
 

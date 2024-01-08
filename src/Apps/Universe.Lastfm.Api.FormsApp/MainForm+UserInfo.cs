@@ -318,5 +318,252 @@ namespace Universe.Lastfm.Api.FormsApp
                 }
             });
         }
+
+        private void btUserGetLovedTracks_Click(object sender, EventArgs e)
+        {
+            string userName;
+
+            using (var form = new UserGetLovedTracksReqForm())
+            {
+                if (form.ShowDialog() == DialogResult.OK)
+                {
+                    userName = form.User;
+                    if (string.IsNullOrEmpty(userName))
+                    {
+                        tbLog.AppendText($"[{DateTime.Now}] Не указано userName!" + Environment.NewLine);
+                        return;
+                    }
+                }
+                else
+                {
+                    return;
+                }
+            }
+
+            DisableButtons(sender);
+
+            ThreadMachine.Create(1).RunInMultiTheadsWithoutWaiting(() =>
+            {
+                try
+                {
+                    var responce = Scope.GetQuery<GetUserLovedTracksQuery>().Execute(userName);
+                    if (!responce.IsSuccessful)
+                    {
+                        _log.Info($"{responce.Message} {responce.ServiceAnswer}");
+                    }
+
+                    _log.Info(
+                        $"Успешно выгружена информация по пользователю {userName}: {Environment.NewLine}{Environment.NewLine}{responce.ServiceAnswer}{Environment.NewLine}.");
+
+                    var attribute = responce.DataContainer.LovedTracks.Attribute;
+                    var tracks = responce.DataContainer.LovedTracks;
+                    var tagsStr = string.Join(", ", tracks.Track.Select(x => x.Name));
+
+                    _log.Info($"List of the loved tracks of the user {attribute.User} / Список любимых трэков пользователя {attribute.User}: {tagsStr}.");
+
+                    _log.Info(Environment.NewLine);
+
+                    EnableButtonsSafe();
+                }
+                catch (Exception ex)
+                {
+                    _log.Error(ex, ex.Message);
+                    EnableButtonsSafe();
+                }
+            });
+        }
+
+        private void btUserGetPersonalTags_Click(object sender, EventArgs e)
+        {
+            string userName;
+            string tag;
+            string tagType;
+
+            using (var form = new UserGetPersonalTagsReqForm())
+            {
+                if (form.ShowDialog() == DialogResult.OK)
+                {
+                    userName = form.User;
+                    if (string.IsNullOrEmpty(userName))
+                    {
+                        tbLog.AppendText($"[{DateTime.Now}] Не указано userName!" + Environment.NewLine);
+                        return;
+                    }
+
+                    tag = form.Genre;
+                    if (string.IsNullOrEmpty(userName))
+                    {
+                        tbLog.AppendText($"[{DateTime.Now}] Не указан tag!" + Environment.NewLine);
+                        return;
+                    }
+
+                    tagType = form.GenreType;
+                    if (string.IsNullOrEmpty(userName))
+                    {
+                        tbLog.AppendText($"[{DateTime.Now}] Не указан taggingType!" + Environment.NewLine);
+                        return;
+                    }
+                }
+                else
+                {
+                    return;
+                }
+            }
+
+            DisableButtons(sender);
+
+            ThreadMachine.Create(1).RunInMultiTheadsWithoutWaiting(() =>
+            {
+                try
+                {
+                    var responce = Scope.GetQuery<GetPersonalTagsQuery>().Execute(userName, tag, tagType);
+                    if (!responce.IsSuccessful)
+                    {
+                        _log.Info($"{responce.Message} {responce.ServiceAnswer}");
+                    }
+
+                    _log.Info(
+                        $"Успешно выгружена информация по пользователю {userName}: {Environment.NewLine}{Environment.NewLine}{responce.ServiceAnswer}{Environment.NewLine}.");
+
+                    var attribute = responce.DataContainer.Taggings.Attribute;
+                    var tracks = responce.DataContainer.Taggings;
+                    var tagsStr = string.Join(", ", tracks.Artists.Select(x => x.Name));
+
+                    _log.Info($"List of the tagged artists of the user {attribute.User} / Список тэгированных исполнителей пользователя {attribute.User}: {tagsStr}.");
+
+                    _log.Info(Environment.NewLine);
+
+                    EnableButtonsSafe();
+                }
+                catch (Exception ex)
+                {
+                    _log.Error(ex, ex.Message);
+                    EnableButtonsSafe();
+                }
+            });
+        }
+
+        private void btUserGetRecentTracks_Click(object sender, EventArgs e)
+        {
+            string userName;
+
+            using (var form = new UserGetRecentTracksReqForm())
+            {
+                if (form.ShowDialog() == DialogResult.OK)
+                {
+                    userName = form.User;
+                    if (string.IsNullOrEmpty(userName))
+                    {
+                        tbLog.AppendText($"[{DateTime.Now}] Не указано userName!" + Environment.NewLine);
+                        return;
+                    }
+                }
+                else
+                {
+                    return;
+                }
+            }
+
+            DisableButtons(sender);
+
+            ThreadMachine.Create(1).RunInMultiTheadsWithoutWaiting(() =>
+            {
+                try
+                {
+                    var responce = Scope.GetQuery<GetUserRecentTracksQuery>().Execute(userName);
+                    if (!responce.IsSuccessful)
+                    {
+                        _log.Info($"{responce.Message} {responce.ServiceAnswer}");
+                    }
+
+                    _log.Info(
+                        $"Успешно выгружена информация по пользователю {userName}: {Environment.NewLine}{Environment.NewLine}{responce.ServiceAnswer}{Environment.NewLine}.");
+
+                    var attribute = responce.DataContainer.RecentTracks.Attribute;
+                    var tracks = responce.DataContainer.RecentTracks;
+                    var tagsStr = string.Join(", ", tracks.Track.Select(x => x.Name));
+
+                    _log.Info($"List of the top tracks of the user {attribute.User} / Список топ трэков пользователя {attribute.User}: {tagsStr}.");
+
+                    _log.Info(Environment.NewLine);
+
+                    EnableButtonsSafe();
+                }
+                catch (Exception ex)
+                {
+                    _log.Error(ex, ex.Message);
+                    EnableButtonsSafe();
+                }
+            });
+        }
+
+        private void btUserGetWeeklyAlbumChart_Click(object sender, EventArgs e)
+        {
+            string userName;
+
+            using (var form = new UserGetWeeklyAlbumChartReqForm())
+            {
+                if (form.ShowDialog() == DialogResult.OK)
+                {
+                    userName = form.User;
+                    if (string.IsNullOrEmpty(userName))
+                    {
+                        tbLog.AppendText($"[{DateTime.Now}] Не указано userName!" + Environment.NewLine);
+                        return;
+                    }
+                }
+                else
+                {
+                    return;
+                }
+            }
+
+            DisableButtons(sender);
+
+            ThreadMachine.Create(1).RunInMultiTheadsWithoutWaiting(() =>
+            {
+                try
+                {
+                    var responce = Scope.GetQuery<GetUserWeeklyAlbumChartQuery>().Execute(userName);
+                    if (!responce.IsSuccessful)
+                    {
+                        _log.Info($"{responce.Message} {responce.ServiceAnswer}");
+                    }
+
+                    _log.Info(
+                        $"Успешно выгружена информация по пользователю {userName}: {Environment.NewLine}{Environment.NewLine}{responce.ServiceAnswer}{Environment.NewLine}.");
+
+                    var attribute = responce.DataContainer.WeeklyAlbumChart.Attribute;
+                    var tracks = responce.DataContainer.WeeklyAlbumChart;
+                    var tagsStr = string.Join(", ", tracks.Album.Select(x => x.Name));
+
+                    _log.Info($"List of the top tracks of the user {attribute.User} / Список топ трэков пользователя {attribute.User}: {tagsStr}.");
+
+                    _log.Info(Environment.NewLine);
+
+                    EnableButtonsSafe();
+                }
+                catch (Exception ex)
+                {
+                    _log.Error(ex, ex.Message);
+                    EnableButtonsSafe();
+                }
+            });
+        }
+
+        private void btUserGetWeeklyArtistChart_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btUserGetWeeklyChartList_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btUserGetWeeklyTrackChart_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

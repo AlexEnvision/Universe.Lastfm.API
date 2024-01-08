@@ -62,6 +62,13 @@
             menuStrip1 = new System.Windows.Forms.MenuStrip();
             applicationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            btUserGetLovedTracks = new System.Windows.Forms.Button();
+            btUserGetPersonalTags = new System.Windows.Forms.Button();
+            btUserGetWeeklyTrackChart = new System.Windows.Forms.Button();
+            btUserGetWeeklyChartList = new System.Windows.Forms.Button();
+            btUserGetWeeklyArtistChart = new System.Windows.Forms.Button();
+            btUserGetWeeklyAlbumChart = new System.Windows.Forms.Button();
+            btUserGetRecentTracks = new System.Windows.Forms.Button();
             groupBox1.SuspendLayout();
             groupBox2.SuspendLayout();
             pApiControls.SuspendLayout();
@@ -77,9 +84,9 @@
             // 
             // btRun
             // 
-            btRun.Location = new System.Drawing.Point(9, 741);
+            btRun.Location = new System.Drawing.Point(9, 757);
             btRun.Name = "btRun";
-            btRun.Size = new System.Drawing.Size(1316, 48);
+            btRun.Size = new System.Drawing.Size(1339, 49);
             btRun.TabIndex = 0;
             btRun.Text = "Run";
             btRun.UseVisualStyleBackColor = true;
@@ -162,7 +169,7 @@
             groupBox2.Controls.Add(pApiControls);
             groupBox2.Location = new System.Drawing.Point(12, 240);
             groupBox2.Name = "groupBox2";
-            groupBox2.Size = new System.Drawing.Size(1313, 495);
+            groupBox2.Size = new System.Drawing.Size(1336, 511);
             groupBox2.TabIndex = 0;
             groupBox2.TabStop = false;
             groupBox2.Text = "API methods";
@@ -179,15 +186,15 @@
             pApiControls.Dock = System.Windows.Forms.DockStyle.Fill;
             pApiControls.Location = new System.Drawing.Point(3, 23);
             pApiControls.Name = "pApiControls";
-            pApiControls.Size = new System.Drawing.Size(1307, 469);
+            pApiControls.Size = new System.Drawing.Size(1330, 485);
             pApiControls.TabIndex = 1;
             // 
             // groupBox6
             // 
             groupBox6.Controls.Add(btTrackScrobble);
-            groupBox6.Location = new System.Drawing.Point(1110, 11);
+            groupBox6.Location = new System.Drawing.Point(1169, 11);
             groupBox6.Name = "groupBox6";
-            groupBox6.Size = new System.Drawing.Size(179, 441);
+            groupBox6.Size = new System.Drawing.Size(150, 457);
             groupBox6.TabIndex = 6;
             groupBox6.TabStop = false;
             groupBox6.Text = "scrobbling";
@@ -197,7 +204,7 @@
             btTrackScrobble.Enabled = false;
             btTrackScrobble.Location = new System.Drawing.Point(6, 39);
             btTrackScrobble.Name = "btTrackScrobble";
-            btTrackScrobble.Size = new System.Drawing.Size(165, 35);
+            btTrackScrobble.Size = new System.Drawing.Size(138, 35);
             btTrackScrobble.TabIndex = 0;
             btTrackScrobble.Text = "track.scrobble";
             btTrackScrobble.UseVisualStyleBackColor = true;
@@ -205,6 +212,13 @@
             // 
             // groupBox9
             // 
+            groupBox9.Controls.Add(btUserGetWeeklyTrackChart);
+            groupBox9.Controls.Add(btUserGetWeeklyChartList);
+            groupBox9.Controls.Add(btUserGetWeeklyArtistChart);
+            groupBox9.Controls.Add(btUserGetWeeklyAlbumChart);
+            groupBox9.Controls.Add(btUserGetRecentTracks);
+            groupBox9.Controls.Add(btUserGetPersonalTags);
+            groupBox9.Controls.Add(btUserGetLovedTracks);
             groupBox9.Controls.Add(btUserGetTopTracks);
             groupBox9.Controls.Add(btUserGetTopTags);
             groupBox9.Controls.Add(btUserGetTopAlbums);
@@ -212,7 +226,7 @@
             groupBox9.Controls.Add(btUserGetInfo);
             groupBox9.Location = new System.Drawing.Point(925, 11);
             groupBox9.Name = "groupBox9";
-            groupBox9.Size = new System.Drawing.Size(179, 441);
+            groupBox9.Size = new System.Drawing.Size(238, 457);
             groupBox9.TabIndex = 8;
             groupBox9.TabStop = false;
             groupBox9.Text = "user";
@@ -220,9 +234,9 @@
             // btUserGetTopTracks
             // 
             btUserGetTopTracks.Enabled = false;
-            btUserGetTopTracks.Location = new System.Drawing.Point(8, 204);
+            btUserGetTopTracks.Location = new System.Drawing.Point(8, 176);
             btUserGetTopTracks.Name = "btUserGetTopTracks";
-            btUserGetTopTracks.Size = new System.Drawing.Size(165, 33);
+            btUserGetTopTracks.Size = new System.Drawing.Size(224, 33);
             btUserGetTopTracks.TabIndex = 8;
             btUserGetTopTracks.Text = "user.getTopTracks";
             btUserGetTopTracks.UseVisualStyleBackColor = true;
@@ -231,9 +245,9 @@
             // btUserGetTopTags
             // 
             btUserGetTopTags.Enabled = false;
-            btUserGetTopTags.Location = new System.Drawing.Point(8, 165);
+            btUserGetTopTags.Location = new System.Drawing.Point(8, 142);
             btUserGetTopTags.Name = "btUserGetTopTags";
-            btUserGetTopTags.Size = new System.Drawing.Size(165, 33);
+            btUserGetTopTags.Size = new System.Drawing.Size(224, 33);
             btUserGetTopTags.TabIndex = 7;
             btUserGetTopTags.Text = "user.getTopTags";
             btUserGetTopTags.UseVisualStyleBackColor = true;
@@ -242,9 +256,9 @@
             // btUserGetTopAlbums
             // 
             btUserGetTopAlbums.Enabled = false;
-            btUserGetTopAlbums.Location = new System.Drawing.Point(8, 123);
+            btUserGetTopAlbums.Location = new System.Drawing.Point(8, 108);
             btUserGetTopAlbums.Name = "btUserGetTopAlbums";
-            btUserGetTopAlbums.Size = new System.Drawing.Size(165, 33);
+            btUserGetTopAlbums.Size = new System.Drawing.Size(224, 33);
             btUserGetTopAlbums.TabIndex = 6;
             btUserGetTopAlbums.Text = "user.getTopAlbums";
             btUserGetTopAlbums.UseVisualStyleBackColor = true;
@@ -253,9 +267,9 @@
             // btUserGetTopArtists
             // 
             btUserGetTopArtists.Enabled = false;
-            btUserGetTopArtists.Location = new System.Drawing.Point(8, 82);
+            btUserGetTopArtists.Location = new System.Drawing.Point(8, 74);
             btUserGetTopArtists.Name = "btUserGetTopArtists";
-            btUserGetTopArtists.Size = new System.Drawing.Size(165, 33);
+            btUserGetTopArtists.Size = new System.Drawing.Size(224, 33);
             btUserGetTopArtists.TabIndex = 5;
             btUserGetTopArtists.Text = "user.getTopArtists";
             btUserGetTopArtists.UseVisualStyleBackColor = true;
@@ -266,7 +280,7 @@
             btUserGetInfo.Enabled = false;
             btUserGetInfo.Location = new System.Drawing.Point(8, 39);
             btUserGetInfo.Name = "btUserGetInfo";
-            btUserGetInfo.Size = new System.Drawing.Size(165, 35);
+            btUserGetInfo.Size = new System.Drawing.Size(224, 35);
             btUserGetInfo.TabIndex = 4;
             btUserGetInfo.Text = "user.getInfo";
             btUserGetInfo.UseVisualStyleBackColor = true;
@@ -277,7 +291,7 @@
             groupBox8.Controls.Add(btTrackGetInfo);
             groupBox8.Location = new System.Drawing.Point(740, 11);
             groupBox8.Name = "groupBox8";
-            groupBox8.Size = new System.Drawing.Size(179, 441);
+            groupBox8.Size = new System.Drawing.Size(179, 457);
             groupBox8.TabIndex = 8;
             groupBox8.TabStop = false;
             groupBox8.Text = "track";
@@ -298,7 +312,7 @@
             groupBox7.Controls.Add(btTagGetInfo);
             groupBox7.Location = new System.Drawing.Point(555, 11);
             groupBox7.Name = "groupBox7";
-            groupBox7.Size = new System.Drawing.Size(179, 441);
+            groupBox7.Size = new System.Drawing.Size(179, 457);
             groupBox7.TabIndex = 7;
             groupBox7.TabStop = false;
             groupBox7.Text = "tag/genre";
@@ -319,7 +333,7 @@
             groupBox5.Controls.Add(btChartGetTopArtists);
             groupBox5.Location = new System.Drawing.Point(371, 11);
             groupBox5.Name = "groupBox5";
-            groupBox5.Size = new System.Drawing.Size(178, 441);
+            groupBox5.Size = new System.Drawing.Size(178, 457);
             groupBox5.TabIndex = 5;
             groupBox5.TabStop = false;
             groupBox5.Text = "chart";
@@ -341,7 +355,7 @@
             groupBox4.Controls.Add(btGetArtistTags);
             groupBox4.Location = new System.Drawing.Point(187, 11);
             groupBox4.Name = "groupBox4";
-            groupBox4.Size = new System.Drawing.Size(178, 441);
+            groupBox4.Size = new System.Drawing.Size(178, 457);
             groupBox4.TabIndex = 4;
             groupBox4.TabStop = false;
             groupBox4.Text = "artist/performer";
@@ -359,7 +373,7 @@
             // btGetArtistTags
             // 
             btGetArtistTags.Enabled = false;
-            btGetArtistTags.Location = new System.Drawing.Point(6, 80);
+            btGetArtistTags.Location = new System.Drawing.Point(6, 75);
             btGetArtistTags.Name = "btGetArtistTags";
             btGetArtistTags.Size = new System.Drawing.Size(165, 35);
             btGetArtistTags.TabIndex = 0;
@@ -372,7 +386,7 @@
             groupBox3.Controls.Add(btGetAlbumTags);
             groupBox3.Location = new System.Drawing.Point(8, 11);
             groupBox3.Name = "groupBox3";
-            groupBox3.Size = new System.Drawing.Size(173, 441);
+            groupBox3.Size = new System.Drawing.Size(173, 457);
             groupBox3.TabIndex = 3;
             groupBox3.TabStop = false;
             groupBox3.Text = "album";
@@ -391,7 +405,7 @@
             // btGetAlbumTags
             // 
             btGetAlbumTags.Enabled = false;
-            btGetAlbumTags.Location = new System.Drawing.Point(7, 80);
+            btGetAlbumTags.Location = new System.Drawing.Point(6, 74);
             btGetAlbumTags.Name = "btGetAlbumTags";
             btGetAlbumTags.Size = new System.Drawing.Size(160, 35);
             btGetAlbumTags.TabIndex = 1;
@@ -400,11 +414,11 @@
             // 
             // tbLog
             // 
-            tbLog.Location = new System.Drawing.Point(1331, 43);
+            tbLog.Location = new System.Drawing.Point(1354, 43);
             tbLog.Multiline = true;
             tbLog.Name = "tbLog";
             tbLog.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            tbLog.Size = new System.Drawing.Size(370, 746);
+            tbLog.Size = new System.Drawing.Size(370, 763);
             tbLog.TabIndex = 4;
             // 
             // menuStrip1
@@ -413,7 +427,7 @@
             menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { applicationToolStripMenuItem });
             menuStrip1.Location = new System.Drawing.Point(0, 0);
             menuStrip1.Name = "menuStrip1";
-            menuStrip1.Size = new System.Drawing.Size(1713, 28);
+            menuStrip1.Size = new System.Drawing.Size(1739, 28);
             menuStrip1.TabIndex = 5;
             menuStrip1.Text = "menuStrip1";
             // 
@@ -431,11 +445,88 @@
             exitToolStripMenuItem.Text = "Exit";
             exitToolStripMenuItem.Click += exitToolStripMenuItem_Click;
             // 
+            // btUserGetLovedTracks
+            // 
+            btUserGetLovedTracks.Enabled = false;
+            btUserGetLovedTracks.Location = new System.Drawing.Point(8, 210);
+            btUserGetLovedTracks.Name = "btUserGetLovedTracks";
+            btUserGetLovedTracks.Size = new System.Drawing.Size(224, 33);
+            btUserGetLovedTracks.TabIndex = 9;
+            btUserGetLovedTracks.Text = "user.getLovedTracks";
+            btUserGetLovedTracks.UseVisualStyleBackColor = true;
+            btUserGetLovedTracks.Click += btUserGetLovedTracks_Click;
+            // 
+            // btUserGetPersonalTags
+            // 
+            btUserGetPersonalTags.Enabled = false;
+            btUserGetPersonalTags.Location = new System.Drawing.Point(8, 244);
+            btUserGetPersonalTags.Name = "btUserGetPersonalTags";
+            btUserGetPersonalTags.Size = new System.Drawing.Size(224, 33);
+            btUserGetPersonalTags.TabIndex = 10;
+            btUserGetPersonalTags.Text = "user.getPersonalTags";
+            btUserGetPersonalTags.UseVisualStyleBackColor = true;
+            btUserGetPersonalTags.Click += btUserGetPersonalTags_Click;
+            // 
+            // btUserGetWeeklyTrackChart
+            // 
+            btUserGetWeeklyTrackChart.Enabled = false;
+            btUserGetWeeklyTrackChart.Location = new System.Drawing.Point(8, 417);
+            btUserGetWeeklyTrackChart.Name = "btUserGetWeeklyTrackChart";
+            btUserGetWeeklyTrackChart.Size = new System.Drawing.Size(224, 33);
+            btUserGetWeeklyTrackChart.TabIndex = 15;
+            btUserGetWeeklyTrackChart.Text = "user.getWeeklyTrackChart";
+            btUserGetWeeklyTrackChart.UseVisualStyleBackColor = true;
+            btUserGetWeeklyTrackChart.Click += btUserGetWeeklyTrackChart_Click;
+            // 
+            // btUserGetWeeklyChartList
+            // 
+            btUserGetWeeklyChartList.Enabled = false;
+            btUserGetWeeklyChartList.Location = new System.Drawing.Point(8, 383);
+            btUserGetWeeklyChartList.Name = "btUserGetWeeklyChartList";
+            btUserGetWeeklyChartList.Size = new System.Drawing.Size(224, 33);
+            btUserGetWeeklyChartList.TabIndex = 14;
+            btUserGetWeeklyChartList.Text = "user.getWeeklyChartList";
+            btUserGetWeeklyChartList.UseVisualStyleBackColor = true;
+            btUserGetWeeklyChartList.Click += btUserGetWeeklyChartList_Click;
+            // 
+            // btUserGetWeeklyArtistChart
+            // 
+            btUserGetWeeklyArtistChart.Enabled = false;
+            btUserGetWeeklyArtistChart.Location = new System.Drawing.Point(8, 349);
+            btUserGetWeeklyArtistChart.Name = "btUserGetWeeklyArtistChart";
+            btUserGetWeeklyArtistChart.Size = new System.Drawing.Size(224, 33);
+            btUserGetWeeklyArtistChart.TabIndex = 13;
+            btUserGetWeeklyArtistChart.Text = "user.getWeeklyArtistChart";
+            btUserGetWeeklyArtistChart.UseVisualStyleBackColor = true;
+            btUserGetWeeklyArtistChart.Click += btUserGetWeeklyArtistChart_Click;
+            // 
+            // btUserGetWeeklyAlbumChart
+            // 
+            btUserGetWeeklyAlbumChart.Enabled = false;
+            btUserGetWeeklyAlbumChart.Location = new System.Drawing.Point(8, 315);
+            btUserGetWeeklyAlbumChart.Name = "btUserGetWeeklyAlbumChart";
+            btUserGetWeeklyAlbumChart.Size = new System.Drawing.Size(224, 33);
+            btUserGetWeeklyAlbumChart.TabIndex = 12;
+            btUserGetWeeklyAlbumChart.Text = "user.getWeeklyAlbumChart";
+            btUserGetWeeklyAlbumChart.UseVisualStyleBackColor = true;
+            btUserGetWeeklyAlbumChart.Click += btUserGetWeeklyAlbumChart_Click;
+            // 
+            // btUserGetRecentTracks
+            // 
+            btUserGetRecentTracks.Enabled = false;
+            btUserGetRecentTracks.Location = new System.Drawing.Point(8, 281);
+            btUserGetRecentTracks.Name = "btUserGetRecentTracks";
+            btUserGetRecentTracks.Size = new System.Drawing.Size(224, 33);
+            btUserGetRecentTracks.TabIndex = 11;
+            btUserGetRecentTracks.Text = "user.getRecentTracks";
+            btUserGetRecentTracks.UseVisualStyleBackColor = true;
+            btUserGetRecentTracks.Click += btUserGetRecentTracks_Click;
+            // 
             // MainForm
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            ClientSize = new System.Drawing.Size(1713, 801);
+            ClientSize = new System.Drawing.Size(1739, 818);
             Controls.Add(tbLog);
             Controls.Add(groupBox1);
             Controls.Add(groupBox2);
@@ -501,5 +592,12 @@
         private System.Windows.Forms.Button btUserGetTopAlbums;
         private System.Windows.Forms.Button btUserGetTopTags;
         private System.Windows.Forms.Button btUserGetTopTracks;
+        private System.Windows.Forms.Button btUserGetPersonalTags;
+        private System.Windows.Forms.Button btUserGetLovedTracks;
+        private System.Windows.Forms.Button btUserGetWeeklyTrackChart;
+        private System.Windows.Forms.Button btUserGetWeeklyChartList;
+        private System.Windows.Forms.Button btUserGetWeeklyArtistChart;
+        private System.Windows.Forms.Button btUserGetWeeklyAlbumChart;
+        private System.Windows.Forms.Button btUserGetRecentTracks;
     }
 }
