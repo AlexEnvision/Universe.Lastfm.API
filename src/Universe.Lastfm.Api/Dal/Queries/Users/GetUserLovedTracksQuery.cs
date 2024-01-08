@@ -76,8 +76,8 @@ namespace Universe.Lastfm.Api.Dal.Queries.Users
         }
 
         /// <summary>
-        ///     The responce with full information about user of the Last.fm.
-        ///     Ответ с полной информацией о пользователе Last.fm.
+        ///     The responce with information about user data of the Last.fm.
+        ///     Ответ с полной информацией о данных пользователе Last.fm.
         /// </summary>
         public class GetUserLovedTracksResponce : LastFmBaseResponce<UserLovedTracksContainer>
         {

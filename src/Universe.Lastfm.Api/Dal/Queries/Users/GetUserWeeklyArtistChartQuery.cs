@@ -34,7 +34,7 @@
 //  ╚═════════════════════════════════════════════════════════════════════════════════╝
 
 using Universe.Lastfm.Api.Dto.Base;
-using Universe.Lastfm.Api.Dto.GetAlbumInfo;
+using Universe.Lastfm.Api.Dto.GetArtistInfo;
 using Universe.Lastfm.Api.Helpers;
 using Universe.Lastfm.Api.Models;
 using Universe.Lastfm.Api.Models.Base;
@@ -43,103 +43,88 @@ using Universe.Lastfm.Api.Models.Res.Base;
 namespace Universe.Lastfm.Api.Dal.Queries.Users
 {
     /// <summary>
-    ///     The query gets the full information about top albums of an user of the Last.fm.
-    ///     Запрос, получающий полную информацию о топ-альбомах пользователя Last.fm. 
+    ///     The query gets the full information about weekly artists/performers chart of an user of the Last.fm.
+    ///     Запрос, получающий полную информацию о недельном чарте исполнителей у пользователя Last.fm. 
     /// </summary>
-    public class GetUserTopAlbumsQuery : LastQuery
+    public class GetUserWeeklyArtistChartQuery : LastQuery
     {
         /// <summary>
-        ///     Get the top albums listened to by a user.
-        ///     You can stipulate a time period.
-        ///     Sends the overall chart by default.
+        ///     Get an artist chart for a user profile, for a given date range.
+        ///     If no date range is supplied, it will return the most recent artist chart for this user.
         /// </summary>
         /// <param name="user">
-        ///     The user name to fetch top albums for.
+        ///     The last.fm username to fetch the recent tracks of.
         /// </param>
-        /// <param name="page">
-        ///     The page number to fetch. Defaults to first page.
+        /// <param name="from">
+        ///     The date at which the chart should start from. See User.getChartsList for more.
         /// </param>
-        /// <param name="limit">
-        ///     The number of results to fetch per page. Defaults to 50.
-        /// </param>
-        /// <param name="period">
-        ///     Period (Optional) : overall | 7day | 1month | 3month | 6month | 12month -
-        ///     The time period over which to retrieve top albums for.
+        /// <param name="to">
+        ///     The date at which the chart should end on. See User.getChartsList for more.
         /// </param>
         /// <returns></returns>
-        public GetUserTopAlbumsResponce Execute(
+        public GetUserWeeklyArtistChartResponce Execute(
             string user,
-            string period = "",
-            int page = 1,
-            int limit = 50)
+            string from = null,
+            string to = null)
         {
-            var sessionResponce = Adapter.GetRequest("user.getTopAlbums",
+            var sessionResponce = Adapter.GetRequest("user.getWeeklyArtistChart",
                 Argument.Create("api_key", Settings.ApiKey),
                 Argument.Create("user", user),
+                Argument.Create("from", from),
+                Argument.Create("to", to),
                 Argument.Create("format", "json"),
-                Argument.Create("page", page.ToString()),
-                Argument.Create("limit", limit.ToString()),
                 Argument.Create("callback", "?"));
 
             Adapter.FixCallback(sessionResponce);
 
-            var getAlbumInfoResponce = ResponceExt.CreateFrom<BaseResponce, GetUserTopAlbumsResponce>(sessionResponce);
-            return getAlbumInfoResponce;
+            var getartistInfoResponce = ResponceExt.CreateFrom<BaseResponce, GetUserWeeklyArtistChartResponce>(sessionResponce);
+            return getartistInfoResponce;
         }
 
         /// <summary>
         ///     The responce with information about user data of the Last.fm.
         ///     Ответ с полной информацией о данных пользователе Last.fm.
         /// </summary>
-        public class GetUserTopAlbumsResponce : LastFmBaseResponce<UserTopAlbumsContainer>
+        public class GetUserWeeklyArtistChartResponce : LastFmBaseResponce<UserWeeklyArtistChartContainer>
         {
         }
 
         /// <summary>
-        ///     The container with information about the top albums listened to by a user on the Last.fm.
+        ///     The container with information about the top tracks listened to by a user on the Last.fm.
         ///     Контейнер с информацией о топ-исполнителях, которые прослушивал пользователь на Last.fm.
         /// </summary>
-        public class UserTopAlbumsContainer : LastFmBaseContainer
+        public class UserWeeklyArtistChartContainer : LastFmBaseContainer
         {
-            public TopAlbumsDto TopAlbums { get; set; }
+            public WeeklyArtistChartDto WeeklyArtistChart { get; set; }
         }
 
         /// <summary>
-        ///     The full information about track on the Last.fm.
-        ///     Полная информация о трэке на Last.fm.
+        ///     The full information about weekly artist chart of an user of the Last.fm.
+        ///     Полная информация о недельном чарте альбомов пользователя на Last.fm.
         /// </summary>
-        public class TopAlbumsDto
+        public class WeeklyArtistChartDto
         {
             /*
-                 <topalbums user="LFUser" type="overall">
-                  <album rank="1">
-                    <name>Images and Words</name>
-                    <playcount>174</playcount>
-                    <mbid>f20971f2-c8ad-4d26-91ab-730f6dedafb2</mbid>  
-                    <url>
-                      http://www.last.fm/music/Dream+Theater/Images+and+Words
-                    </url>
-                    <artist>
-                      <name>Dream Theater</name>
-                      <mbid>28503ab7-8bf2-4666-a7bd-2644bfc7cb1d</mbid>
-                      <url>http://www.last.fm/music/Dream+Theater</url>
-                    </artist>
-                    <image size="small">...</image>
-                    <image size="medium">...</image>
-                    <image size="large">...</image>
-                  </album>
-                </topalbums>
+                 <<weeklyartistchart user="LFUser" from="1212321600" to="1212926400">
+                  <artist rank="1">
+                    <name>David Hudson and Friends</name>
+                    <mbid>80e577ba-841f-43ba-9f32-72e7c1692336</mbid>
+                    <playcount>18</playcount>
+                    <url>http://www.last.fm/music/David+Hudson+and+Friends</url>
+                  </artist>
+                  ...
+                </weeklyartistchart>
             */
 
-            public TopAlbumsAttribute Attribute { get; set; }
+            public WeeklyArtistChartAttribute Attribute { get; set; }
 
-            public AlbumFull[] Album { get; set; }
+            public ArtistFull[] Artist { get; set; }
         }
 
         /// <summary>
-        ///     The special attribite of <see cref="TopAlbumsDto"/>
+        ///     The special attribite of <see cref="WeeklyArtistChartDto"/>
         /// </summary>
-        public class TopAlbumsAttribute
+        public class WeeklyArtistChartAttribute
         {
             /*
                  "@attr":

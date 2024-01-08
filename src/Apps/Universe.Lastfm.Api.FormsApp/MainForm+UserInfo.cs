@@ -38,6 +38,7 @@ using System.Linq;
 using System.Windows.Forms;
 using Universe.Algorithm.MultiThreading;
 using Universe.Lastfm.Api.Dal.Queries.Users;
+using Universe.Lastfm.Api.FormsApp.Extensions;
 using Universe.Lastfm.Api.FormsApp.Forms.Users;
 using Universe.Lastfm.Api.Helpers;
 
@@ -73,7 +74,7 @@ namespace Universe.Lastfm.Api.FormsApp
             {
                 try
                 {
-                    var responce = Scope.GetQuery<GetUserInfoQuery>().Execute(userName);
+                    var responce = Scope.GetQuery<GetUserInfoQuery>().Execute(userName).LightColorResult(btUserGetInfo);
                     if (!responce.IsSuccessful)
                     {
                         _log.Info($"{responce.Message} {responce.ServiceAnswer}");
@@ -92,12 +93,14 @@ namespace Universe.Lastfm.Api.FormsApp
                     _log.Info($"Registered / Зарегистрирован: {user.Registered.Unixtime.UnixTimeStampToDateTime()}.");
 
                     _log.Info(Environment.NewLine);
-
-                    EnableButtonsSafe();
                 }
                 catch (Exception ex)
                 {
                     _log.Error(ex, ex.Message);
+                    btUserGetInfo.LightErrorColorResult();
+                }
+                finally
+                {
                     EnableButtonsSafe();
                 }
             });
@@ -130,7 +133,8 @@ namespace Universe.Lastfm.Api.FormsApp
             {
                 try
                 {
-                    var responce = Scope.GetQuery<GetUserTopArtistsQuery>().Execute(userName);
+                    var responce = Scope.GetQuery<GetUserTopArtistsQuery>().Execute(userName)
+                        .LightColorResult(btUserGetTopArtists);
                     if (!responce.IsSuccessful)
                     {
                         _log.Info($"{responce.Message} {responce.ServiceAnswer}");
@@ -140,18 +144,20 @@ namespace Universe.Lastfm.Api.FormsApp
                         $"Успешно выгружена информация по пользователю {userName}: {Environment.NewLine}{Environment.NewLine}{responce.ServiceAnswer}{Environment.NewLine}.");
 
                     var attribute = responce.DataContainer.TopArtists.Attribute;
-                    var artists = responce.DataContainer.TopArtists;
-                    var artistsStr = string.Join(", ", artists.Artist.Select(x => x.Name));
+                    var data = responce.DataContainer.TopArtists;
+                    var dataStr = string.Join(", ", data.Artist.Select(x => x.Name));
 
-                    _log.Info($"List of the top performers of the user {attribute.User} / Список топ-исполнителей пользователя {attribute.User}: {artistsStr}.");
+                    _log.Info($"List of the top performers of the user {attribute.User} / Список топ-исполнителей пользователя {attribute.User}: {dataStr}.");
 
                     _log.Info(Environment.NewLine);
-
-                    EnableButtonsSafe();
                 }
                 catch (Exception ex)
                 {
                     _log.Error(ex, ex.Message);
+                    btUserGetTopArtists.LightErrorColorResult();
+                }
+                finally
+                {
                     EnableButtonsSafe();
                 }
             });
@@ -184,7 +190,8 @@ namespace Universe.Lastfm.Api.FormsApp
             {
                 try
                 {
-                    var responce = Scope.GetQuery<GetUserTopAlbumsQuery>().Execute(userName);
+                    var responce = Scope.GetQuery<GetUserTopAlbumsQuery>().Execute(userName)
+                        .LightColorResult(btUserGetTopAlbums);
                     if (!responce.IsSuccessful)
                     {
                         _log.Info($"{responce.Message} {responce.ServiceAnswer}");
@@ -194,18 +201,20 @@ namespace Universe.Lastfm.Api.FormsApp
                         $"Успешно выгружена информация по пользователю {userName}: {Environment.NewLine}{Environment.NewLine}{responce.ServiceAnswer}{Environment.NewLine}.");
 
                     var attribute = responce.DataContainer.TopAlbums.Attribute;
-                    var albums = responce.DataContainer.TopAlbums;
-                    var albumsStr = string.Join(", ", albums.Album.Select(x => x.Name));
+                    var data = responce.DataContainer.TopAlbums;
+                    var dataStr = string.Join(", ", data.Album.Select(x => x.Name));
 
-                    _log.Info($"List of the top albums of the user {attribute.User} / Список топ альбомов пользователя {attribute.User}: {albumsStr}.");
+                    _log.Info($"List of the top albums of the user {attribute.User} / Список топ альбомов пользователя {attribute.User}: {dataStr}.");
 
                     _log.Info(Environment.NewLine);
-
-                    EnableButtonsSafe();
                 }
                 catch (Exception ex)
                 {
                     _log.Error(ex, ex.Message);
+                    btUserGetTopAlbums.LightErrorColorResult();
+                }
+                finally
+                {
                     EnableButtonsSafe();
                 }
             });
@@ -238,7 +247,8 @@ namespace Universe.Lastfm.Api.FormsApp
             {
                 try
                 {
-                    var responce = Scope.GetQuery<GetUserTopTagsQuery>().Execute(userName);
+                    var responce = Scope.GetQuery<GetUserTopTagsQuery>().Execute(userName)
+                        .LightColorResult(btUserGetTopTags);
                     if (!responce.IsSuccessful)
                     {
                         _log.Info($"{responce.Message} {responce.ServiceAnswer}");
@@ -248,18 +258,20 @@ namespace Universe.Lastfm.Api.FormsApp
                         $"Успешно выгружена информация по пользователю {userName}: {Environment.NewLine}{Environment.NewLine}{responce.ServiceAnswer}{Environment.NewLine}.");
 
                     var attribute = responce.DataContainer.TopTags.Attribute;
-                    var tags = responce.DataContainer.TopTags;
-                    var tagsStr = string.Join(", ", tags.Tag.Select(x => x.Name));
+                    var data = responce.DataContainer.TopTags;
+                    var dataStr = string.Join(", ", data.Tag.Select(x => x.Name));
 
-                    _log.Info($"List of the top tags of the user {attribute.User} / Список топ тэгов/жанров пользователя {attribute.User}: {tagsStr}.");
+                    _log.Info($"List of the top tags of the user {attribute.User} / Список топ тэгов/жанров пользователя {attribute.User}: {dataStr}.");
 
                     _log.Info(Environment.NewLine);
-
-                    EnableButtonsSafe();
                 }
                 catch (Exception ex)
                 {
                     _log.Error(ex, ex.Message);
+                    btUserGetTopTags.LightErrorColorResult();
+                }
+                finally
+                {
                     EnableButtonsSafe();
                 }
             });
@@ -292,7 +304,8 @@ namespace Universe.Lastfm.Api.FormsApp
             {
                 try
                 {
-                    var responce = Scope.GetQuery<GetUserTopTracksQuery>().Execute(userName);
+                    var responce = Scope.GetQuery<GetUserTopTracksQuery>().Execute(userName)
+                        .LightColorResult(btUserGetTopTracks);
                     if (!responce.IsSuccessful)
                     {
                         _log.Info($"{responce.Message} {responce.ServiceAnswer}");
@@ -308,12 +321,14 @@ namespace Universe.Lastfm.Api.FormsApp
                     _log.Info($"List of the top tracks of the user {attribute.User} / Список топ трэков пользователя {attribute.User}: {tagsStr}.");
 
                     _log.Info(Environment.NewLine);
-
-                    EnableButtonsSafe();
                 }
                 catch (Exception ex)
                 {
                     _log.Error(ex, ex.Message);
+                    btUserGetTopTracks.LightErrorColorResult();
+                }
+                finally
+                {
                     EnableButtonsSafe();
                 }
             });
@@ -346,7 +361,8 @@ namespace Universe.Lastfm.Api.FormsApp
             {
                 try
                 {
-                    var responce = Scope.GetQuery<GetUserLovedTracksQuery>().Execute(userName);
+                    var responce = Scope.GetQuery<GetUserLovedTracksQuery>().Execute(userName)
+                        .LightColorResult(btUserGetLovedTracks);
                     if (!responce.IsSuccessful)
                     {
                         _log.Info($"{responce.Message} {responce.ServiceAnswer}");
@@ -356,18 +372,20 @@ namespace Universe.Lastfm.Api.FormsApp
                         $"Успешно выгружена информация по пользователю {userName}: {Environment.NewLine}{Environment.NewLine}{responce.ServiceAnswer}{Environment.NewLine}.");
 
                     var attribute = responce.DataContainer.LovedTracks.Attribute;
-                    var tracks = responce.DataContainer.LovedTracks;
-                    var tagsStr = string.Join(", ", tracks.Track.Select(x => x.Name));
+                    var data = responce.DataContainer.LovedTracks;
+                    var dataStr = string.Join(", ", data.Track.Select(x => x.Name));
 
-                    _log.Info($"List of the loved tracks of the user {attribute.User} / Список любимых трэков пользователя {attribute.User}: {tagsStr}.");
+                    _log.Info($"List of the loved tracks of the user {attribute.User} / Список любимых трэков пользователя {attribute.User}: {dataStr}.");
 
                     _log.Info(Environment.NewLine);
-
-                    EnableButtonsSafe();
                 }
                 catch (Exception ex)
                 {
                     _log.Error(ex, ex.Message);
+                    btUserGetPersonalTags.LightErrorColorResult();
+                }
+                finally
+                {
                     EnableButtonsSafe();
                 }
             });
@@ -416,7 +434,8 @@ namespace Universe.Lastfm.Api.FormsApp
             {
                 try
                 {
-                    var responce = Scope.GetQuery<GetPersonalTagsQuery>().Execute(userName, tag, tagType);
+                    var responce = Scope.GetQuery<GetPersonalTagsQuery>().Execute(userName, tag, tagType)
+                        .LightColorResult(btUserGetPersonalTags);
                     if (!responce.IsSuccessful)
                     {
                         _log.Info($"{responce.Message} {responce.ServiceAnswer}");
@@ -426,18 +445,21 @@ namespace Universe.Lastfm.Api.FormsApp
                         $"Успешно выгружена информация по пользователю {userName}: {Environment.NewLine}{Environment.NewLine}{responce.ServiceAnswer}{Environment.NewLine}.");
 
                     var attribute = responce.DataContainer.Taggings.Attribute;
-                    var tracks = responce.DataContainer.Taggings;
-                    var tagsStr = string.Join(", ", tracks.Artists.Select(x => x.Name));
+                    var data = responce.DataContainer.Taggings;
+                    var dataStr = string.Join(", ", data.Artists.Select(x => x.Name));
 
-                    _log.Info($"List of the tagged artists of the user {attribute.User} / Список тэгированных исполнителей пользователя {attribute.User}: {tagsStr}.");
+                    _log.Info($"List of the tagged artists of the user {attribute.User} / Список тэгированных исполнителей пользователя {attribute.User}: {dataStr}.");
 
                     _log.Info(Environment.NewLine);
 
-                    EnableButtonsSafe();
                 }
                 catch (Exception ex)
                 {
                     _log.Error(ex, ex.Message);
+                    btUserGetPersonalTags.LightErrorColorResult();
+                }
+                finally
+                {
                     EnableButtonsSafe();
                 }
             });
@@ -470,7 +492,8 @@ namespace Universe.Lastfm.Api.FormsApp
             {
                 try
                 {
-                    var responce = Scope.GetQuery<GetUserRecentTracksQuery>().Execute(userName);
+                    var responce = Scope.GetQuery<GetUserRecentTracksQuery>().Execute(userName)
+                        .LightColorResult(btUserGetRecentTracks);
                     if (!responce.IsSuccessful)
                     {
                         _log.Info($"{responce.Message} {responce.ServiceAnswer}");
@@ -480,18 +503,21 @@ namespace Universe.Lastfm.Api.FormsApp
                         $"Успешно выгружена информация по пользователю {userName}: {Environment.NewLine}{Environment.NewLine}{responce.ServiceAnswer}{Environment.NewLine}.");
 
                     var attribute = responce.DataContainer.RecentTracks.Attribute;
-                    var tracks = responce.DataContainer.RecentTracks;
-                    var tagsStr = string.Join(", ", tracks.Track.Select(x => x.Name));
+                    var data = responce.DataContainer.RecentTracks;
+                    var dataStr = string.Join(", ", data.Track.Select(x => x.Name));
 
-                    _log.Info($"List of the top tracks of the user {attribute.User} / Список топ трэков пользователя {attribute.User}: {tagsStr}.");
+                    _log.Info($"List of the top tracks of the user {attribute.User} / Список топ трэков пользователя {attribute.User}: {dataStr}.");
 
                     _log.Info(Environment.NewLine);
 
-                    EnableButtonsSafe();
                 }
                 catch (Exception ex)
                 {
                     _log.Error(ex, ex.Message);
+                    btUserGetRecentTracks.LightErrorColorResult();
+                }
+                finally
+                {
                     EnableButtonsSafe();
                 }
             });
@@ -524,7 +550,8 @@ namespace Universe.Lastfm.Api.FormsApp
             {
                 try
                 {
-                    var responce = Scope.GetQuery<GetUserWeeklyAlbumChartQuery>().Execute(userName);
+                    var responce = Scope.GetQuery<GetUserWeeklyAlbumChartQuery>().Execute(userName)
+                        .LightColorResult(btUserGetWeeklyAlbumChart);
                     if (!responce.IsSuccessful)
                     {
                         _log.Info($"{responce.Message} {responce.ServiceAnswer}");
@@ -534,18 +561,20 @@ namespace Universe.Lastfm.Api.FormsApp
                         $"Успешно выгружена информация по пользователю {userName}: {Environment.NewLine}{Environment.NewLine}{responce.ServiceAnswer}{Environment.NewLine}.");
 
                     var attribute = responce.DataContainer.WeeklyAlbumChart.Attribute;
-                    var tracks = responce.DataContainer.WeeklyAlbumChart;
-                    var tagsStr = string.Join(", ", tracks.Album.Select(x => x.Name));
+                    var data = responce.DataContainer.WeeklyAlbumChart;
+                    var dataStr = string.Join(", ", data.Album.Select(x => x.Name));
 
-                    _log.Info($"List of the top tracks of the user {attribute.User} / Список топ трэков пользователя {attribute.User}: {tagsStr}.");
+                    _log.Info($"Сhart of weekly albums of the user {attribute.User} / Чарт недельный чарта альбомов пользователя {attribute.User}: {dataStr}.");
 
                     _log.Info(Environment.NewLine);
-
-                    EnableButtonsSafe();
                 }
                 catch (Exception ex)
                 {
                     _log.Error(ex, ex.Message);
+                    btUserGetWeeklyAlbumChart.LightErrorColorResult();
+                }
+                finally
+                {
                     EnableButtonsSafe();
                 }
             });
@@ -553,17 +582,176 @@ namespace Universe.Lastfm.Api.FormsApp
 
         private void btUserGetWeeklyArtistChart_Click(object sender, EventArgs e)
         {
+            string userName;
 
+            using (var form = new UserGetWeeklyArtistChartReqForm())
+            {
+                if (form.ShowDialog() == DialogResult.OK)
+                {
+                    userName = form.User;
+                    if (string.IsNullOrEmpty(userName))
+                    {
+                        tbLog.AppendText($"[{DateTime.Now}] Не указано userName!" + Environment.NewLine);
+                        return;
+                    }
+                }
+                else
+                {
+                    return;
+                }
+            }
+
+            DisableButtons(sender);
+
+            ThreadMachine.Create(1).RunInMultiTheadsWithoutWaiting(() =>
+            {
+                try
+                {
+                    var responce = Scope.GetQuery<GetUserWeeklyArtistChartQuery>().Execute(userName)
+                        .LightColorResult(btUserGetWeeklyArtistChart);
+                    if (!responce.IsSuccessful)
+                    {
+                        _log.Info($"{responce.Message} {responce.ServiceAnswer}");
+                    }
+
+                    _log.Info(
+                        $"Успешно выгружена информация по пользователю {userName}: {Environment.NewLine}{Environment.NewLine}{responce.ServiceAnswer}{Environment.NewLine}.");
+
+                    var attribute = responce.DataContainer.WeeklyArtistChart.Attribute;
+                    var data = responce.DataContainer.WeeklyArtistChart;
+                    var dataStr = string.Join(", ", data.Artist.Select(x => x.Name));
+
+                    _log.Info($"Сhart of weekly artists/performers of the user {attribute.User} / Чарт недельный чарта артистов/исполнителей пользователя {attribute.User}: {dataStr}.");
+
+                    _log.Info(Environment.NewLine);
+
+                }
+                catch (Exception ex)
+                {
+                    _log.Error(ex, ex.Message);
+                    btUserGetWeeklyArtistChart.LightErrorColorResult();
+                }
+                finally
+                {
+                    EnableButtonsSafe();
+                }
+            });
         }
 
         private void btUserGetWeeklyChartList_Click(object sender, EventArgs e)
         {
+            string userName;
 
+            using (var form = new UserGetWeeklyChartListReqForm())
+            {
+                if (form.ShowDialog() == DialogResult.OK)
+                {
+                    userName = form.User;
+                    if (string.IsNullOrEmpty(userName))
+                    {
+                        tbLog.AppendText($"[{DateTime.Now}] Не указано userName!" + Environment.NewLine);
+                        return;
+                    }
+                }
+                else
+                {
+                    return;
+                }
+            }
+
+            DisableButtons(sender);
+
+            ThreadMachine.Create(1).RunInMultiTheadsWithoutWaiting(() =>
+            {
+                try
+                {
+                    var responce = Scope.GetQuery<GetUserWeeklyChartListQuery>().Execute(userName)
+                        .LightColorResult(btUserGetWeeklyChartList);
+                    if (!responce.IsSuccessful)
+                    {
+                        _log.Info($"{responce.Message} {responce.ServiceAnswer}");
+                    }
+
+                    _log.Info(
+                        $"Успешно выгружена информация по пользователю {userName}: {Environment.NewLine}{Environment.NewLine}{responce.ServiceAnswer}{Environment.NewLine}.");
+
+                    var attribute = responce.DataContainer.WeeklyChartList.Attribute;
+                    var data = responce.DataContainer.WeeklyChartList;
+                    var dataStr = string.Join(", ", data.Chart.Select(x => x.Name));
+
+                    _log.Info(
+                        $"Сhart of weekly artists/performers of the user {attribute.User} / Чарт недельный чарта артистов/исполнителей пользователя {attribute.User}: {dataStr}.");
+
+                    _log.Info(Environment.NewLine);
+
+                }
+                catch (Exception ex)
+                {
+                    _log.Error(ex, ex.Message);
+                    btUserGetWeeklyChartList.LightErrorColorResult();
+                }
+                finally
+                {
+                    EnableButtonsSafe();
+                }
+            });
         }
 
         private void btUserGetWeeklyTrackChart_Click(object sender, EventArgs e)
         {
+            string userName;
 
+            using (var form = new UserGetWeeklyTrackChartReqForm())
+            {
+                if (form.ShowDialog() == DialogResult.OK)
+                {
+                    userName = form.User;
+                    if (string.IsNullOrEmpty(userName))
+                    {
+                        tbLog.AppendText($"[{DateTime.Now}] Не указано userName!" + Environment.NewLine);
+                        return;
+                    }
+                }
+                else
+                {
+                    return;
+                }
+            }
+
+            DisableButtons(sender);
+
+            ThreadMachine.Create(1).RunInMultiTheadsWithoutWaiting(() =>
+            {
+                try
+                {
+                    var responce = Scope.GetQuery<GetUserWeeklyTrackChartQuery>().Execute(userName)
+                        .LightColorResult(btUserGetWeeklyTrackChart);
+                    if (!responce.IsSuccessful)
+                    {
+                        _log.Info($"{responce.Message} {responce.ServiceAnswer}");
+                    }
+
+                    _log.Info(
+                        $"Успешно выгружена информация по пользователю {userName}: {Environment.NewLine}{Environment.NewLine}{responce.ServiceAnswer}{Environment.NewLine}.");
+
+                    var attribute = responce.DataContainer.WeeklyTrackChart.Attribute;
+                    var data = responce.DataContainer.WeeklyTrackChart;
+                    var dataStr = string.Join(", ", data.Track.Select(x => x.Name));
+
+                    _log.Info($"Сhart of weekly artists/performers of the user {attribute.User} / Чарт недельный чарта артистов/исполнителей пользователя {attribute.User}: {dataStr}.");
+
+                    _log.Info(Environment.NewLine);
+                }
+                catch (Exception ex)
+                {
+                    _log.Error(ex, ex.Message);
+                    btUserGetWeeklyTrackChart.LightErrorColorResult();
+                }
+                finally
+                {
+                    EnableButtonsSafe();
+                }
+            });
         }
     }
 }

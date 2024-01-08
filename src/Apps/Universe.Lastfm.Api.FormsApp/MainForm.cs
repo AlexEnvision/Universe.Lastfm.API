@@ -49,6 +49,7 @@ using Universe.Lastfm.Api.Dal.Queries.Auth;
 using Universe.Lastfm.Api.Dal.Queries.Performers;
 using Universe.Lastfm.Api.Dal.Queries.Tags;
 using Universe.Lastfm.Api.Dal.Queries.Track;
+using Universe.Lastfm.Api.Dal.Queries.Users;
 using Universe.Lastfm.Api.Dto.GetArtists;
 using Universe.Lastfm.Api.FormsApp.Extensions;
 using Universe.Lastfm.Api.FormsApp.Forms.Albums;
@@ -59,9 +60,11 @@ using Universe.Lastfm.Api.FormsApp.Settings;
 using Universe.Lastfm.Api.Helpers;
 using Universe.Lastfm.Api.Infrastracture;
 using Universe.Lastfm.Api.Meta.Consts;
+using Universe.Lastfm.Api.Models.Base;
 using Universe.Lastfm.Api.Repos;
 using Universe.Windows.Forms.Controls;
 using Universe.Windows.Forms.Controls.Settings;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 
 namespace Universe.Lastfm.Api.FormsApp
 {
@@ -235,6 +238,14 @@ namespace Universe.Lastfm.Api.FormsApp
 
             int position = _genreService.GetNumber(tag);
             _log.Info("Position:" + position);
+
+            var userName = "";
+
+            BaseResponce responce = Scope.GetQuery<GetUserInfoQuery>().Execute(userName).LightColorResult(btUserGetInfo);
+            responce = Scope.GetQuery<GetUserTopArtistsQuery>().Execute(userName).LightColorResult(btUserGetTopArtists);
+            responce = Scope.GetQuery<GetUserTopAlbumsQuery>().Execute(userName).LightColorResult(btUserGetTopAlbums);
+            responce = Scope.GetQuery<GetUserTopTracksQuery>().Execute(userName).LightColorResult(btUserGetTopTracks);
+            responce = Scope.GetQuery<GetUserTopTagsQuery>().Execute(userName).LightColorResult(btUserGetTopTags);
         }
 
         private void btChartGetTopArtists_Click(object sender, EventArgs e)
