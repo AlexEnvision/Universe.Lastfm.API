@@ -41,6 +41,13 @@
             groupBox6 = new System.Windows.Forms.GroupBox();
             btTrackScrobble = new System.Windows.Forms.Button();
             groupBox9 = new System.Windows.Forms.GroupBox();
+            btUserGetWeeklyTrackChart = new System.Windows.Forms.Button();
+            btUserGetWeeklyChartList = new System.Windows.Forms.Button();
+            btUserGetWeeklyArtistChart = new System.Windows.Forms.Button();
+            btUserGetWeeklyAlbumChart = new System.Windows.Forms.Button();
+            btUserGetRecentTracks = new System.Windows.Forms.Button();
+            btUserGetPersonalTags = new System.Windows.Forms.Button();
+            btUserGetLovedTracks = new System.Windows.Forms.Button();
             btUserGetTopTracks = new System.Windows.Forms.Button();
             btUserGetTopTags = new System.Windows.Forms.Button();
             btUserGetTopAlbums = new System.Windows.Forms.Button();
@@ -62,13 +69,7 @@
             menuStrip1 = new System.Windows.Forms.MenuStrip();
             applicationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            btUserGetLovedTracks = new System.Windows.Forms.Button();
-            btUserGetPersonalTags = new System.Windows.Forms.Button();
-            btUserGetWeeklyTrackChart = new System.Windows.Forms.Button();
-            btUserGetWeeklyChartList = new System.Windows.Forms.Button();
-            btUserGetWeeklyArtistChart = new System.Windows.Forms.Button();
-            btUserGetWeeklyAlbumChart = new System.Windows.Forms.Button();
-            btUserGetRecentTracks = new System.Windows.Forms.Button();
+            btAlbumSearch = new System.Windows.Forms.Button();
             groupBox1.SuspendLayout();
             groupBox2.SuspendLayout();
             pApiControls.SuspendLayout();
@@ -231,6 +232,83 @@
             groupBox9.TabStop = false;
             groupBox9.Text = "user";
             // 
+            // btUserGetWeeklyTrackChart
+            // 
+            btUserGetWeeklyTrackChart.Enabled = false;
+            btUserGetWeeklyTrackChart.Location = new System.Drawing.Point(8, 417);
+            btUserGetWeeklyTrackChart.Name = "btUserGetWeeklyTrackChart";
+            btUserGetWeeklyTrackChart.Size = new System.Drawing.Size(224, 33);
+            btUserGetWeeklyTrackChart.TabIndex = 15;
+            btUserGetWeeklyTrackChart.Text = "user.getWeeklyTrackChart";
+            btUserGetWeeklyTrackChart.UseVisualStyleBackColor = true;
+            btUserGetWeeklyTrackChart.Click += btUserGetWeeklyTrackChart_Click;
+            // 
+            // btUserGetWeeklyChartList
+            // 
+            btUserGetWeeklyChartList.Enabled = false;
+            btUserGetWeeklyChartList.Location = new System.Drawing.Point(8, 383);
+            btUserGetWeeklyChartList.Name = "btUserGetWeeklyChartList";
+            btUserGetWeeklyChartList.Size = new System.Drawing.Size(224, 33);
+            btUserGetWeeklyChartList.TabIndex = 14;
+            btUserGetWeeklyChartList.Text = "user.getWeeklyChartList";
+            btUserGetWeeklyChartList.UseVisualStyleBackColor = true;
+            btUserGetWeeklyChartList.Click += btUserGetWeeklyChartList_Click;
+            // 
+            // btUserGetWeeklyArtistChart
+            // 
+            btUserGetWeeklyArtistChart.Enabled = false;
+            btUserGetWeeklyArtistChart.Location = new System.Drawing.Point(8, 349);
+            btUserGetWeeklyArtistChart.Name = "btUserGetWeeklyArtistChart";
+            btUserGetWeeklyArtistChart.Size = new System.Drawing.Size(224, 33);
+            btUserGetWeeklyArtistChart.TabIndex = 13;
+            btUserGetWeeklyArtistChart.Text = "user.getWeeklyArtistChart";
+            btUserGetWeeklyArtistChart.UseVisualStyleBackColor = true;
+            btUserGetWeeklyArtistChart.Click += btUserGetWeeklyArtistChart_Click;
+            // 
+            // btUserGetWeeklyAlbumChart
+            // 
+            btUserGetWeeklyAlbumChart.Enabled = false;
+            btUserGetWeeklyAlbumChart.Location = new System.Drawing.Point(8, 315);
+            btUserGetWeeklyAlbumChart.Name = "btUserGetWeeklyAlbumChart";
+            btUserGetWeeklyAlbumChart.Size = new System.Drawing.Size(224, 33);
+            btUserGetWeeklyAlbumChart.TabIndex = 12;
+            btUserGetWeeklyAlbumChart.Text = "user.getWeeklyAlbumChart";
+            btUserGetWeeklyAlbumChart.UseVisualStyleBackColor = true;
+            btUserGetWeeklyAlbumChart.Click += btUserGetWeeklyAlbumChart_Click;
+            // 
+            // btUserGetRecentTracks
+            // 
+            btUserGetRecentTracks.Enabled = false;
+            btUserGetRecentTracks.Location = new System.Drawing.Point(8, 281);
+            btUserGetRecentTracks.Name = "btUserGetRecentTracks";
+            btUserGetRecentTracks.Size = new System.Drawing.Size(224, 33);
+            btUserGetRecentTracks.TabIndex = 11;
+            btUserGetRecentTracks.Text = "user.getRecentTracks";
+            btUserGetRecentTracks.UseVisualStyleBackColor = true;
+            btUserGetRecentTracks.Click += btUserGetRecentTracks_Click;
+            // 
+            // btUserGetPersonalTags
+            // 
+            btUserGetPersonalTags.Enabled = false;
+            btUserGetPersonalTags.Location = new System.Drawing.Point(8, 244);
+            btUserGetPersonalTags.Name = "btUserGetPersonalTags";
+            btUserGetPersonalTags.Size = new System.Drawing.Size(224, 33);
+            btUserGetPersonalTags.TabIndex = 10;
+            btUserGetPersonalTags.Text = "user.getPersonalTags";
+            btUserGetPersonalTags.UseVisualStyleBackColor = true;
+            btUserGetPersonalTags.Click += btUserGetPersonalTags_Click;
+            // 
+            // btUserGetLovedTracks
+            // 
+            btUserGetLovedTracks.Enabled = false;
+            btUserGetLovedTracks.Location = new System.Drawing.Point(8, 210);
+            btUserGetLovedTracks.Name = "btUserGetLovedTracks";
+            btUserGetLovedTracks.Size = new System.Drawing.Size(224, 33);
+            btUserGetLovedTracks.TabIndex = 9;
+            btUserGetLovedTracks.Text = "user.getLovedTracks";
+            btUserGetLovedTracks.UseVisualStyleBackColor = true;
+            btUserGetLovedTracks.Click += btUserGetLovedTracks_Click;
+            // 
             // btUserGetTopTracks
             // 
             btUserGetTopTracks.Enabled = false;
@@ -382,6 +460,7 @@
             // 
             // groupBox3
             // 
+            groupBox3.Controls.Add(btAlbumSearch);
             groupBox3.Controls.Add(btAlbumGetInfo);
             groupBox3.Controls.Add(btGetAlbumTags);
             groupBox3.Location = new System.Drawing.Point(8, 11);
@@ -445,82 +524,16 @@
             exitToolStripMenuItem.Text = "Exit";
             exitToolStripMenuItem.Click += exitToolStripMenuItem_Click;
             // 
-            // btUserGetLovedTracks
+            // btAlbumSearch
             // 
-            btUserGetLovedTracks.Enabled = false;
-            btUserGetLovedTracks.Location = new System.Drawing.Point(8, 210);
-            btUserGetLovedTracks.Name = "btUserGetLovedTracks";
-            btUserGetLovedTracks.Size = new System.Drawing.Size(224, 33);
-            btUserGetLovedTracks.TabIndex = 9;
-            btUserGetLovedTracks.Text = "user.getLovedTracks";
-            btUserGetLovedTracks.UseVisualStyleBackColor = true;
-            btUserGetLovedTracks.Click += btUserGetLovedTracks_Click;
-            // 
-            // btUserGetPersonalTags
-            // 
-            btUserGetPersonalTags.Enabled = false;
-            btUserGetPersonalTags.Location = new System.Drawing.Point(8, 244);
-            btUserGetPersonalTags.Name = "btUserGetPersonalTags";
-            btUserGetPersonalTags.Size = new System.Drawing.Size(224, 33);
-            btUserGetPersonalTags.TabIndex = 10;
-            btUserGetPersonalTags.Text = "user.getPersonalTags";
-            btUserGetPersonalTags.UseVisualStyleBackColor = true;
-            btUserGetPersonalTags.Click += btUserGetPersonalTags_Click;
-            // 
-            // btUserGetWeeklyTrackChart
-            // 
-            btUserGetWeeklyTrackChart.Enabled = false;
-            btUserGetWeeklyTrackChart.Location = new System.Drawing.Point(8, 417);
-            btUserGetWeeklyTrackChart.Name = "btUserGetWeeklyTrackChart";
-            btUserGetWeeklyTrackChart.Size = new System.Drawing.Size(224, 33);
-            btUserGetWeeklyTrackChart.TabIndex = 15;
-            btUserGetWeeklyTrackChart.Text = "user.getWeeklyTrackChart";
-            btUserGetWeeklyTrackChart.UseVisualStyleBackColor = true;
-            btUserGetWeeklyTrackChart.Click += btUserGetWeeklyTrackChart_Click;
-            // 
-            // btUserGetWeeklyChartList
-            // 
-            btUserGetWeeklyChartList.Enabled = false;
-            btUserGetWeeklyChartList.Location = new System.Drawing.Point(8, 383);
-            btUserGetWeeklyChartList.Name = "btUserGetWeeklyChartList";
-            btUserGetWeeklyChartList.Size = new System.Drawing.Size(224, 33);
-            btUserGetWeeklyChartList.TabIndex = 14;
-            btUserGetWeeklyChartList.Text = "user.getWeeklyChartList";
-            btUserGetWeeklyChartList.UseVisualStyleBackColor = true;
-            btUserGetWeeklyChartList.Click += btUserGetWeeklyChartList_Click;
-            // 
-            // btUserGetWeeklyArtistChart
-            // 
-            btUserGetWeeklyArtistChart.Enabled = false;
-            btUserGetWeeklyArtistChart.Location = new System.Drawing.Point(8, 349);
-            btUserGetWeeklyArtistChart.Name = "btUserGetWeeklyArtistChart";
-            btUserGetWeeklyArtistChart.Size = new System.Drawing.Size(224, 33);
-            btUserGetWeeklyArtistChart.TabIndex = 13;
-            btUserGetWeeklyArtistChart.Text = "user.getWeeklyArtistChart";
-            btUserGetWeeklyArtistChart.UseVisualStyleBackColor = true;
-            btUserGetWeeklyArtistChart.Click += btUserGetWeeklyArtistChart_Click;
-            // 
-            // btUserGetWeeklyAlbumChart
-            // 
-            btUserGetWeeklyAlbumChart.Enabled = false;
-            btUserGetWeeklyAlbumChart.Location = new System.Drawing.Point(8, 315);
-            btUserGetWeeklyAlbumChart.Name = "btUserGetWeeklyAlbumChart";
-            btUserGetWeeklyAlbumChart.Size = new System.Drawing.Size(224, 33);
-            btUserGetWeeklyAlbumChart.TabIndex = 12;
-            btUserGetWeeklyAlbumChart.Text = "user.getWeeklyAlbumChart";
-            btUserGetWeeklyAlbumChart.UseVisualStyleBackColor = true;
-            btUserGetWeeklyAlbumChart.Click += btUserGetWeeklyAlbumChart_Click;
-            // 
-            // btUserGetRecentTracks
-            // 
-            btUserGetRecentTracks.Enabled = false;
-            btUserGetRecentTracks.Location = new System.Drawing.Point(8, 281);
-            btUserGetRecentTracks.Name = "btUserGetRecentTracks";
-            btUserGetRecentTracks.Size = new System.Drawing.Size(224, 33);
-            btUserGetRecentTracks.TabIndex = 11;
-            btUserGetRecentTracks.Text = "user.getRecentTracks";
-            btUserGetRecentTracks.UseVisualStyleBackColor = true;
-            btUserGetRecentTracks.Click += btUserGetRecentTracks_Click;
+            btAlbumSearch.Enabled = false;
+            btAlbumSearch.Location = new System.Drawing.Point(6, 108);
+            btAlbumSearch.Name = "btAlbumSearch";
+            btAlbumSearch.Size = new System.Drawing.Size(160, 37);
+            btAlbumSearch.TabIndex = 3;
+            btAlbumSearch.Text = "album.search";
+            btAlbumSearch.UseVisualStyleBackColor = true;
+            btAlbumSearch.Click += btAlbumSearch_Click;
             // 
             // MainForm
             // 
@@ -599,5 +612,6 @@
         private System.Windows.Forms.Button btUserGetWeeklyArtistChart;
         private System.Windows.Forms.Button btUserGetWeeklyAlbumChart;
         private System.Windows.Forms.Button btUserGetRecentTracks;
+        private System.Windows.Forms.Button btAlbumSearch;
     }
 }

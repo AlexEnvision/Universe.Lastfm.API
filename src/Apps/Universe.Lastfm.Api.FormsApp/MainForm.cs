@@ -225,27 +225,30 @@ namespace Universe.Lastfm.Api.FormsApp
 
         private void btRun_Click(object sender, EventArgs e)
         {
-            var tag = "progressive metal";
+            //var tag = "progressive metal";
 
-            _genreService = new GenreRepo(Scope);
-            _genreService.RunConnection(_programSettings.NeedApprovement);
+            //_genreService = new GenreRepo(Scope);
+            //_genreService.RunConnection(_programSettings.NeedApprovement);
 
-            var info = _genreService.GetInfo(tag);
-            _log.Info("Genre Info:" + info);
+            //var info = _genreService.GetInfo(tag);
+            //_log.Info("Genre Info:" + info);
 
-            var similar = _genreService.GetSimilar(tag);
-            _log.Info("Similar:" + similar);
+            //var similar = _genreService.GetSimilar(tag);
+            //_log.Info("Similar:" + similar);
 
-            int position = _genreService.GetNumber(tag);
-            _log.Info("Position:" + position);
+            //int position = _genreService.GetNumber(tag);
+            //_log.Info("Position:" + position);
 
             var userName = "";
 
-            BaseResponce responce = Scope.GetQuery<GetUserInfoQuery>().Execute(userName).LightColorResult(btUserGetInfo);
-            responce = Scope.GetQuery<GetUserTopArtistsQuery>().Execute(userName).LightColorResult(btUserGetTopArtists);
-            responce = Scope.GetQuery<GetUserTopAlbumsQuery>().Execute(userName).LightColorResult(btUserGetTopAlbums);
-            responce = Scope.GetQuery<GetUserTopTracksQuery>().Execute(userName).LightColorResult(btUserGetTopTracks);
-            responce = Scope.GetQuery<GetUserTopTagsQuery>().Execute(userName).LightColorResult(btUserGetTopTags);
+            ThreadMachine.Create(1).RunInMultiTheadsWithoutWaiting(() =>
+            {
+                BaseResponce responce = Scope.GetQuery<GetUserInfoQuery>().ExecuteSafe(userName).LightColorResult(btUserGetInfo, 1000);
+                responce = Scope.GetQuery<GetUserTopArtistsQuery>().Execute(userName).LightColorResult(btUserGetTopArtists, 1000);
+                responce = Scope.GetQuery<GetUserTopAlbumsQuery>().Execute(userName).LightColorResult(btUserGetTopAlbums, 1000);
+                responce = Scope.GetQuery<GetUserTopTracksQuery>().Execute(userName).LightColorResult(btUserGetTopTracks, 1000);
+                responce = Scope.GetQuery<GetUserTopTagsQuery>().Execute(userName).LightColorResult(btUserGetTopTags, 1000);
+            });
         }
 
         private void btChartGetTopArtists_Click(object sender, EventArgs e)
@@ -327,69 +330,6 @@ namespace Universe.Lastfm.Api.FormsApp
             });
         }
 
-        private void btAlbumGetInfo_Click(object sender, EventArgs e)
-        {
-            string performer;
-            string album;
-
-            using (var albumReqInfoForm = new AlbumReqInfoForm())
-            {
-                if (albumReqInfoForm.ShowDialog() == DialogResult.OK)
-                {
-                    performer = albumReqInfoForm.Performer;
-                    if (string.IsNullOrEmpty(performer))
-                    {
-                        tbLog.AppendText($"[{DateTime.Now}] Не указан performer!" + Environment.NewLine);
-                        return;
-                    }
-
-                    album = albumReqInfoForm.Album;
-                    if (string.IsNullOrEmpty(album))
-                    {
-                        tbLog.AppendText($"[{DateTime.Now}] Не указан album!" + Environment.NewLine);
-                        return;
-                    }
-                }
-                else
-                {
-                    return;
-                }
-            }
-
-            DisableButtons(sender);
-
-            ThreadMachine.Create(1).RunInMultiTheadsWithoutWaiting(() =>
-            {
-                try
-                {
-                    // _adapter.GetAlbumInfo(performer, album);
-                    var responce = Scope.GetQuery<GetAlbumInfoQuery>().Execute(performer, album);
-                    if (!responce.IsSuccessful)
-                    {
-                        _log.Info($"{responce.Message} {responce.ServiceAnswer}");
-                    }
-
-                    _log.Info(
-                        $"Успешно выгружена информация по альбому {album} исполнителя {performer}: {Environment.NewLine}{Environment.NewLine}{responce.ServiceAnswer}{Environment.NewLine}.");
-
-                    var tags = responce.DataContainer.Album.Tags.Tag;
-                    var metalGenres = tags.Where(x => x.Name.ToLower().Contains("metal")).ToList();
-
-                    var tagsStr = string.Join(", ", tags.Select(x => x.Name));
-                    var metalGenresStr = string.Join(", ", metalGenres.Select(x => x.Name));
-                    _log.Info($"Теги Last.fm: {tagsStr}.");
-                    _log.Info($"Метал жанры: {metalGenresStr}.");
-
-                    EnableButtonsSafe();
-                }
-                catch (Exception ex)
-                {
-                    _log.Error(ex, ex.Message);
-                    EnableButtonsSafe();
-                }
-            });
-        }
-
         private void btTrackScrobble_Click(object sender, EventArgs e)
         {
             DisableButtons(sender);
@@ -433,77 +373,6 @@ namespace Universe.Lastfm.Api.FormsApp
                         $"Успешно выгружена информация по исполнителю {performer}: {Environment.NewLine}{Environment.NewLine}{responce.ServiceAnswer}{Environment.NewLine}.");
 
                     var tags = responce.DataContainer.Artist.Tags.Tag;
-                    var metalGenres = tags.Where(x => x.Name.ToLower().Contains("metal")).ToList();
-
-                    var tagsStr = string.Join(", ", tags.Select(x => x.Name));
-                    var metalGenresStr = string.Join(", ", metalGenres.Select(x => x.Name));
-                    _log.Info($"Теги Last.fm: {tagsStr}.");
-                    _log.Info($"Метал жанры: {metalGenresStr}.");
-
-                    EnableButtonsSafe();
-                }
-                catch (Exception ex)
-                {
-                    _log.Error(ex, ex.Message);
-                    EnableButtonsSafe();
-                }
-            });
-        }
-
-        private void btGetAlbumTags_Click(object sender, EventArgs e)
-        {
-            string performer;
-            string album;
-            string user;
-
-            using (var albumReqInfoForm = new AlbumTagReqForm())
-            {
-                if (albumReqInfoForm.ShowDialog() == DialogResult.OK)
-                {
-                    performer = albumReqInfoForm.Performer;
-                    if (string.IsNullOrEmpty(performer))
-                    {
-                        tbLog.AppendText($"[{DateTime.Now}] Не указан performer!" + Environment.NewLine);
-                        return;
-                    }
-
-                    album = albumReqInfoForm.Album;
-                    if (string.IsNullOrEmpty(album))
-                    {
-                        tbLog.AppendText($"[{DateTime.Now}] Не указан album!" + Environment.NewLine);
-                        return;
-                    }
-
-                    user = albumReqInfoForm.User;
-                    if (string.IsNullOrEmpty(user))
-                    {
-                        tbLog.AppendText($"[{DateTime.Now}] Не указан user!" + Environment.NewLine);
-                        return;
-                    }
-                }
-                else
-                {
-                    return;
-                }
-            }
-
-            DisableButtons(sender);
-
-            ThreadMachine.Create(1).RunInMultiTheadsWithoutWaiting(() =>
-            {
-                try
-                {
-                    //  _adapter.GetAlbumTags(performer, album, user);
-                    var responce = Scope.GetQuery<GetAlbumTagsQuery>().Execute(performer, album, user);
-                    if (!responce.IsSuccessful)
-                    {
-                        _log.Info($"{responce.Message} {responce.ServiceAnswer}");
-                    }
-
-                    _log.Info(
-                        $"Успешно выгружена информация по альбому {album} исполнителя {performer}: {Environment.NewLine}{Environment.NewLine}{responce.ServiceAnswer}{Environment.NewLine}.");
-
-                    var tags = responce.DataContainer.Tag;
                     var metalGenres = tags.Where(x => x.Name.ToLower().Contains("metal")).ToList();
 
                     var tagsStr = string.Join(", ", tags.Select(x => x.Name));

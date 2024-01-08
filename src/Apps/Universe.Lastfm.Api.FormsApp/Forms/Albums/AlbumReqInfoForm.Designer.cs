@@ -38,7 +38,7 @@
             // btOk
             // 
             btOk.DialogResult = System.Windows.Forms.DialogResult.OK;
-            btOk.Location = new System.Drawing.Point(378, 223);
+            btOk.Location = new System.Drawing.Point(390, 144);
             btOk.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             btOk.Name = "btOk";
             btOk.Size = new System.Drawing.Size(100, 35);
@@ -49,24 +49,24 @@
             // 
             // tbPerformer
             // 
-            tbPerformer.Location = new System.Drawing.Point(101, 37);
+            tbPerformer.Location = new System.Drawing.Point(101, 33);
             tbPerformer.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             tbPerformer.Name = "tbPerformer";
-            tbPerformer.Size = new System.Drawing.Size(377, 27);
+            tbPerformer.Size = new System.Drawing.Size(389, 27);
             tbPerformer.TabIndex = 1;
             // 
             // tbAlbum
             // 
-            tbAlbum.Location = new System.Drawing.Point(101, 91);
+            tbAlbum.Location = new System.Drawing.Point(101, 87);
             tbAlbum.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             tbAlbum.Name = "tbAlbum";
-            tbAlbum.Size = new System.Drawing.Size(377, 27);
+            tbAlbum.Size = new System.Drawing.Size(389, 27);
             tbAlbum.TabIndex = 2;
             // 
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new System.Drawing.Point(16, 42);
+            label1.Location = new System.Drawing.Point(16, 38);
             label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             label1.Name = "label1";
             label1.Size = new System.Drawing.Size(77, 20);
@@ -76,7 +76,7 @@
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new System.Drawing.Point(16, 95);
+            label2.Location = new System.Drawing.Point(16, 91);
             label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             label2.Name = "label2";
             label2.Size = new System.Drawing.Size(56, 20);
@@ -87,7 +87,7 @@
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            ClientSize = new System.Drawing.Size(512, 272);
+            ClientSize = new System.Drawing.Size(512, 208);
             Controls.Add(label2);
             Controls.Add(label1);
             Controls.Add(tbAlbum);

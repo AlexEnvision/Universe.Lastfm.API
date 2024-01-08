@@ -33,114 +33,125 @@
 //  ║                                                                                 ║
 //  ╚═════════════════════════════════════════════════════════════════════════════════╝
 
-using System;
 using Universe.Lastfm.Api.Dto.Base;
-using Universe.Lastfm.Api.Dto.GetTrackInfo;
+using Universe.Lastfm.Api.Dto.GetAlbumInfo;
 using Universe.Lastfm.Api.Helpers;
 using Universe.Lastfm.Api.Models;
 using Universe.Lastfm.Api.Models.Base;
 using Universe.Lastfm.Api.Models.Res.Base;
 
-namespace Universe.Lastfm.Api.Dal.Queries.Users
+namespace Universe.Lastfm.Api.Dal.Queries.Albums
 {
     /// <summary>
-    ///     The query gets the full information about weekly chart list of an user of the Last.fm.
-    ///     Запрос, получающий полную информацию о недельном чарте списков/плэйлистов пользователя Last.fm. 
+    ///     The query does search of an album of the Last.fm.
+    ///     Запрос, ведущий поиск альбома на Last.fm. 
     /// </summary>
-    public class GetUserWeeklyChartListQuery : LastQuery
+    public class SearchAlbumQuery : LastQuery
     {
         /// <summary>
-        ///     Get a list of available charts for this user, expressed as date ranges
-        ///     which can be sent to the chart services.
+        ///     Search for an album by name. Returns album matches sorted by relevance.
         /// </summary>
-        /// <param name="user">
-        ///     The last.fm username to fetch the charts list for.
+        /// <param name="album">
+        ///     The album name.
+        /// </param>
+        /// <param name="page">
+        ///     The page number to fetch. Defaults to first page.
+        /// </param>
+        /// <param name="limit">
+        ///     The number of results to fetch per page. Defaults to 30.
         /// </param>
         /// <returns></returns>
-        public GetUserWeeklyChartListResponce Execute(
-            string user)
+        public GetAlbumSearchResponce Execute(
+            string album,
+            int page = 1,
+            int limit = 50)
         {
-            var sessionResponce = Adapter.GetRequest("user.getWeeklyChartList",
+            var sessionResponce = Adapter.GetRequest("album.search",
                 Argument.Create("api_key", Settings.ApiKey),
-                Argument.Create("user", user),
+                Argument.Create("album", album),
+                Argument.Create("page", page.ToString()),
+                Argument.Create("limit", limit.ToString()),
                 Argument.Create("format", "json"),
                 Argument.Create("callback", "?"));
 
             Adapter.FixCallback(sessionResponce);
 
-            var getTrackInfoResponce =
-                ResponceExt.CreateFrom<BaseResponce, GetUserWeeklyChartListResponce>(sessionResponce);
-            return getTrackInfoResponce;
+            var getAlbumInfoResponce = ResponceExt.CreateFrom<BaseResponce, GetAlbumSearchResponce>(sessionResponce);
+            return getAlbumInfoResponce;
         }
 
         /// <summary>
-        ///     The responce with full information about user of the Last.fm.
-        ///     Ответ с полной информацией о пользователе Last.fm.
+        ///     The responce with full information about album of the Last.fm.
+        ///     Ответ с полной информацией о поиске Last.fm.
         /// </summary>
-        public class GetUserWeeklyChartListResponce : LastFmBaseResponce<UserWeeklyChartListContainer>
+        public class GetAlbumSearchResponce : LastFmBaseResponce<AlbumSearchContainer>
         {
         }
 
         /// <summary>
-        ///     The container with information about the weekly chart tracks, that were created/made user on the Last.fm.
-        ///     Контейнер с информацией о недельном чарте, которые формировались по пользователь на Last.fm.
+        ///     The container with information about the top artists listened to by a album on the Last.fm.
+        ///     Контейнер с информацией о поиске, которые прослушивал пользователь на Last.fm.
         /// </summary>
-        public class UserWeeklyChartListContainer : LastFmBaseContainer
+        public class AlbumSearchContainer : LastFmBaseContainer
         {
-            public WeeklyChartListDto WeeklyChartList { get; set; }
+            public SearchDto Results { get; set; }
         }
 
         /// <summary>
-        ///     The full information about the weekly chart list of an user of the Last.fm.
-        ///     Полная информация о недельном чарте пользователя на Last.fm.
+        ///     The full information about track on the Last.fm.
+        ///     Полная информация о поиске на Last.fm.
         /// </summary>
-        public class WeeklyChartListDto
+        public class SearchDto
         {
             /*
-                 <weeklychartlist user="LFUser">
-                  <chart from="1108296002" to="1108900802"/>
-                  <chart from="1108900801" to="1109505601"/>
-                  ...
-                </weeklychartlist>
+                 <results for="believe">
+                  <opensearch:Query role="request" searchTerms="believe" startPage="1"/>
+                  <opensearch:totalResults>734</opensearch:totalResults>
+                  <opensearch:startIndex>0</opensearch:startIndex>
+                  <opensearch:itemsPerPage>20</opensearch:itemsPerPage>
+                  <albummatches>
+                    <album>
+                      <name>Make Believe</name>
+                      <artist>Weezer</artist>
+                      <id>2025180</id>
+                      <url>http://www.last.fm/music/Weezer/Make+Believe</url>
+                      <image size="small">http://userserve-ak.last.fm/serve/34/8673675.jpg</image>
+                      <image size="medium">http://userserve-ak.last.fm/serve/64/8673675.jpg</image>
+                      <image size="large">http://userserve-ak.last.fm/serve/126/8673675.jpg</image>
+                      <streamable>0</streamable>
+                    </album>
+                    ...
+                  </albummatches>
+                </results>
             */
 
-            public WeeklyChartListAttribute Attribute { get; set; }
+            public SearchAttribute Attribute { get; set; }
 
-            public Chart[] Chart { get; set; }
+            public AlbumMatchesDto AlbumMatches { get; set; }
         }
 
         /// <summary>
-        ///     The special attribite of <see cref="WeeklyChartListDto"/>
+        ///     The list of matches in a search.
+        ///     Список совпадений в поиске.
         /// </summary>
-        public class WeeklyChartListAttribute
+        public class AlbumMatchesDto
         {
-            /*
-                 "@attr":
-                 {
-                    "page": "1",
-                    "perPage": "50",
-                    "total": "362",
-                    "totalPages": "8",
-                    "user": "LFUser"
-                 },
-            */
-
-            public string Page { get; set; }
-
-            public string PerPage { get; set; }
-
-            public string Total { get; set; }
-
-            public string TotalPages { get; set; }
-
-            public string User { get; set; }
+            public Album[] Album { get; set; }
         }
 
-        public class Chart : LastFmBaseModel
+        /// <summary>
+        ///     The special attribite of <see cref="SearchDto"/>
+        /// </summary>
+        public class SearchAttribute
         {
-            public string From { get; set; }
+            /*
+                "@attr":
+                {
+                "for": "01011001"
+                },
+            */
 
-            public string To { get; set; }
+            public string For { get; set; }
         }
     }
 }

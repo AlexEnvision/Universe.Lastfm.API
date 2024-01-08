@@ -677,7 +677,7 @@ namespace Universe.Lastfm.Api.FormsApp
 
                     var attribute = responce.DataContainer.WeeklyChartList.Attribute;
                     var data = responce.DataContainer.WeeklyChartList;
-                    var dataStr = string.Join(", ", data.Chart.Select(x => x.Name));
+                    var dataStr = string.Join(", ", data.Chart.Select(x => $"From:{x.From} To:{x.To}"));
 
                     _log.Info(
                         $"Сhart of weekly artists/performers of the user {attribute.User} / Чарт недельный чарта артистов/исполнителей пользователя {attribute.User}: {dataStr}.");

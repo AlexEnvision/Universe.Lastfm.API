@@ -34,6 +34,7 @@
 //  ╚═════════════════════════════════════════════════════════════════════════════════╝
 
 using System.Drawing;
+using System.Threading;
 using System.Windows.Forms;
 using Universe.Lastfm.Api.Models.Base;
 using Universe.Windows.Forms.Controls;
@@ -42,7 +43,7 @@ namespace Universe.Lastfm.Api.FormsApp.Extensions
 {
     public static class BaseResponceExtensions
     {
-        public static BaseResponce LightColorResult(this BaseResponce responce, Control control)
+        public static BaseResponce LightColorResult(this BaseResponce responce, Control control, int delayAfter = 0)
         {
             if (responce.IsSuccessful)
             {
@@ -52,11 +53,14 @@ namespace Universe.Lastfm.Api.FormsApp.Extensions
             {
                 control.SafeCall(() => control.BackColor = Color.DarkRed);
             }
+
+            if (delayAfter > 0)
+                Thread.Sleep(delayAfter);
 
             return responce;
         }
 
-        public static T LightColorResult<T>(this T responce, Control control) where T: BaseResponce
+        public static T LightColorResult<T>(this T responce, Control control, int delayAfter = 0) where T: BaseResponce
         {
             if (responce.IsSuccessful)
             {
@@ -66,6 +70,9 @@ namespace Universe.Lastfm.Api.FormsApp.Extensions
             {
                 control.SafeCall(() => control.BackColor = Color.DarkRed);
             }
+
+            if (delayAfter > 0) 
+                Thread.Sleep(delayAfter);
 
             return responce;
         }

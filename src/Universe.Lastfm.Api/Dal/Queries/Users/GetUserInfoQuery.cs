@@ -33,6 +33,7 @@
 //  ║                                                                                 ║
 //  ╚═════════════════════════════════════════════════════════════════════════════════╝
 
+using System;
 using Universe.Lastfm.Api.Helpers;
 using Universe.Lastfm.Api.Models;
 using Universe.Lastfm.Api.Models.Base;
@@ -59,6 +60,32 @@ namespace Universe.Lastfm.Api.Dal.Queries.Users
 
             var getAlbumInfoResponce = ResponceExt.CreateFrom<BaseResponce, GetUserInfoResponce>(sessionResponce);
             return getAlbumInfoResponce;
+        }
+
+        public GetUserInfoResponce ExecuteSafe(
+            string user)
+        {
+            try
+            {
+                var sessionResponce = Adapter.GetRequest("user.getInfo",
+                    Argument.Create("api_key", Settings.ApiKey),
+                    Argument.Create("user", user),
+                    Argument.Create("format", "json"),
+                    Argument.Create("callback", "?"));
+
+                Adapter.FixCallback(sessionResponce);
+
+                var getAlbumInfoResponce = ResponceExt.CreateFrom<BaseResponce, GetUserInfoResponce>(sessionResponce);
+                return getAlbumInfoResponce;
+            }
+            catch (Exception ex)
+            {
+                return new GetUserInfoResponce
+                {
+                    IsSuccessful = false,
+                    Message = ex.Message
+                };
+            }
         }
     }
 }
