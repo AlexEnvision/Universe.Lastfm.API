@@ -35,8 +35,10 @@
 
 using System;
 using System.Windows.Forms;
+using Universe.Lastfm.Api.FormsApp.Settings;
+using Universe.Lastfm.Api.FormsApp.Themes;
 
-namespace Universe.Lastfm.Api.FormsApp
+namespace Universe.Lastfm.Api.FormsApp.Forms.Performers
 {
     public partial class ArtistReqInfoForm : Form
     {
@@ -44,9 +46,12 @@ namespace Universe.Lastfm.Api.FormsApp
 
         public string Performer { get; private set; }
 
-        public ArtistReqInfoForm()
+        public ArtistReqInfoForm(UniverseLastApiAppSettings settings)
         {
             InitializeComponent();
+
+            if (settings.IsSpaceMode)
+                SpaceThemeStyle.Set.Apply(this);
         }
 
         protected virtual void btOk_Click(object sender, EventArgs e)

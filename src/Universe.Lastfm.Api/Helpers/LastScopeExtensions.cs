@@ -39,29 +39,28 @@ using Universe.Lastfm.Api.Dal.Command;
 using Universe.Lastfm.Api.Dal.Queries;
 using Universe.Lastfm.Api.Infrastracture;
 using Universe.Lastfm.Api.Meta.Consts;
+using Universe.Lastfm.Api.Models.Base;
 
 namespace Universe.Lastfm.Api.Helpers
 {
     public static class LastScopeExtensions
     {
-        public static T GetQuery<T>(this UniverseLastApiScope scope) where T : LastQuery, new()
+        public static T GetQuery<T>(this UniverseLastApiScope scope) where T : BaseQuery, new()
         {
             var query = CommandQueryBuilder.CreateQuery<T>(scope);
             var settings = scope.Container.Resolve<IUniverseLastApiSettings>(UnityRegistrations.ExternalAppSettings);
 
-            query.Settings = settings;
-            query.Init();
+            query.Init(settings);
 
             return query;
         }
 
-        public static T GetCommand<T>(this UniverseLastApiScope scope) where T : LastCommand, new()
+        public static T GetCommand<T>(this UniverseLastApiScope scope) where T : BaseCommand, new()
         {
             var command = CommandQueryBuilder.CreateCommand<T>(scope);
             var settings = scope.Container.Resolve<IUniverseLastApiSettings>(UnityRegistrations.ExternalAppSettings);
 
-            command.Settings = settings;
-            command.Init();
+            command.Init(settings);
 
             return command;
         }

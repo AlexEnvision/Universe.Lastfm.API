@@ -35,6 +35,8 @@
 
 using System;
 using System.Windows.Forms;
+using Universe.Lastfm.Api.FormsApp.Settings;
+using Universe.Lastfm.Api.FormsApp.Themes;
 
 namespace Universe.Lastfm.Api.FormsApp.Forms.Tracks
 {
@@ -48,9 +50,12 @@ namespace Universe.Lastfm.Api.FormsApp.Forms.Tracks
 
         public string Track { get; private set; }
 
-        public TrackInfoReqForm()
+        public TrackInfoReqForm(UniverseLastApiAppSettings settings)
         {
             InitializeComponent();
+
+            if (settings.IsSpaceMode)
+                SpaceThemeStyle.Set.Apply(this);
         }
 
         protected virtual void btOk_Click(object sender, EventArgs e)

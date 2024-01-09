@@ -33,9 +33,37 @@
 //  ║                                                                                 ║
 //  ╚═════════════════════════════════════════════════════════════════════════════════╝
 
+using System.Linq;
+using System;
+
 namespace Universe.Lastfm.Api.Models.Base
 {
-    public class BaseRequest
+    public interface IBaseRequest
     {
+
+    }
+
+    public class BaseRequest : IBaseRequest
+    {
+        public TReq As<TReq>() where TReq : BaseRequest
+        {
+            var type = typeof(TReq);
+            var newReq = (TReq)Activator.CreateInstance(type);
+
+            var ctxProperties = this.GetType().GetProperties().ToDictionary(x => x.Name);
+
+            var properties = type.GetProperties();
+            foreach (var propertyInfo in properties)
+            {
+                var name = propertyInfo.Name;
+                if (ctxProperties.TryGetValue(name, out var ctxPropertyInfo))
+                {
+                    var val = ctxPropertyInfo.GetValue(this);
+                    propertyInfo.SetValue(newReq, val);
+                }
+            }
+
+            return newReq;
+        }
     }
 }

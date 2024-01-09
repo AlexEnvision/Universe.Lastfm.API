@@ -33,12 +33,16 @@
 //  ║                                                                                 ║
 //  ╚═════════════════════════════════════════════════════════════════════════════════╝
 
+using System;
 using Universe.Lastfm.Api.Dto.Base;
 using Universe.Lastfm.Api.Dto.GetAlbumInfo;
 using Universe.Lastfm.Api.Helpers;
 using Universe.Lastfm.Api.Models;
 using Universe.Lastfm.Api.Models.Base;
+using Universe.Lastfm.Api.Models.Req;
 using Universe.Lastfm.Api.Models.Res.Base;
+using static Universe.Lastfm.Api.Dal.Queries.Users.GetUserTopAlbumsQuery;
+using static Universe.Lastfm.Api.Dal.Queries.Users.GetUserTopArtistsQuery;
 
 namespace Universe.Lastfm.Api.Dal.Queries.Users
 {
@@ -46,33 +50,42 @@ namespace Universe.Lastfm.Api.Dal.Queries.Users
     ///     The query gets the full information about top albums of an user of the Last.fm.
     ///     Запрос, получающий полную информацию о топ-альбомах пользователя Last.fm. 
     /// </summary>
-    public class GetUserTopAlbumsQuery : LastQuery
+    public class GetUserTopAlbumsQuery : LastQuery<GetUserTopAlbumsRequest, GetUserTopAlbumsResponce>
     {
+        protected override Func<BaseRequest, BaseResponce> ExecutableBaseFunc =>
+            req => Execute(req.As<GetUserTopAlbumsRequest>());
+
         /// <summary>
         ///     Get the top albums listened to by a user.
         ///     You can stipulate a time period.
         ///     Sends the overall chart by default.
         /// </summary>
-        /// <param name="user">
+        /// <param name="request.user">
         ///     The user name to fetch top albums for.
         /// </param>
-        /// <param name="page">
+        /// <param name="request.page">
         ///     The page number to fetch. Defaults to first page.
         /// </param>
-        /// <param name="limit">
+        /// <param name="request.limit">
         ///     The number of results to fetch per page. Defaults to 50.
         /// </param>
-        /// <param name="period">
+        /// <param name="request.period">
         ///     Period (Optional) : overall | 7day | 1month | 3month | 6month | 12month -
         ///     The time period over which to retrieve top albums for.
         /// </param>
+        /// <param name="request">
+        ///     Request model
+        /// </param>
         /// <returns></returns>
-        public GetUserTopAlbumsResponce Execute(
-            string user,
-            string period = "",
-            int page = 1,
-            int limit = 50)
+        public override GetUserTopAlbumsResponce Execute(
+               GetUserTopAlbumsRequest request
+            )
         {
+            string user = request.User;
+            string period = request.Period;
+            int page = request.Page;
+            int limit = request.Limit;
+
             var sessionResponce = Adapter.GetRequest("user.getTopAlbums",
                 Argument.Create("api_key", Settings.ApiKey),
                 Argument.Create("user", user),
@@ -85,6 +98,60 @@ namespace Universe.Lastfm.Api.Dal.Queries.Users
 
             var getAlbumInfoResponce = ResponceExt.CreateFrom<BaseResponce, GetUserTopAlbumsResponce>(sessionResponce);
             return getAlbumInfoResponce;
+        }
+
+        /// <summary>
+        ///     The request with parameters for information about user data of the Last.fm.
+        ///     Запрос с параметрами для полной информацией о данных пользователе Last.fm.
+        /// </summary>
+        public class GetUserTopAlbumsRequest : BaseRequest
+        {
+            public string User { get; set; }
+
+            public string Period { get; set; }
+
+            public int Page { get; set; }
+
+            public int Limit { get; set; }
+
+            public GetUserTopAlbumsRequest()
+            {
+                Period = "";
+                Page = 1;
+                Limit = 50;
+            }
+
+            /// <summary>
+            ///     Build request
+            /// </summary>
+            /// <param name="user">
+            ///     The user name to fetch top albums for.
+            /// </param>
+            /// <param name="page">
+            ///     The page number to fetch. Defaults to first page.
+            /// </param>
+            /// <param name="limit">
+            ///     The number of results to fetch per page. Defaults to 50.
+            /// </param>
+            /// <param name="period">
+            ///     Period (Optional) : overall | 7day | 1month | 3month | 6month | 12month -
+            ///     The time period over which to retrieve top albums for.
+            /// </param>
+            /// <returns>Returns <see cref="GetUserTopAlbumsRequest"/></returns>
+            public static GetUserTopAlbumsRequest Build(
+                string user,
+                string period = "",
+                int page = 1,
+                int limit = 50)
+            {
+                return new GetUserTopAlbumsRequest
+                {
+                    User = user,
+                    Period = period,
+                    Limit = limit,
+                    Page = page
+                };
+            }
         }
 
         /// <summary>

@@ -35,7 +35,7 @@
 
 using System;
 using System.Collections.Generic;
-using System.Drawing;
+using System.Diagnostics.Eventing.Reader;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
@@ -45,25 +45,47 @@ using Universe.Algorithm.MultiThreading;
 using Universe.CQRS;
 using Universe.CQRS.Infrastructure;
 using Universe.Diagnostic.Logger;
+using Universe.Helpers.Extensions;
+using Universe.Lastfm.Api.Dal.Queries;
 using Universe.Lastfm.Api.Dal.Queries.Auth;
 using Universe.Lastfm.Api.Dal.Queries.Performers;
 using Universe.Lastfm.Api.Dal.Queries.Tags;
 using Universe.Lastfm.Api.Dal.Queries.Track;
 using Universe.Lastfm.Api.Dal.Queries.Users;
 using Universe.Lastfm.Api.Dto.GetArtists;
+using Universe.Lastfm.Api.FormsApp.Controls;
 using Universe.Lastfm.Api.FormsApp.Extensions;
 using Universe.Lastfm.Api.FormsApp.Extensions.Model;
 using Universe.Lastfm.Api.FormsApp.Forms.Genres;
+using Universe.Lastfm.Api.FormsApp.Forms.Performers;
 using Universe.Lastfm.Api.FormsApp.Forms.Tracks;
 using Universe.Lastfm.Api.FormsApp.Infrastracture;
+using Universe.Lastfm.Api.FormsApp.Properties;
 using Universe.Lastfm.Api.FormsApp.Settings;
 using Universe.Lastfm.Api.Helpers;
 using Universe.Lastfm.Api.Infrastracture;
 using Universe.Lastfm.Api.Meta.Consts;
+using Universe.Lastfm.Api.Models;
 using Universe.Lastfm.Api.Models.Base;
 using Universe.Lastfm.Api.Models.Req;
+using Universe.Lastfm.Api.Models.Res;
 using Universe.Windows.Forms.Controls;
 using Universe.Windows.Forms.Controls.Settings;
+
+using static Universe.Lastfm.Api.Dal.Queries.Users.GetUserTopAlbumsQuery;
+using static Universe.Lastfm.Api.Dal.Queries.Users.GetUserTopArtistsQuery;
+using static Universe.Lastfm.Api.Dal.Queries.Users.GetUserTopTagsQuery;
+using static Universe.Lastfm.Api.Dal.Queries.Users.GetUserTopTracksQuery;
+
+using static Universe.Lastfm.Api.Dal.Queries.Users.GetUserLovedTracksQuery;
+using static Universe.Lastfm.Api.Dal.Queries.Users.GetUserRecentTracksQuery;
+using static Universe.Lastfm.Api.Dal.Queries.Users.GetPersonalTagsQuery;
+
+using static Universe.Lastfm.Api.Dal.Queries.Users.GetUserWeeklyArtistChartQuery;
+using static Universe.Lastfm.Api.Dal.Queries.Users.GetUserWeeklyAlbumChartQuery;
+using static Universe.Lastfm.Api.Dal.Queries.Users.GetUserWeeklyTrackChartQuery;
+using static Universe.Lastfm.Api.Dal.Queries.Users.GetUserWeeklyChartListQuery;
+using Universe.Lastfm.Api.FormsApp.Themes;
 
 namespace Universe.Lastfm.Api.FormsApp
 {
@@ -83,6 +105,8 @@ namespace Universe.Lastfm.Api.FormsApp
 
         public ResizeFormState ResizeState;
 
+        public ReqContext ReqCtx;
+
         public MainForm()
         {
             InitializeComponent();
@@ -98,6 +122,7 @@ namespace Universe.Lastfm.Api.FormsApp
                     var currentDate = DateTime.Now;
                     var message = $"[{currentDate}] {e.Message}{Environment.NewLine}";
                     this.SafeCall(() => this.tbLog.AppendText(message));
+                    this.SafeCall(() => this.tbLog.Invalidate());
                 }
             };
 
@@ -108,6 +133,7 @@ namespace Universe.Lastfm.Api.FormsApp
                     var currentDate = DateTime.Now;
                     var message = $"[{currentDate}] Во время выполнения операции произошла ошибка. Текст ошибки: {e.Message}.{Environment.NewLine} Трассировка стека: {e.Ex.StackTrace}{Environment.NewLine}";
                     this.SafeCall(() => this.tbLog.AppendText(message));
+                    this.SafeCall(() => this.tbLog.Invalidate());
                 }
             };
 
@@ -116,6 +142,7 @@ namespace Universe.Lastfm.Api.FormsApp
             _container = UnityAppConfig.Container;
 
             ResizeState = new ResizeFormState(this.Size);
+            ReqCtx = new ReqContext();
         }
 
         private void MainForm_Load(object sender, EventArgs e)
@@ -134,9 +161,13 @@ namespace Universe.Lastfm.Api.FormsApp
 
             chTrustedApp.Checked = _programSettings.IsTrustedApiApp;
             fullRubberyUIToolStripMenuItem.Checked = _programSettings.IsFullRubberUI;
+            spaceModeToolStripMenuItem.Checked = _programSettings.IsSpaceMode;
 
             if (_programSettings.IsFullRubberUI)
                 pMainForm.MassSetControlProperty(ctrl => { ctrl.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left; });
+
+            if (_programSettings.IsSpaceMode)
+                SpaceThemeStyle.Set.Apply(pMainForm);
         }
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
@@ -154,6 +185,8 @@ namespace Universe.Lastfm.Api.FormsApp
 
             _programSettings.IsTrustedApiApp = chTrustedApp.Checked;
             _programSettings.IsFullRubberUI = fullRubberyUIToolStripMenuItem.Checked;
+
+            _programSettings.IsSpaceMode = spaceModeToolStripMenuItem.Checked;
         }
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
@@ -249,15 +282,37 @@ namespace Universe.Lastfm.Api.FormsApp
             //int position = _genreService.GetNumber(tag);
             //_log.Info("Position:" + position);
 
-            var userName = "";
+            var userName = "Howling91";
+
+            ReqCtx.User = userName;
+            ReqCtx.Period = "";
+            ReqCtx.Page = 2;
+            ReqCtx.Limit = 25;
 
             ThreadMachine.Create(1).RunInMultiTheadsWithoutWaiting(() =>
             {
-                BaseResponce responce = Scope.GetQuery<GetUserInfoQuery>().ExecuteSafe(userName).LightColorResult(btUserGetInfo, 1000);
-                responce = Scope.GetQuery<GetUserTopArtistsQuery>().ExecuteSafe(userName).LightColorResult(btUserGetTopArtists, 1000);
-                responce = Scope.GetQuery<GetUserTopAlbumsQuery>().ExecuteSafe(userName).LightColorResult(btUserGetTopAlbums, 1000);
-                responce = Scope.GetQuery<GetUserTopTracksQuery>().ExecuteSafe(userName).LightColorResult(btUserGetTopTracks, 1000);
-                responce = Scope.GetQuery<GetUserTopTagsQuery>().ExecuteSafe(userName).LightColorResult(btUserGetTopTags, 1000);
+                var queries = new (BaseQuery Itself, Control Ctrl)[]
+                {
+                    (Scope.GetQuery<GetUserInfoQuery>(), btUserGetInfo),
+                    (Scope.GetQuery<GetUserTopArtistsQuery>(),btUserGetTopArtists),
+                    (Scope.GetQuery<GetUserTopAlbumsQuery>(),btUserGetTopAlbums),
+                    (Scope.GetQuery<GetUserTopTracksQuery>(),btUserGetTopTracks),
+                    (Scope.GetQuery<GetUserTopTagsQuery>(), btUserGetTopTags),
+
+                    (Scope.GetQuery<GetUserLovedTracksQuery>(),btUserGetLovedTracks),
+                    (Scope.GetQuery<GetUserRecentTracksQuery>(), btUserGetRecentTracks),
+                    (Scope.GetQuery<GetPersonalTagsQuery>(), btUserGetPersonalTags),
+
+                    (Scope.GetQuery<GetUserWeeklyArtistChartQuery>(), btUserGetWeeklyArtistChart),
+                    (Scope.GetQuery<GetUserWeeklyAlbumChartQuery>(), btUserGetWeeklyAlbumChart),
+                    (Scope.GetQuery<GetUserWeeklyTrackChartQuery>(), btUserGetWeeklyTrackChart),
+                    (Scope.GetQuery<GetUserWeeklyChartListQuery>(), btUserGetWeeklyChartList)
+                };
+
+                foreach (var query in queries)
+                {
+                    query.Itself.ExecuteBaseSafe(ReqCtx).ReportResult(tbLog).LightColorResult(query.Ctrl, 1000);
+                }
             });
         }
 
@@ -349,7 +404,7 @@ namespace Universe.Lastfm.Api.FormsApp
         {
             string performer;
 
-            using (var albumReqInfoForm = new ArtistReqInfoForm())
+            using (var albumReqInfoForm = new ArtistReqInfoForm(_programSettings))
             {
                 if (albumReqInfoForm.ShowDialog() == DialogResult.OK)
                 {
@@ -405,7 +460,7 @@ namespace Universe.Lastfm.Api.FormsApp
             string performer;
             string user;
 
-            using (var form = new ArtistTagsReqForm())
+            using (var form = new ArtistTagsReqForm(_programSettings))
             {
                 if (form.ShowDialog() == DialogResult.OK)
                 {
@@ -467,7 +522,7 @@ namespace Universe.Lastfm.Api.FormsApp
         {
             string tagName;
 
-            using (var form = new TagInfoReqForm())
+            using (var form = new TagInfoReqForm(_programSettings))
             {
                 if (form.ShowDialog() == DialogResult.OK)
                 {
@@ -526,7 +581,7 @@ namespace Universe.Lastfm.Api.FormsApp
             string performer;
             string trackName;
 
-            using (var form = new TrackInfoReqForm())
+            using (var form = new TrackInfoReqForm(_programSettings))
             {
                 if (form.ShowDialog() == DialogResult.OK)
                 {
@@ -616,6 +671,29 @@ namespace Universe.Lastfm.Api.FormsApp
                 pMainForm.MassSetControlProperty(ctrl => { ctrl.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left; });
 
             if (!_programSettings.IsFullRubberUI)
+            {
+                var msgState = MessageBox.Show(@"Need to restart application. Application will restart and apply settings.", @"Need to restart", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning);
+                if (msgState == DialogResult.OK)
+                {
+                    Application.Exit();
+                }
+                else
+                {
+                    fullRubberyUIToolStripMenuItem.Checked = !fullRubberyUIToolStripMenuItem.Checked;
+                    _programSettings.IsFullRubberUI = fullRubberyUIToolStripMenuItem.Checked;
+                }
+            }
+        }
+
+        private void spaceModeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            spaceModeToolStripMenuItem.Checked = !spaceModeToolStripMenuItem.Checked;
+            _programSettings.IsSpaceMode = spaceModeToolStripMenuItem.Checked;
+
+            if (_programSettings.IsSpaceMode)
+                SpaceThemeStyle.Set.Apply(pMainForm);
+
+            if (!_programSettings.IsSpaceMode)
             {
                 var msgState = MessageBox.Show(@"Need to restart application. Application will restart and apply settings.", @"Need to restart", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning);
                 if (msgState == DialogResult.OK)

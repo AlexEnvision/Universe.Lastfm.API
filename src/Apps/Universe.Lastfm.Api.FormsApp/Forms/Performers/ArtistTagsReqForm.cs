@@ -34,6 +34,8 @@
 //  ╚═════════════════════════════════════════════════════════════════════════════════╝
 
 using System;
+using Universe.Lastfm.Api.FormsApp.Forms.Performers;
+using Universe.Lastfm.Api.FormsApp.Settings;
 
 namespace Universe.Lastfm.Api.FormsApp
 {
@@ -43,7 +45,7 @@ namespace Universe.Lastfm.Api.FormsApp
 
         public string User { get; set; }
 
-        public ArtistTagsReqForm()
+        public ArtistTagsReqForm(UniverseLastApiAppSettings settings) : base(settings)
         {
             InitializeComponent();
         }

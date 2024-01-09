@@ -33,7 +33,10 @@
 //  ║                                                                                 ║
 //  ╚═════════════════════════════════════════════════════════════════════════════════╝
 
+using System;
 using Universe.Lastfm.Api.Dto;
+using Universe.Lastfm.Api.Infrastracture;
+using Universe.Lastfm.Api.Models.Base;
 
 namespace Universe.Lastfm.Api.Dal.Command
 {
@@ -42,5 +45,40 @@ namespace Universe.Lastfm.Api.Dal.Command
         public ApiUser ApiUser { get; internal set; }
 
         public RootDto Root { get; internal set; }
+
+        internal abstract void Init(IUniverseLastApiSettings settings);
+    }
+
+    public abstract class BaseCommand<TRequest, TResponce> : BaseCommand
+        where TRequest : BaseRequest
+        where TResponce : BaseResponce, new()
+    {
+        protected Func<TRequest, TResponce> ExecuteFunc { get; set; }
+
+        public virtual TResponce Execute(TRequest request)
+        {
+            if (request != null)
+                if (ExecuteFunc != null)
+                    return ExecuteFunc.Invoke(request);
+
+            return new TResponce();
+        }
+
+        public virtual TResponce ExecuteSafe(
+            TRequest request)
+        {
+            try
+            {
+                return Execute(request);
+            }
+            catch (Exception ex)
+            {
+                return new TResponce()
+                {
+                    IsSuccessful = false,
+                    Message = ex.Message
+                };
+            }
+        }
     }
 }

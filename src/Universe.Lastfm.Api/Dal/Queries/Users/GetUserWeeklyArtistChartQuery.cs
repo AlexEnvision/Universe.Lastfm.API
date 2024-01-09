@@ -33,6 +33,7 @@
 //  ║                                                                                 ║
 //  ╚═════════════════════════════════════════════════════════════════════════════════╝
 
+using System;
 using Universe.Lastfm.Api.Dto.Base;
 using Universe.Lastfm.Api.Dto.GetArtistInfo;
 using Universe.Lastfm.Api.Helpers;
@@ -48,25 +49,33 @@ namespace Universe.Lastfm.Api.Dal.Queries.Users
     /// </summary>
     public class GetUserWeeklyArtistChartQuery : LastQuery
     {
+        protected override Func<BaseRequest, BaseResponce> ExecutableBaseFunc =>
+            req => Execute(req.As<GetUserWeeklyArtistChartRequest>());
+
         /// <summary>
         ///     Get an artist chart for a user profile, for a given date range.
         ///     If no date range is supplied, it will return the most recent artist chart for this user.
         /// </summary>
-        /// <param name="user">
+        /// <param name="request.user">
         ///     The last.fm username to fetch the recent tracks of.
         /// </param>
-        /// <param name="from">
+        /// <param name="request.from">
         ///     The date at which the chart should start from. See User.getChartsList for more.
         /// </param>
-        /// <param name="to">
+        /// <param name="request.to">
         ///     The date at which the chart should end on. See User.getChartsList for more.
+        /// </param>
+        /// <param name="request">
+        ///     Request with parameters.
         /// </param>
         /// <returns></returns>
         public GetUserWeeklyArtistChartResponce Execute(
-            string user,
-            string from = null,
-            string to = null)
+            GetUserWeeklyArtistChartRequest request)
         {
+            string user = request.User;
+            string from = request.From;
+            string to = request.To;
+
             var sessionResponce = Adapter.GetRequest("user.getWeeklyArtistChart",
                 Argument.Create("api_key", Settings.ApiKey),
                 Argument.Create("user", user),
@@ -79,6 +88,26 @@ namespace Universe.Lastfm.Api.Dal.Queries.Users
 
             var getartistInfoResponce = ResponceExt.CreateFrom<BaseResponce, GetUserWeeklyArtistChartResponce>(sessionResponce);
             return getartistInfoResponce;
+        }
+
+        /// <summary>
+        ///     The request for full information about user of the Last.fm.
+        ///     Запрос на полную информациею о пользователе Last.fm.
+        /// </summary>
+        public class GetUserWeeklyArtistChartRequest : BaseRequest
+        {
+            public string User { get; set; }
+
+            public string From { get; set; }
+
+            public string To { get; set; }
+
+
+            public GetUserWeeklyArtistChartRequest()
+            {
+                From = null;
+                To = null;
+            }
         }
 
         /// <summary>

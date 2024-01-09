@@ -34,6 +34,7 @@
 //  ╚═════════════════════════════════════════════════════════════════════════════════╝
 
 using System;
+using Universe.Lastfm.Api.FormsApp.Settings;
 
 namespace Universe.Lastfm.Api.FormsApp.Forms.Albums
 {
@@ -43,7 +44,7 @@ namespace Universe.Lastfm.Api.FormsApp.Forms.Albums
 
         public string User { get; set; }
 
-        public AlbumTagReqForm()
+        public AlbumTagReqForm(UniverseLastApiAppSettings settings) : base(settings)
         {
             InitializeComponent();
         }

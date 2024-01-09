@@ -33,6 +33,7 @@
 //  ║                                                                                 ║
 //  ╚═════════════════════════════════════════════════════════════════════════════════╝
 
+using System;
 using Universe.Lastfm.Api.Dto.Base;
 using Universe.Lastfm.Api.Dto.GetArtists;
 using Universe.Lastfm.Api.Dto.GetTrackInfo;
@@ -40,6 +41,7 @@ using Universe.Lastfm.Api.Helpers;
 using Universe.Lastfm.Api.Models;
 using Universe.Lastfm.Api.Models.Base;
 using Universe.Lastfm.Api.Models.Res.Base;
+using static Universe.Lastfm.Api.Dal.Queries.Users.GetPersonalTagsQuery;
 
 namespace Universe.Lastfm.Api.Dal.Queries.Users
 {
@@ -47,8 +49,11 @@ namespace Universe.Lastfm.Api.Dal.Queries.Users
     ///     The query gets the full information about personal tags of an user of the Last.fm.
     ///     Запрос, получающий полную информацию о персональных тэгах пользователя Last.fm. 
     /// </summary>
-    public class GetPersonalTagsQuery : LastQuery
+    public class GetPersonalTagsQuery : LastQuery<GetUserPersonalTagsRequest, GetUserPersonalTagsResponce>
     {
+        protected override Func<BaseRequest, BaseResponce> ExecutableBaseFunc =>
+            req => Execute(req.As<GetUserPersonalTagsRequest>());
+
         public enum TaggingType
         {
             Artist,
@@ -59,30 +64,35 @@ namespace Universe.Lastfm.Api.Dal.Queries.Users
         /// <summary>
         ///     Get the user's personal tags.
         /// </summary>
-        /// <param name="user">
+        /// <param name="request.user">
         ///     The user who performed the taggings.
         /// </param>
-        /// <param name="tag">
+        /// <param name="request.tag">
         ///     The tag you're interested in.
         /// </param>
-        /// <param name="limit">
+        /// <param name="request.limit">
         ///     The number of results to fetch per page. Defaults to 50.
         /// </param>
-        /// <param name="taggingtype">
+        /// <param name="request.taggingtype">
         ///     The type of items which have been tagged.
         ///     [artist|album|track]
         /// </param>
-        /// <param name="page">
+        /// <param name="request.page">
         ///     The page number to fetch. Defaults to first page.
         /// </param>
+        /// <param name="request">
+        ///     Request with parameters.
+        /// </param>
         /// <returns></returns>
-        public GetUserPersonalTagsResponce Execute(
-            string user,
-            string tag,
-            string taggingtype,
-            int limit = 50,
-            int page = 1)
+        public override GetUserPersonalTagsResponce Execute(
+            GetUserPersonalTagsRequest request)
         {
+            string user = request.User;
+            string tag = request.Tag;
+            string taggingtype = request.Taggingtype;
+            int limit = request.Limit;
+            int page = request.Page;
+
             var sessionResponce = Adapter.GetRequest("user.getPersonalTags",
                 Argument.Create("api_key", Settings.ApiKey),
                 Argument.Create("user", user),
@@ -97,6 +107,29 @@ namespace Universe.Lastfm.Api.Dal.Queries.Users
 
             var getAlbumInfoResponce = ResponceExt.CreateFrom<BaseResponce, GetUserPersonalTagsResponce>(sessionResponce);
             return getAlbumInfoResponce;
+        }
+
+        /// <summary>
+        ///     The request for getting full information about user of the Last.fm.
+        ///     Запрос для получения полной информации о пользователе Last.fm.    
+        /// </summary>
+        public class GetUserPersonalTagsRequest : BaseRequest
+        {
+            public string User { get; set; }
+
+            public string Tag { get; set; }
+
+            public string Taggingtype { get; set; }
+
+            public int Page { get; set; }
+
+            public int Limit { get; set; }
+
+            public GetUserPersonalTagsRequest()
+            {
+                Page = 1;
+                Limit = 50;
+            }
         }
 
         /// <summary>

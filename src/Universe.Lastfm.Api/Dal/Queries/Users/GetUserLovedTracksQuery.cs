@@ -33,12 +33,15 @@
 //  ║                                                                                 ║
 //  ╚═════════════════════════════════════════════════════════════════════════════════╝
 
+using System;
 using Universe.Lastfm.Api.Dto.Base;
 using Universe.Lastfm.Api.Dto.GetTrackInfo;
 using Universe.Lastfm.Api.Helpers;
 using Universe.Lastfm.Api.Models;
 using Universe.Lastfm.Api.Models.Base;
 using Universe.Lastfm.Api.Models.Res.Base;
+using static Universe.Lastfm.Api.Dal.Queries.Users.GetUserLovedTracksQuery;
+
 
 namespace Universe.Lastfm.Api.Dal.Queries.Users
 {
@@ -46,22 +49,30 @@ namespace Universe.Lastfm.Api.Dal.Queries.Users
     ///     The query gets the full information about loved listened tracks of an user of the Last.fm.
     ///     Запрос, получающий полную информацию о топ прослушиваемых трэках пользователя Last.fm. 
     /// </summary>
-    public class GetUserLovedTracksQuery : LastQuery
+    public class GetUserLovedTracksQuery : LastQuery<GetUserLovedTracksRequest, GetUserLovedTracksResponce>
     {
+        protected override Func<BaseRequest, BaseResponce> ExecutableBaseFunc =>
+            req => Execute(req.As<GetUserLovedTracksRequest>());
+
         /// <summary>
         ///     Get the last 50 tracks loved by a user.
         /// </summary>
-        /// <param name="user">
+        /// <param name="request.user">
         ///     The user name to fetch loved tracks for.
         /// </param>
-        /// <param name="limit">
+        /// <param name="request.limit">
         ///     The number of results to fetch per page. Defaults to 50.
         /// </param>
+        /// <param name="request">
+        ///
+        /// </param>
         /// <returns></returns>
-        public GetUserLovedTracksResponce Execute(
-            string user,
-            int limit = 50)
+        public override GetUserLovedTracksResponce Execute(
+            GetUserLovedTracksRequest request)
         {
+            string user = request.User;
+            int limit = request.Limit;
+
             var sessionResponce = Adapter.GetRequest("user.getLovedTracks",
                 Argument.Create("api_key", Settings.ApiKey),
                 Argument.Create("user", user),
@@ -73,6 +84,22 @@ namespace Universe.Lastfm.Api.Dal.Queries.Users
 
             var getAlbumInfoResponce = ResponceExt.CreateFrom<BaseResponce, GetUserLovedTracksResponce>(sessionResponce);
             return getAlbumInfoResponce;
+        }
+
+        /// <summary>
+        ///     The request for getting full information about user of the Last.fm.
+        ///     Запрос для получения полной информации о пользователе Last.fm.  
+        /// </summary>
+        public class GetUserLovedTracksRequest : BaseRequest
+        {
+            public string User { get; set; }
+
+            public int Limit { get; set; }
+
+            public GetUserLovedTracksRequest()
+            {
+                Limit = 50;
+            }
         }
 
         /// <summary>

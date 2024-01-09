@@ -8,6 +8,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="BackGround\BackTexture.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="BackGround\BackTexture.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Universe.NetCore.Algorithm" Version="1.0.0" />
     <PackageReference Include="Universe.NetCore.Windows.Forms.Controls" Version="1.0.0" />
   </ItemGroup>
@@ -20,6 +28,18 @@
     <Compile Update="Forms\Genres\TagInfoReqForm.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="Properties\Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
 
 </Project>

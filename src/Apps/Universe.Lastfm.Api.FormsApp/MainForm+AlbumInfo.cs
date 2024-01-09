@@ -16,7 +16,7 @@ namespace Universe.Lastfm.Api.FormsApp
             string performer;
             string album;
 
-            using (var form = new AlbumReqInfoForm())
+            using (var form = new AlbumReqInfoForm(_programSettings))
             {
                 if (form.ShowDialog() == DialogResult.OK)
                 {
@@ -84,7 +84,7 @@ namespace Universe.Lastfm.Api.FormsApp
             string album;
             string user;
 
-            using (var form = new AlbumTagReqForm())
+            using (var form = new AlbumTagReqForm(_programSettings))
             {
                 if (form.ShowDialog() == DialogResult.OK)
                 {
@@ -157,7 +157,7 @@ namespace Universe.Lastfm.Api.FormsApp
             string performer;
             string albumName;
 
-            using (var form = new AlbumSearchReqForm())
+            using (var form = new AlbumSearchReqForm(_programSettings))
             {
                 if (form.ShowDialog() == DialogResult.OK)
                 {

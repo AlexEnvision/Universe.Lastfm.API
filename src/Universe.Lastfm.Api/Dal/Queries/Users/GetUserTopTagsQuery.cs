@@ -33,12 +33,14 @@
 //  ║                                                                                 ║
 //  ╚═════════════════════════════════════════════════════════════════════════════════╝
 
+using System;
 using Universe.Lastfm.Api.Dto.Base;
 using Universe.Lastfm.Api.Dto.Common;
 using Universe.Lastfm.Api.Helpers;
 using Universe.Lastfm.Api.Models;
 using Universe.Lastfm.Api.Models.Base;
 using Universe.Lastfm.Api.Models.Res.Base;
+using static Universe.Lastfm.Api.Dal.Queries.Users.GetUserTopTagsQuery;
 
 namespace Universe.Lastfm.Api.Dal.Queries.Users
 {
@@ -46,22 +48,30 @@ namespace Universe.Lastfm.Api.Dal.Queries.Users
     ///     The query gets the full information about top tags/genres of an user of the Last.fm.
     ///     Запрос, получающий полную информацию о топ тэгах/жанрах пользователя Last.fm. 
     /// </summary>
-    public class GetUserTopTagsQuery : LastQuery
+    public class GetUserTopTagsQuery : LastQuery<GetUserTopTagsRequest, GetUserTopTagsResponce>
     {
+        protected override Func<BaseRequest, BaseResponce> ExecutableBaseFunc =>
+            req => Execute(req.As<GetUserTopTagsRequest>());
+
         /// <summary>
         ///     Get the top tags used by this user.
         /// </summary>
-        /// <param name="user">
+        /// <param name="request.user">
         ///     The user name to fetch top tags for.
         /// </param>
-        /// <param name="limit">
+        /// <param name="request.limit">
         ///     The number of results to fetch per page. Defaults to 50.
         /// </param>
+        /// <param name="request">
+        ///     Request with parameters.
+        /// </param>
         /// <returns></returns>
-        public GetUserTopTagsResponce Execute(
-            string user,
-            int limit = 50)
+        public override GetUserTopTagsResponce Execute(
+            GetUserTopTagsRequest request)
         {
+            string user = request.User;
+            int limit = request.Limit;
+
             var sessionResponce = Adapter.GetRequest("user.getTopTags",
                 Argument.Create("api_key", Settings.ApiKey),
                 Argument.Create("user", user),
@@ -73,6 +83,22 @@ namespace Universe.Lastfm.Api.Dal.Queries.Users
 
             var getAlbumInfoResponce = ResponceExt.CreateFrom<BaseResponce, GetUserTopTagsResponce>(sessionResponce);
             return getAlbumInfoResponce;
+        }
+
+        /// <summary>
+        ///     The responce with full information about user of the Last.fm.
+        ///     Ответ с полной информацией о пользователе Last.fm.
+        /// </summary>
+        public class GetUserTopTagsRequest : BaseRequest
+        {
+            public string User { get; set; }
+
+            public int Limit { get; set; }
+
+            public GetUserTopTagsRequest()
+            {
+                Limit = 50;
+            }
         }
 
         /// <summary>

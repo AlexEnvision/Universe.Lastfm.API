@@ -7,12 +7,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Universe.Lastfm.Api.FormsApp.Settings;
 
 namespace Universe.Lastfm.Api.FormsApp.Forms.Albums
 {
     public partial class AlbumSearchReqForm : AlbumReqInfoForm
     {
-        public AlbumSearchReqForm()
+        public AlbumSearchReqForm(UniverseLastApiAppSettings settings) : base(settings)
         {
             InitializeComponent();
         }

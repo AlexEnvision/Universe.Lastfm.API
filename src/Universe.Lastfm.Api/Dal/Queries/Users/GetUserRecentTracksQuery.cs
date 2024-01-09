@@ -33,12 +33,14 @@
 //  ║                                                                                 ║
 //  ╚═════════════════════════════════════════════════════════════════════════════════╝
 
+using System;
 using Universe.Lastfm.Api.Dto.Base;
 using Universe.Lastfm.Api.Dto.GetTrackInfo;
 using Universe.Lastfm.Api.Helpers;
 using Universe.Lastfm.Api.Models;
 using Universe.Lastfm.Api.Models.Base;
 using Universe.Lastfm.Api.Models.Res.Base;
+using static Universe.Lastfm.Api.Dal.Queries.Users.GetUserRecentTracksQuery;
 
 namespace Universe.Lastfm.Api.Dal.Queries.Users
 {
@@ -46,44 +48,52 @@ namespace Universe.Lastfm.Api.Dal.Queries.Users
     ///     The query gets the full information about recent listened tracks of an user of the Last.fm.
     ///     Запрос, получающий полную информацию об часто прослушиваемых трэках пользователя Last.fm. 
     /// </summary>
-    public class GetUserRecentTracksQuery : LastQuery
+    public class GetUserRecentTracksQuery : LastQuery<GetUserRecentTracksRequest, GetUserRecentTracksResponce>
     {
+        protected override Func<BaseRequest, BaseResponce> ExecutableBaseFunc =>
+            req => Execute(req.As<GetUserRecentTracksRequest>());
+
         /// <summary>
         ///     Get a list of the recent tracks listened to by this user.
         ///     Also includes the currently playing track with the nowplaying="true" attribute
         ///     if the user is currently listening.
         /// </summary>
-        /// <param name="user">
+        /// <param name="request.user">
         ///     The last.fm username to fetch the recent tracks of.
         /// </param>
-        /// <param name="from">
+        /// <param name="request.from">
         ///     Beginning timestamp of a range - only display scrobbles after this time,
         ///     in UNIX timestamp format (integer number of seconds since 00:00:00,
         ///     January 1st 1970 UTC). This must be in the UTC time zone.
         /// </param>
-        /// <param name="to">
+        /// <param name="request.to">
         ///     End timestamp of a range - only display scrobbles before this time,
         ///     in UNIX timestamp format (integer number of seconds since 00:00:00,
         ///     January 1st 1970 UTC). This must be in the UTC time zone.
         /// </param>
-        /// <param name="extend">
+        /// <param name="request.extend">
         ///     Includes extended data in each artist, and whether or not the user has loved each track
         /// </param>
-        /// <param name="page">
+        /// <param name="request.page">
         ///     The page number to fetch. Defaults to first page.
         /// </param>
-        /// <param name="limit">
+        /// <param name="request.limit">
         ///     The number of results to fetch per page. Defaults to 50. Maximum is 200.
         /// </param>
+        /// <param name="request">
+        ///     Request with parameters.
+        /// </param>
         /// <returns></returns>
-        public GetUserRecentTracksResponce Execute(
-            string user,
-            string from = null,
-            string to = null,
-            string extend = null,
-            int page = 1,
-            int limit = 50)
+        public override GetUserRecentTracksResponce Execute(
+            GetUserRecentTracksRequest request)
         {
+            string user = request.User;
+            string from = request.From;
+            string to = request.To;
+            string extend = request.Extend;
+            int page = request.Page;
+            int limit = request.Limit;
+
             var sessionResponce = Adapter.GetRequest("user.getRecentTracks",
                 Argument.Create("api_key", Settings.ApiKey),
                 Argument.Create("user", user),
@@ -99,6 +109,34 @@ namespace Universe.Lastfm.Api.Dal.Queries.Users
 
             var getAlbumInfoResponce = ResponceExt.CreateFrom<BaseResponce, GetUserRecentTracksResponce>(sessionResponce);
             return getAlbumInfoResponce;
+        }
+
+        /// <summary>
+        ///     The request for getting full information about user of the Last.fm.
+        ///     Запрос для получения полной информации о пользователе Last.fm.
+        /// </summary>
+        public class GetUserRecentTracksRequest : BaseRequest
+        {
+            public string User { get; set; }
+
+            public string From { get; set; }
+
+            public string To { get; set; }
+
+            public string Extend { get; set; }
+
+            public int Page { get; set; }
+
+            public int Limit { get; set; }
+
+            public GetUserRecentTracksRequest()
+            {
+                From = null;
+                To = null;
+                Extend = null;
+                Page = 1;
+                Limit = 50;
+            }
         }
 
         /// <summary>

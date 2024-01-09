@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualBasic.ApplicationServices;
 using System;
+using Universe.Lastfm.Api.FormsApp.Settings;
 
 namespace Universe.Lastfm.Api.FormsApp.Forms.Users
 {
@@ -13,7 +14,7 @@ namespace Universe.Lastfm.Api.FormsApp.Forms.Users
 
         public string GenreType { get; protected set; }
 
-        public UserGetPersonalTagsReqForm()
+        public UserGetPersonalTagsReqForm(UniverseLastApiAppSettings settings) : base(settings)
         {
             InitializeComponent();
         }

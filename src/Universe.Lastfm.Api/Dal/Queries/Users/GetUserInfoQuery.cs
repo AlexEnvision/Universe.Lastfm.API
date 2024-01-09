@@ -37,6 +37,7 @@ using System;
 using Universe.Lastfm.Api.Helpers;
 using Universe.Lastfm.Api.Models;
 using Universe.Lastfm.Api.Models.Base;
+using Universe.Lastfm.Api.Models.Req;
 using Universe.Lastfm.Api.Models.Res;
 
 namespace Universe.Lastfm.Api.Dal.Queries.Users
@@ -45,11 +46,18 @@ namespace Universe.Lastfm.Api.Dal.Queries.Users
     ///     The query gets the full information about user of the Last.fm.
     ///     Запрос, получающий полную информацию о пользователе Last.fm. 
     /// </summary>
-    public class GetUserInfoQuery : LastQuery
+    public class GetUserInfoQuery : LastQuery<GetUserInfoRequest, GetUserInfoResponce>
     {
-        public GetUserInfoResponce Execute(
-            string user)
+        protected override Func<BaseRequest, BaseResponce> ExecutableBaseFunc =>
+            req => Execute(req.As<GetUserInfoRequest>());
+
+        public override GetUserInfoResponce Execute(
+            GetUserInfoRequest request)
         {
+            var user = request.User;
+
+            var settings = this;
+
             var sessionResponce = Adapter.GetRequest("user.getInfo",
                 Argument.Create("api_key", Settings.ApiKey),
                 Argument.Create("user", user),
@@ -60,32 +68,6 @@ namespace Universe.Lastfm.Api.Dal.Queries.Users
 
             var getAlbumInfoResponce = ResponceExt.CreateFrom<BaseResponce, GetUserInfoResponce>(sessionResponce);
             return getAlbumInfoResponce;
-        }
-
-        public GetUserInfoResponce ExecuteSafe(
-            string user)
-        {
-            try
-            {
-                var sessionResponce = Adapter.GetRequest("user.getInfo",
-                    Argument.Create("api_key", Settings.ApiKey),
-                    Argument.Create("user", user),
-                    Argument.Create("format", "json"),
-                    Argument.Create("callback", "?"));
-
-                Adapter.FixCallback(sessionResponce);
-
-                var getAlbumInfoResponce = ResponceExt.CreateFrom<BaseResponce, GetUserInfoResponce>(sessionResponce);
-                return getAlbumInfoResponce;
-            }
-            catch (Exception ex)
-            {
-                return new GetUserInfoResponce
-                {
-                    IsSuccessful = false,
-                    Message = ex.Message
-                };
-            }
         }
     }
 }

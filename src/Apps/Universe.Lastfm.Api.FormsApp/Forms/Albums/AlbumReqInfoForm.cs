@@ -35,6 +35,8 @@
 
 using System;
 using System.Windows.Forms;
+using Universe.Lastfm.Api.FormsApp.Settings;
+using Universe.Lastfm.Api.FormsApp.Themes;
 
 namespace Universe.Lastfm.Api.FormsApp.Forms.Albums
 {
@@ -48,9 +50,12 @@ namespace Universe.Lastfm.Api.FormsApp.Forms.Albums
 
         public string Album { get; private set; }
 
-        public AlbumReqInfoForm()
+        public AlbumReqInfoForm(UniverseLastApiAppSettings settings)
         {
             InitializeComponent();
+
+            if (settings.IsSpaceMode)
+                SpaceThemeStyle.Set.Apply(this);
         }
 
         protected virtual void btOk_Click(object sender, EventArgs e)

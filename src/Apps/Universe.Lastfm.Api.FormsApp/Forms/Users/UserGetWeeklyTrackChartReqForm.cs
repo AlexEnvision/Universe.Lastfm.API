@@ -7,12 +7,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Universe.Lastfm.Api.FormsApp.Settings;
 
 namespace Universe.Lastfm.Api.FormsApp.Forms.Users
 {
     public partial class UserGetWeeklyTrackChartReqForm : UserInfoReqForm
     {
-        public UserGetWeeklyTrackChartReqForm()
+        public UserGetWeeklyTrackChartReqForm(UniverseLastApiAppSettings settings) : base(settings)
         {
             InitializeComponent();
         }

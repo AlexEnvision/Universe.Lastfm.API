@@ -33,6 +33,7 @@
 //  ║                                                                                 ║
 //  ╚═════════════════════════════════════════════════════════════════════════════════╝
 
+using System;
 using System.Drawing;
 using System.Threading;
 using System.Windows.Forms;
@@ -48,10 +49,12 @@ namespace Universe.Lastfm.Api.FormsApp.Extensions
             if (responce.IsSuccessful)
             {
                 control.SafeCall(() => control.BackColor = Color.DarkGreen);
+                control.SafeCall(() => control.ForeColor = Color.Aqua);
             }
             else
             {
                 control.SafeCall(() => control.BackColor = Color.DarkRed);
+                control.SafeCall(() => control.ForeColor = Color.Aqua);
             }
 
             if (delayAfter > 0)
@@ -65,10 +68,12 @@ namespace Universe.Lastfm.Api.FormsApp.Extensions
             if (responce.IsSuccessful)
             {
                 control.SafeCall(() => control.BackColor = Color.DarkGreen);
+                control.SafeCall(() => control.ForeColor = Color.Aqua);
             }
             else
             {
                 control.SafeCall(() => control.BackColor = Color.DarkRed);
+                control.SafeCall(() => control.ForeColor = Color.Aqua);
             }
 
             if (delayAfter > 0) 
@@ -77,9 +82,26 @@ namespace Universe.Lastfm.Api.FormsApp.Extensions
             return responce;
         }
 
+
+        public static T ReportResult<T>(this T responce, TextBox tbLog, int delayAfter = 0) where T : BaseResponce
+        {
+            if (!responce.IsSuccessful)
+            {
+                var currentDate = DateTime.Now;
+                var message = $"[{currentDate}] {responce.Message}{Environment.NewLine}";
+                tbLog.SafeCall(() => tbLog.AppendText(message));
+            }
+
+            if (delayAfter > 0)
+                Thread.Sleep(delayAfter);
+
+            return responce;
+        }
+
         public static void LightErrorColorResult(this Control control)
         {
             control.SafeCall(() => control.BackColor = Color.DarkRed);
+            control.SafeCall(() => control.ForeColor = Color.Aqua);
         }
     }
 }

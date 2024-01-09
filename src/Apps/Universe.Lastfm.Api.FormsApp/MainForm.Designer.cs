@@ -30,9 +30,11 @@
         {
             btRun = new System.Windows.Forms.Button();
             groupBox1 = new System.Windows.Forms.GroupBox();
+            gbBorders002 = new System.Windows.Forms.GroupBox();
             tbSecretKey = new System.Windows.Forms.TextBox();
-            lbSecretKey = new System.Windows.Forms.Label();
+            gbBorders001 = new System.Windows.Forms.GroupBox();
             tbApiKey = new System.Windows.Forms.TextBox();
+            lbSecretKey = new System.Windows.Forms.Label();
             lbApiKey = new System.Windows.Forms.Label();
             chTrustedApp = new System.Windows.Forms.CheckBox();
             btConnect = new System.Windows.Forms.Button();
@@ -66,8 +68,9 @@
             btAlbumSearch = new System.Windows.Forms.Button();
             btAlbumGetInfo = new System.Windows.Forms.Button();
             btGetAlbumTags = new System.Windows.Forms.Button();
-            tbLog = new System.Windows.Forms.TextBox();
             pMainForm = new System.Windows.Forms.Panel();
+            gbBorders003 = new System.Windows.Forms.GroupBox();
+            tbLog = new System.Windows.Forms.TextBox();
             menuStrip1 = new System.Windows.Forms.MenuStrip();
             applicationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -76,8 +79,11 @@
             redoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             viewToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             fullRubberyUIToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            spaceModeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             groupBox1.SuspendLayout();
+            gbBorders002.SuspendLayout();
+            gbBorders001.SuspendLayout();
             groupBox2.SuspendLayout();
             pApiControls.SuspendLayout();
             groupBox6.SuspendLayout();
@@ -88,15 +94,16 @@
             groupBox4.SuspendLayout();
             groupBox3.SuspendLayout();
             pMainForm.SuspendLayout();
+            gbBorders003.SuspendLayout();
             menuStrip1.SuspendLayout();
             SuspendLayout();
             // 
             // btRun
             // 
             btRun.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
-            btRun.Location = new System.Drawing.Point(15, 684);
+            btRun.Location = new System.Drawing.Point(15, 747);
             btRun.Name = "btRun";
-            btRun.Size = new System.Drawing.Size(1333, 49);
+            btRun.Size = new System.Drawing.Size(1336, 45);
             btRun.TabIndex = 0;
             btRun.Text = "Run";
             btRun.UseVisualStyleBackColor = true;
@@ -104,27 +111,56 @@
             // 
             // groupBox1
             // 
-            groupBox1.Controls.Add(tbSecretKey);
+            groupBox1.Controls.Add(gbBorders002);
+            groupBox1.Controls.Add(gbBorders001);
             groupBox1.Controls.Add(lbSecretKey);
-            groupBox1.Controls.Add(tbApiKey);
             groupBox1.Controls.Add(lbApiKey);
             groupBox1.Controls.Add(chTrustedApp);
             groupBox1.Controls.Add(btConnect);
-            groupBox1.Location = new System.Drawing.Point(15, 13);
+            groupBox1.Location = new System.Drawing.Point(15, 11);
             groupBox1.Name = "groupBox1";
-            groupBox1.Size = new System.Drawing.Size(1336, 188);
+            groupBox1.Size = new System.Drawing.Size(1336, 194);
             groupBox1.TabIndex = 3;
             groupBox1.TabStop = false;
             groupBox1.Text = "Last.fm API access settings";
             // 
+            // gbBorders002
+            // 
+            gbBorders002.Controls.Add(tbSecretKey);
+            gbBorders002.Location = new System.Drawing.Point(107, 69);
+            gbBorders002.Name = "gbBorders002";
+            gbBorders002.Size = new System.Drawing.Size(1214, 49);
+            gbBorders002.TabIndex = 17;
+            gbBorders002.TabStop = false;
+            // 
             // tbSecretKey
             // 
-            tbSecretKey.Location = new System.Drawing.Point(108, 81);
+            tbSecretKey.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            tbSecretKey.Location = new System.Drawing.Point(6, 16);
             tbSecretKey.Name = "tbSecretKey";
             tbSecretKey.PasswordChar = '*';
-            tbSecretKey.Size = new System.Drawing.Size(1214, 27);
+            tbSecretKey.Size = new System.Drawing.Size(1202, 20);
             tbSecretKey.TabIndex = 6;
             tbSecretKey.TextChanged += tbClientSecret_TextChanged;
+            // 
+            // gbBorders001
+            // 
+            gbBorders001.Controls.Add(tbApiKey);
+            gbBorders001.Location = new System.Drawing.Point(107, 20);
+            gbBorders001.Name = "gbBorders001";
+            gbBorders001.Size = new System.Drawing.Size(1214, 48);
+            gbBorders001.TabIndex = 16;
+            gbBorders001.TabStop = false;
+            // 
+            // tbApiKey
+            // 
+            tbApiKey.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            tbApiKey.Location = new System.Drawing.Point(6, 18);
+            tbApiKey.Name = "tbApiKey";
+            tbApiKey.PasswordChar = '*';
+            tbApiKey.Size = new System.Drawing.Size(1202, 20);
+            tbApiKey.TabIndex = 4;
+            tbApiKey.TextChanged += tbApiKey_TextChanged;
             // 
             // lbSecretKey
             // 
@@ -134,15 +170,6 @@
             lbSecretKey.Size = new System.Drawing.Size(91, 20);
             lbSecretKey.TabIndex = 5;
             lbSecretKey.Text = "SECRET KEY:";
-            // 
-            // tbApiKey
-            // 
-            tbApiKey.Location = new System.Drawing.Point(108, 37);
-            tbApiKey.Name = "tbApiKey";
-            tbApiKey.PasswordChar = '*';
-            tbApiKey.Size = new System.Drawing.Size(1214, 27);
-            tbApiKey.TabIndex = 4;
-            tbApiKey.TextChanged += tbApiKey_TextChanged;
             // 
             // lbApiKey
             // 
@@ -156,7 +183,7 @@
             // chTrustedApp
             // 
             chTrustedApp.AutoSize = true;
-            chTrustedApp.Location = new System.Drawing.Point(11, 123);
+            chTrustedApp.Location = new System.Drawing.Point(11, 129);
             chTrustedApp.Name = "chTrustedApp";
             chTrustedApp.Size = new System.Drawing.Size(170, 24);
             chTrustedApp.TabIndex = 15;
@@ -166,7 +193,7 @@
             // 
             // btConnect
             // 
-            btConnect.Location = new System.Drawing.Point(783, 123);
+            btConnect.Location = new System.Drawing.Point(778, 129);
             btConnect.Name = "btConnect";
             btConnect.Size = new System.Drawing.Size(539, 39);
             btConnect.TabIndex = 14;
@@ -180,7 +207,7 @@
             groupBox2.Controls.Add(pApiControls);
             groupBox2.Location = new System.Drawing.Point(15, 203);
             groupBox2.Name = "groupBox2";
-            groupBox2.Size = new System.Drawing.Size(1336, 475);
+            groupBox2.Size = new System.Drawing.Size(1336, 538);
             groupBox2.TabIndex = 0;
             groupBox2.TabStop = false;
             groupBox2.Text = "API methods";
@@ -197,7 +224,7 @@
             pApiControls.Dock = System.Windows.Forms.DockStyle.Fill;
             pApiControls.Location = new System.Drawing.Point(3, 23);
             pApiControls.Name = "pApiControls";
-            pApiControls.Size = new System.Drawing.Size(1330, 449);
+            pApiControls.Size = new System.Drawing.Size(1330, 512);
             pApiControls.TabIndex = 1;
             // 
             // groupBox6
@@ -206,7 +233,7 @@
             groupBox6.Controls.Add(btTrackScrobble);
             groupBox6.Location = new System.Drawing.Point(1169, 11);
             groupBox6.Name = "groupBox6";
-            groupBox6.Size = new System.Drawing.Size(150, 416);
+            groupBox6.Size = new System.Drawing.Size(150, 489);
             groupBox6.TabIndex = 6;
             groupBox6.TabStop = false;
             groupBox6.Text = "scrobbling";
@@ -239,7 +266,7 @@
             groupBox9.Controls.Add(btUserGetInfo);
             groupBox9.Location = new System.Drawing.Point(925, 11);
             groupBox9.Name = "groupBox9";
-            groupBox9.Size = new System.Drawing.Size(238, 416);
+            groupBox9.Size = new System.Drawing.Size(238, 489);
             groupBox9.TabIndex = 8;
             groupBox9.TabStop = false;
             groupBox9.Text = "user";
@@ -382,7 +409,7 @@
             groupBox8.Controls.Add(btTrackGetInfo);
             groupBox8.Location = new System.Drawing.Point(740, 11);
             groupBox8.Name = "groupBox8";
-            groupBox8.Size = new System.Drawing.Size(179, 416);
+            groupBox8.Size = new System.Drawing.Size(179, 489);
             groupBox8.TabIndex = 8;
             groupBox8.TabStop = false;
             groupBox8.Text = "track";
@@ -404,7 +431,7 @@
             groupBox7.Controls.Add(btTagGetInfo);
             groupBox7.Location = new System.Drawing.Point(555, 11);
             groupBox7.Name = "groupBox7";
-            groupBox7.Size = new System.Drawing.Size(179, 416);
+            groupBox7.Size = new System.Drawing.Size(179, 489);
             groupBox7.TabIndex = 7;
             groupBox7.TabStop = false;
             groupBox7.Text = "tag/genre";
@@ -426,7 +453,7 @@
             groupBox5.Controls.Add(btChartGetTopArtists);
             groupBox5.Location = new System.Drawing.Point(371, 11);
             groupBox5.Name = "groupBox5";
-            groupBox5.Size = new System.Drawing.Size(178, 416);
+            groupBox5.Size = new System.Drawing.Size(178, 489);
             groupBox5.TabIndex = 5;
             groupBox5.TabStop = false;
             groupBox5.Text = "chart";
@@ -449,7 +476,7 @@
             groupBox4.Controls.Add(btGetArtistTags);
             groupBox4.Location = new System.Drawing.Point(187, 11);
             groupBox4.Name = "groupBox4";
-            groupBox4.Size = new System.Drawing.Size(178, 416);
+            groupBox4.Size = new System.Drawing.Size(178, 489);
             groupBox4.TabIndex = 4;
             groupBox4.TabStop = false;
             groupBox4.Text = "artist/performer";
@@ -482,7 +509,7 @@
             groupBox3.Controls.Add(btGetAlbumTags);
             groupBox3.Location = new System.Drawing.Point(8, 11);
             groupBox3.Name = "groupBox3";
-            groupBox3.Size = new System.Drawing.Size(173, 416);
+            groupBox3.Size = new System.Drawing.Size(173, 489);
             groupBox3.TabIndex = 3;
             groupBox3.TabStop = false;
             groupBox3.Text = "album";
@@ -519,28 +546,39 @@
             btGetAlbumTags.Text = "album.getTags";
             btGetAlbumTags.Click += btGetAlbumTags_Click;
             // 
-            // tbLog
-            // 
-            tbLog.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
-            tbLog.Location = new System.Drawing.Point(1360, 13);
-            tbLog.Multiline = true;
-            tbLog.Name = "tbLog";
-            tbLog.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            tbLog.Size = new System.Drawing.Size(370, 720);
-            tbLog.TabIndex = 4;
-            // 
             // pMainForm
             // 
             pMainForm.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
             pMainForm.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            pMainForm.Controls.Add(gbBorders003);
             pMainForm.Controls.Add(groupBox1);
             pMainForm.Controls.Add(btRun);
             pMainForm.Controls.Add(groupBox2);
-            pMainForm.Controls.Add(tbLog);
             pMainForm.Location = new System.Drawing.Point(0, 34);
             pMainForm.Name = "pMainForm";
-            pMainForm.Size = new System.Drawing.Size(1739, 782);
+            pMainForm.Size = new System.Drawing.Size(1739, 807);
             pMainForm.TabIndex = 6;
+            // 
+            // gbBorders003
+            // 
+            gbBorders003.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            gbBorders003.Controls.Add(tbLog);
+            gbBorders003.Location = new System.Drawing.Point(1365, 9);
+            gbBorders003.Name = "gbBorders003";
+            gbBorders003.Size = new System.Drawing.Size(361, 787);
+            gbBorders003.TabIndex = 8;
+            gbBorders003.TabStop = false;
+            // 
+            // tbLog
+            // 
+            tbLog.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            tbLog.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            tbLog.Location = new System.Drawing.Point(6, 11);
+            tbLog.Multiline = true;
+            tbLog.Name = "tbLog";
+            tbLog.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            tbLog.Size = new System.Drawing.Size(349, 765);
+            tbLog.TabIndex = 4;
             // 
             // menuStrip1
             // 
@@ -586,7 +624,7 @@
             // 
             // viewToolStripMenuItem1
             // 
-            viewToolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { fullRubberyUIToolStripMenuItem });
+            viewToolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { fullRubberyUIToolStripMenuItem, spaceModeToolStripMenuItem });
             viewToolStripMenuItem1.Name = "viewToolStripMenuItem1";
             viewToolStripMenuItem1.Size = new System.Drawing.Size(55, 24);
             viewToolStripMenuItem1.Text = "View";
@@ -600,6 +638,13 @@
             fullRubberyUIToolStripMenuItem.Text = "Full Rubbery UI";
             fullRubberyUIToolStripMenuItem.Click += fullRubberyUIToolStripMenuItem_Click;
             // 
+            // spaceModeToolStripMenuItem
+            // 
+            spaceModeToolStripMenuItem.Name = "spaceModeToolStripMenuItem";
+            spaceModeToolStripMenuItem.Size = new System.Drawing.Size(192, 26);
+            spaceModeToolStripMenuItem.Text = "SpaceMode";
+            spaceModeToolStripMenuItem.Click += spaceModeToolStripMenuItem_Click;
+            // 
             // aboutToolStripMenuItem
             // 
             aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
@@ -610,7 +655,7 @@
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            ClientSize = new System.Drawing.Size(1739, 818);
+            ClientSize = new System.Drawing.Size(1739, 843);
             Controls.Add(menuStrip1);
             Controls.Add(pMainForm);
             MinimumSize = new System.Drawing.Size(1757, 865);
@@ -622,6 +667,10 @@
             SizeChanged += MainForm_SizeChanged;
             groupBox1.ResumeLayout(false);
             groupBox1.PerformLayout();
+            gbBorders002.ResumeLayout(false);
+            gbBorders002.PerformLayout();
+            gbBorders001.ResumeLayout(false);
+            gbBorders001.PerformLayout();
             groupBox2.ResumeLayout(false);
             pApiControls.ResumeLayout(false);
             groupBox6.ResumeLayout(false);
@@ -632,7 +681,8 @@
             groupBox4.ResumeLayout(false);
             groupBox3.ResumeLayout(false);
             pMainForm.ResumeLayout(false);
-            pMainForm.PerformLayout();
+            gbBorders003.ResumeLayout(false);
+            gbBorders003.PerformLayout();
             menuStrip1.ResumeLayout(false);
             menuStrip1.PerformLayout();
             ResumeLayout(false);
@@ -643,7 +693,6 @@
 
         private System.Windows.Forms.Button btRun;
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.TextBox tbLog;
         private System.Windows.Forms.TextBox tbSecretKey;
         private System.Windows.Forms.Label lbSecretKey;
         private System.Windows.Forms.TextBox tbApiKey;
@@ -691,5 +740,10 @@
         private System.Windows.Forms.ToolStripMenuItem undoToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem redoToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
+        private System.Windows.Forms.TextBox tbLog;
+        private System.Windows.Forms.GroupBox gbBorders003;
+        private System.Windows.Forms.GroupBox gbBorders001;
+        private System.Windows.Forms.GroupBox gbBorders002;
+        private System.Windows.Forms.ToolStripMenuItem spaceModeToolStripMenuItem;
     }
 }

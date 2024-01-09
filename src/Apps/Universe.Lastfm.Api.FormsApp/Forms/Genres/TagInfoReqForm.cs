@@ -35,6 +35,8 @@
 
 using System;
 using System.Windows.Forms;
+using Universe.Lastfm.Api.FormsApp.Settings;
+using Universe.Lastfm.Api.FormsApp.Themes;
 
 namespace Universe.Lastfm.Api.FormsApp.Forms.Genres
 {
@@ -44,9 +46,12 @@ namespace Universe.Lastfm.Api.FormsApp.Forms.Genres
 
         public string Tag { get; private set; }
 
-        public TagInfoReqForm()
+        public TagInfoReqForm(UniverseLastApiAppSettings settings)
         {
             InitializeComponent();
+
+            if (settings.IsSpaceMode)
+                SpaceThemeStyle.Set.Apply(this);
         }
 
         protected virtual void btOk_Click(object sender, EventArgs e)

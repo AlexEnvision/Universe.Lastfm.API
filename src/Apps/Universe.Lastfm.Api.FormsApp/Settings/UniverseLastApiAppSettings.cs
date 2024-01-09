@@ -53,6 +53,8 @@ namespace Universe.Lastfm.Api.FormsApp.Settings
 
         public bool IsFullRubberUI { get; set; }
 
+        public bool IsSpaceMode { get; set; }
+
         public string GetUniverseDbConnectionString()
         {
             return string.Empty;

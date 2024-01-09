@@ -33,12 +33,14 @@
 //  ║                                                                                 ║
 //  ╚═════════════════════════════════════════════════════════════════════════════════╝
 
+using System;
 using Universe.Lastfm.Api.Dto.Base;
 using Universe.Lastfm.Api.Dto.GetArtists;
 using Universe.Lastfm.Api.Helpers;
 using Universe.Lastfm.Api.Models;
 using Universe.Lastfm.Api.Models.Base;
 using Universe.Lastfm.Api.Models.Res.Base;
+using static Universe.Lastfm.Api.Dal.Queries.Users.GetUserTopArtistsQuery;
 
 namespace Universe.Lastfm.Api.Dal.Queries.Users
 {
@@ -46,33 +48,41 @@ namespace Universe.Lastfm.Api.Dal.Queries.Users
     ///     The query gets the full information about top artists/performers of an user of the Last.fm.
     ///     Запрос, получающий полную информацию о топ-исполнителях пользователя Last.fm. 
     /// </summary>
-    public class GetUserTopArtistsQuery : LastQuery
+    public class GetUserTopArtistsQuery : LastQuery<GetUserTopArtistsRequest, GetUserTopArtistsResponce>
     {
+        protected override Func<BaseRequest, BaseResponce> ExecutableBaseFunc =>
+            req => Execute(req.As<GetUserTopArtistsRequest>());
+
         /// <summary>
         ///     Get the top artists listened to by a user.
         ///     You can stipulate a time period.
         ///     Sends the overall chart by default.
         /// </summary>
-        /// <param name="user">
+        /// <param name="request.user">
         ///     The user name to fetch top artists for.
         /// </param>
-        /// <param name="page">
+        /// <param name="request.page">
         ///     The page number to fetch. Defaults to first page.
         /// </param>
-        /// <param name="limit">
+        /// <param name="request.limit">
         ///     The number of results to fetch per page. Defaults to 50.
         /// </param>
-        /// <param name="period">
+        /// <param name="request.period">
         ///     Period (Optional) : overall | 7day | 1month | 3month | 6month | 12month -
         ///     The time period over which to retrieve top artists for.
         /// </param>
+        /// <param name="request">
+        ///     Request model
+        /// </param>
         /// <returns></returns>
-        public GetUserTopArtistsResponce Execute(
-            string user,
-            string period = "",
-            int page = 1,
-            int limit = 50)
+        public override GetUserTopArtistsResponce Execute(
+            GetUserTopArtistsRequest request)
         {
+            string user = request.User;
+            string period = request.Period;
+            int page = request.Page;
+            int limit = request.Limit;
+
             var sessionResponce = Adapter.GetRequest("user.getTopArtists",
                 Argument.Create("api_key", Settings.ApiKey),
                 Argument.Create("user", user),
@@ -85,6 +95,59 @@ namespace Universe.Lastfm.Api.Dal.Queries.Users
 
             var getAlbumInfoResponce = ResponceExt.CreateFrom<BaseResponce, GetUserTopArtistsResponce>(sessionResponce);
             return getAlbumInfoResponce;
+        }
+
+        /// <summary>
+        ///     The request for getting full information about user of the Last.fm.
+        ///     Запрос для получения полной информации о пользователе Last.fm.
+        /// </summary>
+        public class GetUserTopArtistsRequest : BaseRequest
+        {
+            public string User { get; set; }
+
+            public string Period { get; set; }
+
+            public int Page { get; set; }
+
+            public int Limit { get; set; }
+
+            public GetUserTopArtistsRequest()
+            {
+                Period = "";
+                Page = 1;
+                Limit = 50;
+            }
+
+            /// <summary>
+            ///     Build request
+            /// </summary>
+            /// <param name="user">
+            ///     The user name to fetch top artists for.
+            /// </param>
+            /// <param name="page">
+            ///     The page number to fetch. Defaults to first page.
+            /// </param>
+            /// <param name="limit">
+            ///     The number of results to fetch per page. Defaults to 50.
+            /// </param>
+            /// <param name="period">
+            ///     Period (Optional) : overall | 7day | 1month | 3month | 6month | 12month -
+            ///     The time period over which to retrieve top artists for.
+            /// </param>
+            /// <returns></returns>
+            public static GetUserTopArtistsRequest Build(string user,
+                string period = "",
+                int page = 1,
+                int limit = 50)
+            {
+                return new GetUserTopArtistsRequest
+                {
+                    User = user, 
+                    Period = period,
+                    Limit = limit, 
+                    Page = page
+                };
+            }
         }
 
         /// <summary>

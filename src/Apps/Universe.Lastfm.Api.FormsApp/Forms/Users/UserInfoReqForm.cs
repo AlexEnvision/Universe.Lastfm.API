@@ -35,6 +35,9 @@
 
 using System;
 using System.Windows.Forms;
+using Universe.Lastfm.Api.FormsApp.Settings;
+using Universe.Lastfm.Api.FormsApp.Themes;
+using Universe.Lastfm.Api.Infrastracture;
 
 namespace Universe.Lastfm.Api.FormsApp.Forms.Users
 {
@@ -44,9 +47,12 @@ namespace Universe.Lastfm.Api.FormsApp.Forms.Users
 
         public string User { get; protected set; }
 
-        public UserInfoReqForm()
+        public UserInfoReqForm(UniverseLastApiAppSettings settings)
         {
             InitializeComponent();
+
+            if (settings.IsSpaceMode)
+                SpaceThemeStyle.Set.Apply(this);
         }
 
         protected virtual void btOk_Click(object sender, EventArgs e)

@@ -33,12 +33,14 @@
 //  ║                                                                                 ║
 //  ╚═════════════════════════════════════════════════════════════════════════════════╝
 
+using System;
 using Universe.Lastfm.Api.Dto.Base;
 using Universe.Lastfm.Api.Dto.GetTrackInfo;
 using Universe.Lastfm.Api.Helpers;
 using Universe.Lastfm.Api.Models;
 using Universe.Lastfm.Api.Models.Base;
 using Universe.Lastfm.Api.Models.Res.Base;
+using static Universe.Lastfm.Api.Dal.Queries.Users.GetUserTopTracksQuery;
 
 namespace Universe.Lastfm.Api.Dal.Queries.Users
 {
@@ -46,22 +48,30 @@ namespace Universe.Lastfm.Api.Dal.Queries.Users
     ///     The query gets the full information about top listened tracks of an user of the Last.fm.
     ///     Запрос, получающий полную информацию о топ прослушиваемых трэках пользователя Last.fm. 
     /// </summary>
-    public class GetUserTopTracksQuery : LastQuery
+    public class GetUserTopTracksQuery : LastQuery<GetUserTopTracksRequest, GetUserTopTracksResponce>
     {
+        protected override Func<BaseRequest, BaseResponce> ExecutableBaseFunc =>
+            req => Execute(req.As<GetUserTopTracksRequest>());
+
         /// <summary>
         ///     Get the top tracks used by this user.
         /// </summary>
-        /// <param name="user">
+        /// <param name="request.user">
         ///     The user name to fetch top tracks for.
         /// </param>
-        /// <param name="limit">
+        /// <param name="request.limit">
         ///     The number of results to fetch per page. Defaults to 50.
         /// </param>
+        /// <param name="request">
+        ///     Request with parameters.
+        /// </param>
         /// <returns></returns>
-        public GetUserTopTracksResponce Execute(
-            string user,
-            int limit = 50)
+        public override GetUserTopTracksResponce Execute(
+            GetUserTopTracksRequest request)
         {
+            string user = request.User;
+            int limit = request.Limit;
+
             var sessionResponce = Adapter.GetRequest("user.getTopTracks",
                 Argument.Create("api_key", Settings.ApiKey),
                 Argument.Create("user", user),
@@ -73,6 +83,43 @@ namespace Universe.Lastfm.Api.Dal.Queries.Users
 
             var getAlbumInfoResponce = ResponceExt.CreateFrom<BaseResponce, GetUserTopTracksResponce>(sessionResponce);
             return getAlbumInfoResponce;
+        }
+
+        /// <summary>
+        ///     The request for full information about user of the Last.fm.
+        ///     Запрос на полную информациею о пользователе Last.fm.
+        /// </summary>
+        public class GetUserTopTracksRequest : BaseRequest
+        {
+            public string User { get; set; }
+
+            public int Limit { get; set; }
+
+            public GetUserTopTracksRequest()
+            {
+                Limit = 50;
+            }
+
+            /// <summary>
+            ///     Get the top tracks used by this user.
+            /// </summary>
+            /// <param name="user">
+            ///     The user name to fetch top tracks for.
+            /// </param>
+            /// <param name="limit">
+            ///     The number of results to fetch per page. Defaults to 50.
+            /// </param>
+            /// <returns>Returns <see cref="GetUserTopTracksRequest"/></returns>
+            public static GetUserTopTracksRequest Build(
+                string user,
+                int limit = 50)
+            {
+                return new GetUserTopTracksRequest
+                {
+                    User = user,
+                    Limit = limit
+                };
+            }
         }
 
         /// <summary>

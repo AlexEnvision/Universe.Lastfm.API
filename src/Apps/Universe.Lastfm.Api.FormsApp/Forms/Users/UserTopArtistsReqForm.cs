@@ -33,11 +33,13 @@
 //  ║                                                                                 ║
 //  ╚═════════════════════════════════════════════════════════════════════════════════╝
 
+using Universe.Lastfm.Api.FormsApp.Settings;
+
 namespace Universe.Lastfm.Api.FormsApp.Forms.Users
 {
     public partial class UserTopArtistsReqForm : UserInfoReqForm
     {
-        public UserTopArtistsReqForm()
+        public UserTopArtistsReqForm(UniverseLastApiAppSettings settings) : base(settings)
         {
             InitializeComponent();
         }

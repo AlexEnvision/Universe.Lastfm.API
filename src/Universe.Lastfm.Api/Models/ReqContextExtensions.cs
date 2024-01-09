@@ -33,15 +33,33 @@
 //  ║                                                                                 ║
 //  ╚═════════════════════════════════════════════════════════════════════════════════╝
 
-using Universe.Lastfm.Api.FormsApp.Settings;
+using System;
+using System.Linq;
+using Universe.Lastfm.Api.Models.Base;
 
-namespace Universe.Lastfm.Api.FormsApp.Forms.Users
+namespace Universe.Lastfm.Api.Models
 {
-    public partial class UserTopGenresReqForm : UserInfoReqForm
+    public static class ReqContextExtensions
     {
-        public UserTopGenresReqForm(UniverseLastApiAppSettings settings) : base(settings)
+        public static TReq As<TReq>(this ReqContext ctx) where TReq : BaseRequest
         {
-            InitializeComponent();
+            var type = typeof(TReq);
+            var newReq = (TReq)Activator.CreateInstance(type);
+
+            var ctxProperties = ctx.GetType().GetProperties().ToDictionary(x => x.Name);
+
+            var properties = type.GetProperties();
+            foreach (var propertyInfo in properties)
+            {
+                var name = propertyInfo.Name;
+                if (ctxProperties.TryGetValue(name, out var ctxPropertyInfo))
+                {
+                    var val = ctxPropertyInfo.GetValue(ctx);
+                    propertyInfo.SetValue(newReq, val);
+                }
+            }
+
+            return newReq;
         }
     }
 }

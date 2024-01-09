@@ -33,15 +33,25 @@
 //  ║                                                                                 ║
 //  ╚═════════════════════════════════════════════════════════════════════════════════╝
 
-using Universe.Lastfm.Api.FormsApp.Settings;
+using Universe.Lastfm.Api.Models.Base;
 
-namespace Universe.Lastfm.Api.FormsApp.Forms.Users
+namespace Universe.Lastfm.Api.Models.Req
 {
-    public partial class UserTopGenresReqForm : UserInfoReqForm
+    /// <summary>
+    ///     The request with parameters for full information about user of the Last.fm.
+    ///     Запрос с параметрами для полной информацией о пользователе Last.fm.
+    /// </summary>
+    public class GetUserInfoRequest : BaseRequest
     {
-        public UserTopGenresReqForm(UniverseLastApiAppSettings settings) : base(settings)
+        public string User { get; set; }
+
+        public GetUserInfoRequest()
         {
-            InitializeComponent();
+        }
+
+        public static GetUserInfoRequest Build(string user)
+        {
+            return new GetUserInfoRequest { User = user };
         }
     }
 }

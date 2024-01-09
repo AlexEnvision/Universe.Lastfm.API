@@ -49,6 +49,9 @@ namespace Universe.Lastfm.Api.Dal.Queries.Users
     /// </summary>
     public class GetUserWeeklyChartListQuery : LastQuery
     {
+        protected override Func<BaseRequest, BaseResponce> ExecutableBaseFunc =>
+            req => Execute(req.As<GetUserWeeklyChartRequest>());
+
         /// <summary>
         ///     Get a list of available charts for this user, expressed as date ranges
         ///     which can be sent to the chart services.
@@ -56,10 +59,15 @@ namespace Universe.Lastfm.Api.Dal.Queries.Users
         /// <param name="user">
         ///     The last.fm username to fetch the charts list for.
         /// </param>
+        /// <param name="request">
+        ///     Request with parameters.
+        /// </param>
         /// <returns></returns>
         public GetUserWeeklyChartListResponce Execute(
-            string user)
+            GetUserWeeklyChartRequest request)
         {
+            string user = request.User;
+
             var sessionResponce = Adapter.GetRequest("user.getWeeklyChartList",
                 Argument.Create("api_key", Settings.ApiKey),
                 Argument.Create("user", user),
@@ -71,6 +79,26 @@ namespace Universe.Lastfm.Api.Dal.Queries.Users
             var getTrackInfoResponce =
                 ResponceExt.CreateFrom<BaseResponce, GetUserWeeklyChartListResponce>(sessionResponce);
             return getTrackInfoResponce;
+        }
+
+        /// <summary>
+        ///     The request for full information about user of the Last.fm.
+        ///     Запрос на полную информациею о пользователе Last.fm.
+        /// </summary>
+        public class GetUserWeeklyChartRequest : BaseRequest
+        {
+            public string User { get; set; }
+
+            public string From { get; set; }
+
+            public string To { get; set; }
+
+
+            public GetUserWeeklyChartRequest()
+            {
+                From = null;
+                To = null;
+            }
         }
 
         /// <summary>

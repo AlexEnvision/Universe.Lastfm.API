@@ -33,15 +33,116 @@
 //  ║                                                                                 ║
 //  ╚═════════════════════════════════════════════════════════════════════════════════╝
 
-using Universe.Lastfm.Api.FormsApp.Settings;
+using System;
+using System.Drawing;
+using System.Windows.Forms;
+using Universe.Lastfm.Api.FormsApp.Extensions;
 
-namespace Universe.Lastfm.Api.FormsApp.Forms.Users
+namespace Universe.Lastfm.Api.FormsApp.Themes
 {
-    public partial class UserTopGenresReqForm : UserInfoReqForm
+    public class SpaceThemeStyle
     {
-        public UserTopGenresReqForm(UniverseLastApiAppSettings settings) : base(settings)
+        public static SpaceThemeStyle Set => new SpaceThemeStyle();
+
+        public void Apply(Control control)
         {
-            InitializeComponent();
+            control.MassSetControlProperty(ctrl =>
+            {
+                //ctrl.BackgroundImage = Resources.BackTexture;
+                ctrl.BackColor = Color.FromArgb(1, 7, 51);
+                ctrl.ForeColor = Color.Cyan;
+
+                if (ctrl is GroupBox gbCtrl)
+                {
+                    gbCtrl.Paint += RePaintBorderlessGroupBox;
+                }
+
+                if (ctrl is Button btCtrl)
+                {
+                    btCtrl.Paint += RePaintButton;
+                    btCtrl.MouseHover += BtCtrl_MouseHover;
+                    btCtrl.MouseLeave += BtCtrl_MouseLeave;
+                }
+
+                if (ctrl is TextBox tbCtrl)
+                {
+                    tbCtrl.Paint += RePaintTextBox;
+                }
+            });
+        }
+
+        private void BtCtrl_MouseHover(object sender, EventArgs e)
+        {
+            Button box = (Button)sender;
+            box.BackColor = Color.Blue;
+        }
+
+        private void BtCtrl_MouseLeave(object sender, EventArgs e)
+        {
+            Button box = (Button)sender;
+            box.BackColor = Color.FromArgb(1, 7, 51);
+        }
+
+        private void RePaintBorderlessGroupBox(object sender, PaintEventArgs p)
+        {
+            GroupBox box = (GroupBox)sender;
+            p.Graphics.Clear(box.BackColor);  //Color.FromArgb(1, 7, 51)
+
+            if (box.Name.Contains("gbBorders"))
+            {
+                var color = Brushes.Cyan;
+                p.Graphics.DrawRectangle(new Pen(color, 2), new Rectangle(5, 5, box.Width - 10, box.Height - 10));
+            }
+            else
+            {
+                var color = Brushes.Cyan;
+                p.Graphics.DrawRectangle(new Pen(color, 2), new Rectangle(0, 0, box.Width, box.Height));
+            }
+
+            p.Graphics.DrawString(box.Text, box.Font, Brushes.Cyan, 2, 2);
+        }
+
+        private void RePaintButton(object sender, PaintEventArgs p)
+        {
+            Button box = (Button)sender;
+
+            if (box.BackColor == Color.DarkGreen)
+            {
+                p.Graphics.Clear(Color.DarkGreen);
+            }
+            else if (box.BackColor == Color.DarkRed)
+            {
+                p.Graphics.Clear(Color.DarkRed);
+            }
+            else
+            {
+                p.Graphics.Clear(box.BackColor);  //Color.FromArgb(1, 7, 51)
+            }
+
+            var text = box.Enabled ? Brushes.Cyan : Brushes.DarkCyan;
+
+            StringFormat sf = new StringFormat();
+            sf.LineAlignment = StringAlignment.Center;
+            sf.Alignment = StringAlignment.Center;
+            p.Graphics.DrawString(box.Text, box.Font, text, box.Width / 2f, box.Height / 2f, sf);
+
+            p.Graphics.DrawRectangle(new Pen(text, 2), new Rectangle(0, 0, box.Width, box.Height));
+
+            if (box.Capture)
+            {
+                p.Graphics.DrawRectangle(new Pen(Color.Blue, 5), new Rectangle(0, 0, box.Width, box.Height));
+            }
+        }
+
+        private void RePaintTextBox(object sender, PaintEventArgs p)
+        {
+            TextBox box = (TextBox)sender;
+            p.Graphics.Clear(box.BackColor);   //Color.FromArgb(1, 7, 51)
+
+            p.Graphics.DrawString(box.Text, box.Font, Brushes.Cyan, 10, 10);
+
+            var text = box.Enabled ? Brushes.Cyan : Brushes.DarkCyan;
+            p.Graphics.DrawRectangle(new Pen(text, 5), new Rectangle(0, 0, box.Width, box.Height));
         }
     }
 }

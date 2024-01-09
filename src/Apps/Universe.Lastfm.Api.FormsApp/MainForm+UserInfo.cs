@@ -37,10 +37,27 @@ using System;
 using System.Linq;
 using System.Windows.Forms;
 using Universe.Algorithm.MultiThreading;
+using Universe.CQRS.Infrastructure;
 using Universe.Lastfm.Api.Dal.Queries.Users;
 using Universe.Lastfm.Api.FormsApp.Extensions;
 using Universe.Lastfm.Api.FormsApp.Forms.Users;
 using Universe.Lastfm.Api.Helpers;
+using Universe.Lastfm.Api.Models;
+using Universe.Lastfm.Api.Models.Req;
+
+using static Universe.Lastfm.Api.Dal.Queries.Users.GetUserTopAlbumsQuery;
+using static Universe.Lastfm.Api.Dal.Queries.Users.GetUserTopArtistsQuery;
+using static Universe.Lastfm.Api.Dal.Queries.Users.GetUserTopTagsQuery;
+using static Universe.Lastfm.Api.Dal.Queries.Users.GetUserTopTracksQuery;
+
+using static Universe.Lastfm.Api.Dal.Queries.Users.GetUserLovedTracksQuery;
+using static Universe.Lastfm.Api.Dal.Queries.Users.GetUserRecentTracksQuery;
+using static Universe.Lastfm.Api.Dal.Queries.Users.GetPersonalTagsQuery;
+
+using static Universe.Lastfm.Api.Dal.Queries.Users.GetUserWeeklyArtistChartQuery;
+using static Universe.Lastfm.Api.Dal.Queries.Users.GetUserWeeklyAlbumChartQuery;
+using static Universe.Lastfm.Api.Dal.Queries.Users.GetUserWeeklyTrackChartQuery;
+using static Universe.Lastfm.Api.Dal.Queries.Users.GetUserWeeklyChartListQuery;
 
 namespace Universe.Lastfm.Api.FormsApp
 {
@@ -51,7 +68,7 @@ namespace Universe.Lastfm.Api.FormsApp
         {
             string userName;
 
-            using (var form = new UserInfoReqForm())
+            using (var form = new UserInfoReqForm(_programSettings))
             {
                 if (form.ShowDialog() == DialogResult.OK)
                 {
@@ -74,7 +91,7 @@ namespace Universe.Lastfm.Api.FormsApp
             {
                 try
                 {
-                    var responce = Scope.GetQuery<GetUserInfoQuery>().Execute(userName).LightColorResult(btUserGetInfo);
+                    var responce = Scope.GetQuery<GetUserInfoQuery>().Execute(GetUserInfoRequest.Build(userName)).LightColorResult(btUserGetInfo);
                     if (!responce.IsSuccessful)
                     {
                         _log.Info($"{responce.Message} {responce.ServiceAnswer}");
@@ -110,7 +127,7 @@ namespace Universe.Lastfm.Api.FormsApp
         {
             string userName;
 
-            using (var form = new UserInfoReqForm())
+            using (var form = new UserInfoReqForm(_programSettings))
             {
                 if (form.ShowDialog() == DialogResult.OK)
                 {
@@ -133,7 +150,7 @@ namespace Universe.Lastfm.Api.FormsApp
             {
                 try
                 {
-                    var responce = Scope.GetQuery<GetUserTopArtistsQuery>().Execute(userName)
+                    var responce = Scope.GetQuery<GetUserTopArtistsQuery>().Execute(GetUserTopArtistsQuery.GetUserTopArtistsRequest.Build(userName))
                         .LightColorResult(btUserGetTopArtists);
                     if (!responce.IsSuccessful)
                     {
@@ -167,7 +184,7 @@ namespace Universe.Lastfm.Api.FormsApp
         {
             string userName;
 
-            using (var form = new UserTopAlbumsReqForm())
+            using (var form = new UserTopAlbumsReqForm(_programSettings))
             {
                 if (form.ShowDialog() == DialogResult.OK)
                 {
@@ -190,7 +207,7 @@ namespace Universe.Lastfm.Api.FormsApp
             {
                 try
                 {
-                    var responce = Scope.GetQuery<GetUserTopAlbumsQuery>().Execute(userName)
+                    var responce = Scope.GetQuery<GetUserTopAlbumsQuery>().Execute(GetUserTopAlbumsQuery.GetUserTopAlbumsRequest.Build(userName))
                         .LightColorResult(btUserGetTopAlbums);
                     if (!responce.IsSuccessful)
                     {
@@ -224,7 +241,7 @@ namespace Universe.Lastfm.Api.FormsApp
         {
             string userName;
 
-            using (var form = new UserTopGenresReqForm())
+            using (var form = new UserTopGenresReqForm(_programSettings))
             {
                 if (form.ShowDialog() == DialogResult.OK)
                 {
@@ -243,11 +260,13 @@ namespace Universe.Lastfm.Api.FormsApp
 
             DisableButtons(sender);
 
+            ReqCtx.User = userName;
+
             ThreadMachine.Create(1).RunInMultiTheadsWithoutWaiting(() =>
             {
                 try
                 {
-                    var responce = Scope.GetQuery<GetUserTopTagsQuery>().Execute(userName)
+                    var responce = Scope.GetQuery<GetUserTopTagsQuery>().Execute(ReqCtx.As<GetUserTopTagsQuery.GetUserTopTagsRequest>())
                         .LightColorResult(btUserGetTopTags);
                     if (!responce.IsSuccessful)
                     {
@@ -281,7 +300,7 @@ namespace Universe.Lastfm.Api.FormsApp
         {
             string userName;
 
-            using (var form = new UserTopTracksReqForm())
+            using (var form = new UserTopTracksReqForm(_programSettings))
             {
                 if (form.ShowDialog() == DialogResult.OK)
                 {
@@ -300,11 +319,13 @@ namespace Universe.Lastfm.Api.FormsApp
 
             DisableButtons(sender);
 
+            ReqCtx.User = userName;
+
             ThreadMachine.Create(1).RunInMultiTheadsWithoutWaiting(() =>
             {
                 try
                 {
-                    var responce = Scope.GetQuery<GetUserTopTracksQuery>().Execute(userName)
+                    var responce = Scope.GetQuery<GetUserTopTracksQuery>().Execute(ReqCtx.As<GetUserTopTracksQuery.GetUserTopTracksRequest>())
                         .LightColorResult(btUserGetTopTracks);
                     if (!responce.IsSuccessful)
                     {
@@ -338,7 +359,7 @@ namespace Universe.Lastfm.Api.FormsApp
         {
             string userName;
 
-            using (var form = new UserGetLovedTracksReqForm())
+            using (var form = new UserGetLovedTracksReqForm(_programSettings))
             {
                 if (form.ShowDialog() == DialogResult.OK)
                 {
@@ -357,11 +378,13 @@ namespace Universe.Lastfm.Api.FormsApp
 
             DisableButtons(sender);
 
+            ReqCtx.User = userName;
+
             ThreadMachine.Create(1).RunInMultiTheadsWithoutWaiting(() =>
             {
                 try
                 {
-                    var responce = Scope.GetQuery<GetUserLovedTracksQuery>().Execute(userName)
+                    var responce = Scope.GetQuery<GetUserLovedTracksQuery>().Execute(ReqCtx.As<GetUserLovedTracksRequest>())
                         .LightColorResult(btUserGetLovedTracks);
                     if (!responce.IsSuccessful)
                     {
@@ -397,7 +420,7 @@ namespace Universe.Lastfm.Api.FormsApp
             string tag;
             string tagType;
 
-            using (var form = new UserGetPersonalTagsReqForm())
+            using (var form = new UserGetPersonalTagsReqForm(_programSettings))
             {
                 if (form.ShowDialog() == DialogResult.OK)
                 {
@@ -429,12 +452,15 @@ namespace Universe.Lastfm.Api.FormsApp
             }
 
             DisableButtons(sender);
+            ReqCtx.User = userName;
+            ReqCtx.Tag = tag;
+            ReqCtx.Taggingtype = tagType;
 
             ThreadMachine.Create(1).RunInMultiTheadsWithoutWaiting(() =>
             {
                 try
                 {
-                    var responce = Scope.GetQuery<GetPersonalTagsQuery>().Execute(userName, tag, tagType)
+                    var responce = Scope.GetQuery<GetPersonalTagsQuery>().Execute(ReqCtx.As<GetUserPersonalTagsRequest>())
                         .LightColorResult(btUserGetPersonalTags);
                     if (!responce.IsSuccessful)
                     {
@@ -469,7 +495,7 @@ namespace Universe.Lastfm.Api.FormsApp
         {
             string userName;
 
-            using (var form = new UserGetRecentTracksReqForm())
+            using (var form = new UserGetRecentTracksReqForm(_programSettings))
             {
                 if (form.ShowDialog() == DialogResult.OK)
                 {
@@ -492,7 +518,7 @@ namespace Universe.Lastfm.Api.FormsApp
             {
                 try
                 {
-                    var responce = Scope.GetQuery<GetUserRecentTracksQuery>().Execute(userName)
+                    var responce = Scope.GetQuery<GetUserRecentTracksQuery>().Execute(ReqCtx.As<GetUserRecentTracksRequest>())
                         .LightColorResult(btUserGetRecentTracks);
                     if (!responce.IsSuccessful)
                     {
@@ -527,7 +553,7 @@ namespace Universe.Lastfm.Api.FormsApp
         {
             string userName;
 
-            using (var form = new UserGetWeeklyAlbumChartReqForm())
+            using (var form = new UserGetWeeklyAlbumChartReqForm(_programSettings))
             {
                 if (form.ShowDialog() == DialogResult.OK)
                 {
@@ -545,12 +571,13 @@ namespace Universe.Lastfm.Api.FormsApp
             }
 
             DisableButtons(sender);
+            ReqCtx.User = userName;
 
             ThreadMachine.Create(1).RunInMultiTheadsWithoutWaiting(() =>
             {
                 try
                 {
-                    var responce = Scope.GetQuery<GetUserWeeklyAlbumChartQuery>().Execute(userName)
+                    var responce = Scope.GetQuery<GetUserWeeklyAlbumChartQuery>().Execute(ReqCtx.As<GetUserWeeklyAlbumChartRequest>())
                         .LightColorResult(btUserGetWeeklyAlbumChart);
                     if (!responce.IsSuccessful)
                     {
@@ -584,7 +611,7 @@ namespace Universe.Lastfm.Api.FormsApp
         {
             string userName;
 
-            using (var form = new UserGetWeeklyArtistChartReqForm())
+            using (var form = new UserGetWeeklyArtistChartReqForm(_programSettings))
             {
                 if (form.ShowDialog() == DialogResult.OK)
                 {
@@ -602,12 +629,13 @@ namespace Universe.Lastfm.Api.FormsApp
             }
 
             DisableButtons(sender);
+            ReqCtx.User = userName;
 
             ThreadMachine.Create(1).RunInMultiTheadsWithoutWaiting(() =>
             {
                 try
                 {
-                    var responce = Scope.GetQuery<GetUserWeeklyArtistChartQuery>().Execute(userName)
+                    var responce = Scope.GetQuery<GetUserWeeklyArtistChartQuery>().Execute(ReqCtx.As<GetUserWeeklyArtistChartRequest>())
                         .LightColorResult(btUserGetWeeklyArtistChart);
                     if (!responce.IsSuccessful)
                     {
@@ -642,7 +670,7 @@ namespace Universe.Lastfm.Api.FormsApp
         {
             string userName;
 
-            using (var form = new UserGetWeeklyChartListReqForm())
+            using (var form = new UserGetWeeklyChartListReqForm(_programSettings))
             {
                 if (form.ShowDialog() == DialogResult.OK)
                 {
@@ -660,12 +688,13 @@ namespace Universe.Lastfm.Api.FormsApp
             }
 
             DisableButtons(sender);
+            ReqCtx.User = userName;
 
             ThreadMachine.Create(1).RunInMultiTheadsWithoutWaiting(() =>
             {
                 try
                 {
-                    var responce = Scope.GetQuery<GetUserWeeklyChartListQuery>().Execute(userName)
+                    var responce = Scope.GetQuery<GetUserWeeklyChartListQuery>().Execute(ReqCtx.As<GetUserWeeklyChartRequest>())
                         .LightColorResult(btUserGetWeeklyChartList);
                     if (!responce.IsSuccessful)
                     {
@@ -701,7 +730,7 @@ namespace Universe.Lastfm.Api.FormsApp
         {
             string userName;
 
-            using (var form = new UserGetWeeklyTrackChartReqForm())
+            using (var form = new UserGetWeeklyTrackChartReqForm(_programSettings))
             {
                 if (form.ShowDialog() == DialogResult.OK)
                 {
@@ -719,12 +748,13 @@ namespace Universe.Lastfm.Api.FormsApp
             }
 
             DisableButtons(sender);
+            ReqCtx.User = userName;
 
             ThreadMachine.Create(1).RunInMultiTheadsWithoutWaiting(() =>
             {
                 try
                 {
-                    var responce = Scope.GetQuery<GetUserWeeklyTrackChartQuery>().Execute(userName)
+                    var responce = Scope.GetQuery<GetUserWeeklyTrackChartQuery>().Execute(ReqCtx.As<GetUserWeeklyTrackChartRequest>())
                         .LightColorResult(btUserGetWeeklyTrackChart);
                     if (!responce.IsSuccessful)
                     {

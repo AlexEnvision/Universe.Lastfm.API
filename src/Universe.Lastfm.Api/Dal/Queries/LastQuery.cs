@@ -35,6 +35,7 @@
 
 using Universe.Lastfm.Api.Adapters;
 using Universe.Lastfm.Api.Infrastracture;
+using Universe.Lastfm.Api.Models.Base;
 
 namespace Universe.Lastfm.Api.Dal.Queries
 {
@@ -51,8 +52,37 @@ namespace Universe.Lastfm.Api.Dal.Queries
         {
         }
 
-        internal void Init()
+        internal override void Init(IUniverseLastApiSettings settings)
         {
+            Settings = settings;
+
+            var apiKey = Settings.ApiKey;
+            var secretKey = Settings.SecretKey;
+
+            Adapter = new LastAdapter(apiKey, secretKey);
+        }
+    }
+
+    /// <summary>
+    ///     The request for Last FM Api.
+    ///     Generic version
+    /// </summary>
+    public class LastQuery<TRequest, TResponce> : BaseQuery<TRequest, TResponce>
+        where TRequest : BaseRequest
+        where TResponce : BaseResponce, new()
+    {
+        public IUniverseLastApiSettings Settings { get; internal set; }
+
+        protected LastAdapter Adapter { get; set; }
+
+        protected LastQuery()
+        {
+        }
+
+        internal override void Init(IUniverseLastApiSettings settings)
+        {
+            Settings = settings;
+
             var apiKey = Settings.ApiKey;
             var secretKey = Settings.SecretKey;
 
