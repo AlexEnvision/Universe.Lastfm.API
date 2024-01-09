@@ -35,6 +35,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
@@ -44,7 +45,6 @@ using Universe.Algorithm.MultiThreading;
 using Universe.CQRS;
 using Universe.CQRS.Infrastructure;
 using Universe.Diagnostic.Logger;
-using Universe.Lastfm.Api.Dal.Queries.Albums;
 using Universe.Lastfm.Api.Dal.Queries.Auth;
 using Universe.Lastfm.Api.Dal.Queries.Performers;
 using Universe.Lastfm.Api.Dal.Queries.Tags;
@@ -52,7 +52,7 @@ using Universe.Lastfm.Api.Dal.Queries.Track;
 using Universe.Lastfm.Api.Dal.Queries.Users;
 using Universe.Lastfm.Api.Dto.GetArtists;
 using Universe.Lastfm.Api.FormsApp.Extensions;
-using Universe.Lastfm.Api.FormsApp.Forms.Albums;
+using Universe.Lastfm.Api.FormsApp.Extensions.Model;
 using Universe.Lastfm.Api.FormsApp.Forms.Genres;
 using Universe.Lastfm.Api.FormsApp.Forms.Tracks;
 using Universe.Lastfm.Api.FormsApp.Infrastracture;
@@ -61,16 +61,15 @@ using Universe.Lastfm.Api.Helpers;
 using Universe.Lastfm.Api.Infrastracture;
 using Universe.Lastfm.Api.Meta.Consts;
 using Universe.Lastfm.Api.Models.Base;
-using Universe.Lastfm.Api.Repos;
+using Universe.Lastfm.Api.Models.Req;
 using Universe.Windows.Forms.Controls;
 using Universe.Windows.Forms.Controls.Settings;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 
 namespace Universe.Lastfm.Api.FormsApp
 {
     public partial class MainForm : Form
     {
-        private GenreRepo _genreService;
+        //private GenreRepo _genreService;
 
         private readonly EventLogger _log;
 
@@ -82,9 +81,13 @@ namespace Universe.Lastfm.Api.FormsApp
 
         public UniverseLastApiScope? Scope { get; private set; }
 
+        public ResizeFormState ResizeState;
+
         public MainForm()
         {
             InitializeComponent();
+
+            StartPosition = FormStartPosition.CenterScreen;
 
             _log = new EventLogger();
 
@@ -111,6 +114,8 @@ namespace Universe.Lastfm.Api.FormsApp
             MapperConfiguration.Configure();
 
             _container = UnityAppConfig.Container;
+
+            ResizeState = new ResizeFormState(this.Size);
         }
 
         private void MainForm_Load(object sender, EventArgs e)
@@ -128,6 +133,10 @@ namespace Universe.Lastfm.Api.FormsApp
             tbSecretKey.Text = _programSettings.SecretKey;
 
             chTrustedApp.Checked = _programSettings.IsTrustedApiApp;
+            fullRubberyUIToolStripMenuItem.Checked = _programSettings.IsFullRubberUI;
+
+            if (_programSettings.IsFullRubberUI)
+                pMainForm.MassSetControlProperty(ctrl => { ctrl.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left; });
         }
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
@@ -144,6 +153,7 @@ namespace Universe.Lastfm.Api.FormsApp
             _programSettings.SecretKey = tbSecretKey.Text;
 
             _programSettings.IsTrustedApiApp = chTrustedApp.Checked;
+            _programSettings.IsFullRubberUI = fullRubberyUIToolStripMenuItem.Checked;
         }
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
@@ -244,10 +254,10 @@ namespace Universe.Lastfm.Api.FormsApp
             ThreadMachine.Create(1).RunInMultiTheadsWithoutWaiting(() =>
             {
                 BaseResponce responce = Scope.GetQuery<GetUserInfoQuery>().ExecuteSafe(userName).LightColorResult(btUserGetInfo, 1000);
-                responce = Scope.GetQuery<GetUserTopArtistsQuery>().Execute(userName).LightColorResult(btUserGetTopArtists, 1000);
-                responce = Scope.GetQuery<GetUserTopAlbumsQuery>().Execute(userName).LightColorResult(btUserGetTopAlbums, 1000);
-                responce = Scope.GetQuery<GetUserTopTracksQuery>().Execute(userName).LightColorResult(btUserGetTopTracks, 1000);
-                responce = Scope.GetQuery<GetUserTopTagsQuery>().Execute(userName).LightColorResult(btUserGetTopTags, 1000);
+                responce = Scope.GetQuery<GetUserTopArtistsQuery>().ExecuteSafe(userName).LightColorResult(btUserGetTopArtists, 1000);
+                responce = Scope.GetQuery<GetUserTopAlbumsQuery>().ExecuteSafe(userName).LightColorResult(btUserGetTopAlbums, 1000);
+                responce = Scope.GetQuery<GetUserTopTracksQuery>().ExecuteSafe(userName).LightColorResult(btUserGetTopTracks, 1000);
+                responce = Scope.GetQuery<GetUserTopTagsQuery>().ExecuteSafe(userName).LightColorResult(btUserGetTopTags, 1000);
             });
         }
 
@@ -579,6 +589,45 @@ namespace Universe.Lastfm.Api.FormsApp
                     EnableButtonsSafe();
                 }
             });
+        }
+
+        private void MainForm_MaximumSizeChanged(object sender, EventArgs e)
+        {
+            ResizeState.IsMaximized = !ResizeState.IsMaximized;
+        }
+
+        private void MainForm_MaximizedBoundsChanged(object sender, EventArgs e)
+        {
+            ResizeState.IsMaximized = !ResizeState.IsMaximized;
+        }
+
+        private void MainForm_SizeChanged(object sender, EventArgs e)
+        {
+            if (this.WindowState != FormWindowState.Minimized && fullRubberyUIToolStripMenuItem.Checked)
+                ResizeState.ResizeUp(this, this.Size);
+        }
+
+        private void fullRubberyUIToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            fullRubberyUIToolStripMenuItem.Checked = !fullRubberyUIToolStripMenuItem.Checked;
+            _programSettings.IsFullRubberUI = fullRubberyUIToolStripMenuItem.Checked;
+
+            if (_programSettings.IsFullRubberUI)
+                pMainForm.MassSetControlProperty(ctrl => { ctrl.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left; });
+
+            if (!_programSettings.IsFullRubberUI)
+            {
+                var msgState = MessageBox.Show(@"Need to restart application. Application will restart and apply settings.", @"Need to restart", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning);
+                if (msgState == DialogResult.OK)
+                {
+                    Application.Exit();
+                }
+                else
+                {
+                    fullRubberyUIToolStripMenuItem.Checked = !fullRubberyUIToolStripMenuItem.Checked;
+                    _programSettings.IsFullRubberUI = fullRubberyUIToolStripMenuItem.Checked;
+                }
+            }
         }
     }
 }

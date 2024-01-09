@@ -33,128 +33,57 @@
 //  ║                                                                                 ║
 //  ╚═════════════════════════════════════════════════════════════════════════════════╝
 
-using System;
-using System.ComponentModel;
+using System.Drawing;
 using System.Windows.Forms;
+using Universe.Lastfm.Api.FormsApp.Extensions.Model;
 
 namespace Universe.Lastfm.Api.FormsApp.Extensions
 {
-    public static class ButtonControlExtensions
+    /// <summary>
+    ///     The extensions of state
+    /// </summary>
+    public static class ResizeFormStateExtensions
     {
-        /// <summary>
-        ///     Включение кнопок на панели, содержащей кнопки
-        /// </summary>
-        public static void EnableButtons(this Control sender)
+        public static void ResizeUp(this ResizeFormState state, Control sender)
         {
             if (sender == null)
                 return;
-
-            foreach (var control in sender.Controls)
-            {
-                if (control is Button button)
-                {
-                    button.Enabled = true;
-                }
-                else if (control is Control other)
-                {
-                    EnableButtons(other);
-                }
-            }
-        }
-
-        /// <summary>
-        ///     Включение кнопок на панели, содержащей кнопки. Потокобезопасное
-        /// </summary>
-        public static void EnableButtonsSafe(this Control sender)
-        {
-            try
-            {
-                sender.Invoke(
-                    (MethodInvoker)delegate
-                    {
-                        try
-                        {
-                            EnableButtons(sender);
-                        }
-                        catch
-                        {
-                            // ignored
-                        }
-                    });
-            }
-            catch (InvalidOperationException)
-            {
-            }
-            catch (InvalidAsynchronousStateException)
-            {
-                //ignored
-            }
-        }
-
-        /// <summary>
-        ///     Выключение кнопок на панели, содержащей кнопки.
-        /// </summary>
-        /// <param name="sender"></param>
-        public static void DisableButtons(this Control sender)
-        {
-            if (sender == null)
-                return;
-
-            foreach (var control in sender.Controls)
-            {
-                if (control is Button button)
-                {
-                    button.Enabled = false;
-                }
-                else if (control is Control other)
-                {
-                    DisableButtons(other);
-                }
-            }
-        }
-
-        /// <summary>
-        ///     Выключение кнопок на панели, содержащей кнопки. Потокобезопасное
-        /// </summary>
-        public static void DisableButtonsSafe(this Control sender)
-        {
-            try
-            {
-                sender.Invoke(
-                    (MethodInvoker)delegate
-                    {
-                        try
-                        {
-                            DisableButtons(sender);
-                        }
-                        catch
-                        {
-                            // ignored
-                        }
-                    });
-            }
-            catch (InvalidOperationException)
-            {
-            }
-            catch (InvalidAsynchronousStateException)
-            {
-                //ignored
-            }
-        }
-        public static void MassSetControlProperty(this Control sender, Action<Control> setPropFunc)
-        {
-            if (sender == null)
-                return;
-
-            setPropFunc.Invoke(sender);
 
             foreach (var control in sender.Controls)
             {
                 if (control is Control ctrl)
                 {
-                    setPropFunc.Invoke(ctrl);
+                    ctrl.Width = (int)(ctrl.Width * state.WidthKoef);
+                    ctrl.Height = (int)(ctrl.Height * state.HeightKoef);
 
-                    ctrl.MassSetControlProperty(setPropFunc);
+                    ctrl.Location = new Point(
+                        (int)(ctrl.Location.X * state.WidthKoef),
+                        (int)(ctrl.Location.Y * state.HeightKoef)
+                    );
+
+                    state.ResizeUp(ctrl);
+                }
+            }
+        }
+
+        public static void ResizeDown(this ResizeFormState state, Control sender)
+        {
+            if (sender == null)
+                return;
+
+            foreach (var control in sender.Controls)
+            {
+                if (control is Control ctrl)
+                {
+                    ctrl.Width = (int)(ctrl.Width * state.WidthKoefReverse);
+                    ctrl.Height = (int)(ctrl.Height * state.HeightKoefReverse);
+
+                    ctrl.Location = new Point(
+                        (int)(ctrl.Location.X * state.WidthKoefReverse),
+                        (int)(ctrl.Location.Y * state.HeightKoefReverse)
+                    );
+
+                    state.ResizeDown(ctrl);
                 }
             }
         }

@@ -63,13 +63,20 @@
             btArtistGetInfo = new System.Windows.Forms.Button();
             btGetArtistTags = new System.Windows.Forms.Button();
             groupBox3 = new System.Windows.Forms.GroupBox();
+            btAlbumSearch = new System.Windows.Forms.Button();
             btAlbumGetInfo = new System.Windows.Forms.Button();
             btGetAlbumTags = new System.Windows.Forms.Button();
             tbLog = new System.Windows.Forms.TextBox();
+            pMainForm = new System.Windows.Forms.Panel();
             menuStrip1 = new System.Windows.Forms.MenuStrip();
             applicationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            btAlbumSearch = new System.Windows.Forms.Button();
+            viewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            undoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            redoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            viewToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            fullRubberyUIToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             groupBox1.SuspendLayout();
             groupBox2.SuspendLayout();
             pApiControls.SuspendLayout();
@@ -80,14 +87,16 @@
             groupBox5.SuspendLayout();
             groupBox4.SuspendLayout();
             groupBox3.SuspendLayout();
+            pMainForm.SuspendLayout();
             menuStrip1.SuspendLayout();
             SuspendLayout();
             // 
             // btRun
             // 
-            btRun.Location = new System.Drawing.Point(9, 757);
+            btRun.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
+            btRun.Location = new System.Drawing.Point(15, 684);
             btRun.Name = "btRun";
-            btRun.Size = new System.Drawing.Size(1339, 49);
+            btRun.Size = new System.Drawing.Size(1333, 49);
             btRun.TabIndex = 0;
             btRun.Text = "Run";
             btRun.UseVisualStyleBackColor = true;
@@ -101,9 +110,9 @@
             groupBox1.Controls.Add(lbApiKey);
             groupBox1.Controls.Add(chTrustedApp);
             groupBox1.Controls.Add(btConnect);
-            groupBox1.Location = new System.Drawing.Point(18, 43);
+            groupBox1.Location = new System.Drawing.Point(15, 13);
             groupBox1.Name = "groupBox1";
-            groupBox1.Size = new System.Drawing.Size(1304, 178);
+            groupBox1.Size = new System.Drawing.Size(1336, 188);
             groupBox1.TabIndex = 3;
             groupBox1.TabStop = false;
             groupBox1.Text = "Last.fm API access settings";
@@ -113,7 +122,7 @@
             tbSecretKey.Location = new System.Drawing.Point(108, 81);
             tbSecretKey.Name = "tbSecretKey";
             tbSecretKey.PasswordChar = '*';
-            tbSecretKey.Size = new System.Drawing.Size(1184, 27);
+            tbSecretKey.Size = new System.Drawing.Size(1214, 27);
             tbSecretKey.TabIndex = 6;
             tbSecretKey.TextChanged += tbClientSecret_TextChanged;
             // 
@@ -131,7 +140,7 @@
             tbApiKey.Location = new System.Drawing.Point(108, 37);
             tbApiKey.Name = "tbApiKey";
             tbApiKey.PasswordChar = '*';
-            tbApiKey.Size = new System.Drawing.Size(1184, 27);
+            tbApiKey.Size = new System.Drawing.Size(1214, 27);
             tbApiKey.TabIndex = 4;
             tbApiKey.TextChanged += tbApiKey_TextChanged;
             // 
@@ -159,7 +168,7 @@
             // 
             btConnect.Location = new System.Drawing.Point(783, 123);
             btConnect.Name = "btConnect";
-            btConnect.Size = new System.Drawing.Size(509, 39);
+            btConnect.Size = new System.Drawing.Size(539, 39);
             btConnect.TabIndex = 14;
             btConnect.Text = "Connect";
             btConnect.UseVisualStyleBackColor = true;
@@ -167,10 +176,11 @@
             // 
             // groupBox2
             // 
+            groupBox2.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
             groupBox2.Controls.Add(pApiControls);
-            groupBox2.Location = new System.Drawing.Point(12, 240);
+            groupBox2.Location = new System.Drawing.Point(15, 203);
             groupBox2.Name = "groupBox2";
-            groupBox2.Size = new System.Drawing.Size(1336, 511);
+            groupBox2.Size = new System.Drawing.Size(1336, 475);
             groupBox2.TabIndex = 0;
             groupBox2.TabStop = false;
             groupBox2.Text = "API methods";
@@ -187,15 +197,16 @@
             pApiControls.Dock = System.Windows.Forms.DockStyle.Fill;
             pApiControls.Location = new System.Drawing.Point(3, 23);
             pApiControls.Name = "pApiControls";
-            pApiControls.Size = new System.Drawing.Size(1330, 485);
+            pApiControls.Size = new System.Drawing.Size(1330, 449);
             pApiControls.TabIndex = 1;
             // 
             // groupBox6
             // 
+            groupBox6.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
             groupBox6.Controls.Add(btTrackScrobble);
             groupBox6.Location = new System.Drawing.Point(1169, 11);
             groupBox6.Name = "groupBox6";
-            groupBox6.Size = new System.Drawing.Size(150, 457);
+            groupBox6.Size = new System.Drawing.Size(150, 416);
             groupBox6.TabIndex = 6;
             groupBox6.TabStop = false;
             groupBox6.Text = "scrobbling";
@@ -213,6 +224,7 @@
             // 
             // groupBox9
             // 
+            groupBox9.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
             groupBox9.Controls.Add(btUserGetWeeklyTrackChart);
             groupBox9.Controls.Add(btUserGetWeeklyChartList);
             groupBox9.Controls.Add(btUserGetWeeklyArtistChart);
@@ -227,7 +239,7 @@
             groupBox9.Controls.Add(btUserGetInfo);
             groupBox9.Location = new System.Drawing.Point(925, 11);
             groupBox9.Name = "groupBox9";
-            groupBox9.Size = new System.Drawing.Size(238, 457);
+            groupBox9.Size = new System.Drawing.Size(238, 416);
             groupBox9.TabIndex = 8;
             groupBox9.TabStop = false;
             groupBox9.Text = "user";
@@ -366,10 +378,11 @@
             // 
             // groupBox8
             // 
+            groupBox8.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
             groupBox8.Controls.Add(btTrackGetInfo);
             groupBox8.Location = new System.Drawing.Point(740, 11);
             groupBox8.Name = "groupBox8";
-            groupBox8.Size = new System.Drawing.Size(179, 457);
+            groupBox8.Size = new System.Drawing.Size(179, 416);
             groupBox8.TabIndex = 8;
             groupBox8.TabStop = false;
             groupBox8.Text = "track";
@@ -387,10 +400,11 @@
             // 
             // groupBox7
             // 
+            groupBox7.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
             groupBox7.Controls.Add(btTagGetInfo);
             groupBox7.Location = new System.Drawing.Point(555, 11);
             groupBox7.Name = "groupBox7";
-            groupBox7.Size = new System.Drawing.Size(179, 457);
+            groupBox7.Size = new System.Drawing.Size(179, 416);
             groupBox7.TabIndex = 7;
             groupBox7.TabStop = false;
             groupBox7.Text = "tag/genre";
@@ -408,10 +422,11 @@
             // 
             // groupBox5
             // 
+            groupBox5.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
             groupBox5.Controls.Add(btChartGetTopArtists);
             groupBox5.Location = new System.Drawing.Point(371, 11);
             groupBox5.Name = "groupBox5";
-            groupBox5.Size = new System.Drawing.Size(178, 457);
+            groupBox5.Size = new System.Drawing.Size(178, 416);
             groupBox5.TabIndex = 5;
             groupBox5.TabStop = false;
             groupBox5.Text = "chart";
@@ -429,11 +444,12 @@
             // 
             // groupBox4
             // 
+            groupBox4.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
             groupBox4.Controls.Add(btArtistGetInfo);
             groupBox4.Controls.Add(btGetArtistTags);
             groupBox4.Location = new System.Drawing.Point(187, 11);
             groupBox4.Name = "groupBox4";
-            groupBox4.Size = new System.Drawing.Size(178, 457);
+            groupBox4.Size = new System.Drawing.Size(178, 416);
             groupBox4.TabIndex = 4;
             groupBox4.TabStop = false;
             groupBox4.Text = "artist/performer";
@@ -460,15 +476,27 @@
             // 
             // groupBox3
             // 
+            groupBox3.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
             groupBox3.Controls.Add(btAlbumSearch);
             groupBox3.Controls.Add(btAlbumGetInfo);
             groupBox3.Controls.Add(btGetAlbumTags);
             groupBox3.Location = new System.Drawing.Point(8, 11);
             groupBox3.Name = "groupBox3";
-            groupBox3.Size = new System.Drawing.Size(173, 457);
+            groupBox3.Size = new System.Drawing.Size(173, 416);
             groupBox3.TabIndex = 3;
             groupBox3.TabStop = false;
             groupBox3.Text = "album";
+            // 
+            // btAlbumSearch
+            // 
+            btAlbumSearch.Enabled = false;
+            btAlbumSearch.Location = new System.Drawing.Point(6, 108);
+            btAlbumSearch.Name = "btAlbumSearch";
+            btAlbumSearch.Size = new System.Drawing.Size(160, 37);
+            btAlbumSearch.TabIndex = 3;
+            btAlbumSearch.Text = "album.search";
+            btAlbumSearch.UseVisualStyleBackColor = true;
+            btAlbumSearch.Click += btAlbumSearch_Click;
             // 
             // btAlbumGetInfo
             // 
@@ -493,21 +521,35 @@
             // 
             // tbLog
             // 
-            tbLog.Location = new System.Drawing.Point(1354, 43);
+            tbLog.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            tbLog.Location = new System.Drawing.Point(1360, 13);
             tbLog.Multiline = true;
             tbLog.Name = "tbLog";
             tbLog.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            tbLog.Size = new System.Drawing.Size(370, 763);
+            tbLog.Size = new System.Drawing.Size(370, 720);
             tbLog.TabIndex = 4;
+            // 
+            // pMainForm
+            // 
+            pMainForm.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            pMainForm.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            pMainForm.Controls.Add(groupBox1);
+            pMainForm.Controls.Add(btRun);
+            pMainForm.Controls.Add(groupBox2);
+            pMainForm.Controls.Add(tbLog);
+            pMainForm.Location = new System.Drawing.Point(0, 34);
+            pMainForm.Name = "pMainForm";
+            pMainForm.Size = new System.Drawing.Size(1739, 782);
+            pMainForm.TabIndex = 6;
             // 
             // menuStrip1
             // 
             menuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
-            menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { applicationToolStripMenuItem });
+            menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { applicationToolStripMenuItem, viewToolStripMenuItem, viewToolStripMenuItem1, aboutToolStripMenuItem });
             menuStrip1.Location = new System.Drawing.Point(0, 0);
             menuStrip1.Name = "menuStrip1";
             menuStrip1.Size = new System.Drawing.Size(1739, 28);
-            menuStrip1.TabIndex = 5;
+            menuStrip1.TabIndex = 7;
             menuStrip1.Text = "menuStrip1";
             // 
             // applicationToolStripMenuItem
@@ -522,35 +564,62 @@
             exitToolStripMenuItem.Name = "exitToolStripMenuItem";
             exitToolStripMenuItem.Size = new System.Drawing.Size(116, 26);
             exitToolStripMenuItem.Text = "Exit";
-            exitToolStripMenuItem.Click += exitToolStripMenuItem_Click;
             // 
-            // btAlbumSearch
+            // viewToolStripMenuItem
             // 
-            btAlbumSearch.Enabled = false;
-            btAlbumSearch.Location = new System.Drawing.Point(6, 108);
-            btAlbumSearch.Name = "btAlbumSearch";
-            btAlbumSearch.Size = new System.Drawing.Size(160, 37);
-            btAlbumSearch.TabIndex = 3;
-            btAlbumSearch.Text = "album.search";
-            btAlbumSearch.UseVisualStyleBackColor = true;
-            btAlbumSearch.Click += btAlbumSearch_Click;
+            viewToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { undoToolStripMenuItem, redoToolStripMenuItem });
+            viewToolStripMenuItem.Name = "viewToolStripMenuItem";
+            viewToolStripMenuItem.Size = new System.Drawing.Size(49, 24);
+            viewToolStripMenuItem.Text = "Edit";
+            // 
+            // undoToolStripMenuItem
+            // 
+            undoToolStripMenuItem.Name = "undoToolStripMenuItem";
+            undoToolStripMenuItem.Size = new System.Drawing.Size(128, 26);
+            undoToolStripMenuItem.Text = "Undo";
+            // 
+            // redoToolStripMenuItem
+            // 
+            redoToolStripMenuItem.Name = "redoToolStripMenuItem";
+            redoToolStripMenuItem.Size = new System.Drawing.Size(128, 26);
+            redoToolStripMenuItem.Text = "Redo";
+            // 
+            // viewToolStripMenuItem1
+            // 
+            viewToolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { fullRubberyUIToolStripMenuItem });
+            viewToolStripMenuItem1.Name = "viewToolStripMenuItem1";
+            viewToolStripMenuItem1.Size = new System.Drawing.Size(55, 24);
+            viewToolStripMenuItem1.Text = "View";
+            // 
+            // fullRubberyUIToolStripMenuItem
+            // 
+            fullRubberyUIToolStripMenuItem.Checked = true;
+            fullRubberyUIToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+            fullRubberyUIToolStripMenuItem.Name = "fullRubberyUIToolStripMenuItem";
+            fullRubberyUIToolStripMenuItem.Size = new System.Drawing.Size(192, 26);
+            fullRubberyUIToolStripMenuItem.Text = "Full Rubbery UI";
+            fullRubberyUIToolStripMenuItem.Click += fullRubberyUIToolStripMenuItem_Click;
+            // 
+            // aboutToolStripMenuItem
+            // 
+            aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
+            aboutToolStripMenuItem.Size = new System.Drawing.Size(64, 24);
+            aboutToolStripMenuItem.Text = "About";
             // 
             // MainForm
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             ClientSize = new System.Drawing.Size(1739, 818);
-            Controls.Add(tbLog);
-            Controls.Add(groupBox1);
-            Controls.Add(groupBox2);
-            Controls.Add(btRun);
             Controls.Add(menuStrip1);
-            FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            MainMenuStrip = menuStrip1;
-            MaximizeBox = false;
+            Controls.Add(pMainForm);
+            MinimumSize = new System.Drawing.Size(1757, 865);
             Name = "MainForm";
+            MaximizedBoundsChanged += MainForm_MaximizedBoundsChanged;
+            MaximumSizeChanged += MainForm_MaximumSizeChanged;
             FormClosing += MainForm_FormClosing;
             Load += MainForm_Load;
+            SizeChanged += MainForm_SizeChanged;
             groupBox1.ResumeLayout(false);
             groupBox1.PerformLayout();
             groupBox2.ResumeLayout(false);
@@ -562,6 +631,8 @@
             groupBox5.ResumeLayout(false);
             groupBox4.ResumeLayout(false);
             groupBox3.ResumeLayout(false);
+            pMainForm.ResumeLayout(false);
+            pMainForm.PerformLayout();
             menuStrip1.ResumeLayout(false);
             menuStrip1.PerformLayout();
             ResumeLayout(false);
@@ -573,9 +644,6 @@
         private System.Windows.Forms.Button btRun;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.TextBox tbLog;
-        private System.Windows.Forms.MenuStrip menuStrip1;
-        private System.Windows.Forms.ToolStripMenuItem applicationToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
         private System.Windows.Forms.TextBox tbSecretKey;
         private System.Windows.Forms.Label lbSecretKey;
         private System.Windows.Forms.TextBox tbApiKey;
@@ -613,5 +681,15 @@
         private System.Windows.Forms.Button btUserGetWeeklyAlbumChart;
         private System.Windows.Forms.Button btUserGetRecentTracks;
         private System.Windows.Forms.Button btAlbumSearch;
+        private System.Windows.Forms.Panel pMainForm;
+        private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem applicationToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem viewToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem viewToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem fullRubberyUIToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem undoToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem redoToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
     }
 }

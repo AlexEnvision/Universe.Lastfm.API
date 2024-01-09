@@ -33,130 +33,53 @@
 //  ║                                                                                 ║
 //  ╚═════════════════════════════════════════════════════════════════════════════════╝
 
-using System;
-using System.ComponentModel;
+using System.Drawing;
 using System.Windows.Forms;
 
-namespace Universe.Lastfm.Api.FormsApp.Extensions
+namespace Universe.Lastfm.Api.FormsApp.Extensions.Model
 {
-    public static class ButtonControlExtensions
+    public class ResizeFormState
     {
-        /// <summary>
-        ///     Включение кнопок на панели, содержащей кнопки
-        /// </summary>
-        public static void EnableButtons(this Control sender)
-        {
-            if (sender == null)
-                return;
+        private Size _sourceSize;
+        private Size _destinationSize;
+        private Size _mainPanelSize;
 
-            foreach (var control in sender.Controls)
-            {
-                if (control is Button button)
-                {
-                    button.Enabled = true;
-                }
-                else if (control is Control other)
-                {
-                    EnableButtons(other);
-                }
-            }
+        public ResizeFormState(Size sourceSize)
+        {
+            var diffWidth = sourceSize.Width - sourceSize.Width;
+            var diffHeight = sourceSize.Height - sourceSize.Height;
+
+            _sourceSize = new Size(sourceSize.Width, sourceSize.Height);
+            _mainPanelSize = new Size(sourceSize.Width, sourceSize.Height);
+
+            Rectangle resolution = Screen.PrimaryScreen.Bounds;
+            _destinationSize = new Size(resolution.Width - diffWidth, resolution.Height - diffHeight);
+
+            IsMaximized = false;
         }
 
-        /// <summary>
-        ///     Включение кнопок на панели, содержащей кнопки. Потокобезопасное
-        /// </summary>
-        public static void EnableButtonsSafe(this Control sender)
+        public double WidthKoef => _destinationSize.Width / (_sourceSize.Width * 1.0);
+
+        public double HeightKoef => _destinationSize.Height / (_sourceSize.Height * 1.0);
+
+        public double WidthKoefReverse => _sourceSize.Width / (_destinationSize.Width * 1.0);
+
+        public double HeightKoefReverse => _sourceSize.Height / (_destinationSize.Height * 1.0);
+
+        public bool IsMaximized { get; set; }
+
+        public void SetDestinationSize(Size sizeChanged)
         {
-            try
-            {
-                sender.Invoke(
-                    (MethodInvoker)delegate
-                    {
-                        try
-                        {
-                            EnableButtons(sender);
-                        }
-                        catch
-                        {
-                            // ignored
-                        }
-                    });
-            }
-            catch (InvalidOperationException)
-            {
-            }
-            catch (InvalidAsynchronousStateException)
-            {
-                //ignored
-            }
+            _destinationSize = new Size(sizeChanged.Width, sizeChanged.Height);
         }
 
-        /// <summary>
-        ///     Выключение кнопок на панели, содержащей кнопки.
-        /// </summary>
-        /// <param name="sender"></param>
-        public static void DisableButtons(this Control sender)
+        public ResizeFormState ResizeUp(Control sender, Size destSize)
         {
-            if (sender == null)
-                return;
+            SetDestinationSize(destSize);
+            this.ResizeUp(sender);
 
-            foreach (var control in sender.Controls)
-            {
-                if (control is Button button)
-                {
-                    button.Enabled = false;
-                }
-                else if (control is Control other)
-                {
-                    DisableButtons(other);
-                }
-            }
-        }
-
-        /// <summary>
-        ///     Выключение кнопок на панели, содержащей кнопки. Потокобезопасное
-        /// </summary>
-        public static void DisableButtonsSafe(this Control sender)
-        {
-            try
-            {
-                sender.Invoke(
-                    (MethodInvoker)delegate
-                    {
-                        try
-                        {
-                            DisableButtons(sender);
-                        }
-                        catch
-                        {
-                            // ignored
-                        }
-                    });
-            }
-            catch (InvalidOperationException)
-            {
-            }
-            catch (InvalidAsynchronousStateException)
-            {
-                //ignored
-            }
-        }
-        public static void MassSetControlProperty(this Control sender, Action<Control> setPropFunc)
-        {
-            if (sender == null)
-                return;
-
-            setPropFunc.Invoke(sender);
-
-            foreach (var control in sender.Controls)
-            {
-                if (control is Control ctrl)
-                {
-                    setPropFunc.Invoke(ctrl);
-
-                    ctrl.MassSetControlProperty(setPropFunc);
-                }
-            }
+            _sourceSize = _destinationSize;
+            return this;
         }
     }
 }
