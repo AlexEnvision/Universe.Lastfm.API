@@ -35,26 +35,27 @@
 
 using System;
 using Universe.Lastfm.Api.Dto.Base;
+using Universe.Lastfm.Api.Dto.Common;
 using Universe.Lastfm.Api.Dto.GetAlbumInfo;
 using Universe.Lastfm.Api.Helpers;
 using Universe.Lastfm.Api.Models;
 using Universe.Lastfm.Api.Models.Base;
 using Universe.Lastfm.Api.Models.Res.Base;
-using static Universe.Lastfm.Api.Dal.Queries.Albums.SearchAlbumQuery;
+using static Universe.Lastfm.Api.Dal.Queries.Albums.GetAlbumTopTagsQuery;
 
 namespace Universe.Lastfm.Api.Dal.Queries.Albums
 {
     /// <summary>
-    ///     The query does search of an album of the Last.fm.
+    ///     The query does AlbumTopTags of an album of the Last.fm.
     ///     Запрос, ведущий поиск альбома на Last.fm. 
     /// </summary>
-    public class SearchAlbumQuery : LastQuery<GetAlbumSearchRequest, GetAlbumSearchResponce>
+    public class GetAlbumTopTagsQuery : LastQuery<GetAlbumTopTagsRequest, GetAlbumTopTagsResponce>
     {
         protected override Func<BaseRequest, BaseResponce> ExecutableBaseFunc =>
-            req => Execute(req.As<GetAlbumSearchRequest>());
+            req => Execute(req.As<GetAlbumTopTagsRequest>());
 
         /// <summary>
-        ///     Search for an album by name. Returns album matches sorted by relevance.
+        ///     AlbumTopTags for an album by name. Returns album matches sorted by relevance.
         /// </summary>
         /// <param name="request.album">
         ///     The album name.
@@ -69,24 +70,26 @@ namespace Universe.Lastfm.Api.Dal.Queries.Albums
         /// 
         /// </param>
         /// <returns></returns>
-        public GetAlbumSearchResponce Execute(
-            GetAlbumSearchRequest request)
+        public GetAlbumTopTagsResponce Execute(
+            GetAlbumTopTagsRequest request)
         {
             string album = request.Album;
-            int page = request.Page;
-            int limit = request.Limit;
+            string performer = request.Performer;
+            string mbid = request.Mbid;
+            string autocorrect = request.Autocorrect;
 
-            var sessionResponce = Adapter.GetRequest("album.search",
+            var sessionResponce = Adapter.GetRequest("album.getTopTags",
                 Argument.Create("api_key", Settings.ApiKey),
                 Argument.Create("album", album),
-                Argument.Create("page", page.ToString()),
-                Argument.Create("limit", limit.ToString()),
+                Argument.Create("artist", performer),
+                Argument.Create("mbid", mbid),
+                Argument.Create("autocorrect", autocorrect),
                 Argument.Create("format", "json"),
                 Argument.Create("callback", "?"));
 
             Adapter.FixCallback(sessionResponce);
 
-            var getAlbumInfoResponce = ResponceExt.CreateFrom<BaseResponce, GetAlbumSearchResponce>(sessionResponce);
+            var getAlbumInfoResponce = ResponceExt.CreateFrom<BaseResponce, GetAlbumTopTagsResponce>(sessionResponce);
             return getAlbumInfoResponce;
         }
 
@@ -94,18 +97,22 @@ namespace Universe.Lastfm.Api.Dal.Queries.Albums
         ///     The request with full information about album of the Last.fm.
         ///     Запрос с полной информацией о поиске Last.fm.
         /// </summary>
-        public class GetAlbumSearchRequest : BaseRequest
+        public class GetAlbumTopTagsRequest : BaseRequest
         {
+            public string Performer { get; set; }
+
             public string Album { get; set; }
 
-            public int Limit { get; set; }
+            public string Mbid { get; set; }
 
-            public int Page { get; set; }
+            /// <summary>
+            ///     Autocorrect[0|1] (Optional) : Transform misspelled artist names into correct artist names,
+            ///     returning the correct version instead. The corrected artist name will be returned in the response.
+            /// </summary>
+            public string Autocorrect { get; set; }
 
-            public GetAlbumSearchRequest()
+            public GetAlbumTopTagsRequest()
             {
-                Page = 1;
-                Limit = 50;
             }
         }
 
@@ -113,7 +120,7 @@ namespace Universe.Lastfm.Api.Dal.Queries.Albums
         ///     The responce with full information about album of the Last.fm.
         ///     Ответ с полной информацией о поиске Last.fm.
         /// </summary>
-        public class GetAlbumSearchResponce : LastFmBaseResponce<AlbumSearchContainer>
+        public class GetAlbumTopTagsResponce : LastFmBaseResponce<AlbumTopTagsContainer>
         {
         }
 
@@ -121,57 +128,40 @@ namespace Universe.Lastfm.Api.Dal.Queries.Albums
         ///     The container with information about the top artists listened to by a album on the Last.fm.
         ///     Контейнер с информацией о поиске, которые прослушивал пользователь на Last.fm.
         /// </summary>
-        public class AlbumSearchContainer : LastFmBaseContainer
+        public class AlbumTopTagsContainer : LastFmBaseContainer
         {
-            public SearchDto Results { get; set; }
+            public AlbumTopTagsDto TopTags { get; set; }
         }
 
         /// <summary>
-        ///     The full information about track on the Last.fm.
-        ///     Полная информация о поиске на Last.fm.
+        ///     The full information about top tags of an album on the Last.fm.
+        ///     Полная информация о топ-тегах альбома на Last.fm.
         /// </summary>
-        public class SearchDto
+        public class AlbumTopTagsDto
         {
             /*
-                 <results for="believe">
-                  <opensearch:Query role="request" searchTerms="believe" startPage="1"/>
-                  <opensearch:totalResults>734</opensearch:totalResults>
-                  <opensearch:startIndex>0</opensearch:startIndex>
-                  <opensearch:itemsPerPage>20</opensearch:itemsPerPage>
-                  <albummatches>
-                    <album>
-                      <name>Make Believe</name>
-                      <artist>Weezer</artist>
-                      <id>2025180</id>
-                      <url>http://www.last.fm/music/Weezer/Make+Believe</url>
-                      <image size="small">http://userserve-ak.last.fm/serve/34/8673675.jpg</image>
-                      <image size="medium">http://userserve-ak.last.fm/serve/64/8673675.jpg</image>
-                      <image size="large">http://userserve-ak.last.fm/serve/126/8673675.jpg</image>
-                      <streamable>0</streamable>
-                    </album>
-                    ...
-                  </albummatches>
-                </results>
+                 <?xml version="1.0" encoding="utf-8"?>
+                 <lfm status="ok">
+                    <toptags artist="Radiohead" album="The Bends">
+                        <tag>
+                            <name>albums I own</name>
+                            <count>100</count>
+                            <url>http://www.last.fm/tag/albums%20i%20own</url>
+                        </tag>
+                        ...
+                    </toptags>
+                 </lfm>
             */
 
-            public SearchAttribute Attribute { get; set; }
+            public AlbumTopTagsAttribute Attribute { get; set; }
 
-            public AlbumMatchesDto AlbumMatches { get; set; }
+            public Tag[] Tag { get; set; }
         }
 
         /// <summary>
-        ///     The list of matches in a search.
-        ///     Список совпадений в поиске.
+        ///     The special attribite of <see cref="AlbumTopTagsDto"/>
         /// </summary>
-        public class AlbumMatchesDto
-        {
-            public Album[] Album { get; set; }
-        }
-
-        /// <summary>
-        ///     The special attribite of <see cref="SearchDto"/>
-        /// </summary>
-        public class SearchAttribute
+        public class AlbumTopTagsAttribute
         {
             /*
                 "@attr":

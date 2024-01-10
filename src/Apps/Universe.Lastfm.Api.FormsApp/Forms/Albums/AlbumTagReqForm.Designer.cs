@@ -35,7 +35,7 @@
             // label3
             // 
             label3.AutoSize = true;
-            label3.Location = new System.Drawing.Point(16, 154);
+            label3.Location = new System.Drawing.Point(16, 149);
             label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             label3.Name = "label3";
             label3.Size = new System.Drawing.Size(41, 20);
@@ -44,16 +44,16 @@
             // 
             // tbUser
             // 
-            tbUser.Location = new System.Drawing.Point(101, 149);
+            tbUser.Location = new System.Drawing.Point(101, 144);
             tbUser.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             tbUser.Name = "tbUser";
-            tbUser.Size = new System.Drawing.Size(378, 27);
+            tbUser.Size = new System.Drawing.Size(389, 27);
             tbUser.TabIndex = 6;
             // 
             // AlbumTagReqForm
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
-            ClientSize = new System.Drawing.Size(512, 272);
+            ClientSize = new System.Drawing.Size(512, 273);
             Controls.Add(label3);
             Controls.Add(tbUser);
             Margin = new System.Windows.Forms.Padding(5, 8, 5, 8);

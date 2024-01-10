@@ -1,6 +1,6 @@
 ﻿namespace Universe.Lastfm.Api.FormsApp.Forms.Albums
 {
-    partial class AlbumSearchReqForm
+    partial class AlbumTopTagsReqForm
     {
         /// <summary>
         /// Required designer variable.
@@ -30,12 +30,12 @@
         {
             SuspendLayout();
             // 
-            // AlbumSearchReqForm
+            // AlbumTopTagsReqForm
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
-            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             ClientSize = new System.Drawing.Size(512, 273);
-            Name = "AlbumSearchReqForm";
+            Margin = new System.Windows.Forms.Padding(5, 8, 5, 8);
+            Name = "AlbumTopTagsReqForm";
             ResumeLayout(false);
             PerformLayout();
         }

@@ -25,5 +25,9 @@ namespace Universe.Lastfm.Api.Models
         public string Taggingtype { get; set; }
 
         public string Tag { get; set; }
+
+        public string Album { get; set; }
+
+        public string Performer { get; set; }
     }
 }

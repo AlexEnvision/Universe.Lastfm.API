@@ -6,6 +6,11 @@ using Universe.Lastfm.Api.Dal.Queries.Albums;
 using Universe.Lastfm.Api.FormsApp.Extensions;
 using Universe.Lastfm.Api.FormsApp.Forms.Albums;
 using Universe.Lastfm.Api.Helpers;
+using Universe.Lastfm.Api.Models.Req;
+using static Universe.Lastfm.Api.Dal.Queries.Albums.GetAlbumInfoQuery;
+using static Universe.Lastfm.Api.Dal.Queries.Albums.GetAlbumTagsQuery;
+using static Universe.Lastfm.Api.Dal.Queries.Albums.SearchAlbumQuery;
+using static Universe.Lastfm.Api.Dal.Queries.Albums.GetAlbumTopTagsQuery;
 
 namespace Universe.Lastfm.Api.FormsApp
 {
@@ -41,13 +46,15 @@ namespace Universe.Lastfm.Api.FormsApp
             }
 
             DisableButtons(sender);
+            ReqCtx.Album = album;
+            ReqCtx.Performer = performer;
 
             ThreadMachine.Create(1).RunInMultiTheadsWithoutWaiting(() =>
             {
                 try
                 {
                     // _adapter.GetAlbumInfo(performer, album);
-                    var responce = Scope.GetQuery<GetAlbumInfoQuery>().Execute(performer, album)
+                    var responce = Scope.GetQuery<GetAlbumInfoQuery>().Execute(ReqCtx.As<GetAlbumInfoRequest>())
                         .LightColorResult(btAlbumGetInfo);
                     if (!responce.IsSuccessful)
                     {
@@ -182,12 +189,14 @@ namespace Universe.Lastfm.Api.FormsApp
             }
 
             DisableButtons(sender);
+            ReqCtx.Album = albumName;
+            ReqCtx.Performer = performer;
 
             ThreadMachine.Create(1).RunInMultiTheadsWithoutWaiting(() =>
             {
                 try
                 {
-                    var responce = Scope.GetQuery<SearchAlbumQuery>().Execute(albumName)
+                    var responce = Scope.GetQuery<SearchAlbumQuery>().Execute(ReqCtx.As<GetAlbumSearchRequest>())
                         .LightColorResult(btAlbumSearch);
                     if (!responce.IsSuccessful)
                     {
@@ -209,6 +218,75 @@ namespace Universe.Lastfm.Api.FormsApp
                 {
                     _log.Error(ex, ex.Message);
                     btAlbumSearch.LightErrorColorResult();
+                }
+                finally
+                {
+                    EnableButtonsSafe();
+                }
+            });
+
+           
+        }
+
+        private void btAlbumGetTopTags_Click(object sender, EventArgs e)
+        {
+            string performer;
+            string albumName;
+
+            using (var form = new AlbumTopTagsReqForm(_programSettings))
+            {
+                if (form.ShowDialog() == DialogResult.OK)
+                {
+                    performer = form.Performer;
+                    if (string.IsNullOrEmpty(performer))
+                    {
+                        tbLog.AppendText($"[{DateTime.Now}] Не указан performer!" + Environment.NewLine);
+                        return;
+                    }
+
+                    albumName = form.Album;
+                    if (string.IsNullOrEmpty(albumName))
+                    {
+                        tbLog.AppendText($"[{DateTime.Now}] Не указан album!" + Environment.NewLine);
+                        return;
+                    }
+                }
+                else
+                {
+                    return;
+                }
+            }
+
+            DisableButtons(sender);
+            ReqCtx.Album = albumName;
+            ReqCtx.Performer = performer;
+
+            ThreadMachine.Create(1).RunInMultiTheadsWithoutWaiting(() =>
+            {
+                try
+                {
+                    var responce = Scope.GetQuery<GetAlbumTopTagsQuery>().Execute(ReqCtx.As<GetAlbumTopTagsQuery.GetAlbumTopTagsRequest>())
+                        .LightColorResult(btAlbumGetTopTags);
+                    if (!responce.IsSuccessful)
+                    {
+                        _log.Info($"{responce.Message} {responce.ServiceAnswer}");
+                    }
+
+                    _log.Info(
+                        $"Успешно выгружена информация по пользователю {albumName}: {Environment.NewLine}{Environment.NewLine}{responce.ServiceAnswer}{Environment.NewLine}.");
+
+                    var attribute = responce.DataContainer.TopTags.Attribute;
+                    var data = responce.DataContainer.TopTags;
+                    var dataStr = string.Join(", ", data.Tag.Select(x => x.Name));
+
+                    _log.Info($"Search top tags/genres of album result by the name {albumName} / Результат поиска топ-тэгов/жанров альбома по названию {albumName}: {dataStr}.");
+
+                    _log.Info(Environment.NewLine);
+                }
+                catch (Exception ex)
+                {
+                    _log.Error(ex, ex.Message);
+                    btAlbumGetTopTags.LightErrorColorResult();
                 }
                 finally
                 {

@@ -35,7 +35,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.Eventing.Reader;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
@@ -45,46 +44,27 @@ using Universe.Algorithm.MultiThreading;
 using Universe.CQRS;
 using Universe.CQRS.Infrastructure;
 using Universe.Diagnostic.Logger;
-using Universe.Helpers.Extensions;
 using Universe.Lastfm.Api.Dal.Queries;
+using Universe.Lastfm.Api.Dal.Queries.Albums;
 using Universe.Lastfm.Api.Dal.Queries.Auth;
 using Universe.Lastfm.Api.Dal.Queries.Performers;
 using Universe.Lastfm.Api.Dal.Queries.Tags;
 using Universe.Lastfm.Api.Dal.Queries.Track;
 using Universe.Lastfm.Api.Dal.Queries.Users;
 using Universe.Lastfm.Api.Dto.GetArtists;
-using Universe.Lastfm.Api.FormsApp.Controls;
 using Universe.Lastfm.Api.FormsApp.Extensions;
 using Universe.Lastfm.Api.FormsApp.Extensions.Model;
 using Universe.Lastfm.Api.FormsApp.Forms.Genres;
 using Universe.Lastfm.Api.FormsApp.Forms.Performers;
 using Universe.Lastfm.Api.FormsApp.Forms.Tracks;
 using Universe.Lastfm.Api.FormsApp.Infrastracture;
-using Universe.Lastfm.Api.FormsApp.Properties;
 using Universe.Lastfm.Api.FormsApp.Settings;
 using Universe.Lastfm.Api.Helpers;
 using Universe.Lastfm.Api.Infrastracture;
 using Universe.Lastfm.Api.Meta.Consts;
 using Universe.Lastfm.Api.Models;
-using Universe.Lastfm.Api.Models.Base;
-using Universe.Lastfm.Api.Models.Req;
-using Universe.Lastfm.Api.Models.Res;
 using Universe.Windows.Forms.Controls;
 using Universe.Windows.Forms.Controls.Settings;
-
-using static Universe.Lastfm.Api.Dal.Queries.Users.GetUserTopAlbumsQuery;
-using static Universe.Lastfm.Api.Dal.Queries.Users.GetUserTopArtistsQuery;
-using static Universe.Lastfm.Api.Dal.Queries.Users.GetUserTopTagsQuery;
-using static Universe.Lastfm.Api.Dal.Queries.Users.GetUserTopTracksQuery;
-
-using static Universe.Lastfm.Api.Dal.Queries.Users.GetUserLovedTracksQuery;
-using static Universe.Lastfm.Api.Dal.Queries.Users.GetUserRecentTracksQuery;
-using static Universe.Lastfm.Api.Dal.Queries.Users.GetPersonalTagsQuery;
-
-using static Universe.Lastfm.Api.Dal.Queries.Users.GetUserWeeklyArtistChartQuery;
-using static Universe.Lastfm.Api.Dal.Queries.Users.GetUserWeeklyAlbumChartQuery;
-using static Universe.Lastfm.Api.Dal.Queries.Users.GetUserWeeklyTrackChartQuery;
-using static Universe.Lastfm.Api.Dal.Queries.Users.GetUserWeeklyChartListQuery;
 using Universe.Lastfm.Api.FormsApp.Themes;
 
 namespace Universe.Lastfm.Api.FormsApp
@@ -289,6 +269,9 @@ namespace Universe.Lastfm.Api.FormsApp
             ReqCtx.Page = 2;
             ReqCtx.Limit = 25;
 
+            ReqCtx.Album = "01011001";
+            ReqCtx.Performer = "Ayreon";
+
             ThreadMachine.Create(1).RunInMultiTheadsWithoutWaiting(() =>
             {
                 var queries = new (BaseQuery Itself, Control Ctrl)[]
@@ -306,12 +289,17 @@ namespace Universe.Lastfm.Api.FormsApp
                     (Scope.GetQuery<GetUserWeeklyArtistChartQuery>(), btUserGetWeeklyArtistChart),
                     (Scope.GetQuery<GetUserWeeklyAlbumChartQuery>(), btUserGetWeeklyAlbumChart),
                     (Scope.GetQuery<GetUserWeeklyTrackChartQuery>(), btUserGetWeeklyTrackChart),
-                    (Scope.GetQuery<GetUserWeeklyChartListQuery>(), btUserGetWeeklyChartList)
+                    (Scope.GetQuery<GetUserWeeklyChartListQuery>(), btUserGetWeeklyChartList),
+
+                    (Scope.GetQuery<GetAlbumInfoQuery>(), btAlbumGetInfo),
+                    (Scope.GetQuery<GetAlbumTagsQuery>(), btGetAlbumTags),
+                    (Scope.GetQuery<SearchAlbumQuery>(), btAlbumSearch),
+                    (Scope.GetQuery<GetAlbumTopTagsQuery>(), btAlbumGetTopTags)
                 };
 
                 foreach (var query in queries)
                 {
-                    query.Itself.ExecuteBaseSafe(ReqCtx).ReportResult(tbLog).LightColorResult(query.Ctrl, 1000);
+                    query.Itself.ExecuteBaseSafe(ReqCtx).ReportResult(tbLog).LightColorResult(query.Ctrl, 200);
                 }
             });
         }

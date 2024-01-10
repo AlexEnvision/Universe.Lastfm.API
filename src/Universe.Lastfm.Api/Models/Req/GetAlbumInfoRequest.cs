@@ -33,35 +33,14 @@
 //  ║                                                                                 ║
 //  ╚═════════════════════════════════════════════════════════════════════════════════╝
 
-using Universe.CQRS.Infrastructure;
-using Universe.Lastfm.Api.Dal.Queries.Albums;
 using Universe.Lastfm.Api.Models.Base;
-using Universe.Lastfm.Api.Models.Req;
-using Universe.Lastfm.Api.Repos.Base;
 
-namespace Universe.Lastfm.Api.Repos
+namespace Universe.Lastfm.Api.Models.Req
 {
-    public class AlbumsRepo : BaseRepo
+    public class GetAlbumInfoRequest : BaseRequest
     {
-        public AlbumsRepo(CQRS.Infrastructure.IUniverseScope domainScope) : base(domainScope)
-        {
+        public string Performer { get; set; }
 
-        }
-
-        public BaseResponce GetAlbumInfo(
-            string artist, string album)
-        {
-            
-            return DomainScope.GetQuery<GetAlbumInfoQuery>().Execute(new GetAlbumInfoRequest {
-                Album = album,
-                Performer = artist
-            });
-        }
-
-        public BaseResponce GetAlbumTags(
-            string artist, string album, string user)
-        {
-            return DomainScope.GetQuery<GetAlbumTagsQuery>().Execute(artist, album, user);
-        }
+        public string Album { get; set; }
     }
 }

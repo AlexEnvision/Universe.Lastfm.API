@@ -38,7 +38,7 @@
             // btOk
             // 
             btOk.DialogResult = System.Windows.Forms.DialogResult.OK;
-            btOk.Location = new System.Drawing.Point(390, 144);
+            btOk.Location = new System.Drawing.Point(390, 224);
             btOk.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             btOk.Name = "btOk";
             btOk.Size = new System.Drawing.Size(100, 35);
@@ -87,7 +87,7 @@
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            ClientSize = new System.Drawing.Size(512, 208);
+            ClientSize = new System.Drawing.Size(512, 273);
             Controls.Add(label2);
             Controls.Add(label1);
             Controls.Add(tbAlbum);

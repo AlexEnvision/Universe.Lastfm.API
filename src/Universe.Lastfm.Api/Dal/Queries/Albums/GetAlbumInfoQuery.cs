@@ -33,18 +33,26 @@
 //  ║                                                                                 ║
 //  ╚═════════════════════════════════════════════════════════════════════════════════╝
 
+using System;
 using Universe.Lastfm.Api.Helpers;
 using Universe.Lastfm.Api.Models;
 using Universe.Lastfm.Api.Models.Base;
+using Universe.Lastfm.Api.Models.Req;
 using Universe.Lastfm.Api.Models.Res;
 
 namespace Universe.Lastfm.Api.Dal.Queries.Albums
 {
-    public class GetAlbumInfoQuery : LastQuery
+    public class GetAlbumInfoQuery : LastQuery<GetAlbumInfoRequest, GetAlbumInfoResponce>
     {
+        protected override Func<BaseRequest, BaseResponce> ExecutableBaseFunc =>
+            req => Execute(req.As<GetAlbumInfoRequest>());
+
         public GetAlbumInfoResponce Execute(
-            string artist, string album)
+            GetAlbumInfoRequest request)
         {
+            string artist = request.Performer;
+            string album = request.Album;
+
             var sessionResponce = Adapter.GetRequest("album.getInfo",
                 Argument.Create("api_key", Settings.ApiKey),
                 Argument.Create("artist", artist),

@@ -65,9 +65,10 @@
             btArtistGetInfo = new System.Windows.Forms.Button();
             btGetArtistTags = new System.Windows.Forms.Button();
             groupBox3 = new System.Windows.Forms.GroupBox();
+            btAlbumGetTopTags = new System.Windows.Forms.Button();
+            btGetAlbumTags = new System.Windows.Forms.Button();
             btAlbumSearch = new System.Windows.Forms.Button();
             btAlbumGetInfo = new System.Windows.Forms.Button();
-            btGetAlbumTags = new System.Windows.Forms.Button();
             pMainForm = new System.Windows.Forms.Panel();
             gbBorders003 = new System.Windows.Forms.GroupBox();
             tbLog = new System.Windows.Forms.TextBox();
@@ -274,7 +275,7 @@
             // btUserGetWeeklyTrackChart
             // 
             btUserGetWeeklyTrackChart.Enabled = false;
-            btUserGetWeeklyTrackChart.Location = new System.Drawing.Point(8, 417);
+            btUserGetWeeklyTrackChart.Location = new System.Drawing.Point(8, 415);
             btUserGetWeeklyTrackChart.Name = "btUserGetWeeklyTrackChart";
             btUserGetWeeklyTrackChart.Size = new System.Drawing.Size(224, 33);
             btUserGetWeeklyTrackChart.TabIndex = 15;
@@ -285,7 +286,7 @@
             // btUserGetWeeklyChartList
             // 
             btUserGetWeeklyChartList.Enabled = false;
-            btUserGetWeeklyChartList.Location = new System.Drawing.Point(8, 383);
+            btUserGetWeeklyChartList.Location = new System.Drawing.Point(8, 381);
             btUserGetWeeklyChartList.Name = "btUserGetWeeklyChartList";
             btUserGetWeeklyChartList.Size = new System.Drawing.Size(224, 33);
             btUserGetWeeklyChartList.TabIndex = 14;
@@ -296,7 +297,7 @@
             // btUserGetWeeklyArtistChart
             // 
             btUserGetWeeklyArtistChart.Enabled = false;
-            btUserGetWeeklyArtistChart.Location = new System.Drawing.Point(8, 349);
+            btUserGetWeeklyArtistChart.Location = new System.Drawing.Point(8, 347);
             btUserGetWeeklyArtistChart.Name = "btUserGetWeeklyArtistChart";
             btUserGetWeeklyArtistChart.Size = new System.Drawing.Size(224, 33);
             btUserGetWeeklyArtistChart.TabIndex = 13;
@@ -307,7 +308,7 @@
             // btUserGetWeeklyAlbumChart
             // 
             btUserGetWeeklyAlbumChart.Enabled = false;
-            btUserGetWeeklyAlbumChart.Location = new System.Drawing.Point(8, 315);
+            btUserGetWeeklyAlbumChart.Location = new System.Drawing.Point(8, 313);
             btUserGetWeeklyAlbumChart.Name = "btUserGetWeeklyAlbumChart";
             btUserGetWeeklyAlbumChart.Size = new System.Drawing.Size(224, 33);
             btUserGetWeeklyAlbumChart.TabIndex = 12;
@@ -318,7 +319,7 @@
             // btUserGetRecentTracks
             // 
             btUserGetRecentTracks.Enabled = false;
-            btUserGetRecentTracks.Location = new System.Drawing.Point(8, 281);
+            btUserGetRecentTracks.Location = new System.Drawing.Point(8, 279);
             btUserGetRecentTracks.Name = "btUserGetRecentTracks";
             btUserGetRecentTracks.Size = new System.Drawing.Size(224, 33);
             btUserGetRecentTracks.TabIndex = 11;
@@ -504,9 +505,10 @@
             // groupBox3
             // 
             groupBox3.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
+            groupBox3.Controls.Add(btAlbumGetTopTags);
+            groupBox3.Controls.Add(btGetAlbumTags);
             groupBox3.Controls.Add(btAlbumSearch);
             groupBox3.Controls.Add(btAlbumGetInfo);
-            groupBox3.Controls.Add(btGetAlbumTags);
             groupBox3.Location = new System.Drawing.Point(8, 11);
             groupBox3.Name = "groupBox3";
             groupBox3.Size = new System.Drawing.Size(173, 489);
@@ -514,12 +516,33 @@
             groupBox3.TabStop = false;
             groupBox3.Text = "album";
             // 
+            // btAlbumGetTopTags
+            // 
+            btAlbumGetTopTags.Enabled = false;
+            btAlbumGetTopTags.Location = new System.Drawing.Point(7, 142);
+            btAlbumGetTopTags.Name = "btAlbumGetTopTags";
+            btAlbumGetTopTags.Size = new System.Drawing.Size(160, 32);
+            btAlbumGetTopTags.TabIndex = 4;
+            btAlbumGetTopTags.Text = "album.getTopTags";
+            btAlbumGetTopTags.UseVisualStyleBackColor = true;
+            btAlbumGetTopTags.Click += btAlbumGetTopTags_Click;
+            // 
+            // btGetAlbumTags
+            // 
+            btGetAlbumTags.Enabled = false;
+            btGetAlbumTags.Location = new System.Drawing.Point(7, 109);
+            btGetAlbumTags.Name = "btGetAlbumTags";
+            btGetAlbumTags.Size = new System.Drawing.Size(160, 32);
+            btGetAlbumTags.TabIndex = 1;
+            btGetAlbumTags.Text = "album.getTags";
+            btGetAlbumTags.Click += btGetAlbumTags_Click;
+            // 
             // btAlbumSearch
             // 
             btAlbumSearch.Enabled = false;
-            btAlbumSearch.Location = new System.Drawing.Point(6, 108);
+            btAlbumSearch.Location = new System.Drawing.Point(7, 77);
             btAlbumSearch.Name = "btAlbumSearch";
-            btAlbumSearch.Size = new System.Drawing.Size(160, 37);
+            btAlbumSearch.Size = new System.Drawing.Size(160, 33);
             btAlbumSearch.TabIndex = 3;
             btAlbumSearch.Text = "album.search";
             btAlbumSearch.UseVisualStyleBackColor = true;
@@ -528,23 +551,13 @@
             // btAlbumGetInfo
             // 
             btAlbumGetInfo.Enabled = false;
-            btAlbumGetInfo.Location = new System.Drawing.Point(6, 37);
+            btAlbumGetInfo.Location = new System.Drawing.Point(7, 39);
             btAlbumGetInfo.Name = "btAlbumGetInfo";
-            btAlbumGetInfo.Size = new System.Drawing.Size(160, 37);
+            btAlbumGetInfo.Size = new System.Drawing.Size(160, 35);
             btAlbumGetInfo.TabIndex = 2;
             btAlbumGetInfo.Text = "album.getInfo";
             btAlbumGetInfo.UseVisualStyleBackColor = true;
             btAlbumGetInfo.Click += btAlbumGetInfo_Click;
-            // 
-            // btGetAlbumTags
-            // 
-            btGetAlbumTags.Enabled = false;
-            btGetAlbumTags.Location = new System.Drawing.Point(6, 74);
-            btGetAlbumTags.Name = "btGetAlbumTags";
-            btGetAlbumTags.Size = new System.Drawing.Size(160, 35);
-            btGetAlbumTags.TabIndex = 1;
-            btGetAlbumTags.Text = "album.getTags";
-            btGetAlbumTags.Click += btGetAlbumTags_Click;
             // 
             // pMainForm
             // 
@@ -600,8 +613,9 @@
             // exitToolStripMenuItem
             // 
             exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            exitToolStripMenuItem.Size = new System.Drawing.Size(116, 26);
+            exitToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             exitToolStripMenuItem.Text = "Exit";
+            exitToolStripMenuItem.Click += exitToolStripMenuItem_Click;
             // 
             // viewToolStripMenuItem
             // 
@@ -745,5 +759,6 @@
         private System.Windows.Forms.GroupBox gbBorders001;
         private System.Windows.Forms.GroupBox gbBorders002;
         private System.Windows.Forms.ToolStripMenuItem spaceModeToolStripMenuItem;
+        private System.Windows.Forms.Button btAlbumGetTopTags;
     }
 }

@@ -35,6 +35,7 @@
 
 using System;
 using Universe.Lastfm.Api.FormsApp.Settings;
+using Universe.Lastfm.Api.FormsApp.Themes;
 
 namespace Universe.Lastfm.Api.FormsApp.Forms.Albums
 {
@@ -47,6 +48,9 @@ namespace Universe.Lastfm.Api.FormsApp.Forms.Albums
         public AlbumTagReqForm(UniverseLastApiAppSettings settings) : base(settings)
         {
             InitializeComponent();
+
+            if (settings.IsSpaceMode)
+                SpaceThemeStyle.Set.Apply(this);
         }
 
         protected override void btOk_Click(object sender, EventArgs e)
