@@ -44,8 +44,11 @@ using Universe.Algorithm.MultiThreading;
 using Universe.CQRS;
 using Universe.CQRS.Infrastructure;
 using Universe.Diagnostic.Logger;
+using Universe.Lastfm.Api.Dal.Command;
+using Universe.Lastfm.Api.Dal.Command.Albums;
 using Universe.Lastfm.Api.Dal.Queries;
 using Universe.Lastfm.Api.Dal.Queries.Albums;
+using Universe.Lastfm.Api.Dal.Queries.ApiConnect;
 using Universe.Lastfm.Api.Dal.Queries.Auth;
 using Universe.Lastfm.Api.Dal.Queries.Performers;
 using Universe.Lastfm.Api.Dal.Queries.Tags;
@@ -66,6 +69,9 @@ using Universe.Lastfm.Api.Models;
 using Universe.Windows.Forms.Controls;
 using Universe.Windows.Forms.Controls.Settings;
 using Universe.Lastfm.Api.FormsApp.Themes;
+using Universe.Lastfm.Api.Models.Base;
+using Universe.Lastfm.Api.Models.Req;
+using Universe.Lastfm.Api.Models.Res;
 
 namespace Universe.Lastfm.Api.FormsApp
 {
@@ -221,29 +227,59 @@ namespace Universe.Lastfm.Api.FormsApp
 
         private void btConnect_Click(object sender, EventArgs e)
         {
-            try
+            ThreadMachine.Create(1).RunInMultiTheadsWithoutWaiting(() =>
             {
-                var apiKey = !string.IsNullOrEmpty(tbApiKey.Text.Trim())
-                    ? tbApiKey.Text.Trim()
-                    : throw new Exception("Не указан Api Key!");
-                var clientSecret = !string.IsNullOrEmpty(tbSecretKey.Text.Trim())
-                    ? tbSecretKey.Text.Trim()
-                    : throw new Exception("Не указан Client Secret!");
 
-                //_adapter = new LastfmFormsAdapter(apiKey, clientSecret);
-                //var responce = _adapter.SendAuthRequest(_programSettings.IsTrustedApiApp);
+                try
+                {
+                    var apiKey = !string.IsNullOrEmpty(tbApiKey.Text.Trim())
+                        ? tbApiKey.Text.Trim()
+                        : throw new Exception("Не указан Api Key!");
+                    var clientSecret = !string.IsNullOrEmpty(tbSecretKey.Text.Trim())
+                        ? tbSecretKey.Text.Trim()
+                        : throw new Exception("Не указан Client Secret!");
 
-                var allowAccess = Scope.GetQuery<RequestAccessQuery>().Execute(_programSettings.IsTrustedApiApp);
-                //var auth = LastScopeExtensions.GetQuery<AuthQuery>(Scope).Execute(allowAccess);
+                    //_adapter = new LastfmFormsAdapter(apiKey, clientSecret);
+                    //var responce = _adapter.SendAuthRequest(_programSettings.IsTrustedApiApp);
 
-                _log.Info($"Ответ сервиса: {allowAccess.ServiceAnswer}. ");
+                    var allowAccess = Scope.GetQuery<RequestAccessQuery>().Execute(_programSettings.IsTrustedApiApp);
 
-                pApiControls.EnableButtonsSafe();
-            }
-            catch (Exception ex)
-            {
-                _log.Error(ex, ex.Message);
-            }
+                    _log.Info($"Ответ сервиса: {allowAccess.ServiceAnswer}. ");
+
+                    pApiControls.EnableButtonsSafe();
+                    this.SafeCall(() => btRun.Enabled = true);
+
+                    // SECOND STAGE
+
+                    _log.Info($"Was started the second stage of auth: {allowAccess.ServiceAnswer}. ");
+                    //var auth = Scope.GetQuery<AuthQuery>().ExecuteBaseSafe(new AuthRequest { Token = allowAccess.Token });
+
+                    var connection = Scope.GetQuery<GetConnectQuery>();
+
+                    var needApprovement = !this.SafeCallResult(() => chTrustedApp.Checked);
+                    if (needApprovement)
+                    {
+                        _log.Info("You have 15 second for allow auth in opened browser page...");
+                    }
+                    connection.Connect(needApprovement);
+
+                    var sk = connection.GetSecretKey();
+                    var token = connection.GetToken();
+
+                    ReqCtx.Token = token;
+                    ReqCtx.SecretKey = sk;
+
+                    connection.SetSessionKey(_programSettings.ApiKey, _programSettings.SecretKey, token);
+                    var session = connection.GetSessionKey();
+                    ReqCtx.SessionKey = session;
+
+                    _log.Info($"Current session: {session}");
+                }
+                catch (Exception ex)
+                {
+                    _log.Error(ex, ex.Message);
+                }
+            });
         }
 
         private void btRun_Click(object sender, EventArgs e)
@@ -271,6 +307,7 @@ namespace Universe.Lastfm.Api.FormsApp
 
             ReqCtx.Album = "01011001";
             ReqCtx.Performer = "Ayreon";
+            ReqCtx.Tags = new string[] { "Progressive Metal" };
 
             ThreadMachine.Create(1).RunInMultiTheadsWithoutWaiting(() =>
             {
@@ -294,12 +331,22 @@ namespace Universe.Lastfm.Api.FormsApp
                     (Scope.GetQuery<GetAlbumInfoQuery>(), btAlbumGetInfo),
                     (Scope.GetQuery<GetAlbumTagsQuery>(), btGetAlbumTags),
                     (Scope.GetQuery<SearchAlbumQuery>(), btAlbumSearch),
-                    (Scope.GetQuery<GetAlbumTopTagsQuery>(), btAlbumGetTopTags)
+                    (Scope.GetQuery<GetAlbumTopTagsQuery>(), btAlbumGetTopTags),
                 };
 
                 foreach (var query in queries)
                 {
                     query.Itself.ExecuteBaseSafe(ReqCtx).ReportResult(tbLog).LightColorResult(query.Ctrl, 200);
+                }
+
+                var commands = new (BaseCommand Itself, Control Ctrl)[]
+                {
+                    (Scope.GetCommand<AddAlbumTagsCommand>(), btAlbumAddTags)
+                };
+
+                foreach (var command in commands)
+                {
+                    command.Itself.ExecuteBaseSafe(ReqCtx).ReportResult(tbLog).LightColorResult(command.Ctrl, 200);
                 }
             });
         }

@@ -33,20 +33,55 @@
 //  ║                                                                                 ║
 //  ╚═════════════════════════════════════════════════════════════════════════════════╝
 
+using System;
 using Universe.Lastfm.Api.Helpers;
 using Universe.Lastfm.Api.Models;
 using Universe.Lastfm.Api.Models.Base;
+using Universe.Lastfm.Api.Models.Req;
 using Universe.Lastfm.Api.Models.Res;
 
 namespace Universe.Lastfm.Api.Dal.Queries.Albums
 {
-    public class GetAlbumTagsQuery : LastQuery
+    public class GetAlbumTagsQuery : LastQuery<GetAlbumTagsRequest, GetAlbumTagsResponce>
     {
-        public GetAlbumTagsResponce Execute(
-            string artist, string album, string user)
+        protected override Func<BaseRequest, BaseResponce> ExecutableBaseFunc =>
+            req => Execute(req.As<GetAlbumTagsRequest>());
+
+        /// <summary>
+        ///     Get the tags applied by an individual user to an album on Last.fm.
+        ///     To retrieve the list of top tags applied to an album by all users use album.getTopTags.
+        /// </summary>
+        /// <param name="request.artist">
+        ///     The artist name.
+        ///     (Required (unless mbid)] 
+        /// </param>
+        /// <param name="request.album">
+        ///     The album name.
+        ///     (Required (unless mbid)] 
+        /// </param>
+        /// <param name="request.user">
+        ///     If called in non-authenticated mode you must specify the user to look up
+        /// </param>
+        /// <param name="request.mbid">
+        ///     The musicbrainz id for the album.
+        ///     (Optional) 
+        /// </param>
+        /// <param name="request.autocorrect">
+        ///     
+        /// </param>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        public override GetAlbumTagsResponce Execute(
+            GetAlbumTagsRequest request)
         {
+            string album = request.Album;
+            string performer = request.Performer;
+            string user = request.User;
+            string mbid = request.Mbid;
+            string autocorrect = request.Autocorrect;
+
             var sessionResponce = Adapter.GetRequest("album.getTags",
-                Argument.Create("artist", artist),
+                Argument.Create("artist", performer),
                 Argument.Create("album", album),
                 Argument.Create("user", user),
                 Argument.Create("api_key", Settings.ApiKey),

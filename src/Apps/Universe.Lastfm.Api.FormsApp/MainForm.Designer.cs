@@ -40,6 +40,9 @@
             btConnect = new System.Windows.Forms.Button();
             groupBox2 = new System.Windows.Forms.GroupBox();
             pApiControls = new System.Windows.Forms.Panel();
+            groupBox10 = new System.Windows.Forms.GroupBox();
+            btAlbumRemoveTag = new System.Windows.Forms.Button();
+            btAlbumAddTags = new System.Windows.Forms.Button();
             groupBox6 = new System.Windows.Forms.GroupBox();
             btTrackScrobble = new System.Windows.Forms.Button();
             groupBox9 = new System.Windows.Forms.GroupBox();
@@ -87,6 +90,7 @@
             gbBorders001.SuspendLayout();
             groupBox2.SuspendLayout();
             pApiControls.SuspendLayout();
+            groupBox10.SuspendLayout();
             groupBox6.SuspendLayout();
             groupBox9.SuspendLayout();
             groupBox8.SuspendLayout();
@@ -102,7 +106,8 @@
             // btRun
             // 
             btRun.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
-            btRun.Location = new System.Drawing.Point(15, 747);
+            btRun.Enabled = false;
+            btRun.Location = new System.Drawing.Point(15, 748);
             btRun.Name = "btRun";
             btRun.Size = new System.Drawing.Size(1336, 45);
             btRun.TabIndex = 0;
@@ -215,6 +220,7 @@
             // 
             // pApiControls
             // 
+            pApiControls.Controls.Add(groupBox10);
             pApiControls.Controls.Add(groupBox6);
             pApiControls.Controls.Add(groupBox9);
             pApiControls.Controls.Add(groupBox8);
@@ -227,6 +233,40 @@
             pApiControls.Name = "pApiControls";
             pApiControls.Size = new System.Drawing.Size(1330, 512);
             pApiControls.TabIndex = 1;
+            // 
+            // groupBox10
+            // 
+            groupBox10.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
+            groupBox10.Controls.Add(btAlbumRemoveTag);
+            groupBox10.Controls.Add(btAlbumAddTags);
+            groupBox10.Location = new System.Drawing.Point(8, 216);
+            groupBox10.Name = "groupBox10";
+            groupBox10.Size = new System.Drawing.Size(173, 284);
+            groupBox10.TabIndex = 5;
+            groupBox10.TabStop = false;
+            groupBox10.Text = "album commands";
+            // 
+            // btAlbumRemoveTag
+            // 
+            btAlbumRemoveTag.Enabled = false;
+            btAlbumRemoveTag.Location = new System.Drawing.Point(7, 75);
+            btAlbumRemoveTag.Name = "btAlbumRemoveTag";
+            btAlbumRemoveTag.Size = new System.Drawing.Size(160, 32);
+            btAlbumRemoveTag.TabIndex = 6;
+            btAlbumRemoveTag.Text = "album.removeTag";
+            btAlbumRemoveTag.UseVisualStyleBackColor = true;
+            btAlbumRemoveTag.Click += btAlbumRemoveTag_Click;
+            // 
+            // btAlbumAddTags
+            // 
+            btAlbumAddTags.Enabled = false;
+            btAlbumAddTags.Location = new System.Drawing.Point(7, 40);
+            btAlbumAddTags.Name = "btAlbumAddTags";
+            btAlbumAddTags.Size = new System.Drawing.Size(160, 32);
+            btAlbumAddTags.TabIndex = 5;
+            btAlbumAddTags.Text = "album.addTags";
+            btAlbumAddTags.UseVisualStyleBackColor = true;
+            btAlbumAddTags.Click += btAlbumAddTags_Click;
             // 
             // groupBox6
             // 
@@ -504,17 +544,16 @@
             // 
             // groupBox3
             // 
-            groupBox3.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
             groupBox3.Controls.Add(btAlbumGetTopTags);
             groupBox3.Controls.Add(btGetAlbumTags);
             groupBox3.Controls.Add(btAlbumSearch);
             groupBox3.Controls.Add(btAlbumGetInfo);
             groupBox3.Location = new System.Drawing.Point(8, 11);
             groupBox3.Name = "groupBox3";
-            groupBox3.Size = new System.Drawing.Size(173, 489);
+            groupBox3.Size = new System.Drawing.Size(173, 186);
             groupBox3.TabIndex = 3;
             groupBox3.TabStop = false;
-            groupBox3.Text = "album";
+            groupBox3.Text = "album queries";
             // 
             // btAlbumGetTopTags
             // 
@@ -613,7 +652,7 @@
             // exitToolStripMenuItem
             // 
             exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            exitToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            exitToolStripMenuItem.Size = new System.Drawing.Size(116, 26);
             exitToolStripMenuItem.Text = "Exit";
             exitToolStripMenuItem.Click += exitToolStripMenuItem_Click;
             // 
@@ -687,6 +726,7 @@
             gbBorders001.PerformLayout();
             groupBox2.ResumeLayout(false);
             pApiControls.ResumeLayout(false);
+            groupBox10.ResumeLayout(false);
             groupBox6.ResumeLayout(false);
             groupBox9.ResumeLayout(false);
             groupBox8.ResumeLayout(false);
@@ -760,5 +800,8 @@
         private System.Windows.Forms.GroupBox gbBorders002;
         private System.Windows.Forms.ToolStripMenuItem spaceModeToolStripMenuItem;
         private System.Windows.Forms.Button btAlbumGetTopTags;
+        private System.Windows.Forms.GroupBox groupBox10;
+        private System.Windows.Forms.Button btAlbumAddTags;
+        private System.Windows.Forms.Button btAlbumRemoveTag;
     }
 }

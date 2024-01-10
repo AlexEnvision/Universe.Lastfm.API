@@ -47,6 +47,11 @@ namespace Universe.Lastfm.Api.FormsApp.Forms.Users
 
         public string User { get; protected set; }
 
+        public UserInfoReqForm()
+        {
+            InitializeComponent();
+        }
+
         public UserInfoReqForm(UniverseLastApiAppSettings settings)
         {
             InitializeComponent();

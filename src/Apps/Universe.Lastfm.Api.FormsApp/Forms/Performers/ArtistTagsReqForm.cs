@@ -45,6 +45,11 @@ namespace Universe.Lastfm.Api.FormsApp
 
         public string User { get; set; }
 
+        public ArtistTagsReqForm()
+        {
+            InitializeComponent();
+        }
+
         public ArtistTagsReqForm(UniverseLastApiAppSettings settings) : base(settings)
         {
             InitializeComponent();

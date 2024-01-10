@@ -46,6 +46,11 @@ namespace Universe.Lastfm.Api.FormsApp.Forms.Genres
 
         public string Tag { get; private set; }
 
+        public TagInfoReqForm()
+        {
+            InitializeComponent();
+        }
+
         public TagInfoReqForm(UniverseLastApiAppSettings settings)
         {
             InitializeComponent();

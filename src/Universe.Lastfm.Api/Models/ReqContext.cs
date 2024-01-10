@@ -8,6 +8,15 @@ namespace Universe.Lastfm.Api.Models
 {
     public class ReqContext : BaseRequest
     {
+        public string SessionKey { get; set; }
+
+        public string Token { get; set; }
+
+        /// <summary>
+        ///     The secret key from setting of the application
+        /// </summary>
+        public string SecretKey { get; set; }
+
         public string User { get; set; }
 
         public string Period { get; set; }
@@ -29,5 +38,7 @@ namespace Universe.Lastfm.Api.Models
         public string Album { get; set; }
 
         public string Performer { get; set; }
+
+        public string[] Tags { get; set; }
     }
 }

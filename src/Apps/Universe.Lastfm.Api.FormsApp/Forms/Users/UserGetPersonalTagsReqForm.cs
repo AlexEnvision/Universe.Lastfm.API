@@ -14,6 +14,11 @@ namespace Universe.Lastfm.Api.FormsApp.Forms.Users
 
         public string GenreType { get; protected set; }
 
+        public UserGetPersonalTagsReqForm()
+        {
+            InitializeComponent();
+        }
+
         public UserGetPersonalTagsReqForm(UniverseLastApiAppSettings settings) : base(settings)
         {
             InitializeComponent();

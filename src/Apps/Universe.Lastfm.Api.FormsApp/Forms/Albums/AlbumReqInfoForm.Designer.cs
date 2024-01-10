@@ -54,6 +54,7 @@
             tbPerformer.Name = "tbPerformer";
             tbPerformer.Size = new System.Drawing.Size(389, 27);
             tbPerformer.TabIndex = 1;
+            tbPerformer.Text = "Ayreon";
             // 
             // tbAlbum
             // 
@@ -62,6 +63,7 @@
             tbAlbum.Name = "tbAlbum";
             tbAlbum.Size = new System.Drawing.Size(389, 27);
             tbAlbum.TabIndex = 2;
+            tbAlbum.Text = "01011001";
             // 
             // label1
             // 

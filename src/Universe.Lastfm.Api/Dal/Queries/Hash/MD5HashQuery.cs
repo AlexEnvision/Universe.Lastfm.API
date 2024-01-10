@@ -45,19 +45,26 @@ namespace Universe.Lastfm.Api.Dal.Queries.Hash
             // Convert the input string to a byte array and compute the hash.
             byte[] data = md5Hash.ComputeHash(Encoding.UTF8.GetBytes(input));
 
-            // Create a new Stringbuilder to collect the bytes
-            // and create a string.
-            StringBuilder sBuilder = new StringBuilder();
+            //// Create a new Stringbuilder to collect the bytes
+            //// and create a string.
+            //StringBuilder sBuilder = new StringBuilder();
 
-            // Loop through each byte of the hashed data
-            // and format each one as a hexadecimal string.
-            for (int i = 0; i < data.Length; i++)
+            //// Loop through each byte of the hashed data
+            //// and format each one as a hexadecimal string.
+            //for (int i = 0; i < data.Length; i++)
+            //{
+            //    sBuilder.Append(data[i].ToString("x2"));
+            //}
+
+            //// Return the hexadecimal string.
+            //return sBuilder.ToString();
+
+            var sb = new StringBuilder();
+            foreach (var t in data)
             {
-                sBuilder.Append(data[i].ToString("x2"));
+                sb.Append(t.ToString("X2"));
             }
-
-            // Return the hexadecimal string.
-            return sBuilder.ToString();
+            return sb.ToString();
         }
     }
 }

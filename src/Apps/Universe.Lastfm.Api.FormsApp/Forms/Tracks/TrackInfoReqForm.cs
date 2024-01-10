@@ -50,6 +50,11 @@ namespace Universe.Lastfm.Api.FormsApp.Forms.Tracks
 
         public string Track { get; private set; }
 
+        public TrackInfoReqForm()
+        {
+            InitializeComponent();
+        }
+
         public TrackInfoReqForm(UniverseLastApiAppSettings settings)
         {
             InitializeComponent();

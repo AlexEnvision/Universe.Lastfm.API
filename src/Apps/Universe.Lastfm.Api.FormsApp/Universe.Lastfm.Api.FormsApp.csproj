@@ -9,10 +9,12 @@
 
   <ItemGroup>
     <None Remove="BackGround\BackTexture.png" />
+    <None Remove="BackGround\Nebula.jpg" />
   </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Include="BackGround\BackTexture.png" />
+    <EmbeddedResource Include="BackGround\Nebula.jpg" />
   </ItemGroup>
 
   <ItemGroup>

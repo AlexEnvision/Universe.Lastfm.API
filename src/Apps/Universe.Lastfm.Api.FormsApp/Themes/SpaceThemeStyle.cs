@@ -36,12 +36,28 @@
 using System;
 using System.Drawing;
 using System.Windows.Forms;
+using Universe.Helpers.Extensions;
 using Universe.Lastfm.Api.FormsApp.Extensions;
+using Universe.Lastfm.Api.FormsApp.Properties;
 
 namespace Universe.Lastfm.Api.FormsApp.Themes
 {
     public class SpaceThemeStyle
     {
+        public Color MainBackColor => Color.FromArgb(1, 7, 51);
+
+        public Color MainTextColor => Color.FromArgb(78, 206, 215);
+
+        public Color MainHoverCaptureColor => Color.Blue;
+
+        public Color SuccessfulColor => Color.DarkGreen;
+
+        public Color UnsuccesfulColor => Color.DarkRed;
+
+        public Brush MainTextBrush => new SolidBrush(MainTextColor);
+
+        public Brush InactiveTextBrush => Brushes.DarkCyan;
+
         public static SpaceThemeStyle Set => new SpaceThemeStyle();
 
         public void Apply(Control control)
@@ -49,8 +65,19 @@ namespace Universe.Lastfm.Api.FormsApp.Themes
             control.MassSetControlProperty(ctrl =>
             {
                 //ctrl.BackgroundImage = Resources.BackTexture;
-                ctrl.BackColor = Color.FromArgb(1, 7, 51);
-                ctrl.ForeColor = Color.Cyan;
+
+                ctrl.BackColor = MainBackColor;
+                ctrl.ForeColor = MainTextColor;
+
+                if (ctrl is Panel pCtrl)
+                {
+                    var name = pCtrl.Name;
+                    if (name.PrepareToCompare() != "pApiControls".PrepareToCompare())
+                        pCtrl.BackgroundImage = Resources.Nebula;
+
+                    if (name.PrepareToCompare() == "pApiControls".PrepareToCompare())
+                        pCtrl.BackColor = Color.Transparent;
+                }
 
                 if (ctrl is GroupBox gbCtrl)
                 {
@@ -74,13 +101,13 @@ namespace Universe.Lastfm.Api.FormsApp.Themes
         private void BtCtrl_MouseHover(object sender, EventArgs e)
         {
             Button box = (Button)sender;
-            box.BackColor = Color.Blue;
+            box.BackColor = MainHoverCaptureColor;
         }
 
         private void BtCtrl_MouseLeave(object sender, EventArgs e)
         {
             Button box = (Button)sender;
-            box.BackColor = Color.FromArgb(1, 7, 51);
+            box.BackColor = MainBackColor;
         }
 
         private void RePaintBorderlessGroupBox(object sender, PaintEventArgs p)
@@ -90,36 +117,36 @@ namespace Universe.Lastfm.Api.FormsApp.Themes
 
             if (box.Name.Contains("gbBorders"))
             {
-                var color = Brushes.Cyan;
+                var color = MainTextBrush;
                 p.Graphics.DrawRectangle(new Pen(color, 2), new Rectangle(5, 5, box.Width - 10, box.Height - 10));
             }
             else
             {
-                var color = Brushes.Cyan;
+                var color = MainTextBrush;
                 p.Graphics.DrawRectangle(new Pen(color, 2), new Rectangle(0, 0, box.Width, box.Height));
             }
 
-            p.Graphics.DrawString(box.Text, box.Font, Brushes.Cyan, 2, 2);
+            p.Graphics.DrawString(box.Text, box.Font, MainTextBrush, 2, 2);
         }
 
         private void RePaintButton(object sender, PaintEventArgs p)
         {
             Button box = (Button)sender;
 
-            if (box.BackColor == Color.DarkGreen)
+            if (box.BackColor == SuccessfulColor)
             {
-                p.Graphics.Clear(Color.DarkGreen);
+                p.Graphics.Clear(SuccessfulColor);
             }
-            else if (box.BackColor == Color.DarkRed)
+            else if (box.BackColor == UnsuccesfulColor)
             {
-                p.Graphics.Clear(Color.DarkRed);
+                p.Graphics.Clear(UnsuccesfulColor);
             }
             else
             {
                 p.Graphics.Clear(box.BackColor);  //Color.FromArgb(1, 7, 51)
             }
 
-            var text = box.Enabled ? Brushes.Cyan : Brushes.DarkCyan;
+            var text = box.Enabled ? MainTextBrush : InactiveTextBrush;
 
             StringFormat sf = new StringFormat();
             sf.LineAlignment = StringAlignment.Center;
@@ -130,7 +157,7 @@ namespace Universe.Lastfm.Api.FormsApp.Themes
 
             if (box.Capture)
             {
-                p.Graphics.DrawRectangle(new Pen(Color.Blue, 5), new Rectangle(0, 0, box.Width, box.Height));
+                p.Graphics.DrawRectangle(new Pen(MainHoverCaptureColor, 5), new Rectangle(0, 0, box.Width, box.Height));
             }
         }
 
@@ -139,9 +166,9 @@ namespace Universe.Lastfm.Api.FormsApp.Themes
             TextBox box = (TextBox)sender;
             p.Graphics.Clear(box.BackColor);   //Color.FromArgb(1, 7, 51)
 
-            p.Graphics.DrawString(box.Text, box.Font, Brushes.Cyan, 10, 10);
+            p.Graphics.DrawString(box.Text, box.Font, MainTextBrush, 10, 10);
 
-            var text = box.Enabled ? Brushes.Cyan : Brushes.DarkCyan;
+            var text = box.Enabled ? MainTextBrush : InactiveTextBrush;
             p.Graphics.DrawRectangle(new Pen(text, 5), new Rectangle(0, 0, box.Width, box.Height));
         }
     }

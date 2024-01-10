@@ -37,6 +37,10 @@ using Universe.Lastfm.Api.Models.Base;
 
 namespace Universe.Lastfm.Api.Models.Req
 {
+    /// <summary>
+    ///     The request with parameters for full information about album of the Last.fm.
+    ///     Запрос с параметрами для полной информацией об альбоме Last.fm.
+    /// </summary>
     public class GetAlbumInfoRequest : BaseRequest
     {
         public string Performer { get; set; }

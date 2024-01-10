@@ -46,9 +46,14 @@ namespace Universe.Lastfm.Api.FormsApp.Forms.Albums
 
         protected string AlbumName => tbAlbum?.Text;
 
-        public string Performer { get; private set; }
+        public string Performer { get; protected set; }
 
-        public string Album { get; private set; }
+        public string Album { get; protected set; }
+
+        public AlbumReqInfoForm()
+        {
+            InitializeComponent();
+        }
 
         public AlbumReqInfoForm(UniverseLastApiAppSettings settings)
         {

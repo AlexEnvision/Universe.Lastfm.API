@@ -33,81 +33,37 @@
 //  ║                                                                                 ║
 //  ╚═════════════════════════════════════════════════════════════════════════════════╝
 
-using System;
-using Universe.Lastfm.Api.Dto;
-using Universe.Lastfm.Api.Infrastracture;
 using Universe.Lastfm.Api.Models.Base;
 
-namespace Universe.Lastfm.Api.Dal.Command
+namespace Universe.Lastfm.Api.Models.Req
 {
-    public abstract class BaseCommand : CQRS.Dal.Commands.Base.BaseCommand
+    /// <summary>
+    ///     The request with parameters for full information about album and his tags of the Last.fm.
+    ///     Запрос с параметрами для полной информацией об альбоме и его тэгов Last.fm.
+    /// </summary>
+    public class GetAlbumTagsRequest : BaseRequest
     {
-        protected virtual Func<BaseRequest, BaseResponce> ExecutableBaseFunc => null;
+        public string Performer { get; set; }
 
-        public ApiUser ApiUser { get; internal set; }
+        public string Album { get; set; }
 
-        public RootDto Root { get; internal set; }
+        public string User { get; set; }
 
-        internal abstract void Init(IUniverseLastApiSettings settings);
+        public string Mbid { get; set; }
 
-        public virtual BaseResponce ExecuteBase(BaseRequest request)
+        /// <summary>
+        ///     Autocorrect[0|1] (Optional) : Transform misspelled artist names into correct artist names,
+        ///     returning the correct version instead. The corrected artist name will be returned in the response.
+        /// </summary>
+        public string Autocorrect { get; set; }
+
+        public GetAlbumTagsRequest()
         {
-            if (request != null)
-                if (ExecutableBaseFunc != null)
-                    return ExecutableBaseFunc.Invoke(request);
-
-            return new BaseResponce()
-            {
-                Message = "The logic wasn't implemented. Specify 'ExecutableBaseFunc' in your implementation."
-            };
         }
 
-        public virtual BaseResponce ExecuteBaseSafe(
-            BaseRequest request)
+        public static GetAlbumTagsRequest Build(string artist, string album, string user)
         {
-            try
-            {
-                return ExecuteBase(request);
-            }
-            catch (Exception ex)
-            {
-                return new BaseResponce()
-                {
-                    IsSuccessful = false,
-                    Message = ex.Message
-                };
-            }
-        }
-    }
-
-    public abstract class BaseCommand<TRequest, TResponce> : BaseCommand
-        where TRequest : BaseRequest
-        where TResponce : BaseResponce, new()
-    {
-        public virtual TResponce Execute(TRequest request)
-        {
-            if (request != null)
-                if (ExecutableBaseFunc != null)
-                    return ExecutableBaseFunc.Invoke(request) as TResponce;
-
-            return new TResponce();
-        }
-
-        public virtual TResponce ExecuteSafe(
-            TRequest request)
-        {
-            try
-            {
-                return Execute(request);
-            }
-            catch (Exception ex)
-            {
-                return new TResponce()
-                {
-                    IsSuccessful = false,
-                    Message = ex.Message
-                };
-            }
+            return new GetAlbumTagsRequest { User = user, Album = album, Performer = artist };
         }
     }
 }

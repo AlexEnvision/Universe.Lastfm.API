@@ -7,10 +7,14 @@ using Universe.Lastfm.Api.FormsApp.Extensions;
 using Universe.Lastfm.Api.FormsApp.Forms.Albums;
 using Universe.Lastfm.Api.Helpers;
 using Universe.Lastfm.Api.Models.Req;
+using Universe.Lastfm.Api.Dal.Command.Albums;
+
 using static Universe.Lastfm.Api.Dal.Queries.Albums.GetAlbumInfoQuery;
 using static Universe.Lastfm.Api.Dal.Queries.Albums.GetAlbumTagsQuery;
 using static Universe.Lastfm.Api.Dal.Queries.Albums.SearchAlbumQuery;
 using static Universe.Lastfm.Api.Dal.Queries.Albums.GetAlbumTopTagsQuery;
+
+using static Universe.Lastfm.Api.Dal.Command.Albums.AddAlbumTagsCommand;
 
 namespace Universe.Lastfm.Api.FormsApp
 {
@@ -123,13 +127,16 @@ namespace Universe.Lastfm.Api.FormsApp
             }
 
             DisableButtons(sender);
+            ReqCtx.Album = album;
+            ReqCtx.Performer = performer;
+            ReqCtx.User = user;
 
             ThreadMachine.Create(1).RunInMultiTheadsWithoutWaiting(() =>
             {
                 try
                 {
                     //  _adapter.GetAlbumTags(performer, album, user);
-                    var responce = Scope.GetQuery<GetAlbumTagsQuery>().Execute(performer, album, user)
+                    var responce = Scope.GetQuery<GetAlbumTagsQuery>().Execute(ReqCtx.As<GetAlbumTagsRequest>())
                         .LightColorResult(btGetAlbumTags);
                     if (!responce.IsSuccessful)
                     {
@@ -293,6 +300,88 @@ namespace Universe.Lastfm.Api.FormsApp
                     EnableButtonsSafe();
                 }
             });
+        }
+
+        private void btAlbumAddTags_Click(object sender, EventArgs e)
+        {
+            string performer;
+            string albumName;
+            string[] tags;
+
+            using (var form = new AlbumAddTagsReqForm(_programSettings))
+            {
+                if (form.ShowDialog() == DialogResult.OK)
+                {
+                    performer = form.Performer;
+                    if (string.IsNullOrEmpty(performer))
+                    {
+                        tbLog.AppendText($"[{DateTime.Now}] Не указан performer!" + Environment.NewLine);
+                        return;
+                    }
+
+                    albumName = form.Album;
+                    if (string.IsNullOrEmpty(albumName))
+                    {
+                        tbLog.AppendText($"[{DateTime.Now}] Не указан album!" + Environment.NewLine);
+                        return;
+                    }
+
+                    tags = form.TagsArray;
+                    if (tags.Length == 0)
+                    {
+                        tbLog.AppendText($"[{DateTime.Now}] Не указаны tags!" + Environment.NewLine);
+                        return;
+                    }
+                }
+                else
+                {
+                    return;
+                }
+            }
+
+            DisableButtons(sender);
+            ReqCtx.Album = albumName;
+            ReqCtx.Performer = performer;
+            ReqCtx.Tags = tags;
+
+            ThreadMachine.Create(1).RunInMultiTheadsWithoutWaiting(() =>
+            {
+                try
+                {
+                    var responce = Scope.GetCommand<AddAlbumTagsCommand>().Execute(ReqCtx.As<AddAlbumTagsRequest>())
+                        .LightColorResult(btAlbumAddTags);
+                    if (!responce.IsSuccessful)
+                    {
+                        _log.Info($"{responce.Message} {responce.ServiceAnswer}");
+                    }
+
+                    _log.Info(
+                        $"Успешно выгружена информация по пользователю {albumName}: {Environment.NewLine}{Environment.NewLine}{responce.ServiceAnswer}{Environment.NewLine}.");
+
+                    var tagsStr = string.Join(";", ReqCtx.Tags);
+
+                    var data = responce.Responces.Select(x => x.DataContainer);
+                    var dataStr = string.Join(", ", data.SelectMany(x => x.Lfm.Status));
+
+                    _log.Info($"Result of adding tags/genres of album by the names {tagsStr} / Результат добавления топ-тэгов/жанров альбома по названиям {tagsStr}: {dataStr}.");
+
+                    _log.Info(Environment.NewLine);
+                }
+                catch (Exception ex)
+                {
+                    _log.Error(ex, ex.Message);
+                    btAlbumAddTags.LightErrorColorResult();
+                }
+                finally
+                {
+                    EnableButtonsSafe();
+                }
+            });
+        }
+
+        private void btAlbumRemoveTag_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

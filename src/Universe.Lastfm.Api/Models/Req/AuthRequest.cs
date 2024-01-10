@@ -33,81 +33,12 @@
 //  ║                                                                                 ║
 //  ╚═════════════════════════════════════════════════════════════════════════════════╝
 
-using System;
-using Universe.Lastfm.Api.Dto;
-using Universe.Lastfm.Api.Infrastracture;
 using Universe.Lastfm.Api.Models.Base;
 
-namespace Universe.Lastfm.Api.Dal.Command
+namespace Universe.Lastfm.Api.Models.Req
 {
-    public abstract class BaseCommand : CQRS.Dal.Commands.Base.BaseCommand
+    public class AuthRequest : BaseRequest
     {
-        protected virtual Func<BaseRequest, BaseResponce> ExecutableBaseFunc => null;
-
-        public ApiUser ApiUser { get; internal set; }
-
-        public RootDto Root { get; internal set; }
-
-        internal abstract void Init(IUniverseLastApiSettings settings);
-
-        public virtual BaseResponce ExecuteBase(BaseRequest request)
-        {
-            if (request != null)
-                if (ExecutableBaseFunc != null)
-                    return ExecutableBaseFunc.Invoke(request);
-
-            return new BaseResponce()
-            {
-                Message = "The logic wasn't implemented. Specify 'ExecutableBaseFunc' in your implementation."
-            };
-        }
-
-        public virtual BaseResponce ExecuteBaseSafe(
-            BaseRequest request)
-        {
-            try
-            {
-                return ExecuteBase(request);
-            }
-            catch (Exception ex)
-            {
-                return new BaseResponce()
-                {
-                    IsSuccessful = false,
-                    Message = ex.Message
-                };
-            }
-        }
-    }
-
-    public abstract class BaseCommand<TRequest, TResponce> : BaseCommand
-        where TRequest : BaseRequest
-        where TResponce : BaseResponce, new()
-    {
-        public virtual TResponce Execute(TRequest request)
-        {
-            if (request != null)
-                if (ExecutableBaseFunc != null)
-                    return ExecutableBaseFunc.Invoke(request) as TResponce;
-
-            return new TResponce();
-        }
-
-        public virtual TResponce ExecuteSafe(
-            TRequest request)
-        {
-            try
-            {
-                return Execute(request);
-            }
-            catch (Exception ex)
-            {
-                return new TResponce()
-                {
-                    IsSuccessful = false,
-                    Message = ex.Message
-                };
-            }
-        }
+        public string Token { get; set; }
     }
 }

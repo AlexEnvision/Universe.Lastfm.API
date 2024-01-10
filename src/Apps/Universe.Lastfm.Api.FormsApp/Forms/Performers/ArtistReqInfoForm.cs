@@ -46,6 +46,11 @@ namespace Universe.Lastfm.Api.FormsApp.Forms.Performers
 
         public string Performer { get; private set; }
 
+        public ArtistReqInfoForm()
+        {
+            InitializeComponent();
+        }
+
         public ArtistReqInfoForm(UniverseLastApiAppSettings settings)
         {
             InitializeComponent();

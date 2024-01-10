@@ -61,7 +61,12 @@ namespace Universe.Lastfm.Api.Repos
         public BaseResponce GetAlbumTags(
             string artist, string album, string user)
         {
-            return DomainScope.GetQuery<GetAlbumTagsQuery>().Execute(artist, album, user);
+            return DomainScope.GetQuery<GetAlbumTagsQuery>().Execute(new GetAlbumTagsRequest
+            {
+                User = user,
+                Performer = artist,
+                Album = album
+            });
         }
     }
 }

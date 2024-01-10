@@ -57,7 +57,7 @@ namespace Universe.Lastfm.Api.Dal.Queries
                     return ExecutableBaseFunc.Invoke(request);
 
             return new BaseResponce() {
-                Message = "The logic wasn't implemented!"
+                Message = "The logic wasn't implemented. Specify 'ExecutableBaseFunc' in your implementation."
             };
         }
 
