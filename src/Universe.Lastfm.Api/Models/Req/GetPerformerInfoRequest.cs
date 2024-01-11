@@ -33,48 +33,16 @@
 //  ║                                                                                 ║
 //  ╚═════════════════════════════════════════════════════════════════════════════════╝
 
-using System;
-using Universe.Lastfm.Api.Helpers;
-using Universe.Lastfm.Api.Models;
 using Universe.Lastfm.Api.Models.Base;
-using Universe.Lastfm.Api.Models.Req;
-using Universe.Lastfm.Api.Models.Res;
 
-namespace Universe.Lastfm.Api.Dal.Queries.Performers
+namespace Universe.Lastfm.Api.Models.Req
 {
     /// <summary>
-    ///     The query gets the full information about artist/performer on the Last.fm.
-    ///     Запрос, получающий полную информацию об артисте/исполнителе на Last.fm. 
+    ///     The request with parameters for full information about artist/performer of the Last.fm.
+    ///     Запрос с параметрами для полной информацией об исполнителем Last.fm.
     /// </summary>
-    public class GetPerformerInfoQuery : LastQuery<GetPerformerInfoRequest, GetArtistInfoResponce>
+    public class GetPerformerInfoRequest : BaseRequest
     {
-        protected override Func<BaseRequest, BaseResponce> ExecutableBaseFunc =>
-            req => Execute(req.As<GetPerformerInfoRequest>());
-
-        /// <summary>
-        ///     Get the metadata for an artist.
-        ///     Includes biography, truncated at 300 characters.
-        /// </summary>
-        /// <param name="request.artist">The artist name</param>
-        /// <param name="request">
-        ///     Request with parameters.
-        /// </param>
-        /// <returns></returns>
-        public override GetArtistInfoResponce Execute(
-            GetPerformerInfoRequest request)
-        {
-            var artist = request.Performer ?? throw new ArgumentNullException("request.Performer");
-
-            var sessionResponce = Adapter.GetRequest("artist.getInfo",
-                Argument.Create("artist", artist),
-                Argument.Create("api_key", Settings.ApiKey),
-                Argument.Create("format", "json"),
-                Argument.Create("callback", "?"));
-
-            Adapter.FixCallback(sessionResponce);
-
-            var infoResponce = ResponceExt.CreateFrom<BaseResponce, GetArtistInfoResponce>(sessionResponce);
-            return infoResponce;
-        }
+        public string Performer { get; set; }
     }
 }

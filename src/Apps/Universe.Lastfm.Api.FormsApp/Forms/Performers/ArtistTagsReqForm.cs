@@ -34,10 +34,10 @@
 //  ╚═════════════════════════════════════════════════════════════════════════════════╝
 
 using System;
-using Universe.Lastfm.Api.FormsApp.Forms.Performers;
 using Universe.Lastfm.Api.FormsApp.Settings;
+using Universe.Lastfm.Api.FormsApp.Themes;
 
-namespace Universe.Lastfm.Api.FormsApp
+namespace Universe.Lastfm.Api.FormsApp.Forms.Performers
 {
     public partial class ArtistTagsReqForm : ArtistReqInfoForm
     {
@@ -53,6 +53,9 @@ namespace Universe.Lastfm.Api.FormsApp
         public ArtistTagsReqForm(UniverseLastApiAppSettings settings) : base(settings)
         {
             InitializeComponent();
+
+            if (settings.IsSpaceMode)
+                SpaceThemeStyle.Set.Apply(this);
         }
 
         protected override void btOk_Click(object sender, EventArgs e)

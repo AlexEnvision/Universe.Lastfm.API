@@ -36,6 +36,7 @@
 using Universe.CQRS.Infrastructure;
 using Universe.Lastfm.Api.Dal.Queries.Performers;
 using Universe.Lastfm.Api.Models.Base;
+using Universe.Lastfm.Api.Models.Req;
 using Universe.Lastfm.Api.Repos.Base;
 
 namespace Universe.Lastfm.Api.Repos
@@ -56,7 +57,7 @@ namespace Universe.Lastfm.Api.Repos
 
         public BaseResponce GetPerformerInfo(string artist)
         {
-            return DomainScope.GetQuery<GetPerformerInfoQuery>().Execute(artist);
+            return DomainScope.GetQuery<GetPerformerInfoQuery>().Execute(new GetPerformerInfoRequest { Performer = artist });
         }
     }
 }

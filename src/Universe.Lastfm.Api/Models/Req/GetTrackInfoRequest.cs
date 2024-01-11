@@ -33,48 +33,28 @@
 //  ║                                                                                 ║
 //  ╚═════════════════════════════════════════════════════════════════════════════════╝
 
-using System;
-using Universe.Lastfm.Api.Helpers;
-using Universe.Lastfm.Api.Models;
 using Universe.Lastfm.Api.Models.Base;
-using Universe.Lastfm.Api.Models.Req;
-using Universe.Lastfm.Api.Models.Res;
 
-namespace Universe.Lastfm.Api.Dal.Queries.Performers
+namespace Universe.Lastfm.Api.Models.Req
 {
     /// <summary>
-    ///     The query gets the full information about artist/performer on the Last.fm.
-    ///     Запрос, получающий полную информацию об артисте/исполнителе на Last.fm. 
+    ///     The request with full information about track on the Last.fm.
+    ///     Запрос на полную информацию о трэке на Last.fm.
     /// </summary>
-    public class GetPerformerInfoQuery : LastQuery<GetPerformerInfoRequest, GetArtistInfoResponce>
+    public class GetTrackInfoRequest : BaseRequest
     {
-        protected override Func<BaseRequest, BaseResponce> ExecutableBaseFunc =>
-            req => Execute(req.As<GetPerformerInfoRequest>());
+        public string Performer { get; set; }
+
+        public string Track { get; set; }
+
+        public string Mbid { get; set; }
+
+        public string User { get; set; }
 
         /// <summary>
-        ///     Get the metadata for an artist.
-        ///     Includes biography, truncated at 300 characters.
+        ///     Autocorrect[0|1] (Optional) : Transform misspelled artist names into correct artist names,
+        ///     returning the correct version instead. The corrected artist name will be returned in the response.
         /// </summary>
-        /// <param name="request.artist">The artist name</param>
-        /// <param name="request">
-        ///     Request with parameters.
-        /// </param>
-        /// <returns></returns>
-        public override GetArtistInfoResponce Execute(
-            GetPerformerInfoRequest request)
-        {
-            var artist = request.Performer ?? throw new ArgumentNullException("request.Performer");
-
-            var sessionResponce = Adapter.GetRequest("artist.getInfo",
-                Argument.Create("artist", artist),
-                Argument.Create("api_key", Settings.ApiKey),
-                Argument.Create("format", "json"),
-                Argument.Create("callback", "?"));
-
-            Adapter.FixCallback(sessionResponce);
-
-            var infoResponce = ResponceExt.CreateFrom<BaseResponce, GetArtistInfoResponce>(sessionResponce);
-            return infoResponce;
-        }
+        public string Autocorrect { get; set; }
     }
 }

@@ -35,9 +35,11 @@ namespace Universe.Lastfm.Api.Models
 
         public string Tag { get; set; }
 
+        public string Performer { get; set; }
+
         public string Album { get; set; }
 
-        public string Performer { get; set; }
+        public string Track { get; set; }
 
         public string[] Tags { get; set; }
     }

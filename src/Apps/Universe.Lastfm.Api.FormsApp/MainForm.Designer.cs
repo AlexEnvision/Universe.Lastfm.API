@@ -65,6 +65,7 @@
             groupBox5 = new System.Windows.Forms.GroupBox();
             btChartGetTopArtists = new System.Windows.Forms.Button();
             groupBox4 = new System.Windows.Forms.GroupBox();
+            btArtistSearch = new System.Windows.Forms.Button();
             btArtistGetInfo = new System.Windows.Forms.Button();
             btGetArtistTags = new System.Windows.Forms.Button();
             groupBox3 = new System.Windows.Forms.GroupBox();
@@ -85,6 +86,8 @@
             fullRubberyUIToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             spaceModeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            btTrackSearch = new System.Windows.Forms.Button();
+            btTrackGetTags = new System.Windows.Forms.Button();
             groupBox1.SuspendLayout();
             gbBorders002.SuspendLayout();
             gbBorders001.SuspendLayout();
@@ -447,6 +450,8 @@
             // groupBox8
             // 
             groupBox8.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
+            groupBox8.Controls.Add(btTrackGetTags);
+            groupBox8.Controls.Add(btTrackSearch);
             groupBox8.Controls.Add(btTrackGetInfo);
             groupBox8.Location = new System.Drawing.Point(740, 11);
             groupBox8.Name = "groupBox8";
@@ -513,6 +518,7 @@
             // groupBox4
             // 
             groupBox4.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
+            groupBox4.Controls.Add(btArtistSearch);
             groupBox4.Controls.Add(btArtistGetInfo);
             groupBox4.Controls.Add(btGetArtistTags);
             groupBox4.Location = new System.Drawing.Point(187, 11);
@@ -522,10 +528,21 @@
             groupBox4.TabStop = false;
             groupBox4.Text = "artist/performer";
             // 
+            // btArtistSearch
+            // 
+            btArtistSearch.Enabled = false;
+            btArtistSearch.Location = new System.Drawing.Point(7, 108);
+            btArtistSearch.Name = "btArtistSearch";
+            btArtistSearch.Size = new System.Drawing.Size(165, 32);
+            btArtistSearch.TabIndex = 4;
+            btArtistSearch.Text = "artist.search";
+            btArtistSearch.UseVisualStyleBackColor = true;
+            btArtistSearch.Click += btArtistSearch_Click;
+            // 
             // btArtistGetInfo
             // 
             btArtistGetInfo.Enabled = false;
-            btArtistGetInfo.Location = new System.Drawing.Point(6, 39);
+            btArtistGetInfo.Location = new System.Drawing.Point(7, 39);
             btArtistGetInfo.Name = "btArtistGetInfo";
             btArtistGetInfo.Size = new System.Drawing.Size(165, 35);
             btArtistGetInfo.TabIndex = 2;
@@ -535,7 +552,7 @@
             // btGetArtistTags
             // 
             btGetArtistTags.Enabled = false;
-            btGetArtistTags.Location = new System.Drawing.Point(6, 75);
+            btGetArtistTags.Location = new System.Drawing.Point(7, 74);
             btGetArtistTags.Name = "btGetArtistTags";
             btGetArtistTags.Size = new System.Drawing.Size(165, 35);
             btGetArtistTags.TabIndex = 0;
@@ -569,7 +586,7 @@
             // btGetAlbumTags
             // 
             btGetAlbumTags.Enabled = false;
-            btGetAlbumTags.Location = new System.Drawing.Point(7, 109);
+            btGetAlbumTags.Location = new System.Drawing.Point(7, 75);
             btGetAlbumTags.Name = "btGetAlbumTags";
             btGetAlbumTags.Size = new System.Drawing.Size(160, 32);
             btGetAlbumTags.TabIndex = 1;
@@ -579,7 +596,7 @@
             // btAlbumSearch
             // 
             btAlbumSearch.Enabled = false;
-            btAlbumSearch.Location = new System.Drawing.Point(7, 77);
+            btAlbumSearch.Location = new System.Drawing.Point(7, 108);
             btAlbumSearch.Name = "btAlbumSearch";
             btAlbumSearch.Size = new System.Drawing.Size(160, 33);
             btAlbumSearch.TabIndex = 3;
@@ -704,6 +721,27 @@
             aboutToolStripMenuItem.Size = new System.Drawing.Size(64, 24);
             aboutToolStripMenuItem.Text = "About";
             // 
+            // btTrackSearch
+            // 
+            btTrackSearch.Enabled = false;
+            btTrackSearch.Location = new System.Drawing.Point(8, 108);
+            btTrackSearch.Name = "btTrackSearch";
+            btTrackSearch.Size = new System.Drawing.Size(165, 32);
+            btTrackSearch.TabIndex = 5;
+            btTrackSearch.Text = "track.search";
+            btTrackSearch.UseVisualStyleBackColor = true;
+            btTrackSearch.Click += btTrackSearch_Click;
+            // 
+            // btTrackGetTags
+            // 
+            btTrackGetTags.Enabled = false;
+            btTrackGetTags.Location = new System.Drawing.Point(8, 75);
+            btTrackGetTags.Name = "btTrackGetTags";
+            btTrackGetTags.Size = new System.Drawing.Size(165, 32);
+            btTrackGetTags.TabIndex = 2;
+            btTrackGetTags.Text = "track.getTags";
+            btTrackGetTags.Click += btTrackGetTags_Click;
+            // 
             // MainForm
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
@@ -803,5 +841,8 @@
         private System.Windows.Forms.GroupBox groupBox10;
         private System.Windows.Forms.Button btAlbumAddTags;
         private System.Windows.Forms.Button btAlbumRemoveTag;
+        private System.Windows.Forms.Button btArtistSearch;
+        private System.Windows.Forms.Button btTrackSearch;
+        private System.Windows.Forms.Button btTrackGetTags;
     }
 }

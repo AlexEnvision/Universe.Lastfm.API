@@ -1,4 +1,4 @@
-﻿namespace Universe.Lastfm.Api.FormsApp
+﻿namespace Universe.Lastfm.Api.FormsApp.Forms.Performers
 {
     partial class ArtistTagsReqForm
     {

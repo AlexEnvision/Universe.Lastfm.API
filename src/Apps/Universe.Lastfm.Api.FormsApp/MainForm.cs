@@ -93,6 +93,8 @@ namespace Universe.Lastfm.Api.FormsApp
 
         public ReqContext ReqCtx;
 
+        public int LightErrorDelay => 500;
+
         public MainForm()
         {
             InitializeComponent();
@@ -307,6 +309,7 @@ namespace Universe.Lastfm.Api.FormsApp
 
             ReqCtx.Album = "01011001";
             ReqCtx.Performer = "Ayreon";
+            ReqCtx.Track = "Age Of Shadows";
             ReqCtx.Tags = new string[] { "Progressive Metal" };
 
             ThreadMachine.Create(1).RunInMultiTheadsWithoutWaiting(() =>
@@ -332,6 +335,14 @@ namespace Universe.Lastfm.Api.FormsApp
                     (Scope.GetQuery<GetAlbumTagsQuery>(), btGetAlbumTags),
                     (Scope.GetQuery<SearchAlbumQuery>(), btAlbumSearch),
                     (Scope.GetQuery<GetAlbumTopTagsQuery>(), btAlbumGetTopTags),
+
+                    (Scope.GetQuery<GetPerformerInfoQuery>(), btArtistGetInfo),
+                    (Scope.GetQuery<GetPerformersTagsQuery>(), btGetArtistTags),
+                    (Scope.GetQuery<SearchPerformersQuery>(), btArtistSearch),
+
+                    (Scope.GetQuery<GetTrackInfoQuery>(), btTrackGetInfo),
+                    //(Scope.GetQuery<GetTrackTagsQuery>(), btGetTrackTags),
+                    (Scope.GetQuery<SearchTrackQuery>(), btTrackSearch),
                 };
 
                 foreach (var query in queries)
@@ -435,124 +446,6 @@ namespace Universe.Lastfm.Api.FormsApp
             DisableButtons(sender);
         }
 
-        private void btArtistGetInfo_Click(object sender, EventArgs e)
-        {
-            string performer;
-
-            using (var albumReqInfoForm = new ArtistReqInfoForm(_programSettings))
-            {
-                if (albumReqInfoForm.ShowDialog() == DialogResult.OK)
-                {
-                    performer = albumReqInfoForm.Performer;
-                    if (string.IsNullOrEmpty(performer))
-                    {
-                        tbLog.AppendText($"[{DateTime.Now}] Не указан performer!" + Environment.NewLine);
-                        return;
-                    }
-                }
-                else
-                {
-                    return;
-                }
-            }
-
-            DisableButtons(sender);
-
-            ThreadMachine.Create(1).RunInMultiTheadsWithoutWaiting(() =>
-            {
-                try
-                {
-                    // _adapter.GetArtistInfo(performer);
-                    var responce = Scope.GetQuery<GetPerformerInfoQuery>().Execute(performer);
-                    if (!responce.IsSuccessful)
-                    {
-                        _log.Info($"{responce.Message} {responce.ServiceAnswer}");
-                    }
-
-                    _log.Info(
-                        $"Успешно выгружена информация по исполнителю {performer}: {Environment.NewLine}{Environment.NewLine}{responce.ServiceAnswer}{Environment.NewLine}.");
-
-                    var tags = responce.DataContainer.Artist.Tags.Tag;
-                    var metalGenres = tags.Where(x => x.Name.ToLower().Contains("metal")).ToList();
-
-                    var tagsStr = string.Join(", ", tags.Select(x => x.Name));
-                    var metalGenresStr = string.Join(", ", metalGenres.Select(x => x.Name));
-                    _log.Info($"Теги Last.fm: {tagsStr}.");
-                    _log.Info($"Метал жанры: {metalGenresStr}.");
-
-                    EnableButtonsSafe();
-                }
-                catch (Exception ex)
-                {
-                    _log.Error(ex, ex.Message);
-                    EnableButtonsSafe();
-                }
-            });
-        }
-
-        private void btGetArtistTags_Click(object sender, EventArgs e)
-        {
-            string performer;
-            string user;
-
-            using (var form = new ArtistTagsReqForm(_programSettings))
-            {
-                if (form.ShowDialog() == DialogResult.OK)
-                {
-                    performer = form.Performer;
-                    if (string.IsNullOrEmpty(performer))
-                    {
-                        tbLog.AppendText($"[{DateTime.Now}] Не указан performer!" + Environment.NewLine);
-                        return;
-                    }
-
-                    user = form.User;
-                    if (string.IsNullOrEmpty(user))
-                    {
-                        tbLog.AppendText($"[{DateTime.Now}] Не указан user!" + Environment.NewLine);
-                        return;
-                    }
-                }
-                else
-                {
-                    return;
-                }
-            }
-
-            DisableButtons(sender);
-
-            ThreadMachine.Create(1).RunInMultiTheadsWithoutWaiting(() =>
-            {
-                try
-                {
-                    // _adapter.GetArtistTags(performer, user);
-                    var responce = Scope.GetQuery<GetPerformersTagsQuery>().Execute(performer, user);
-                    if (!responce.IsSuccessful)
-                    {
-                        _log.Info($"{responce.Message} {responce.ServiceAnswer}");
-                    }
-
-                    _log.Info(
-                        $"Успешно выгружена информация по исполнителю {performer}: {Environment.NewLine}{Environment.NewLine}{responce.ServiceAnswer}{Environment.NewLine}.");
-
-                    var tags = responce.DataContainer.Tag;
-                    var metalGenres = tags.Where(x => x.Name.ToLower().Contains("metal")).ToList();
-
-                    var tagsStr = string.Join(", ", tags.Select(x => x.Name));
-                    var metalGenresStr = string.Join(", ", metalGenres.Select(x => x.Name));
-                    _log.Info($"Теги Last.fm: {tagsStr}.");
-                    _log.Info($"Метал жанры: {metalGenresStr}.");
-
-                    EnableButtonsSafe();
-                }
-                catch (Exception ex)
-                {
-                    _log.Error(ex, ex.Message);
-                    EnableButtonsSafe();
-                }
-            });
-        }
-
         private void btTagGetInfo_Click(object sender, EventArgs e)
         {
             string tagName;
@@ -600,76 +493,6 @@ namespace Universe.Lastfm.Api.FormsApp
                     _log.Info($"Total / Используется: {tag.Total}.");
                     _log.Info($"Short description / Краткое описание: {tag.Wiki.Summary}.");
                     _log.Info($"Full description / Полное описание: {tag.Wiki.Content}.");
-
-                    EnableButtonsSafe();
-                }
-                catch (Exception ex)
-                {
-                    _log.Error(ex, ex.Message);
-                    EnableButtonsSafe();
-                }
-            });
-        }
-
-        private void btTrackGetInfo_Click(object sender, EventArgs e)
-        {
-            string performer;
-            string trackName;
-
-            using (var form = new TrackInfoReqForm(_programSettings))
-            {
-                if (form.ShowDialog() == DialogResult.OK)
-                {
-                    performer = form.Performer;
-                    if (string.IsNullOrEmpty(performer))
-                    {
-                        tbLog.AppendText($"[{DateTime.Now}] Не указан performer!" + Environment.NewLine);
-                        return;
-                    }
-
-                    trackName = form.Track;
-                    if (string.IsNullOrEmpty(trackName))
-                    {
-                        tbLog.AppendText($"[{DateTime.Now}] Не указан track!" + Environment.NewLine);
-                        return;
-                    }
-                }
-                else
-                {
-                    return;
-                }
-            }
-
-            DisableButtons(sender);
-
-            ThreadMachine.Create(1).RunInMultiTheadsWithoutWaiting(() =>
-            {
-                try
-                {
-                    var responce = Scope.GetQuery<GetTrackInfoQuery>().Execute(performer, trackName);
-                    if (!responce.IsSuccessful)
-                    {
-                        _log.Info($"{responce.Message} {responce.ServiceAnswer}");
-                    }
-
-                    _log.Info(
-                        $"Успешно выгружена информация по альбому {trackName} исполнителя {performer}: {Environment.NewLine}{Environment.NewLine}{responce.ServiceAnswer}{Environment.NewLine}.");
-
-                    var tags = responce.DataContainer.Track.Toptags.Tag;
-                    var metalGenres = tags.Where(x => x.Name.ToLower().Contains("metal")).ToList();
-
-                    var tagsStr = string.Join(", ", tags.Select(x => x.Name));
-                    var metalGenresStr = string.Join(", ", metalGenres.Select(x => x.Name));
-                    _log.Info($"Теги трэка на Last.fm: {tagsStr}.");
-                    _log.Info($"Метал жанры в трэке: {metalGenresStr}.");
-
-                    var track = responce.DataContainer.Track;
-
-                    _log.Info($"Total / Прослушиваний: {track.Playcount}.");
-                    _log.Info($"Short description / Краткое описание: {track.Wiki.Summary}.");
-                    _log.Info($"Full description / Полное описание: {track.Wiki.Content}.");
-
-                    _log.Info(Environment.NewLine);
 
                     EnableButtonsSafe();
                 }

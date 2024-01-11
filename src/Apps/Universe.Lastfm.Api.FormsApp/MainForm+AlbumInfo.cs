@@ -15,6 +15,7 @@ using static Universe.Lastfm.Api.Dal.Queries.Albums.SearchAlbumQuery;
 using static Universe.Lastfm.Api.Dal.Queries.Albums.GetAlbumTopTagsQuery;
 
 using static Universe.Lastfm.Api.Dal.Command.Albums.AddAlbumTagsCommand;
+using System.Threading;
 
 namespace Universe.Lastfm.Api.FormsApp
 {
@@ -80,6 +81,7 @@ namespace Universe.Lastfm.Api.FormsApp
                 catch (Exception ex)
                 {
                     _log.Error(ex, ex.Message);
+                    Thread.Sleep(LightErrorDelay);
                     btUserGetInfo.LightErrorColorResult();
                 }
                 finally
@@ -157,6 +159,7 @@ namespace Universe.Lastfm.Api.FormsApp
                 catch (Exception ex)
                 {
                     _log.Error(ex, ex.Message);
+                    Thread.Sleep(LightErrorDelay);
                     btGetAlbumTags.LightErrorColorResult();
                 }
                 finally
@@ -224,6 +227,7 @@ namespace Universe.Lastfm.Api.FormsApp
                 catch (Exception ex)
                 {
                     _log.Error(ex, ex.Message);
+                    Thread.Sleep(LightErrorDelay);
                     btAlbumSearch.LightErrorColorResult();
                 }
                 finally
@@ -231,8 +235,6 @@ namespace Universe.Lastfm.Api.FormsApp
                     EnableButtonsSafe();
                 }
             });
-
-           
         }
 
         private void btAlbumGetTopTags_Click(object sender, EventArgs e)
@@ -293,6 +295,7 @@ namespace Universe.Lastfm.Api.FormsApp
                 catch (Exception ex)
                 {
                     _log.Error(ex, ex.Message);
+                    Thread.Sleep(LightErrorDelay);
                     btAlbumGetTopTags.LightErrorColorResult();
                 }
                 finally
@@ -370,6 +373,7 @@ namespace Universe.Lastfm.Api.FormsApp
                 catch (Exception ex)
                 {
                     _log.Error(ex, ex.Message);
+                    Thread.Sleep(LightErrorDelay);
                     btAlbumAddTags.LightErrorColorResult();
                 }
                 finally

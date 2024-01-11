@@ -33,18 +33,48 @@
 //  ║                                                                                 ║
 //  ╚═════════════════════════════════════════════════════════════════════════════════╝
 
+using System;
 using Universe.Lastfm.Api.Helpers;
 using Universe.Lastfm.Api.Models;
 using Universe.Lastfm.Api.Models.Base;
+using Universe.Lastfm.Api.Models.Req;
 using Universe.Lastfm.Api.Models.Res;
 
 namespace Universe.Lastfm.Api.Dal.Queries.Performers
 {
-    public class GetPerformersTagsQuery : LastQuery
+    /// <summary>
+    ///     The query of getting the tags applied by an individual user to an artist on Last.fm.
+    ///     If accessed as an authenticated service /and/ you don't supply a user parameter then
+    ///     this service will return tags for the authenticated user.
+    ///     To retrieve the list of top tags applied to an artist by all users use artist.getTopTags.
+    /// </summary>
+    public class GetPerformersTagsQuery : LastQuery<GetPerformerTagsRequest, GetArtistTagsResponce>
     {
-        public GetArtistTagsResponce Execute(
-            string artist, string user)
+        protected override Func<BaseRequest, BaseResponce> ExecutableBaseFunc =>
+            req => Execute(req.As<GetPerformerTagsRequest>());
+
+        /// <summary>
+        ///     The query of getting the tags applied by an individual user to an artist on Last.fm.
+        ///     If accessed as an authenticated service /and/ you don't supply a user parameter then
+        ///     this service will return tags for the authenticated user.
+        ///     To retrieve the list of top tags applied to an artist by all users use artist.getTopTags.
+        /// </summary>
+        /// <param name="request.artist">
+        ///     The artist name
+        /// </param>
+        /// <param name="request.user">
+        ///     If called in non-authenticated mode you must specify the user to look up
+        /// </param>
+        /// <param name="request">
+        ///     Request with parameters, that described before.
+        /// </param>
+        /// <returns></returns>
+        public override GetArtistTagsResponce Execute(
+            GetPerformerTagsRequest request)
         {
+            string artist = request.Performer ?? throw new ArgumentNullException("request.Performer");
+            string user = request.User ?? throw new ArgumentNullException("request.User");
+
             var sessionResponce = Adapter.GetRequest("artist.getTags",
                 Argument.Create("artist", artist),
                 Argument.Create("user", user),

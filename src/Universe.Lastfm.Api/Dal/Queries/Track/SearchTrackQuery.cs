@@ -34,74 +34,165 @@
 //  ╚═════════════════════════════════════════════════════════════════════════════════╝
 
 using System;
+using Universe.Lastfm.Api.Dto.Base;
+using Universe.Lastfm.Api.Dto.GetTrackInfo;
 using Universe.Lastfm.Api.Helpers;
 using Universe.Lastfm.Api.Models;
 using Universe.Lastfm.Api.Models.Base;
-using Universe.Lastfm.Api.Models.Req;
-using Universe.Lastfm.Api.Models.Res;
+using Universe.Lastfm.Api.Models.Res.Base;
 
 namespace Universe.Lastfm.Api.Dal.Queries.Track
 {
     /// <summary>
-    ///     The query gets the full information about track on the Last.fm.
-    ///     Запрос, получающий полную информацию о трэке на Last.fm. 
+    ///     The query does search of an Track of the Last.fm.
+    ///     Запрос, ведущий поиск альбома на Last.fm. 
     /// </summary>
-    public class GetTrackInfoQuery : LastQuery<GetTrackInfoRequest, GetTrackInfoResponce>
+    public class SearchTrackQuery : LastQuery<GetTrackSearchRequest, GetTrackSearchResponce>
     {
         protected override Func<BaseRequest, BaseResponce> ExecutableBaseFunc =>
-            req => Execute(req.As<GetTrackInfoRequest>());
+            req => Execute(req.As<GetTrackSearchRequest>());
 
         /// <summary>
-        ///     Get the metadata for a track on Last.fm using the artist/track name or a musicbrainz id.
+        ///     Search for an Track by name. Returns Track matches sorted by relevance.
         /// </summary>
-        /// <param name="request.artist">
-        ///     The artist name
-        ///     (Required (unless mbid))
+        /// <param name="request.Track">
+        ///     The Track name.
         /// </param>
-        /// <param name="request.track">
-        ///     The track name
-        ///     (Required (unless mbid))
+        /// <param name="request.page">
+        ///     The page number to fetch. Defaults to first page.
         /// </param>
-        /// <param name="request.mbid">
-        ///     The musicbrainz id for the track
-        ///     (Optional)
-        /// </param>
-        /// <param name="request.username">
-        ///     he username for the context of the request. If supplied, the user's
-        ///     playcount for this track and whether they have loved the track
-        ///     is included in the response.
-        ///     (Optional)
-        /// </param>
-        /// <param name="request.autocorrect">
-        ///     Transform misspelled artist and track names into correct artist
-        ///     and track names, returning the correct version instead.
-        ///     The corrected artist and track name will be returned in the response.
-        ///     [0|1] (Optional) 
+        /// <param name="request.limit">
+        ///     The number of results to fetch per page. Defaults to 30.
         /// </param>
         /// <param name="request">
         ///     Request with parameters.
         /// </param>
         /// <returns></returns>
-        public override GetTrackInfoResponce Execute(
-            GetTrackInfoRequest request)
+        public override GetTrackSearchResponce Execute(
+            GetTrackSearchRequest request)
         {
-            string artist = request.Performer ?? throw new ArgumentNullException("request.Performer");
-            string track = request.Track ?? throw new ArgumentNullException("request.Track");
-            string mbid = request.Mbid;
-            string username = request.User;
-            string autocorrect = request.Autocorrect;
+            string performer = request.Performer;
+            string track = request.Track;
+            int page = request.Page;
+            int limit = request.Limit;
 
-            var sessionResponce = Adapter.GetRequest("track.getInfo",
+            var sessionResponce = Adapter.GetRequest("track.search",
                 Argument.Create("api_key", Settings.ApiKey),
-                Argument.Create("artist", artist),
+                Argument.Create("artist", performer),
                 Argument.Create("track", track),
+                Argument.Create("page", page.ToString()),
+                Argument.Create("limit", limit.ToString()),
                 Argument.Create("format", "json"),
                 Argument.Create("callback", "?"));
 
             Adapter.FixCallback(sessionResponce);
 
-            var getAlbumInfoResponce = ResponceExt.CreateFrom<BaseResponce, GetTrackInfoResponce>(sessionResponce);
-            return getAlbumInfoResponce;
+            var getTrackInfoResponce = ResponceExt.CreateFrom<BaseResponce, GetTrackSearchResponce>(sessionResponce);
+            return getTrackInfoResponce;
         }
+    }
+
+    /// <summary>
+    ///     The request with full information about Track of the Last.fm.
+    ///     Запрос с полной информацией о поиске Last.fm.
+    /// </summary>
+    public class GetTrackSearchRequest : BaseRequest
+    {
+        private int _page;
+        private int _limit;
+
+        public int Limit
+        {
+            get => _page == 0 ? 50 : _page;
+            set => _limit = value;
+        }
+
+        public int Page
+        {
+            get => _page == 0 ? 1 : _page;
+            set => _page = value;
+        }
+
+        public string Performer { get; set; }
+
+        public string Track { get; set; }
+
+        public GetTrackSearchRequest()
+        {
+            Page = 1;
+            Limit = 50;
+        }
+    }
+
+    /// <summary>
+    ///     The responce with full information about Track of the Last.fm.
+    ///     Ответ с полной информацией о поиске Last.fm.
+    /// </summary>
+    public class GetTrackSearchResponce : LastFmBaseResponce<TrackSearchContainer>
+    {
+    }
+
+    /// <summary>
+    ///     The container with information about the top Tracks listened to by a track on the Last.fm.
+    ///     Контейнер с информацией о поиске трэков, которые прослушивал пользователь на Last.fm.
+    /// </summary>
+    public class TrackSearchContainer : LastFmBaseContainer
+    {
+        public SearchDto Results { get; set; }
+    }
+
+    /// <summary>
+    ///     The full information about track on the Last.fm.
+    ///     Полная информация о поиске на Last.fm.
+    /// </summary>
+    public class SearchDto
+    {
+        /*
+             <results for="Believe" xmlns:opensearch="http://a9.com/-/spec/opensearch/1.1/">
+              <opensearch:Query role="request" searchTerms="Believe" startPage="1"/>
+              <opensearch:totalResults>25329</opensearch:totalResults>
+              <opensearch:startIndex>0</opensearch:startIndex>
+              <opensearch:itemsPerPage>20</opensearch:itemsPerPage>
+              <trackmatches>
+                <track>
+                  <name>Believe</name>
+                  <artist>Disturbed</artist>
+                  <url>http://www.last.fm/music/Disturbed/_/Believe</url>
+                  <streamable fulltrack="0">1</streamable>
+                  <listeners>66068</listeners>
+                  <image size="small">...</image>
+                </track>
+                ...
+              </trackmatches>
+            </results>
+        */
+
+        public SearchAttribute Attribute { get; set; }
+
+        public TrackMatchesDto TrackMatches { get; set; }
+    }
+
+    /// <summary>
+    ///     The list of matches in a search.
+    ///     Список совпадений в поиске.
+    /// </summary>
+    public class TrackMatchesDto
+    {
+        public TrackFull[] Track { get; set; }
+    }
+
+    /// <summary>
+    ///     The special attribite of <see cref="SearchDto"/>
+    /// </summary>
+    public class SearchAttribute
+    {
+        /*
+            "@attr":
+            {
+            "for": "Age Of Shadows"
+            },
+        */
+
+        public string For { get; set; }
     }
 }
