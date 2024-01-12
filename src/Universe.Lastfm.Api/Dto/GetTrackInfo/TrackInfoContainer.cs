@@ -33,13 +33,15 @@
 //  ║                                                                                 ║
 //  ╚═════════════════════════════════════════════════════════════════════════════════╝
 
+using Universe.Lastfm.Api.Dto.Base;
+
 namespace Universe.Lastfm.Api.Dto.GetTrackInfo
 {
     /// <summary>
     ///     The container with full information about track on the Last.fm.
     ///     Контейнер с полной информацией о трэке на Last.fm.
     /// </summary>
-    public class TrackInfoContainer
+    public class TrackInfoContainer : LastFmBaseContainer
     {
         public TrackFull Track { get; set; }
     }

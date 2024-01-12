@@ -33,13 +33,22 @@
 //  ║                                                                                 ║
 //  ╚═════════════════════════════════════════════════════════════════════════════════╝
 
+using Universe.Lastfm.Api.Models.Base;
+
 namespace Universe.Lastfm.Api.Dto.Base
 {
     /// <summary>
     ///     Base container with result from the API of the Last.fm.
     ///     Базовый контейнер с результатом от API Last.fm.
     /// </summary>
-    public abstract class LastFmBaseContainer
+    public abstract class LastFmBaseContainer : BaseResponce
     {
+        public virtual LastFmBaseContainer DataContainer { get; }
+
+        public LastFmBaseContainer()
+        {
+            IsSuccessful = true;
+            Message = "OK";
+        }
     }
 }

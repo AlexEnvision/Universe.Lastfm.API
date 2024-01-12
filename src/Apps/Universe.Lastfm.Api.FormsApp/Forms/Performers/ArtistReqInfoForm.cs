@@ -49,11 +49,15 @@ namespace Universe.Lastfm.Api.FormsApp.Forms.Performers
         public ArtistReqInfoForm()
         {
             InitializeComponent();
+
+            StartPosition = FormStartPosition.CenterScreen;
         }
 
         public ArtistReqInfoForm(UniverseLastApiAppSettings settings)
         {
             InitializeComponent();
+
+            StartPosition = FormStartPosition.CenterScreen;
 
             if (settings.IsSpaceMode)
                 SpaceThemeStyle.Set.Apply(this);

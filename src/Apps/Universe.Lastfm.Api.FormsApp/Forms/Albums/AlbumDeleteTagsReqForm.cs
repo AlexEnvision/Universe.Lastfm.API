@@ -4,20 +4,20 @@ using Universe.Lastfm.Api.FormsApp.Themes;
 
 namespace Universe.Lastfm.Api.FormsApp.Forms.Albums
 {
-    public partial class AlbumDeleteAddTagsReqForm : AlbumReqInfoForm
+    public partial class AlbumDeleteTagsReqForm : AlbumReqInfoForm
     {
         protected string TagNames => tbRemovingTags.Text;
 
         public string[] TagsArray { get; set; }
 
-        public AlbumDeleteAddTagsReqForm()
+        public AlbumDeleteTagsReqForm()
         {
             InitializeComponent();
 
             TagsArray = new string[] { };
         }
 
-        public AlbumDeleteAddTagsReqForm(UniverseLastApiAppSettings settings)
+        public AlbumDeleteTagsReqForm(UniverseLastApiAppSettings settings)
         {
             InitializeComponent();
 

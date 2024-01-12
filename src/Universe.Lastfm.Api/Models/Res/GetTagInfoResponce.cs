@@ -36,6 +36,7 @@
 using Newtonsoft.Json;
 using Universe.Lastfm.Api.Dto.GetTagInfo;
 using Universe.Lastfm.Api.Models.Base;
+using Universe.Lastfm.Api.Models.Res.Base;
 
 namespace Universe.Lastfm.Api.Models.Res
 {
@@ -43,9 +44,9 @@ namespace Universe.Lastfm.Api.Models.Res
     ///     The responce that contains the full information about Last.fm tag / genre.
     ///     Ответ, содержащий полную информацию об Last.fm тэге / жанре. 
     /// </summary>
-    public class GetTagInfoResponce : BaseResponce
+    public class GetTagInfoResponce : LastFmBaseResponce<TagInfoContainer>
     {
-        public TagInfoContainer DataContainer
+        public override TagInfoContainer DataContainer
         {
             get
             {

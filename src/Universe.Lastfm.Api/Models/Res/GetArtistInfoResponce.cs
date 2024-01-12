@@ -36,12 +36,17 @@
 using Newtonsoft.Json;
 using Universe.Lastfm.Api.Dto.GetArtistInfo;
 using Universe.Lastfm.Api.Models.Base;
+using Universe.Lastfm.Api.Models.Res.Base;
 
 namespace Universe.Lastfm.Api.Models.Res
 {
-    public class GetArtistInfoResponce : BaseResponce
+    /// <summary>
+    ///     The responce with the full information about artist/performer on the Last.fm.
+    ///     Ответ с полнуй информацией об артисте/исполнителе на Last.fm. 
+    /// </summary>
+    public class GetArtistInfoResponce : LastFmBaseResponce<ArtistInfoContainer>
     {
-        public ArtistInfoContainer DataContainer
+        public override ArtistInfoContainer DataContainer
         {
             get
             {

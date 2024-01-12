@@ -44,16 +44,20 @@ namespace Universe.Lastfm.Api.FormsApp.Forms.Genres
     {
         protected string TagName => tbTag?.Text;
 
-        public string Tag { get; private set; }
+        public string Tag { get; protected set; }
 
         public TagInfoReqForm()
         {
             InitializeComponent();
+
+            StartPosition = FormStartPosition.CenterScreen;
         }
 
         public TagInfoReqForm(UniverseLastApiAppSettings settings)
         {
             InitializeComponent();
+
+            StartPosition = FormStartPosition.CenterScreen;
 
             if (settings.IsSpaceMode)
                 SpaceThemeStyle.Set.Apply(this);

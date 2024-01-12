@@ -42,5 +42,7 @@ namespace Universe.Lastfm.Api.Models
         public string Track { get; set; }
 
         public string[] Tags { get; set; }
+
+        public string RemTag { get; set; }
     }
 }

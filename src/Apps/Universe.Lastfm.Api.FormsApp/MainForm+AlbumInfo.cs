@@ -402,7 +402,7 @@ namespace Universe.Lastfm.Api.FormsApp
             string albumName;
             string tag;
 
-            using (var form = new AlbumDeleteAddTagsReqForm(_programSettings))
+            using (var form = new AlbumDeleteTagsReqForm(_programSettings))
             {
                 if (form.ShowDialog() == DialogResult.OK)
                 {

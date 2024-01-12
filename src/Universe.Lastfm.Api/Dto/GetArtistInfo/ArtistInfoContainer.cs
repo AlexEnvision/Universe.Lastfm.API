@@ -33,9 +33,11 @@
 //  ║                                                                                 ║
 //  ╚═════════════════════════════════════════════════════════════════════════════════╝
 
+using Universe.Lastfm.Api.Dto.Base;
+
 namespace Universe.Lastfm.Api.Dto.GetArtistInfo
 {
-    public class ArtistInfoContainer
+    public class ArtistInfoContainer : LastFmBaseContainer
     {
         public ArtistFull Artist { get; set; }
     }

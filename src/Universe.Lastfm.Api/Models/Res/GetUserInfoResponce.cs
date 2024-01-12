@@ -36,6 +36,7 @@
 using Newtonsoft.Json;
 using Universe.Lastfm.Api.Dto.GetUserInfo;
 using Universe.Lastfm.Api.Models.Base;
+using Universe.Lastfm.Api.Models.Res.Base;
 
 namespace Universe.Lastfm.Api.Models.Res
 {
@@ -43,9 +44,9 @@ namespace Universe.Lastfm.Api.Models.Res
     ///     The responce with full information about user of the Last.fm.
     ///     Ответ с полной информацией о пользователе Last.fm.
     /// </summary>
-    public class GetUserInfoResponce : BaseResponce
+    public class GetUserInfoResponce : LastFmBaseResponce<UserInfoContainer>
     {
-        public UserInfoContainer DataContainer
+        public override UserInfoContainer DataContainer
         {
             get
             {

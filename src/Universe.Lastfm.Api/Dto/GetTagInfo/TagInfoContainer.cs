@@ -33,6 +33,7 @@
 //  ║                                                                                 ║
 //  ╚═════════════════════════════════════════════════════════════════════════════════╝
 
+using Universe.Lastfm.Api.Dto.Base;
 using Universe.Lastfm.Api.Models.Base;
 
 namespace Universe.Lastfm.Api.Dto.GetTagInfo
@@ -41,7 +42,7 @@ namespace Universe.Lastfm.Api.Dto.GetTagInfo
     ///     The container with full information about Last.fm tag / genre.
     ///     Контейнер с полной информацией об Last.fm тэге / жанре.
     /// </summary>
-    public class TagInfoContainer : BaseResponce
+    public class TagInfoContainer : LastFmBaseContainer
     {
         public TagFull Tag { get; set; }
     }

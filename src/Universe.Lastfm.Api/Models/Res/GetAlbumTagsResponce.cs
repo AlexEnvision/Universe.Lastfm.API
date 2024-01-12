@@ -36,12 +36,13 @@
 using Newtonsoft.Json;
 using Universe.Lastfm.Api.Dto.Common;
 using Universe.Lastfm.Api.Models.Base;
+using Universe.Lastfm.Api.Models.Res.Base;
 
 namespace Universe.Lastfm.Api.Models.Res
 {
-    public class GetAlbumTagsResponce : BaseResponce
+    public class GetAlbumTagsResponce : LastFmBaseResponce<TagsContainer>
     {
-        public TagsContainer DataContainer
+        public override TagsContainer DataContainer
         {
             get
             {

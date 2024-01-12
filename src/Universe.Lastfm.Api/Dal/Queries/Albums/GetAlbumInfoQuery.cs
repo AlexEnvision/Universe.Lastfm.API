@@ -47,7 +47,7 @@ namespace Universe.Lastfm.Api.Dal.Queries.Albums
         protected override Func<BaseRequest, BaseResponce> ExecutableBaseFunc =>
             req => Execute(req.As<GetAlbumInfoRequest>());
 
-        public GetAlbumInfoResponce Execute(
+        public override GetAlbumInfoResponce Execute(
             GetAlbumInfoRequest request)
         {
             string artist = request.Performer;

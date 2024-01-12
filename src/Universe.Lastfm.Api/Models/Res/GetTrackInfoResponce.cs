@@ -36,6 +36,7 @@
 using Newtonsoft.Json;
 using Universe.Lastfm.Api.Dto.GetTrackInfo;
 using Universe.Lastfm.Api.Models.Base;
+using Universe.Lastfm.Api.Models.Res.Base;
 
 namespace Universe.Lastfm.Api.Models.Res
 {
@@ -43,9 +44,9 @@ namespace Universe.Lastfm.Api.Models.Res
     ///     The responce with full information about track on the Last.fm.
     ///     Ответ с полной информацией о трэке на Last.fm.
     /// </summary>
-    public class GetTrackInfoResponce : BaseResponce
+    public class GetTrackInfoResponce : LastFmBaseResponce<TrackInfoContainer>
     {
-        public TrackInfoContainer DataContainer
+        public override TrackInfoContainer DataContainer
         {
             get
             {

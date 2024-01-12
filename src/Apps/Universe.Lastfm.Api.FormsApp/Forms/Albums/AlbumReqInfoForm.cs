@@ -53,11 +53,15 @@ namespace Universe.Lastfm.Api.FormsApp.Forms.Albums
         public AlbumReqInfoForm()
         {
             InitializeComponent();
+
+            StartPosition = FormStartPosition.CenterScreen;
         }
 
         public AlbumReqInfoForm(UniverseLastApiAppSettings settings)
         {
             InitializeComponent();
+
+            StartPosition = FormStartPosition.CenterScreen;
 
             if (settings.IsSpaceMode)
                 SpaceThemeStyle.Set.Apply(this);

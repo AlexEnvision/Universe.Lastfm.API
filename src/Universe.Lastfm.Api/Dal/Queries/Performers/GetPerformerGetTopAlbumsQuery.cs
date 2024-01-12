@@ -135,7 +135,7 @@ namespace Universe.Lastfm.Api.Dal.Queries.Performers
 
             public string Artist { get; set; }
 
-            public Album[] Album { get; set; }
+            public AlbumFull[] Album { get; set; }
         }
 
         /// <summary>

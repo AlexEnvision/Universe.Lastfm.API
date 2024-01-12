@@ -42,6 +42,9 @@ using Universe.Lastfm.Api.Models.Res;
 
 namespace Universe.Lastfm.Api.Dal.Queries.Albums
 {
+    /// <summary>
+    ///     The query gets tags of an album
+    /// </summary>
     public class GetAlbumTagsQuery : LastQuery<GetAlbumTagsRequest, GetAlbumTagsResponce>
     {
         protected override Func<BaseRequest, BaseResponce> ExecutableBaseFunc =>

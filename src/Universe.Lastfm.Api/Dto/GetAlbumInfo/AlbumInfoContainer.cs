@@ -33,9 +33,13 @@
 //  ║                                                                                 ║
 //  ╚═════════════════════════════════════════════════════════════════════════════════╝
 
+using Universe.Lastfm.Api.Dto.Base;
+using Universe.Lastfm.Api.Models.Base;
+using Universe.Lastfm.Api.Models.Res.Base;
+
 namespace Universe.Lastfm.Api.Dto.GetAlbumInfo
 {
-    public class AlbumInfoContainer
+    public class AlbumInfoContainer : LastFmBaseContainer
     {
         public Album Album { get; set; }
     }

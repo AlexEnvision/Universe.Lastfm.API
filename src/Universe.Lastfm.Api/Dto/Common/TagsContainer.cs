@@ -33,9 +33,11 @@
 //  ║                                                                                 ║
 //  ╚═════════════════════════════════════════════════════════════════════════════════╝
 
+using Universe.Lastfm.Api.Dto.Base;
+
 namespace Universe.Lastfm.Api.Dto.Common
 {
-    public class TagsContainer
+    public class TagsContainer : LastFmBaseContainer
     {
         public Tag[] Tag { get; set; }
     }

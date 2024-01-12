@@ -72,6 +72,10 @@ using Universe.Lastfm.Api.FormsApp.Themes;
 using Universe.Lastfm.Api.Models.Base;
 using Universe.Lastfm.Api.Models.Req;
 using Universe.Lastfm.Api.Models.Res;
+using Universe.Types.Collection;
+using Universe.Lastfm.Api.Dto.Base;
+using Universe.Lastfm.Api.FormsApp.Forms;
+using Universe.Lastfm.Api.Dto.Common;
 
 namespace Universe.Lastfm.Api.FormsApp
 {
@@ -305,19 +309,90 @@ namespace Universe.Lastfm.Api.FormsApp
             //int position = _genreService.GetNumber(tag);
             //_log.Info("Position:" + position);
 
-            var userName = "Howling91";
+            string performer;
+            string albumName;
+            string trackName;
+            string tagName;
+
+            string userName;
+            string[] addTags = new string[] { };
+            string[] delTags = new string[] { };
+
+            string outputFile;
+
+            using (var form = new ReqContextForm(_programSettings))
+            {
+                if (form.ShowDialog() == DialogResult.OK)
+                {
+                    performer = form.Performer;
+                    if (string.IsNullOrEmpty(performer))
+                    {
+                        tbLog.AppendText($"[{DateTime.Now}] Не указан performer!" + Environment.NewLine);
+                        btRun.LightWarningColorResult();
+                        return;
+                    }
+
+                    albumName = form.Album;
+                    if (string.IsNullOrEmpty(albumName))
+                    {
+                        tbLog.AppendText($"[{DateTime.Now}] Не указан album!" + Environment.NewLine);
+                        btRun.LightWarningColorResult();
+                        return;
+                    }
+
+                    trackName = form.Track;
+                    if (string.IsNullOrEmpty(trackName))
+                    {
+                        tbLog.AppendText($"[{DateTime.Now}] Не указан track!" + Environment.NewLine);
+                        btRun.LightWarningColorResult();
+                        return;
+                    }
+
+                    tagName = form.Tag;
+                    if (string.IsNullOrEmpty(tagName))
+                    {
+                        tbLog.AppendText($"[{DateTime.Now}] Не указан tag / genre!" + Environment.NewLine);
+                        btRun.LightWarningColorResult();
+                        return;
+                    }
+
+                    userName = form.User;
+                    if (string.IsNullOrEmpty(userName))
+                    {
+                        tbLog.AppendText($"[{DateTime.Now}] Не указано userName!" + Environment.NewLine);
+                        btRun.LightWarningColorResult();
+                        return;
+                    }
+
+                    addTags = form.AddTagsArray;
+                    if (addTags.Length == 0)
+                    {
+                        tbLog.AppendText($"[{DateTime.Now}] Не указаны tags!" + Environment.NewLine);
+                        btRun.LightWarningColorResult();
+                        return;
+                    }
+
+                    outputFile = form.OutputFile;
+                }
+                else
+                {
+                    return;
+                }
+            }
+
+
+            ReqCtx.Performer = performer;
+            ReqCtx.Album = albumName;
+            ReqCtx.Track = trackName;
+            ReqCtx.Tag = trackName;
 
             ReqCtx.User = userName;
+            ReqCtx.Tags = addTags;
+            ReqCtx.RemTag = delTags.FirstOrDefault();
+
             ReqCtx.Period = "";
             ReqCtx.Page = 2;
             ReqCtx.Limit = 25;
-
-            ReqCtx.Album = "01011001";
-            ReqCtx.Performer = "Ayreon";
-            ReqCtx.Track = "Age Of Shadows";
-            ReqCtx.Tags = new string[] { "Progressive Metal" };
-
-            ReqCtx.Tag = "Non-Progressive Metal";
 
             ThreadMachine.Create(1).RunInMultiTheadsWithoutWaiting(() =>
             {
@@ -355,13 +430,17 @@ namespace Universe.Lastfm.Api.FormsApp
                     (Scope.GetQuery<GetUserWeeklyArtistChartQuery>(), btUserGetWeeklyArtistChart),
                     (Scope.GetQuery<GetUserWeeklyChartListQuery>(), btUserGetWeeklyChartList),
                     (Scope.GetQuery<GetUserWeeklyTrackChartQuery>(), btUserGetWeeklyTrackChart),
-
                 };
 
+                var data = new MatList<LastFmBaseContainer>();
                 foreach (var query in queries)
                 {
-                    query.Itself.ExecuteBaseSafe(ReqCtx).ReportResult(tbLog).LightColorResult(query.Ctrl, 50);
+                    var responce = query.Itself.ExecuteBaseSafe(ReqCtx).ReportResult(tbLog).LightColorResult(query.Ctrl, 50) as LastFmBaseContainer;
+                    data += responce.DataContainer;
                 }
+
+                var fullInfo = JsonConvert.SerializeObject(data, Formatting.Indented);
+                _log.Info($"FULL COLLECTION OF INFORMATION: {Environment.NewLine}{fullInfo}");
 
                 var commands = new (BaseCommand Itself, Control Ctrl)[]
                 {
@@ -372,6 +451,13 @@ namespace Universe.Lastfm.Api.FormsApp
                 foreach (var command in commands)
                 {
                     command.Itself.ExecuteBaseSafe(ReqCtx).ReportResult(tbLog).LightColorResult(command.Ctrl, 50);
+                }
+
+                using (var fs = File.CreateText(outputFile))
+                {
+                    fs.WriteLine(fullInfo);
+                    fs.Flush();
+                    fs.Close();
                 }
             });
         }

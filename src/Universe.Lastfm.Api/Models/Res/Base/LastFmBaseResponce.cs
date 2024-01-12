@@ -43,10 +43,10 @@ namespace Universe.Lastfm.Api.Models.Res.Base
     ///     The responce with result from the API  of the Last.fm.
     ///     Ответ с результатом от API Last.fm.
     /// </summary>
-    public class LastFmBaseResponce<TResponce> : BaseResponce
+    public class LastFmBaseResponce<TResponce> : LastFmBaseContainer
         where TResponce : LastFmBaseContainer, new()
     {
-        public TResponce DataContainer
+        public override TResponce DataContainer
         {
             get
             {

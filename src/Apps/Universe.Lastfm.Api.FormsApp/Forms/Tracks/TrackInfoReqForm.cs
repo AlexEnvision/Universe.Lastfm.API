@@ -53,11 +53,15 @@ namespace Universe.Lastfm.Api.FormsApp.Forms.Tracks
         public TrackInfoReqForm()
         {
             InitializeComponent();
+
+            StartPosition = FormStartPosition.CenterScreen;
         }
 
         public TrackInfoReqForm(UniverseLastApiAppSettings settings)
         {
             InitializeComponent();
+
+            StartPosition = FormStartPosition.CenterScreen;
 
             if (settings.IsSpaceMode)
                 SpaceThemeStyle.Set.Apply(this);

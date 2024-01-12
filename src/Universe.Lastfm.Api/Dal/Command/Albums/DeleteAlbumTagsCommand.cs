@@ -47,7 +47,7 @@ namespace Universe.Lastfm.Api.Dal.Command.Albums
         public override DeleteAlbumTagsCommandResponce Execute(
             DeleteAlbumTagsRequest request)
         {
-            if (request.Tag.IsNullOrEmpty())
+            if (request.RemTag.IsNullOrEmpty())
                 throw new ArgumentException("request.Tag is empty. Need to specify one or more tags");
             if (request.Album.IsNullOrEmpty())
                 throw new ArgumentException("request.Album is empty. This is required parameter");
@@ -66,7 +66,7 @@ namespace Universe.Lastfm.Api.Dal.Command.Albums
             string album = request.Album;
             string artist = request.Performer;
 
-                string tag = request.Tag;
+                string tag = request.RemTag;
 
                 string sk = request.SessionKey;
 
@@ -117,14 +117,14 @@ namespace Universe.Lastfm.Api.Dal.Command.Albums
         public string SessionKey { get; set; }
 
         /// <summary>
-        ///    A single user tag to remove from this album.
-        /// </summary>
-        public string Tag { get; set; }
-
-        /// <summary>
         ///     The secret key from setting of the application
         /// </summary>
         public string SecretKey { get; set; }
+
+        /// <summary>
+        ///    A single user tag to remove from this album.
+        /// </summary>
+        public string RemTag { get; set; }
 
         public DeleteAlbumTagsRequest()
         {
@@ -138,7 +138,7 @@ namespace Universe.Lastfm.Api.Dal.Command.Albums
                 Token = apiSig, 
                 Album = album,
                 Performer = artist,
-                Tag = tag, 
+                RemTag = tag, 
                 SessionKey = session
             };
         }

@@ -1,6 +1,6 @@
 ﻿namespace Universe.Lastfm.Api.FormsApp.Forms.Albums
 {
-    partial class AlbumDeleteAddTagsReqForm
+    partial class AlbumDeleteTagsReqForm
     {
         /// <summary>
         /// Required designer variable.

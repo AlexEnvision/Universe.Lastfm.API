@@ -34,14 +34,19 @@
 //  ╚═════════════════════════════════════════════════════════════════════════════════╝
 
 using Newtonsoft.Json;
+using Universe.Lastfm.Api.Dal.Queries.Performers;
 using Universe.Lastfm.Api.Dto.Common;
 using Universe.Lastfm.Api.Models.Base;
+using Universe.Lastfm.Api.Models.Res.Base;
 
 namespace Universe.Lastfm.Api.Models.Res
 {
-    public class GetArtistTagsResponce : BaseResponce
+    /// <summary>
+    ///     The responce that contains of tags, which has returned of query <see cref="GetPerformersTagsQuery"/>
+    /// </summary>
+    public class GetArtistTagsResponce : LastFmBaseResponce<TagsContainer>
     {
-        public TagsContainer DataContainer
+        public override TagsContainer DataContainer
         {
             get
             {

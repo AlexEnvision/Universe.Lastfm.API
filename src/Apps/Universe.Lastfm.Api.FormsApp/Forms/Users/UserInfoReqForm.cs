@@ -50,11 +50,15 @@ namespace Universe.Lastfm.Api.FormsApp.Forms.Users
         public UserInfoReqForm()
         {
             InitializeComponent();
+
+            StartPosition = FormStartPosition.CenterScreen;
         }
 
         public UserInfoReqForm(UniverseLastApiAppSettings settings)
         {
             InitializeComponent();
+
+            StartPosition = FormStartPosition.CenterScreen;
 
             if (settings.IsSpaceMode)
                 SpaceThemeStyle.Set.Apply(this);
