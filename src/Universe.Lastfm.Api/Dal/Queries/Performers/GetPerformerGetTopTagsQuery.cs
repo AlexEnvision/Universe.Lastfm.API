@@ -34,53 +34,118 @@
 //  ╚═════════════════════════════════════════════════════════════════════════════════╝
 
 using System;
+using Universe.Lastfm.Api.Dto.Base;
+using Universe.Lastfm.Api.Dto.Common;
+using Universe.Lastfm.Api.Dto.GetAlbumInfo;
 using Universe.Lastfm.Api.Helpers;
 using Universe.Lastfm.Api.Models;
 using Universe.Lastfm.Api.Models.Base;
-using Universe.Lastfm.Api.Models.Req;
-using Universe.Lastfm.Api.Models.Res;
+using Universe.Lastfm.Api.Models.Res.Base;
 
-namespace Universe.Lastfm.Api.Dal.Queries.Tags
+namespace Universe.Lastfm.Api.Dal.Queries.Performers
 {
     /// <summary>
-    ///     The query gets the full information about Last.fm tag/genre.
-    ///     Запрос, получающий полную информацию об Last.fm тэге/жанре. 
+    ///     The query gets performer tags of the Last.fm.
+    ///     Запрос, получающий тэги исполнителей на Last.fm. 
     /// </summary>
-    public class GetTagInfoQuery : LastQuery<GetTagInfoRequest, GetTagInfoResponce>
+    public class GetPerformerGetTopTagsQuery : LastQuery<GetPerformerGetTopTagsQuery.GetPerformerGetTopTagsRequest, GetPerformerGetTopTagsQuery.GetPerformerGetTopTagsResponce>
     {
         protected override Func<BaseRequest, BaseResponce> ExecutableBaseFunc =>
-            req => Execute(req.As<GetTagInfoRequest>());
+            req => Execute(req.As<GetPerformerGetTopTagsRequest>());
 
         /// <summary>
-        ///     Get the metadata for a tag
+        ///     Get the top tags for an artist on Last.fm, ordered by popularity.
         /// </summary>
-        /// <param name="request.tag">
-        ///     The tag name.
-        ///     (Required) 
-        /// </param>
-        /// <param name="request.lang">
-        ///     The language to return the wiki in, expressed as an ISO 639 alpha-2 code.
-        ///     (Optional)
+        /// <param name="request.artist">
+        ///     The artist name.
         /// </param>
         /// <param name="request">
-        ///     Request with parameters for a getting of some tag.
+        ///     Request with parameters.
         /// </param>
         /// <returns></returns>
-        public override GetTagInfoResponce Execute(
-            GetTagInfoRequest request)
+        public override GetPerformerGetTopTagsResponce Execute(
+            GetPerformerGetTopTagsRequest request)
         {
-            string tag = request.Tag ?? throw new ArgumentNullException("request.Tag");
+            string artist = request.Performer ?? throw new ArgumentNullException("request.Performer");
 
-            var sessionResponce = Adapter.GetRequest("tag.getInfo",
-                Argument.Create("tag", tag),
+            var sessionResponce = Adapter.GetRequest("artist.getTopTags",
                 Argument.Create("api_key", Settings.ApiKey),
+                Argument.Create("artist", artist),
                 Argument.Create("format", "json"),
                 Argument.Create("callback", "?"));
 
             Adapter.FixCallback(sessionResponce);
 
-            var infoResponce = ResponceExt.CreateFrom<BaseResponce, GetTagInfoResponce>(sessionResponce);
-            return infoResponce;
+            var getArtistInfoResponce = ResponceExt.CreateFrom<BaseResponce, GetPerformerGetTopTagsResponce>(sessionResponce);
+            return getArtistInfoResponce;
+        }
+
+        /// <summary>
+        ///     The request with full information about Artist of the Last.fm.
+        ///     Запрос с полной информацией о поиске Last.fm.
+        /// </summary>
+        public class GetPerformerGetTopTagsRequest : BaseRequest
+        {
+            public string Performer { get; set; }
+
+            public GetPerformerGetTopTagsRequest()
+            {
+            }
+        }
+
+        /// <summary>
+        ///     The responce with full information about PerformerGetTopTags performers of the Last.fm.
+        ///     Ответ с полной информацией о похожих исполнителей Last.fm.
+        /// </summary>
+        public class GetPerformerGetTopTagsResponce : LastFmBaseResponce<PerformerContainer>
+        {
+        }
+
+        /// <summary>
+        ///     The container with information about the top artists listened to by a Artist on the Last.fm.
+        ///     Контейнер с информацией о поиске, которые прослушивал пользователь на Last.fm.
+        /// </summary>
+        public class PerformerContainer : LastFmBaseContainer
+        {
+            public PerformerGetTopTagsArtistsDto TopTags { get; set; }
+        }
+
+        /// <summary>
+        ///     The full information about track on the Last.fm.
+        ///     Полная информация о похожих исполнителях на Last.fm.
+        /// </summary>
+        public class PerformerGetTopTagsArtistsDto
+        {
+            /*
+                <toptags artist="Cher">
+                  <tag>
+                    <name>pop</name>
+                    <url>http://www.last.fm/tag/pop</url>
+                  </tag>
+                  ...
+                </toptags>
+            */
+
+            public PerformerGetTopTagsAttribute Attribute { get; set; }
+
+            public string Artist { get; set; }
+
+            public Tag[] Tag { get; set; }
+        }
+
+        /// <summary>
+        ///     The special attribite of <see cref="PerformerGetTopTagsArtistsDto"/>
+        /// </summary>
+        public class PerformerGetTopTagsAttribute
+        {
+            /*
+                "@attr":
+                {
+                    "artist": "Ayreon"
+                },
+            */
+
+            public string Artist { get; set; }
         }
     }
 }

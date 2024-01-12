@@ -33,54 +33,15 @@
 //  ║                                                                                 ║
 //  ╚═════════════════════════════════════════════════════════════════════════════════╝
 
-using System;
-using Universe.Lastfm.Api.Helpers;
-using Universe.Lastfm.Api.Models;
 using Universe.Lastfm.Api.Models.Base;
-using Universe.Lastfm.Api.Models.Req;
-using Universe.Lastfm.Api.Models.Res;
 
-namespace Universe.Lastfm.Api.Dal.Queries.Tags
+namespace Universe.Lastfm.Api.Models.Req
 {
     /// <summary>
-    ///     The query gets the full information about Last.fm tag/genre.
-    ///     Запрос, получающий полную информацию об Last.fm тэге/жанре. 
+    ///     Get tag info request
     /// </summary>
-    public class GetTagInfoQuery : LastQuery<GetTagInfoRequest, GetTagInfoResponce>
+    public class GetTagInfoRequest : BaseRequest
     {
-        protected override Func<BaseRequest, BaseResponce> ExecutableBaseFunc =>
-            req => Execute(req.As<GetTagInfoRequest>());
-
-        /// <summary>
-        ///     Get the metadata for a tag
-        /// </summary>
-        /// <param name="request.tag">
-        ///     The tag name.
-        ///     (Required) 
-        /// </param>
-        /// <param name="request.lang">
-        ///     The language to return the wiki in, expressed as an ISO 639 alpha-2 code.
-        ///     (Optional)
-        /// </param>
-        /// <param name="request">
-        ///     Request with parameters for a getting of some tag.
-        /// </param>
-        /// <returns></returns>
-        public override GetTagInfoResponce Execute(
-            GetTagInfoRequest request)
-        {
-            string tag = request.Tag ?? throw new ArgumentNullException("request.Tag");
-
-            var sessionResponce = Adapter.GetRequest("tag.getInfo",
-                Argument.Create("tag", tag),
-                Argument.Create("api_key", Settings.ApiKey),
-                Argument.Create("format", "json"),
-                Argument.Create("callback", "?"));
-
-            Adapter.FixCallback(sessionResponce);
-
-            var infoResponce = ResponceExt.CreateFrom<BaseResponce, GetTagInfoResponce>(sessionResponce);
-            return infoResponce;
-        }
+        public string Tag { get; set; }
     }
 }

@@ -409,6 +409,39 @@ namespace Universe.Lastfm.Api.FormsApp
 
             DisableButtons(sender);
             ReqCtx.Performer = performer;
+
+            ThreadMachine.Create(1).RunInMultiTheadsWithoutWaiting(() =>
+            {
+                try
+                {
+                    var responce = Scope.GetQuery<GetPerformerGetTopTagsQuery>().Execute(ReqCtx.As<GetPerformerGetTopTagsQuery.GetPerformerGetTopTagsRequest>())
+                        .LightColorResult(btArtistGetTopTags);
+                    if (!responce.IsSuccessful)
+                    {
+                        _log.Info($"{responce.Message} {responce.ServiceAnswer}");
+                    }
+
+                    _log.Info(
+                        $"Успешно выгружена информация по исполнителю {performer}: {Environment.NewLine}{Environment.NewLine}{responce.ServiceAnswer}{Environment.NewLine}.");
+
+                    var data = responce.DataContainer.TopTags;
+                    var dataStr = string.Join(", ", data.Tag.Select(x => x.Name));
+
+                    _log.Info($"Getting tags by the name {performer} / Результат запроса на получение тегов по названию исполнителя {performer}: {dataStr}.");
+
+                    _log.Info(Environment.NewLine);
+                }
+                catch (Exception ex)
+                {
+                    _log.Error(ex, ex.Message);
+                    Thread.Sleep(LightErrorDelay);
+                    btArtistGetTopTags.LightErrorColorResult();
+                }
+                finally
+                {
+                    EnableButtonsSafe();
+                }
+            });
         }
 
         private void btArtistGetTopTracks_Click(object sender, EventArgs e)
@@ -435,6 +468,39 @@ namespace Universe.Lastfm.Api.FormsApp
 
             DisableButtons(sender);
             ReqCtx.Performer = performer;
+
+            ThreadMachine.Create(1).RunInMultiTheadsWithoutWaiting(() =>
+            {
+                try
+                {
+                    var responce = Scope.GetQuery<GetPerformerGetTopTracksQuery>().Execute(ReqCtx.As<GetPerformerGetTopTracksQuery.GetPerformerGetTopTracksRequest>())
+                        .LightColorResult(btArtistGetTopTracks);
+                    if (!responce.IsSuccessful)
+                    {
+                        _log.Info($"{responce.Message} {responce.ServiceAnswer}");
+                    }
+
+                    _log.Info(
+                        $"Успешно выгружена информация по исполнителю {performer}: {Environment.NewLine}{Environment.NewLine}{responce.ServiceAnswer}{Environment.NewLine}.");
+
+                    var data = responce.DataContainer.TopTracks;
+                    var dataStr = string.Join(", ", data.Track.Select(x => x.Name));
+
+                    _log.Info($"Search correction artist result by the name {performer} / Результат скорректированного исполнителя по названию {performer}: {dataStr}.");
+
+                    _log.Info(Environment.NewLine);
+                }
+                catch (Exception ex)
+                {
+                    _log.Error(ex, ex.Message);
+                    Thread.Sleep(LightErrorDelay);
+                    btArtistGetTopTracks.LightErrorColorResult();
+                }
+                finally
+                {
+                    EnableButtonsSafe();
+                }
+            });
         }
 
         private void btArtistAddTags_Click(object sender, EventArgs e)

@@ -323,21 +323,6 @@ namespace Universe.Lastfm.Api.FormsApp
             {
                 var queries = new (BaseQuery Itself, Control Ctrl)[]
                 {
-                    (Scope.GetQuery<GetUserInfoQuery>(), btUserGetInfo),
-                    (Scope.GetQuery<GetUserTopArtistsQuery>(),btUserGetTopArtists),
-                    (Scope.GetQuery<GetUserTopAlbumsQuery>(),btUserGetTopAlbums),
-                    (Scope.GetQuery<GetUserTopTracksQuery>(),btUserGetTopTracks),
-                    (Scope.GetQuery<GetUserTopTagsQuery>(), btUserGetTopTags),
-
-                    (Scope.GetQuery<GetUserLovedTracksQuery>(),btUserGetLovedTracks),
-                    (Scope.GetQuery<GetUserRecentTracksQuery>(), btUserGetRecentTracks),
-                    (Scope.GetQuery<GetPersonalTagsQuery>(), btUserGetPersonalTags),
-
-                    (Scope.GetQuery<GetUserWeeklyArtistChartQuery>(), btUserGetWeeklyArtistChart),
-                    (Scope.GetQuery<GetUserWeeklyAlbumChartQuery>(), btUserGetWeeklyAlbumChart),
-                    (Scope.GetQuery<GetUserWeeklyTrackChartQuery>(), btUserGetWeeklyTrackChart),
-                    (Scope.GetQuery<GetUserWeeklyChartListQuery>(), btUserGetWeeklyChartList),
-
                     (Scope.GetQuery<GetAlbumInfoQuery>(), btAlbumGetInfo),
                     (Scope.GetQuery<GetAlbumTagsQuery>(), btGetAlbumTags),
                     (Scope.GetQuery<SearchAlbumQuery>(), btAlbumSearch),
@@ -349,17 +334,33 @@ namespace Universe.Lastfm.Api.FormsApp
                     (Scope.GetQuery<GetSimilarPerformersQuery>(), btArtistGetSimilar),
                     (Scope.GetQuery<GetPerformerCorrectionQuery>(), btArtistGetCorrection),
                     (Scope.GetQuery<GetPerformerGetTopAlbumsQuery>(), btArtistGetTopAlbums),
-                    //(Scope.GetQuery<GetPerformerGetTopTracksQuery>(), btArtistGetTopTracks),
-                    //(Scope.GetQuery<GetPerformerGetTopTagsQuery>(), btArtistGetTopTags),
+                    (Scope.GetQuery<GetPerformerGetTopTagsQuery>(), btArtistGetTopTags),
+                    (Scope.GetQuery<GetPerformerGetTopTracksQuery>(), btArtistGetTopTracks),
+
+                    (Scope.GetQuery<GetTagInfoQuery>(), btTagGetInfo),
 
                     (Scope.GetQuery<GetTrackInfoQuery>(), btTrackGetInfo),
                     (Scope.GetQuery<GetTrackTagQuery>(), btTrackGetTags),
                     (Scope.GetQuery<SearchTrackQuery>(), btTrackSearch),
+
+                    (Scope.GetQuery<GetUserInfoQuery>(), btUserGetInfo),
+                    (Scope.GetQuery<GetUserTopArtistsQuery>(),btUserGetTopArtists),
+                    (Scope.GetQuery<GetUserTopAlbumsQuery>(),btUserGetTopAlbums),
+                    (Scope.GetQuery<GetUserTopTagsQuery>(), btUserGetTopTags),
+                    (Scope.GetQuery<GetUserTopTracksQuery>(),btUserGetTopTracks),
+                    (Scope.GetQuery<GetUserLovedTracksQuery>(),btUserGetLovedTracks),
+                    (Scope.GetQuery<GetPersonalTagsQuery>(), btUserGetPersonalTags),
+                    (Scope.GetQuery<GetUserRecentTracksQuery>(), btUserGetRecentTracks),
+                    (Scope.GetQuery<GetUserWeeklyAlbumChartQuery>(), btUserGetWeeklyAlbumChart),
+                    (Scope.GetQuery<GetUserWeeklyArtistChartQuery>(), btUserGetWeeklyArtistChart),
+                    (Scope.GetQuery<GetUserWeeklyChartListQuery>(), btUserGetWeeklyChartList),
+                    (Scope.GetQuery<GetUserWeeklyTrackChartQuery>(), btUserGetWeeklyTrackChart),
+
                 };
 
                 foreach (var query in queries)
                 {
-                    query.Itself.ExecuteBaseSafe(ReqCtx).ReportResult(tbLog).LightColorResult(query.Ctrl, 200);
+                    query.Itself.ExecuteBaseSafe(ReqCtx).ReportResult(tbLog).LightColorResult(query.Ctrl, 50);
                 }
 
                 var commands = new (BaseCommand Itself, Control Ctrl)[]
@@ -370,7 +371,7 @@ namespace Universe.Lastfm.Api.FormsApp
 
                 foreach (var command in commands)
                 {
-                    command.Itself.ExecuteBaseSafe(ReqCtx).ReportResult(tbLog).LightColorResult(command.Ctrl, 200);
+                    command.Itself.ExecuteBaseSafe(ReqCtx).ReportResult(tbLog).LightColorResult(command.Ctrl, 50);
                 }
             });
         }
@@ -457,64 +458,6 @@ namespace Universe.Lastfm.Api.FormsApp
         private void btTrackScrobble_Click(object sender, EventArgs e)
         {
             DisableButtons(sender);
-        }
-
-        private void btTagGetInfo_Click(object sender, EventArgs e)
-        {
-            string tagName;
-
-            using (var form = new TagInfoReqForm(_programSettings))
-            {
-                if (form.ShowDialog() == DialogResult.OK)
-                {
-                    tagName = form.Tag;
-                    if (string.IsNullOrEmpty(tagName))
-                    {
-                        tbLog.AppendText($"[{DateTime.Now}] Не указан tag / genre!" + Environment.NewLine);
-                        return;
-                    }
-                }
-                else
-                {
-                    return;
-                }
-            }
-
-            DisableButtons(sender);
-
-            ThreadMachine.Create(1).RunInMultiTheadsWithoutWaiting(() =>
-            {
-                try
-                {
-                    var responce = Scope.GetQuery<GetTagInfoQuery>().Execute(tagName);
-                    if (!responce.IsSuccessful)
-                    {
-                        _log.Info($"{responce.Message} {responce.ServiceAnswer}");
-                    }
-
-                    _log.Info(
-                        $"Успешно выгружена информация по тэгу / жанру {tagName}: {Environment.NewLine}{Environment.NewLine}{responce.ServiceAnswer}{Environment.NewLine}.");
-
-                    var tag = responce.DataContainer.Tag;
-                    var metalGenre = tag.Name.ToLower().Contains("metal") ? tag.Name : string.Empty;
-
-                    var tagsStr = tag.Name;
-                    var metalGenresStr = metalGenre;
-                    _log.Info($"Теги Last.fm: {tagsStr}.");
-                    _log.Info($"Метал жанры: {metalGenresStr}.");
-
-                    _log.Info($"Total / Используется: {tag.Total}.");
-                    _log.Info($"Short description / Краткое описание: {tag.Wiki.Summary}.");
-                    _log.Info($"Full description / Полное описание: {tag.Wiki.Content}.");
-
-                    EnableButtonsSafe();
-                }
-                catch (Exception ex)
-                {
-                    _log.Error(ex, ex.Message);
-                    EnableButtonsSafe();
-                }
-            });
         }
 
         private void MainForm_MaximumSizeChanged(object sender, EventArgs e)
