@@ -4,6 +4,7 @@ using System.Windows.Forms;
 using Universe.Helpers.Extensions;
 using Universe.Lastfm.Api.FormsApp.Settings;
 using Universe.Lastfm.Api.FormsApp.Themes;
+using Universe.Lastfm.Api.Models;
 
 namespace Universe.Lastfm.Api.FormsApp.Forms
 {
@@ -75,6 +76,19 @@ namespace Universe.Lastfm.Api.FormsApp.Forms
                 SpaceThemeStyle.Set.Apply(this);
 
             InitializePaths();
+            InitializeParametersByReqCtx(settings.ReqCtx);
+        }
+
+        private void InitializeParametersByReqCtx(ReqContext reqCtx)
+        {
+            tbPerformer.Text = reqCtx.Performer ?? tbPerformer.Text;
+            tbAlbum.Text = reqCtx.Album ?? tbAlbum.Text;
+            tbTrack.Text = reqCtx.Track ?? tbTrack.Text;
+            tbTag.Text = reqCtx.Tag ?? tbTag.Text;
+
+            tbUser.Text = reqCtx.User ?? tbUser.Text;
+            tbCreatingTags.Text = reqCtx.Tags != null ? string.Join(";", reqCtx.Tags) : tbCreatingTags.Text;
+            tbRemovingTags.Text = reqCtx.RemTag ?? tbRemovingTags.Text;
         }
 
         protected virtual void btOk_Click(object sender, EventArgs e)

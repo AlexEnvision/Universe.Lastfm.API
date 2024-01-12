@@ -35,9 +35,12 @@
 
 using System;
 using System.Windows.Forms;
+using Universe.Lastfm.Api.Dto.Common;
+using Universe.Lastfm.Api.Dto.GetAlbumInfo;
 using Universe.Lastfm.Api.FormsApp.Settings;
 using Universe.Lastfm.Api.FormsApp.Themes;
 using Universe.Lastfm.Api.Infrastracture;
+using Universe.Lastfm.Api.Models;
 
 namespace Universe.Lastfm.Api.FormsApp.Forms.Users
 {
@@ -62,6 +65,13 @@ namespace Universe.Lastfm.Api.FormsApp.Forms.Users
 
             if (settings.IsSpaceMode)
                 SpaceThemeStyle.Set.Apply(this);
+
+            InitializeParametersByReqCtx(settings.ReqCtx);
+        }
+
+        protected virtual void InitializeParametersByReqCtx(ReqContext reqCtx)
+        {
+            tbUser.Text = reqCtx.User ?? tbUser.Text;
         }
 
         protected virtual void btOk_Click(object sender, EventArgs e)

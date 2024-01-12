@@ -35,8 +35,10 @@
 
 using System;
 using System.Windows.Forms;
+using Universe.Lastfm.Api.Dto.GetAlbumInfo;
 using Universe.Lastfm.Api.FormsApp.Settings;
 using Universe.Lastfm.Api.FormsApp.Themes;
+using Universe.Lastfm.Api.Models;
 
 namespace Universe.Lastfm.Api.FormsApp.Forms.Genres
 {
@@ -61,6 +63,13 @@ namespace Universe.Lastfm.Api.FormsApp.Forms.Genres
 
             if (settings.IsSpaceMode)
                 SpaceThemeStyle.Set.Apply(this);
+
+            InitializeParametersByReqCtx(settings.ReqCtx);
+        }
+
+        protected virtual void InitializeParametersByReqCtx(ReqContext reqCtx)
+        {
+            tbTag.Text = reqCtx.Tag ?? tbTag.Text;
         }
 
         protected virtual void btOk_Click(object sender, EventArgs e)

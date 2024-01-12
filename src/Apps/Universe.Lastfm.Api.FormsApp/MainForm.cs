@@ -163,6 +163,8 @@ namespace Universe.Lastfm.Api.FormsApp
 
             if (_programSettings.IsSpaceMode)
                 SpaceThemeStyle.Set.Apply(pMainForm);
+
+            ReqCtx = _programSettings.ReqCtx;
         }
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
@@ -184,6 +186,8 @@ namespace Universe.Lastfm.Api.FormsApp
             _programSettings.IsFullRubberUI = fullRubberyUIToolStripMenuItem.Checked;
 
             _programSettings.IsSpaceMode = spaceModeToolStripMenuItem.Checked;
+
+            _programSettings.ReqCtx = ReqCtx;
         }
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
@@ -384,7 +388,7 @@ namespace Universe.Lastfm.Api.FormsApp
             ReqCtx.Performer = performer;
             ReqCtx.Album = albumName;
             ReqCtx.Track = trackName;
-            ReqCtx.Tag = trackName;
+            ReqCtx.Tag = tagName;
 
             ReqCtx.User = userName;
             ReqCtx.Tags = addTags;

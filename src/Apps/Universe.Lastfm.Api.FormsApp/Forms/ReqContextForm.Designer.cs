@@ -96,7 +96,6 @@
             tbUser.Name = "tbUser";
             tbUser.Size = new System.Drawing.Size(397, 27);
             tbUser.TabIndex = 13;
-            tbUser.Text = "Howling91";
             // 
             // label3
             // 
@@ -153,7 +152,7 @@
             tbTag.Name = "tbTag";
             tbTag.Size = new System.Drawing.Size(379, 27);
             tbTag.TabIndex = 19;
-            tbTag.Text = "progressive metal";
+            tbTag.Text = "Progressive Metal";
             // 
             // label6
             // 

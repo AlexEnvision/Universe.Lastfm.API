@@ -34,6 +34,7 @@
 //  ╚═════════════════════════════════════════════════════════════════════════════════╝
 
 using Universe.Lastfm.Api.Infrastracture;
+using Universe.Lastfm.Api.Models;
 using Universe.Windows.Forms.Controls.Settings;
 
 namespace Universe.Lastfm.Api.FormsApp.Settings
@@ -56,6 +57,13 @@ namespace Universe.Lastfm.Api.FormsApp.Settings
         public bool IsFullRubberUI { get; set; }
 
         public bool IsSpaceMode { get; set; }
+
+        public ReqContext ReqCtx { get; set; }
+
+        public UniverseLastApiAppSettings()
+        {
+            ReqCtx = new ReqContext();
+        }
 
         public string GetUniverseDbConnectionString()
         {

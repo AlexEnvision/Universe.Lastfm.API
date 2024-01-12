@@ -52,7 +52,6 @@
             tbTag.Name = "tbTag";
             tbTag.Size = new System.Drawing.Size(374, 27);
             tbTag.TabIndex = 1;
-            tbTag.Text = "progressive metal";
             // 
             // label1
             // 
