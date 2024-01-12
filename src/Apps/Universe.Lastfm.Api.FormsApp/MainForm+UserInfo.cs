@@ -76,6 +76,7 @@ namespace Universe.Lastfm.Api.FormsApp
                     if (string.IsNullOrEmpty(userName))
                     {
                         tbLog.AppendText($"[{DateTime.Now}] Не указано userName!" + Environment.NewLine);
+                        btUserGetInfo.LightWarningColorResult();
                         return;
                     }
                 }
@@ -135,6 +136,7 @@ namespace Universe.Lastfm.Api.FormsApp
                     if (string.IsNullOrEmpty(userName))
                     {
                         tbLog.AppendText($"[{DateTime.Now}] Не указано userName!" + Environment.NewLine);
+                        btUserGetTopArtists.LightWarningColorResult();
                         return;
                     }
                 }
@@ -192,6 +194,7 @@ namespace Universe.Lastfm.Api.FormsApp
                     if (string.IsNullOrEmpty(userName))
                     {
                         tbLog.AppendText($"[{DateTime.Now}] Не указано userName!" + Environment.NewLine);
+                        btUserGetTopAlbums.LightWarningColorResult();
                         return;
                     }
                 }
@@ -249,6 +252,7 @@ namespace Universe.Lastfm.Api.FormsApp
                     if (string.IsNullOrEmpty(userName))
                     {
                         tbLog.AppendText($"[{DateTime.Now}] Не указано userName!" + Environment.NewLine);
+                        btUserGetTopTags.LightWarningColorResult();
                         return;
                     }
                 }
@@ -308,6 +312,7 @@ namespace Universe.Lastfm.Api.FormsApp
                     if (string.IsNullOrEmpty(userName))
                     {
                         tbLog.AppendText($"[{DateTime.Now}] Не указано userName!" + Environment.NewLine);
+                        btUserGetTopTracks.LightWarningColorResult();
                         return;
                     }
                 }
@@ -367,6 +372,7 @@ namespace Universe.Lastfm.Api.FormsApp
                     if (string.IsNullOrEmpty(userName))
                     {
                         tbLog.AppendText($"[{DateTime.Now}] Не указано userName!" + Environment.NewLine);
+                        btUserGetLovedTracks.LightWarningColorResult();
                         return;
                     }
                 }
@@ -428,6 +434,7 @@ namespace Universe.Lastfm.Api.FormsApp
                     if (string.IsNullOrEmpty(userName))
                     {
                         tbLog.AppendText($"[{DateTime.Now}] Не указано userName!" + Environment.NewLine);
+                        btUserGetPersonalTags.LightWarningColorResult();
                         return;
                     }
 
@@ -435,6 +442,7 @@ namespace Universe.Lastfm.Api.FormsApp
                     if (string.IsNullOrEmpty(userName))
                     {
                         tbLog.AppendText($"[{DateTime.Now}] Не указан tag!" + Environment.NewLine);
+                        btUserGetPersonalTags.LightWarningColorResult();
                         return;
                     }
 
@@ -442,6 +450,7 @@ namespace Universe.Lastfm.Api.FormsApp
                     if (string.IsNullOrEmpty(userName))
                     {
                         tbLog.AppendText($"[{DateTime.Now}] Не указан taggingType!" + Environment.NewLine);
+                        btUserGetPersonalTags.LightWarningColorResult();
                         return;
                     }
                 }
@@ -503,6 +512,7 @@ namespace Universe.Lastfm.Api.FormsApp
                     if (string.IsNullOrEmpty(userName))
                     {
                         tbLog.AppendText($"[{DateTime.Now}] Не указано userName!" + Environment.NewLine);
+                        btUserGetRecentTracks.LightWarningColorResult();
                         return;
                     }
                 }
@@ -561,6 +571,7 @@ namespace Universe.Lastfm.Api.FormsApp
                     if (string.IsNullOrEmpty(userName))
                     {
                         tbLog.AppendText($"[{DateTime.Now}] Не указано userName!" + Environment.NewLine);
+                        btUserGetWeeklyAlbumChart.LightWarningColorResult();
                         return;
                     }
                 }
@@ -619,6 +630,7 @@ namespace Universe.Lastfm.Api.FormsApp
                     if (string.IsNullOrEmpty(userName))
                     {
                         tbLog.AppendText($"[{DateTime.Now}] Не указано userName!" + Environment.NewLine);
+                        btUserGetWeeklyArtistChart.LightWarningColorResult();
                         return;
                     }
                 }
@@ -678,6 +690,7 @@ namespace Universe.Lastfm.Api.FormsApp
                     if (string.IsNullOrEmpty(userName))
                     {
                         tbLog.AppendText($"[{DateTime.Now}] Не указано userName!" + Environment.NewLine);
+                        btUserGetWeeklyChartList.LightWarningColorResult();
                         return;
                     }
                 }
@@ -738,6 +751,7 @@ namespace Universe.Lastfm.Api.FormsApp
                     if (string.IsNullOrEmpty(userName))
                     {
                         tbLog.AppendText($"[{DateTime.Now}] Не указано userName!" + Environment.NewLine);
+                        btUserGetWeeklyTrackChart.LightWarningColorResult();
                         return;
                     }
                 }

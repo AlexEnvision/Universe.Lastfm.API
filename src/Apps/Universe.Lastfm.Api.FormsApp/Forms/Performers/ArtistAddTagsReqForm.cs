@@ -1,23 +1,24 @@
 ﻿using System;
+using Universe.Lastfm.Api.FormsApp.Forms.Albums;
 using Universe.Lastfm.Api.FormsApp.Settings;
 using Universe.Lastfm.Api.FormsApp.Themes;
 
-namespace Universe.Lastfm.Api.FormsApp.Forms.Albums
+namespace Universe.Lastfm.Api.FormsApp.Forms.Performers
 {
-    public partial class AlbumAddTagsReqForm : AlbumReqInfoForm
+    public partial class ArtistAddTagsReqForm : AlbumReqInfoForm
     {
         protected string TagNames => tbCreatingTags.Text;
 
         public string[] TagsArray { get; set; }
 
-        public AlbumAddTagsReqForm()
+        public ArtistAddTagsReqForm()
         {
             InitializeComponent();
 
             TagsArray = new string[] { };
         }
 
-        public AlbumAddTagsReqForm(UniverseLastApiAppSettings settings) : base(settings)
+        public ArtistAddTagsReqForm(UniverseLastApiAppSettings settings) : base(settings)
         {
             InitializeComponent();
 

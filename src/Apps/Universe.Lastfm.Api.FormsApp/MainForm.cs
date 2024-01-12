@@ -151,6 +151,9 @@ namespace Universe.Lastfm.Api.FormsApp
             fullRubberyUIToolStripMenuItem.Checked = _programSettings.IsFullRubberUI;
             spaceModeToolStripMenuItem.Checked = _programSettings.IsSpaceMode;
 
+            if (_programSettings.IsMaximized)
+                this.WindowState = FormWindowState.Maximized;
+
             if (_programSettings.IsFullRubberUI)
                 pMainForm.MassSetControlProperty(ctrl => { ctrl.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left; });
 
@@ -170,6 +173,8 @@ namespace Universe.Lastfm.Api.FormsApp
         {
             _programSettings.ApiKey = tbApiKey.Text;
             _programSettings.SecretKey = tbSecretKey.Text;
+
+            _programSettings.IsMaximized = this.WindowState == FormWindowState.Maximized;
 
             _programSettings.IsTrustedApiApp = chTrustedApp.Checked;
             _programSettings.IsFullRubberUI = fullRubberyUIToolStripMenuItem.Checked;
@@ -312,6 +317,8 @@ namespace Universe.Lastfm.Api.FormsApp
             ReqCtx.Track = "Age Of Shadows";
             ReqCtx.Tags = new string[] { "Progressive Metal" };
 
+            ReqCtx.Tag = "Non-Progressive Metal";
+
             ThreadMachine.Create(1).RunInMultiTheadsWithoutWaiting(() =>
             {
                 var queries = new (BaseQuery Itself, Control Ctrl)[]
@@ -339,6 +346,11 @@ namespace Universe.Lastfm.Api.FormsApp
                     (Scope.GetQuery<GetPerformerInfoQuery>(), btArtistGetInfo),
                     (Scope.GetQuery<GetPerformersTagsQuery>(), btGetArtistTags),
                     (Scope.GetQuery<SearchPerformersQuery>(), btArtistSearch),
+                    (Scope.GetQuery<GetSimilarPerformersQuery>(), btArtistGetSimilar),
+                    (Scope.GetQuery<GetPerformerCorrectionQuery>(), btArtistGetCorrection),
+                    (Scope.GetQuery<GetPerformerGetTopAlbumsQuery>(), btArtistGetTopAlbums),
+                    //(Scope.GetQuery<GetPerformerGetTopTracksQuery>(), btArtistGetTopTracks),
+                    //(Scope.GetQuery<GetPerformerGetTopTagsQuery>(), btArtistGetTopTags),
 
                     (Scope.GetQuery<GetTrackInfoQuery>(), btTrackGetInfo),
                     (Scope.GetQuery<GetTrackTagQuery>(), btTrackGetTags),
@@ -352,7 +364,8 @@ namespace Universe.Lastfm.Api.FormsApp
 
                 var commands = new (BaseCommand Itself, Control Ctrl)[]
                 {
-                    (Scope.GetCommand<AddAlbumTagsCommand>(), btAlbumAddTags)
+                    (Scope.GetCommand<AddAlbumTagsCommand>(), btAlbumAddTags),
+                    (Scope.GetCommand<DeleteAlbumTagsCommand>(), btAlbumRemoveTag)
                 };
 
                 foreach (var command in commands)

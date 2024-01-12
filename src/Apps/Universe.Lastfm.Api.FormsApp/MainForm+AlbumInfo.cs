@@ -16,6 +16,7 @@ using static Universe.Lastfm.Api.Dal.Queries.Albums.GetAlbumTopTagsQuery;
 
 using static Universe.Lastfm.Api.Dal.Command.Albums.AddAlbumTagsCommand;
 using System.Threading;
+using Universe.Helpers.Extensions;
 
 namespace Universe.Lastfm.Api.FormsApp
 {
@@ -34,6 +35,7 @@ namespace Universe.Lastfm.Api.FormsApp
                     if (string.IsNullOrEmpty(performer))
                     {
                         tbLog.AppendText($"[{DateTime.Now}] Не указан performer!" + Environment.NewLine);
+                        btAlbumGetInfo.LightWarningColorResult();
                         return;
                     }
 
@@ -41,6 +43,7 @@ namespace Universe.Lastfm.Api.FormsApp
                     if (string.IsNullOrEmpty(album))
                     {
                         tbLog.AppendText($"[{DateTime.Now}] Не указан album!" + Environment.NewLine);
+                        btAlbumGetInfo.LightWarningColorResult();
                         return;
                     }
                 }
@@ -105,6 +108,7 @@ namespace Universe.Lastfm.Api.FormsApp
                     if (string.IsNullOrEmpty(performer))
                     {
                         tbLog.AppendText($"[{DateTime.Now}] Не указан performer!" + Environment.NewLine);
+                        btGetAlbumTags.LightWarningColorResult();
                         return;
                     }
 
@@ -112,6 +116,7 @@ namespace Universe.Lastfm.Api.FormsApp
                     if (string.IsNullOrEmpty(album))
                     {
                         tbLog.AppendText($"[{DateTime.Now}] Не указан album!" + Environment.NewLine);
+                        btGetAlbumTags.LightWarningColorResult();
                         return;
                     }
 
@@ -119,6 +124,7 @@ namespace Universe.Lastfm.Api.FormsApp
                     if (string.IsNullOrEmpty(user))
                     {
                         tbLog.AppendText($"[{DateTime.Now}] Не указан user!" + Environment.NewLine);
+                        btGetAlbumTags.LightWarningColorResult();
                         return;
                     }
                 }
@@ -182,6 +188,7 @@ namespace Universe.Lastfm.Api.FormsApp
                     if (string.IsNullOrEmpty(performer))
                     {
                         tbLog.AppendText($"[{DateTime.Now}] Не указан performer!" + Environment.NewLine);
+                        btAlbumSearch.LightWarningColorResult();
                         return;
                     }
 
@@ -189,6 +196,7 @@ namespace Universe.Lastfm.Api.FormsApp
                     if (string.IsNullOrEmpty(albumName))
                     {
                         tbLog.AppendText($"[{DateTime.Now}] Не указан album!" + Environment.NewLine);
+                        btAlbumSearch.LightWarningColorResult();
                         return;
                     }
                 }
@@ -250,6 +258,7 @@ namespace Universe.Lastfm.Api.FormsApp
                     if (string.IsNullOrEmpty(performer))
                     {
                         tbLog.AppendText($"[{DateTime.Now}] Не указан performer!" + Environment.NewLine);
+                        btAlbumGetTopTags.LightWarningColorResult();
                         return;
                     }
 
@@ -257,6 +266,7 @@ namespace Universe.Lastfm.Api.FormsApp
                     if (string.IsNullOrEmpty(albumName))
                     {
                         tbLog.AppendText($"[{DateTime.Now}] Не указан album!" + Environment.NewLine);
+                        btAlbumGetTopTags.LightWarningColorResult();
                         return;
                     }
                 }
@@ -319,6 +329,7 @@ namespace Universe.Lastfm.Api.FormsApp
                     if (string.IsNullOrEmpty(performer))
                     {
                         tbLog.AppendText($"[{DateTime.Now}] Не указан performer!" + Environment.NewLine);
+                        btAlbumAddTags.LightWarningColorResult();
                         return;
                     }
 
@@ -326,6 +337,7 @@ namespace Universe.Lastfm.Api.FormsApp
                     if (string.IsNullOrEmpty(albumName))
                     {
                         tbLog.AppendText($"[{DateTime.Now}] Не указан album!" + Environment.NewLine);
+                        btAlbumAddTags.LightWarningColorResult();
                         return;
                     }
 
@@ -333,6 +345,7 @@ namespace Universe.Lastfm.Api.FormsApp
                     if (tags.Length == 0)
                     {
                         tbLog.AppendText($"[{DateTime.Now}] Не указаны tags!" + Environment.NewLine);
+                        btAlbumAddTags.LightWarningColorResult();
                         return;
                     }
                 }
@@ -366,7 +379,7 @@ namespace Universe.Lastfm.Api.FormsApp
                     var data = responce.Responces.Select(x => x.DataContainer);
                     var dataStr = string.Join(", ", data.SelectMany(x => x.Lfm.Status));
 
-                    _log.Info($"Result of adding tags/genres of album by the names {tagsStr} / Результат добавления топ-тэгов/жанров альбома по названиям {tagsStr}: {dataStr}.");
+                    _log.Info($"Result of adding tags/genres of album by the names {tagsStr} / Результат добавления тэгов/жанров альбома по названиям {tagsStr}: {dataStr}.");
 
                     _log.Info(Environment.NewLine);
                 }
@@ -385,7 +398,83 @@ namespace Universe.Lastfm.Api.FormsApp
 
         private void btAlbumRemoveTag_Click(object sender, EventArgs e)
         {
+            string performer;
+            string albumName;
+            string tag;
 
+            using (var form = new AlbumDeleteAddTagsReqForm(_programSettings))
+            {
+                if (form.ShowDialog() == DialogResult.OK)
+                {
+                    performer = form.Performer;
+                    if (string.IsNullOrEmpty(performer))
+                    {
+                        tbLog.AppendText($"[{DateTime.Now}] Не указан performer!" + Environment.NewLine);
+                        btAlbumRemoveTag.LightWarningColorResult();
+                        return;
+                    }
+
+                    albumName = form.Album;
+                    if (string.IsNullOrEmpty(albumName))
+                    {
+                        tbLog.AppendText($"[{DateTime.Now}] Не указан album!" + Environment.NewLine);
+                        btAlbumRemoveTag.LightWarningColorResult();
+                        return;
+                    }
+
+                    tag = form.TagsArray.FirstOrDefault() ?? "";
+                    if (tag.IsNullOrEmpty())
+                    {
+                        tbLog.AppendText($"[{DateTime.Now}] Не указаны tags!" + Environment.NewLine);
+                        btAlbumRemoveTag.LightWarningColorResult();
+                        return;
+                    }
+                }
+                else
+                {
+                    return;
+                }
+            }
+
+            DisableButtons(sender);
+            ReqCtx.Album = albumName;
+            ReqCtx.Performer = performer;
+            ReqCtx.Tag = tag;
+
+            ThreadMachine.Create(1).RunInMultiTheadsWithoutWaiting(() =>
+            {
+                try
+                {
+                    var responce = Scope.GetCommand<DeleteAlbumTagsCommand>().Execute(ReqCtx.As<DeleteAlbumTagsRequest>())
+                        .LightColorResult(btAlbumRemoveTag);
+                    if (!responce.IsSuccessful)
+                    {
+                        _log.Info($"{responce.Message} {responce.ServiceAnswer}");
+                    }
+
+                    _log.Info(
+                        $"Успешно выгружена информация по пользователю {albumName}: {Environment.NewLine}{Environment.NewLine}{responce.ServiceAnswer}{Environment.NewLine}.");
+
+                    var tagsStr = string.Join(";", ReqCtx.Tags);
+
+                    var data = responce.DataContainer;
+                    var dataStr = string.Join(", ", data.Lfm.Status);
+
+                    _log.Info($"Result of deleting tags/genres of album by the names {tagsStr} / Результат удаления тэгов/жанров альбома по названиям {tagsStr}: {dataStr}.");
+
+                    _log.Info(Environment.NewLine);
+                }
+                catch (Exception ex)
+                {
+                    _log.Error(ex, ex.Message);
+                    Thread.Sleep(LightErrorDelay);
+                    btAlbumRemoveTag.LightErrorColorResult();
+                }
+                finally
+                {
+                    EnableButtonsSafe();
+                }
+            });
         }
     }
 }

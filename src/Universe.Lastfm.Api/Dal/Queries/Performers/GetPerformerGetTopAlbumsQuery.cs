@@ -35,7 +35,7 @@
 
 using System;
 using Universe.Lastfm.Api.Dto.Base;
-using Universe.Lastfm.Api.Dto.GetArtistInfo;
+using Universe.Lastfm.Api.Dto.GetAlbumInfo;
 using Universe.Lastfm.Api.Dto.GetArtists;
 using Universe.Lastfm.Api.Helpers;
 using Universe.Lastfm.Api.Models;
@@ -45,48 +45,38 @@ using Universe.Lastfm.Api.Models.Res.Base;
 namespace Universe.Lastfm.Api.Dal.Queries.Performers
 {
     /// <summary>
-    ///     The query does search of an Artist of the Last.fm.
-    ///     Запрос, ведущий поиск альбома на Last.fm. 
+    ///     The query gets performer corrected artist of the Last.fm.
+    ///     Запрос, получающий скорректированных исполнителей на Last.fm. 
     /// </summary>
-    public class SearchPerformersQuery : LastQuery<SearchPerformersQuery.GetArtistSearchRequest, SearchPerformersQuery.GetArtistSearchResponce>
+    public class GetPerformerGetTopAlbumsQuery : LastQuery<GetPerformerGetTopAlbumsQuery.GetPerformerGetTopAlbumsRequest, GetPerformerGetTopAlbumsQuery.GetPerformerGetTopAlbumsResponce>
     {
         protected override Func<BaseRequest, BaseResponce> ExecutableBaseFunc =>
-            req => Execute(req.As<GetArtistSearchRequest>());
+            req => Execute(req.As<GetPerformerGetTopAlbumsRequest>());
 
         /// <summary>
-        ///     Search for an Artist by name. Returns Artist matches sorted by relevance.
+        ///     Get the top albums for an artist on Last.fm, ordered by popularity.
         /// </summary>
-        /// <param name="request.Artist">
-        ///     The Artist name.
-        /// </param>
-        /// <param name="request.page">
-        ///     The page number to fetch. Defaults to first page.
-        /// </param>
-        /// <param name="request.limit">
-        ///     The number of results to fetch per page. Defaults to 30.
+        /// <param name="request.artist">
+        ///     The artist name.
         /// </param>
         /// <param name="request">
         ///     Request with parameters.
         /// </param>
         /// <returns></returns>
-        public override GetArtistSearchResponce Execute(
-            GetArtistSearchRequest request)
+        public override GetPerformerGetTopAlbumsResponce Execute(
+            GetPerformerGetTopAlbumsRequest request)
         {
             string artist = request.Performer ?? throw new ArgumentNullException("request.Performer");
-            int page = request.Page;
-            int limit = request.Limit;
 
-            var sessionResponce = Adapter.GetRequest("artist.search",
+            var sessionResponce = Adapter.GetRequest("artist.getTopAlbums",
                 Argument.Create("api_key", Settings.ApiKey),
                 Argument.Create("artist", artist),
-                Argument.Create("page", page.ToString()),
-                Argument.Create("limit", limit.ToString()),
                 Argument.Create("format", "json"),
                 Argument.Create("callback", "?"));
 
             Adapter.FixCallback(sessionResponce);
 
-            var getArtistInfoResponce = ResponceExt.CreateFrom<BaseResponce, GetArtistSearchResponce>(sessionResponce);
+            var getArtistInfoResponce = ResponceExt.CreateFrom<BaseResponce, GetPerformerGetTopAlbumsResponce>(sessionResponce);
             return getArtistInfoResponce;
         }
 
@@ -94,37 +84,20 @@ namespace Universe.Lastfm.Api.Dal.Queries.Performers
         ///     The request with full information about Artist of the Last.fm.
         ///     Запрос с полной информацией о поиске Last.fm.
         /// </summary>
-        public class GetArtistSearchRequest : BaseRequest
+        public class GetPerformerGetTopAlbumsRequest : BaseRequest
         {
-            private int _page;
-            private int _limit;
-
-            public int Limit
-            {
-                get => _page == 0 ? 50 : _page;
-                set => _limit = value;
-            }
-
-            public int Page
-            {
-                get => _page == 0 ? 1 : _page;
-                set => _page = value;
-            }
-
             public string Performer { get; set; }
 
-            public GetArtistSearchRequest()
+            public GetPerformerGetTopAlbumsRequest()
             {
-                Page = 1;
-                Limit = 50;
             }
         }
 
         /// <summary>
-        ///     The responce with full information about Artist of the Last.fm.
-        ///     Ответ с полной информацией о поиске Last.fm.
+        ///     The responce with full information about PerformerGetTopAlbums performers of the Last.fm.
+        ///     Ответ с полной информацией о похожих исполнителей Last.fm.
         /// </summary>
-        public class GetArtistSearchResponce : LastFmBaseResponce<ArtistSearchContainer>
+        public class GetPerformerGetTopAlbumsResponce : LastFmBaseResponce<PerformerContainer>
         {
         }
 
@@ -132,64 +105,52 @@ namespace Universe.Lastfm.Api.Dal.Queries.Performers
         ///     The container with information about the top artists listened to by a Artist on the Last.fm.
         ///     Контейнер с информацией о поиске, которые прослушивал пользователь на Last.fm.
         /// </summary>
-        public class ArtistSearchContainer : LastFmBaseContainer
+        public class PerformerContainer : LastFmBaseContainer
         {
-            public SearchDto Results { get; set; }
+            public PerformerGetTopAlbumsArtistsDto TopAlbums { get; set; }
         }
 
         /// <summary>
         ///     The full information about track on the Last.fm.
-        ///     Полная информация о поиске на Last.fm.
+        ///     Полная информация о похожих исполнителях на Last.fm.
         /// </summary>
-        public class SearchDto
+        public class PerformerGetTopAlbumsArtistsDto
         {
             /*
-                 <results for="cher" xmlns:opensearch="http://a9.com/-/spec/opensearch/1.1/">
-                  <opensearch:Query role="request" searchTerms="cher" startPage="1"/>
-                  <opensearch:totalResults>386</opensearch:totalResults>
-                  <opensearch:startIndex>0</opensearch:startIndex>
-                  <opensearch:itemsPerPage>20</opensearch:itemsPerPage>
-                  <artistmatches>
-                    <artist>
-                      <name>Cher</name>
-                      <mbid>bfcc6d75-a6a5-4bc6-8282-47aec8531818</mbid>
-                      <url>www.last.fm/music/Cher</url>
-                      <image_small>http://userserve-ak.last.fm/serve/50/342437.jpg</image_small>
-                      <image>http://userserve-ak.last.fm/serve/160/342437.jpg</image>
-                      <streamable>1</streamable>
-                    </artist>
-	                ...
-                  </artistmatches>
-                </results>
+                 <topalbums artist="Cher">
+                  <album rank="1">
+                    <name>Believe</name>
+                    <mbid>61bf0388-b8a9-48f4-81d1-7eb02706dfb0</mbid>
+                    <listeners>24486</listeners>
+                    <url>http://www.last.fm/music/Cher/Believe</url>
+                    <image size="small">...</image>
+                    <image size=" medium">...</image>
+                    <image size="large">...</image>
+                  </album>
+                  ...
+                </topalbums>
             */
 
-            public SearchAttribute Attribute { get; set; }
+            public PerformerGetTopAlbumsAttribute Attribute { get; set; }
 
-            public ArtistMatchesDto ArtistMatches { get; set; }
+            public string Artist { get; set; }
+
+            public Album[] Album { get; set; }
         }
 
         /// <summary>
-        ///     The list of matches in a search.
-        ///     Список совпадений в поиске.
+        ///     The special attribite of <see cref="PerformerGetTopAlbumsArtistsDto"/>
         /// </summary>
-        public class ArtistMatchesDto
-        {
-            public Artist[] Artist { get; set; }
-        }
-
-        /// <summary>
-        ///     The special attribite of <see cref="SearchDto"/>
-        /// </summary>
-        public class SearchAttribute
+        public class PerformerGetTopAlbumsAttribute
         {
             /*
                 "@attr":
                 {
-                "for": "01011001"
+                    "artist": "Ayreon"
                 },
             */
 
-            public string For { get; set; }
+            public string Artist { get; set; }
         }
     }
 }

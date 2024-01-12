@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Security.Cryptography;
 using Universe.Helpers.Extensions;
 using Universe.Lastfm.Api.Dal.Queries.Hash;
@@ -14,15 +13,15 @@ using Universe.Types.Collection;
 namespace Universe.Lastfm.Api.Dal.Command.Albums
 {
     /// <summary>
-    ///     The command adds tag an album using a list of user supplied tags.
+    ///     The command deletes tag an album using a list of user supplied tags.
     /// </summary>
-    public class AddAlbumTagsCommand : LastCommand<AddAlbumTagsRequest, MassAddAlbumTagsCommandResponce>
+    public class DeleteAlbumTagsCommand : LastCommand<DeleteAlbumTagsRequest, DeleteAlbumTagsCommandResponce>
     {
         protected override Func<BaseRequest, BaseResponce> ExecutableBaseFunc =>
-            req => Execute(req.As<AddAlbumTagsRequest>());
+            req => Execute(req.As<DeleteAlbumTagsRequest>());
 
         /// <summary>
-        ///     Tag an album using a list of user supplied tags.
+        ///     Remove a user's tag from an album.
         /// </summary>
         /// <param name="request.artist">
         ///     The artist name.
@@ -32,9 +31,8 @@ namespace Universe.Lastfm.Api.Dal.Command.Albums
         ///     The album name.
         ///     (Required (unless mbid)] 
         /// </param>
-        /// <param name="request.tags">
-        ///     A comma delimited list of user supplied tags to apply to this album.
-        ///     Accepts a maximum of 10 tags.
+        /// <param name="request.tag">
+        ///     A single user tag to remove from this album.
         /// </param>
         /// <param name="request.token">
         ///     The auth token.
@@ -46,11 +44,11 @@ namespace Universe.Lastfm.Api.Dal.Command.Albums
         /// </param>
         /// <param name="request"></param>
         /// <returns></returns>
-        public override MassAddAlbumTagsCommandResponce Execute(
-            AddAlbumTagsRequest request)
+        public override DeleteAlbumTagsCommandResponce Execute(
+            DeleteAlbumTagsRequest request)
         {
-            if (request.Tags.Length == 0)
-                throw new ArgumentException("request.Tags is empty. Need to specify one or more tags");
+            if (request.Tag.IsNullOrEmpty())
+                throw new ArgumentException("request.Tag is empty. Need to specify one or more tags");
             if (request.Album.IsNullOrEmpty())
                 throw new ArgumentException("request.Album is empty. This is required parameter");
             if (request.Performer.IsNullOrEmpty())
@@ -63,24 +61,18 @@ namespace Universe.Lastfm.Api.Dal.Command.Albums
             if (request.SessionKey.IsNullOrEmpty())
                 throw new ArgumentException("request.SessionKey is empty. This is required parameter");
 
-            string method = "album.addTags";
+            string method = "album.removeTag";
 
             string album = request.Album;
             string artist = request.Performer;
 
-            var responce = new MassAddAlbumTagsCommandResponce();
-
-            var batchSize = 10;
-            for (int i = 0; i < request.Tags.Length; i += batchSize)
-            {
-                var batch = request.Tags.Skip(0).Take(batchSize).ToArray();
-                string tags = string.Join(",", request.Tags);
+                string tag = request.Tag;
 
                 string sk = request.SessionKey;
 
                 //  A Last.fm method signature. See authentication for more information.
                 //string sig = "api_key" + Settings.ApiKey + "methodalbum.addTags" + request.Token + request.SecretKey;
-                string sig = $"method{method}api_key{Settings.ApiKey}sk{sk}artist{artist}album{album}tags{tags}{request.SecretKey}";
+                string sig = $"method{method}api_key{Settings.ApiKey}sk{sk}artist{artist}album{album}tag{tag}{request.SecretKey}";
 
                 var md5Hash = MD5.Create();
                 var getMd5Hash = new Md5HashQuery();
@@ -90,19 +82,17 @@ namespace Universe.Lastfm.Api.Dal.Command.Albums
                     Argument.Create("api_key", Settings.ApiKey),
                     Argument.Create("artist", artist),
                     Argument.Create("album", album),
-                    Argument.Create("tags", tags),
+                    Argument.Create("tag", tag),
                     Argument.Create("sk", sk),
                     Argument.Create("api_sig", apiSig),
                     Argument.Create("format", "json"),
                     Argument.Create("callback", "?"));
 
                 Adapter.FixCallback(sessionResponce);
-                AddAlbumTagsCommandResponce infoResponce = ResponceExt.CreateFrom<BaseResponce, AddAlbumTagsCommandResponce>(sessionResponce);
+                DeleteAlbumTagsCommandResponce infoResponce = ResponceExt.CreateFrom<BaseResponce, DeleteAlbumTagsCommandResponce>(sessionResponce);
+                
 
-                responce.Responces += infoResponce;
-            }
-            
-            return responce;
+                return infoResponce;
         }
     }
 
@@ -110,7 +100,7 @@ namespace Universe.Lastfm.Api.Dal.Command.Albums
     ///     The request with parameters for full information about album on the Last.fm.
     ///     Запрос с параметрами для добавления тэгов альбома Last.fm.
     /// </summary>
-    public class AddAlbumTagsRequest : BaseRequest
+    public class DeleteAlbumTagsRequest : BaseRequest
     {
         public string Performer { get; set; }
 
@@ -127,28 +117,28 @@ namespace Universe.Lastfm.Api.Dal.Command.Albums
         public string SessionKey { get; set; }
 
         /// <summary>
-        ///    A comma delimited list of user supplied tags to apply to this album. Accepts a maximum of 10 tags.
+        ///    A single user tag to remove from this album.
         /// </summary>
-        public string[] Tags { get; set; }
+        public string Tag { get; set; }
 
         /// <summary>
         ///     The secret key from setting of the application
         /// </summary>
         public string SecretKey { get; set; }
 
-        public AddAlbumTagsRequest()
+        public DeleteAlbumTagsRequest()
         {
         }
 
-        public static AddAlbumTagsRequest Build(string artist, string album, 
-            string apiSig, string[] tags, string session)
+        public static DeleteAlbumTagsRequest Build(string artist, string album, 
+            string apiSig, string tag, string session)
         {
-            return new AddAlbumTagsRequest
+            return new DeleteAlbumTagsRequest
             {
                 Token = apiSig, 
                 Album = album,
                 Performer = artist,
-                Tags = tags, 
+                Tag = tag, 
                 SessionKey = session
             };
         }
@@ -158,13 +148,13 @@ namespace Universe.Lastfm.Api.Dal.Command.Albums
     ///     The responces with full information about tag addings of the Last.fm.
     ///     Ответы с полной информацией о добавлении тэгов Last.fm.
     /// </summary>
-    public class MassAddAlbumTagsCommandResponce : BaseResponce
+    public class MassDeleteAlbumTagsCommandResponce : BaseResponce
     {
-        public MatList<AddAlbumTagsCommandResponce> Responces { get; set; }
+        public MatList<DeleteAlbumTagsCommandResponce> Responces { get; set; }
 
-        public MassAddAlbumTagsCommandResponce()
+        public MassDeleteAlbumTagsCommandResponce()
         {
-            Responces = new MatList<AddAlbumTagsCommandResponce>();
+            Responces = new MatList<DeleteAlbumTagsCommandResponce>();
         }
     }
 
@@ -172,11 +162,11 @@ namespace Universe.Lastfm.Api.Dal.Command.Albums
     ///     The responce with full information about tag addings of the Last.fm.
     ///     Ответ с полной информацией о добавлении тэгов Last.fm.
     /// </summary>
-    public class AddAlbumTagsCommandResponce : LastFmBaseResponce<AddAlbumTagsContainer>
+    public class DeleteAlbumTagsCommandResponce : LastFmBaseResponce<DeleteAlbumTagsContainer>
     {
     }
 
-    public class AddAlbumTagsContainer : LastFmBaseContainer
+    public class DeleteAlbumTagsContainer : LastFmBaseContainer
     {
         public LfmResultDto Lfm { get; set; }
     }

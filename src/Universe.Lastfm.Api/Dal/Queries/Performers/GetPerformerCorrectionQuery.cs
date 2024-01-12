@@ -35,7 +35,7 @@
 
 using System;
 using Universe.Lastfm.Api.Dto.Base;
-using Universe.Lastfm.Api.Dto.GetArtistInfo;
+using Universe.Lastfm.Api.Dto.Common.Short;
 using Universe.Lastfm.Api.Dto.GetArtists;
 using Universe.Lastfm.Api.Helpers;
 using Universe.Lastfm.Api.Models;
@@ -45,48 +45,39 @@ using Universe.Lastfm.Api.Models.Res.Base;
 namespace Universe.Lastfm.Api.Dal.Queries.Performers
 {
     /// <summary>
-    ///     The query does search of an Artist of the Last.fm.
-    ///     Запрос, ведущий поиск альбома на Last.fm. 
+    ///     The query gets performer corrected artist of the Last.fm.
+    ///     Запрос, получающий скорректированных исполнителей на Last.fm. 
     /// </summary>
-    public class SearchPerformersQuery : LastQuery<SearchPerformersQuery.GetArtistSearchRequest, SearchPerformersQuery.GetArtistSearchResponce>
+    public class GetPerformerCorrectionQuery : LastQuery<GetPerformerCorrectionQuery.GetPerformerCorrectionRequest, GetPerformerCorrectionQuery.GetPerformerCorrectionResponce>
     {
         protected override Func<BaseRequest, BaseResponce> ExecutableBaseFunc =>
-            req => Execute(req.As<GetArtistSearchRequest>());
+            req => Execute(req.As<GetPerformerCorrectionRequest>());
 
         /// <summary>
-        ///     Search for an Artist by name. Returns Artist matches sorted by relevance.
+        ///     Use the last.fm corrections data to check whether the supplied artist
+        ///     has a correction to a canonical artist
         /// </summary>
-        /// <param name="request.Artist">
-        ///     The Artist name.
-        /// </param>
-        /// <param name="request.page">
-        ///     The page number to fetch. Defaults to first page.
-        /// </param>
-        /// <param name="request.limit">
-        ///     The number of results to fetch per page. Defaults to 30.
+        /// <param name="request.artist">
+        ///     The artist name.
         /// </param>
         /// <param name="request">
         ///     Request with parameters.
         /// </param>
         /// <returns></returns>
-        public override GetArtistSearchResponce Execute(
-            GetArtistSearchRequest request)
+        public override GetPerformerCorrectionResponce Execute(
+            GetPerformerCorrectionRequest request)
         {
-            string artist = request.Performer ?? throw new ArgumentNullException("request.Performer");
-            int page = request.Page;
-            int limit = request.Limit;
+            string artist = request.Performer;
 
-            var sessionResponce = Adapter.GetRequest("artist.search",
+            var sessionResponce = Adapter.GetRequest("artist.getCorrection",
                 Argument.Create("api_key", Settings.ApiKey),
                 Argument.Create("artist", artist),
-                Argument.Create("page", page.ToString()),
-                Argument.Create("limit", limit.ToString()),
                 Argument.Create("format", "json"),
                 Argument.Create("callback", "?"));
 
             Adapter.FixCallback(sessionResponce);
 
-            var getArtistInfoResponce = ResponceExt.CreateFrom<BaseResponce, GetArtistSearchResponce>(sessionResponce);
+            var getArtistInfoResponce = ResponceExt.CreateFrom<BaseResponce, GetPerformerCorrectionResponce>(sessionResponce);
             return getArtistInfoResponce;
         }
 
@@ -94,102 +85,84 @@ namespace Universe.Lastfm.Api.Dal.Queries.Performers
         ///     The request with full information about Artist of the Last.fm.
         ///     Запрос с полной информацией о поиске Last.fm.
         /// </summary>
-        public class GetArtistSearchRequest : BaseRequest
+        public class GetPerformerCorrectionRequest : BaseRequest
         {
-            private int _page;
-            private int _limit;
-
-            public int Limit
-            {
-                get => _page == 0 ? 50 : _page;
-                set => _limit = value;
-            }
-
-            public int Page
-            {
-                get => _page == 0 ? 1 : _page;
-                set => _page = value;
-            }
-
             public string Performer { get; set; }
 
-            public GetArtistSearchRequest()
+            public GetPerformerCorrectionRequest()
             {
-                Page = 1;
-                Limit = 50;
             }
         }
 
         /// <summary>
-        ///     The responce with full information about Artist of the Last.fm.
-        ///     Ответ с полной информацией о поиске Last.fm.
+        ///     The responce with full information about PerformerCorrection performers of the Last.fm.
+        ///     Ответ с полной информацией о похожих исполнителей Last.fm.
         /// </summary>
-        public class GetArtistSearchResponce : LastFmBaseResponce<ArtistSearchContainer>
+        public class GetPerformerCorrectionResponce : LastFmBaseResponce<PerformerContainer>
         {
         }
 
         /// <summary>
-        ///     The container with information about the top artists listened to by a Artist on the Last.fm.
+        ///     The container with information about the top artists listened to by a artist on the Last.fm.
         ///     Контейнер с информацией о поиске, которые прослушивал пользователь на Last.fm.
         /// </summary>
-        public class ArtistSearchContainer : LastFmBaseContainer
+        public class PerformerContainer : LastFmBaseContainer
         {
-            public SearchDto Results { get; set; }
+            public PerformerCorrectionArtistsDto Corrections { get; set; }
         }
 
         /// <summary>
         ///     The full information about track on the Last.fm.
-        ///     Полная информация о поиске на Last.fm.
+        ///     Полная информация о похожих исполнителях на Last.fm.
         /// </summary>
-        public class SearchDto
+        public class PerformerCorrectionArtistsDto
         {
             /*
-                 <results for="cher" xmlns:opensearch="http://a9.com/-/spec/opensearch/1.1/">
-                  <opensearch:Query role="request" searchTerms="cher" startPage="1"/>
-                  <opensearch:totalResults>386</opensearch:totalResults>
-                  <opensearch:startIndex>0</opensearch:startIndex>
-                  <opensearch:itemsPerPage>20</opensearch:itemsPerPage>
-                  <artistmatches>
+                 <corrections>
+                  <correction index="0">
                     <artist>
-                      <name>Cher</name>
-                      <mbid>bfcc6d75-a6a5-4bc6-8282-47aec8531818</mbid>
-                      <url>www.last.fm/music/Cher</url>
-                      <image_small>http://userserve-ak.last.fm/serve/50/342437.jpg</image_small>
-                      <image>http://userserve-ak.last.fm/serve/160/342437.jpg</image>
-                      <streamable>1</streamable>
+                      <name>Guns N' Roses</name>
+                      <mbid>eeb1195b-f213-4ce1-b28c-8565211f8e43</mbid>
+                      <url>http://www.last.fm/music/Guns+N%27+Roses</url>
                     </artist>
-	                ...
-                  </artistmatches>
-                </results>
+                  </correction>
+                </corrections>
             */
 
-            public SearchAttribute Attribute { get; set; }
+            public PerformerCorrectionArtistAttribute Attribute { get; set; }
 
-            public ArtistMatchesDto ArtistMatches { get; set; }
+            public CorrectionDto Correction { get; set; }
         }
 
         /// <summary>
-        ///     The list of matches in a search.
-        ///     Список совпадений в поиске.
+        ///     Correction of artist/perforner
         /// </summary>
-        public class ArtistMatchesDto
+        public class CorrectionDto : LastFmBaseModel
         {
-            public Artist[] Artist { get; set; }
+            public CorrectedArtist Artist { get; set; }
         }
 
         /// <summary>
-        ///     The special attribite of <see cref="SearchDto"/>
+        ///     Perform itself
         /// </summary>
-        public class SearchAttribute
+        public class CorrectedArtist : LastFmBaseModel
+        {
+            public Guid Mbid { get; set; }
+        }
+
+        /// <summary>
+        ///     The special attribite of <see cref="PerformerCorrectionArtistsDto"/>
+        /// </summary>
+        public class PerformerCorrectionArtistAttribute
         {
             /*
                 "@attr":
                 {
-                "for": "01011001"
+                    "index": "0"
                 },
             */
 
-            public string For { get; set; }
+            public string Index { get; set; }
         }
     }
 }

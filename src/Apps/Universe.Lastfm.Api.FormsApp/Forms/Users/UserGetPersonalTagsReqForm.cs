@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualBasic.ApplicationServices;
 using System;
 using Universe.Lastfm.Api.FormsApp.Settings;
+using Universe.Lastfm.Api.FormsApp.Themes;
 
 namespace Universe.Lastfm.Api.FormsApp.Forms.Users
 {
@@ -22,14 +23,16 @@ namespace Universe.Lastfm.Api.FormsApp.Forms.Users
         public UserGetPersonalTagsReqForm(UniverseLastApiAppSettings settings) : base(settings)
         {
             InitializeComponent();
+
+            if (settings.IsSpaceMode)
+                SpaceThemeStyle.Set.Apply(this);
         }
 
         protected override void btOk_Click(object sender, EventArgs e)
         {
-            User = UserName.Trim();
             Genre = GenreName.Trim();
             GenreType = GenreTypeName.Trim();
-            Close();
+            base.btOk_Click(sender, e);
         }
     }
 }

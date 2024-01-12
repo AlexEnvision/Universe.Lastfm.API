@@ -103,5 +103,11 @@ namespace Universe.Lastfm.Api.FormsApp.Extensions
             control.SafeCall(() => control.BackColor = Color.DarkRed);
             control.SafeCall(() => control.ForeColor = Color.Aqua);
         }
+
+        public static void LightWarningColorResult(this Control control)
+        {
+            control.SafeCall(() => control.BackColor = Color.Yellow);
+            control.SafeCall(() => control.ForeColor = Color.Aqua);
+        }
     }
 }

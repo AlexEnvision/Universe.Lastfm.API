@@ -35,7 +35,6 @@
 
 using System;
 using Universe.Lastfm.Api.Dto.Base;
-using Universe.Lastfm.Api.Dto.GetArtistInfo;
 using Universe.Lastfm.Api.Dto.GetArtists;
 using Universe.Lastfm.Api.Helpers;
 using Universe.Lastfm.Api.Models;
@@ -45,18 +44,18 @@ using Universe.Lastfm.Api.Models.Res.Base;
 namespace Universe.Lastfm.Api.Dal.Queries.Performers
 {
     /// <summary>
-    ///     The query does search of an Artist of the Last.fm.
-    ///     Запрос, ведущий поиск альбома на Last.fm. 
+    ///     The query does search of an similar artist of the Last.fm.
+    ///     Запрос, ведущий поиск похожих исполнителей на Last.fm. 
     /// </summary>
-    public class SearchPerformersQuery : LastQuery<SearchPerformersQuery.GetArtistSearchRequest, SearchPerformersQuery.GetArtistSearchResponce>
+    public class GetSimilarPerformersQuery : LastQuery<GetSimilarPerformersQuery.GetSimilarRequest, GetSimilarPerformersQuery.GetSimilarResponce>
     {
         protected override Func<BaseRequest, BaseResponce> ExecutableBaseFunc =>
-            req => Execute(req.As<GetArtistSearchRequest>());
+            req => Execute(req.As<GetSimilarRequest>());
 
         /// <summary>
-        ///     Search for an Artist by name. Returns Artist matches sorted by relevance.
+        ///     Get all the artists similar to this artist
         /// </summary>
-        /// <param name="request.Artist">
+        /// <param name="request.artist">
         ///     The Artist name.
         /// </param>
         /// <param name="request.page">
@@ -69,14 +68,14 @@ namespace Universe.Lastfm.Api.Dal.Queries.Performers
         ///     Request with parameters.
         /// </param>
         /// <returns></returns>
-        public override GetArtistSearchResponce Execute(
-            GetArtistSearchRequest request)
+        public override GetSimilarResponce Execute(
+            GetSimilarRequest request)
         {
             string artist = request.Performer ?? throw new ArgumentNullException("request.Performer");
             int page = request.Page;
             int limit = request.Limit;
 
-            var sessionResponce = Adapter.GetRequest("artist.search",
+            var sessionResponce = Adapter.GetRequest("artist.getSimilar",
                 Argument.Create("api_key", Settings.ApiKey),
                 Argument.Create("artist", artist),
                 Argument.Create("page", page.ToString()),
@@ -86,7 +85,7 @@ namespace Universe.Lastfm.Api.Dal.Queries.Performers
 
             Adapter.FixCallback(sessionResponce);
 
-            var getArtistInfoResponce = ResponceExt.CreateFrom<BaseResponce, GetArtistSearchResponce>(sessionResponce);
+            var getArtistInfoResponce = ResponceExt.CreateFrom<BaseResponce, GetSimilarResponce>(sessionResponce);
             return getArtistInfoResponce;
         }
 
@@ -94,7 +93,7 @@ namespace Universe.Lastfm.Api.Dal.Queries.Performers
         ///     The request with full information about Artist of the Last.fm.
         ///     Запрос с полной информацией о поиске Last.fm.
         /// </summary>
-        public class GetArtistSearchRequest : BaseRequest
+        public class GetSimilarRequest : BaseRequest
         {
             private int _page;
             private int _limit;
@@ -113,7 +112,7 @@ namespace Universe.Lastfm.Api.Dal.Queries.Performers
 
             public string Performer { get; set; }
 
-            public GetArtistSearchRequest()
+            public GetSimilarRequest()
             {
                 Page = 1;
                 Limit = 50;
@@ -121,10 +120,10 @@ namespace Universe.Lastfm.Api.Dal.Queries.Performers
         }
 
         /// <summary>
-        ///     The responce with full information about Artist of the Last.fm.
-        ///     Ответ с полной информацией о поиске Last.fm.
+        ///     The responce with full information about similar performers of the Last.fm.
+        ///     Ответ с полной информацией о похожих исполнителей Last.fm.
         /// </summary>
-        public class GetArtistSearchResponce : LastFmBaseResponce<ArtistSearchContainer>
+        public class GetSimilarResponce : LastFmBaseResponce<ArtistSearchContainer>
         {
         }
 
@@ -134,62 +133,51 @@ namespace Universe.Lastfm.Api.Dal.Queries.Performers
         /// </summary>
         public class ArtistSearchContainer : LastFmBaseContainer
         {
-            public SearchDto Results { get; set; }
+            public SimilarArtistsDto SimilarArtists { get; set; }
         }
 
         /// <summary>
         ///     The full information about track on the Last.fm.
-        ///     Полная информация о поиске на Last.fm.
+        ///     Полная информация о похожих исполнителях на Last.fm.
         /// </summary>
-        public class SearchDto
+        public class SimilarArtistsDto
         {
             /*
-                 <results for="cher" xmlns:opensearch="http://a9.com/-/spec/opensearch/1.1/">
-                  <opensearch:Query role="request" searchTerms="cher" startPage="1"/>
-                  <opensearch:totalResults>386</opensearch:totalResults>
-                  <opensearch:startIndex>0</opensearch:startIndex>
-                  <opensearch:itemsPerPage>20</opensearch:itemsPerPage>
-                  <artistmatches>
-                    <artist>
-                      <name>Cher</name>
-                      <mbid>bfcc6d75-a6a5-4bc6-8282-47aec8531818</mbid>
-                      <url>www.last.fm/music/Cher</url>
-                      <image_small>http://userserve-ak.last.fm/serve/50/342437.jpg</image_small>
-                      <image>http://userserve-ak.last.fm/serve/160/342437.jpg</image>
-                      <streamable>1</streamable>
-                    </artist>
-	                ...
-                  </artistmatches>
-                </results>
+                 <similarartists artist="Cher">
+                  <artist>
+                    <name>Sonny & Cher</name>
+                    <mbid>3d6e4b6d-2700-458c-9722-9021965a8164</mbid>
+                    <match>1</match>
+                    <url>www.last.fm/music/Sonny%2B%2526%2BCher</url>
+                    <image size="small">http://userserve-ak.last.fm/serve/34/71168880.png</image>
+                    <image size="medium">http://userserve-ak.last.fm/serve/64/71168880.png</image>
+                    <image size="large">http://userserve-ak.last.fm/serve/126/71168880.png</image>
+                    <image size="extralarge">http://userserve-ak.last.fm/serve/252/71168880.png</image>
+                    <image size="mega">http://userserve-ak.last.fm/serve/500/71168880/Sonny++Cher.png</image>
+                    <streamable>1</streamable>
+                  </artist>
+                  ...
+                </similarartists>
             */
 
-            public SearchAttribute Attribute { get; set; }
+            public SimilarArtistsAttribute Attribute { get; set; }
 
-            public ArtistMatchesDto ArtistMatches { get; set; }
-        }
-
-        /// <summary>
-        ///     The list of matches in a search.
-        ///     Список совпадений в поиске.
-        /// </summary>
-        public class ArtistMatchesDto
-        {
             public Artist[] Artist { get; set; }
         }
 
         /// <summary>
-        ///     The special attribite of <see cref="SearchDto"/>
+        ///     The special attribite of <see cref="SimilarArtistsDto"/>
         /// </summary>
-        public class SearchAttribute
+        public class SimilarArtistsAttribute
         {
             /*
                 "@attr":
                 {
-                "for": "01011001"
+                    "artist": "Ayreon"
                 },
             */
 
-            public string For { get; set; }
+            public string Artist { get; set; }
         }
     }
 }

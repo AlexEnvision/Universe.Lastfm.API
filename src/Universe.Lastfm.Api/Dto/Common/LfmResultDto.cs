@@ -33,33 +33,15 @@
 //  ║                                                                                 ║
 //  ╚═════════════════════════════════════════════════════════════════════════════════╝
 
-using Universe.Lastfm.Api.Infrastracture;
-using Universe.Windows.Forms.Controls.Settings;
-
-namespace Universe.Lastfm.Api.FormsApp.Settings
+namespace Universe.Lastfm.Api.Dto.Common
 {
-    /// <summary>
-    ///     Настройки приложения
-    /// </summary>
-    public class UniverseLastApiAppSettings : FormAppSettings, IUniverseLastApiSettings
+    public class LfmResultDto
     {
-        public bool NeedApprovement { get; set; }
+        /*
+             <lfm status="ok">
+            </lfm>
+         */
 
-        public string ApiKey { get; set; }
-
-        public string SecretKey { get; set; }
-
-        public bool IsMaximized { get; set; }
-
-        public bool IsTrustedApiApp { get; set; }
-
-        public bool IsFullRubberUI { get; set; }
-
-        public bool IsSpaceMode { get; set; }
-
-        public string GetUniverseDbConnectionString()
-        {
-            return string.Empty;
-        }
+        public string Status { get; set; }
     }
 }

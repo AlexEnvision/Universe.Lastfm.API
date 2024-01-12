@@ -3,11 +3,15 @@ using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
 using Universe.Algorithm.MultiThreading;
+using Universe.Helpers.Extensions;
 using Universe.Lastfm.Api.Dal.Queries.Performers;
+using Universe.Lastfm.Api.Dto.Common;
 using Universe.Lastfm.Api.FormsApp.Extensions;
+using Universe.Lastfm.Api.FormsApp.Forms.Albums;
 using Universe.Lastfm.Api.FormsApp.Forms.Performers;
 using Universe.Lastfm.Api.Helpers;
 using Universe.Lastfm.Api.Models.Req;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace Universe.Lastfm.Api.FormsApp
 {
@@ -25,6 +29,7 @@ namespace Universe.Lastfm.Api.FormsApp
                     if (string.IsNullOrEmpty(performer))
                     {
                         tbLog.AppendText($"[{DateTime.Now}] Не указан performer!" + Environment.NewLine);
+                        btArtistGetInfo.LightWarningColorResult();
                         return;
                     }
                 }
@@ -85,6 +90,7 @@ namespace Universe.Lastfm.Api.FormsApp
                     if (string.IsNullOrEmpty(performer))
                     {
                         tbLog.AppendText($"[{DateTime.Now}] Не указан performer!" + Environment.NewLine);
+                        btGetArtistTags.LightWarningColorResult();
                         return;
                     }
 
@@ -92,6 +98,7 @@ namespace Universe.Lastfm.Api.FormsApp
                     if (string.IsNullOrEmpty(user))
                     {
                         tbLog.AppendText($"[{DateTime.Now}] Не указан user!" + Environment.NewLine);
+                        btGetArtistTags.LightWarningColorResult();
                         return;
                     }
                 }
@@ -154,6 +161,7 @@ namespace Universe.Lastfm.Api.FormsApp
                     if (string.IsNullOrEmpty(performer))
                     {
                         tbLog.AppendText($"[{DateTime.Now}] Не указан performer!" + Environment.NewLine);
+                        btArtistSearch.LightWarningColorResult();
                         return;
                     }
                 }
@@ -165,7 +173,6 @@ namespace Universe.Lastfm.Api.FormsApp
 
             DisableButtons(sender);
             ReqCtx.Performer = performer;
-
 
             ThreadMachine.Create(1).RunInMultiTheadsWithoutWaiting(() =>
             {
@@ -199,6 +206,309 @@ namespace Universe.Lastfm.Api.FormsApp
                     EnableButtonsSafe();
                 }
             });
+        }
+
+        private void btArtistGetSimilar_Click(object sender, EventArgs e)
+        {
+            string performer;
+
+            using (var form = new ArtistGetSimilarReqForm(_programSettings))
+            {
+                if (form.ShowDialog() == DialogResult.OK)
+                {
+                    performer = form.Performer;
+                    if (string.IsNullOrEmpty(performer))
+                    {
+                        tbLog.AppendText($"[{DateTime.Now}] Не указан performer!" + Environment.NewLine);
+                        btArtistGetSimilar.LightWarningColorResult();
+                        return;
+                    }
+                }
+                else
+                {
+                    return;
+                }
+            }
+
+            DisableButtons(sender);
+            ReqCtx.Performer = performer;
+
+            ThreadMachine.Create(1).RunInMultiTheadsWithoutWaiting(() =>
+            {
+                try
+                {
+                    var responce = Scope.GetQuery<GetSimilarPerformersQuery>().Execute(ReqCtx.As<GetSimilarPerformersQuery.GetSimilarRequest>())
+                        .LightColorResult(btArtistGetSimilar);
+                    if (!responce.IsSuccessful)
+                    {
+                        _log.Info($"{responce.Message} {responce.ServiceAnswer}");
+                    }
+
+                    _log.Info(
+                        $"Успешно выгружена информация по исполнителю {performer}: {Environment.NewLine}{Environment.NewLine}{responce.ServiceAnswer}{Environment.NewLine}.");
+
+                    var data = responce.DataContainer.SimilarArtists;
+                    var dataStr = string.Join(", ", data.Artist.Select(x => x.Name));
+
+                    _log.Info($"Search similar artist result by the name {performer} / Результат поиска похожих исполнителей по названию {performer}: {dataStr}.");
+
+                    _log.Info(Environment.NewLine);
+                }
+                catch (Exception ex)
+                {
+                    _log.Error(ex, ex.Message);
+                    Thread.Sleep(LightErrorDelay);
+                    btArtistGetSimilar.LightErrorColorResult();
+                }
+                finally
+                {
+                    EnableButtonsSafe();
+                }
+            });
+        }
+
+        private void btArtistGetCorrection_Click(object sender, EventArgs e)
+        {
+            string performer;
+
+            using (var form = new ArtistGetCorrectionReqForm(_programSettings))
+            {
+                if (form.ShowDialog() == DialogResult.OK)
+                {
+                    performer = form.Performer;
+                    if (string.IsNullOrEmpty(performer))
+                    {
+                        tbLog.AppendText($"[{DateTime.Now}] Не указан performer!" + Environment.NewLine);
+                        btArtistGetCorrection.LightWarningColorResult();
+                        return;
+                    }
+                }
+                else
+                {
+                    return;
+                }
+            }
+
+            DisableButtons(sender);
+            ReqCtx.Performer = performer;
+
+            ThreadMachine.Create(1).RunInMultiTheadsWithoutWaiting(() =>
+            {
+                try
+                {
+                    var responce = Scope.GetQuery<GetPerformerCorrectionQuery>().Execute(ReqCtx.As<GetPerformerCorrectionQuery.GetPerformerCorrectionRequest>())
+                        .LightColorResult(btArtistGetCorrection);
+                    if (!responce.IsSuccessful)
+                    {
+                        _log.Info($"{responce.Message} {responce.ServiceAnswer}");
+                    }
+
+                    _log.Info(
+                        $"Успешно выгружена информация по исполнителю {performer}: {Environment.NewLine}{Environment.NewLine}{responce.ServiceAnswer}{Environment.NewLine}.");
+
+                    var data = responce.DataContainer.Corrections;
+                    var dataStr = string.Join(", ", data.Correction.Name);
+
+                    _log.Info($"Search correction artist result by the name {performer} / Результат скорректированного исполнителя по названию {performer}: {dataStr}.");
+
+                    _log.Info(Environment.NewLine);
+                }
+                catch (Exception ex)
+                {
+                    _log.Error(ex, ex.Message);
+                    Thread.Sleep(LightErrorDelay);
+                    btArtistGetCorrection.LightErrorColorResult();
+                }
+                finally
+                {
+                    EnableButtonsSafe();
+                }
+            });
+        }
+
+        private void btArtistGetTopAlbums_Click(object sender, EventArgs e)
+        {
+            string performer;
+
+            using (var form = new ArtistGetTopAlbumsReqForm(_programSettings))
+            {
+                if (form.ShowDialog() == DialogResult.OK)
+                {
+                    performer = form.Performer;
+                    if (string.IsNullOrEmpty(performer))
+                    {
+                        tbLog.AppendText($"[{DateTime.Now}] Не указан performer!" + Environment.NewLine);
+                        btArtistGetTopAlbums.LightWarningColorResult();
+                        return;
+                    }
+                }
+                else
+                {
+                    return;
+                }
+            }
+
+            DisableButtons(sender);
+            ReqCtx.Performer = performer;
+
+            ThreadMachine.Create(1).RunInMultiTheadsWithoutWaiting(() =>
+            {
+                try
+                {
+                    var responce = Scope.GetQuery<GetPerformerGetTopAlbumsQuery>().Execute(ReqCtx.As<GetPerformerGetTopAlbumsQuery.GetPerformerGetTopAlbumsRequest>())
+                        .LightColorResult(btArtistGetTopAlbums);
+                    if (!responce.IsSuccessful)
+                    {
+                        _log.Info($"{responce.Message} {responce.ServiceAnswer}");
+                    }
+
+                    _log.Info(
+                        $"Успешно выгружена информация по исполнителю {performer}: {Environment.NewLine}{Environment.NewLine}{responce.ServiceAnswer}{Environment.NewLine}.");
+
+                    var data = responce.DataContainer.TopAlbums;
+                    var dataStr = string.Join(", ", data.Album.Select(x => x.Name));
+
+                    _log.Info($"Search correction artist result by the name {performer} / Результат скорректированного исполнителя по названию {performer}: {dataStr}.");
+
+                    _log.Info(Environment.NewLine);
+                }
+                catch (Exception ex)
+                {
+                    _log.Error(ex, ex.Message);
+                    Thread.Sleep(LightErrorDelay);
+                    btArtistGetTopAlbums.LightErrorColorResult();
+                }
+                finally
+                {
+                    EnableButtonsSafe();
+                }
+            });
+        }
+
+        private void btArtistGetTopTags_Click(object sender, EventArgs e)
+        {
+            string performer;
+
+            using (var form = new ArtistGetTopTagsReqForm(_programSettings))
+            {
+                if (form.ShowDialog() == DialogResult.OK)
+                {
+                    performer = form.Performer;
+                    if (string.IsNullOrEmpty(performer))
+                    {
+                        tbLog.AppendText($"[{DateTime.Now}] Не указан performer!" + Environment.NewLine);
+                        btArtistGetTopTags.LightWarningColorResult();
+                        return;
+                    }
+                }
+                else
+                {
+                    return;
+                }
+            }
+
+            DisableButtons(sender);
+            ReqCtx.Performer = performer;
+        }
+
+        private void btArtistGetTopTracks_Click(object sender, EventArgs e)
+        {
+            string performer;
+
+            using (var form = new ArtistGetTopTracksReqForm(_programSettings))
+            {
+                if (form.ShowDialog() == DialogResult.OK)
+                {
+                    performer = form.Performer;
+                    if (string.IsNullOrEmpty(performer))
+                    {
+                        tbLog.AppendText($"[{DateTime.Now}] Не указан performer!" + Environment.NewLine);
+                        btArtistGetTopTracks.LightWarningColorResult();
+                        return;
+                    }
+                }
+                else
+                {
+                    return;
+                }
+            }
+
+            DisableButtons(sender);
+            ReqCtx.Performer = performer;
+        }
+
+        private void btArtistAddTags_Click(object sender, EventArgs e)
+        {
+            string performer;
+            string[] tags;
+
+            using (var form = new ArtistAddTagsReqForm(_programSettings))
+            {
+                if (form.ShowDialog() == DialogResult.OK)
+                {
+                    performer = form.Performer;
+                    if (string.IsNullOrEmpty(performer))
+                    {
+                        tbLog.AppendText($"[{DateTime.Now}] Не указан performer!" + Environment.NewLine);
+                        btArtistAddTags.LightWarningColorResult();
+                        return;
+                    }
+
+                    tags = form.TagsArray;
+                    if (tags.Length == 0)
+                    {
+                        tbLog.AppendText($"[{DateTime.Now}] Не указаны tags!" + Environment.NewLine);
+                        btArtistAddTags.LightWarningColorResult();
+                        return;
+                    }
+                }
+                else
+                {
+                    return;
+                }
+            }
+
+            //DisableButtons(sender);
+
+            ReqCtx.Performer = performer;
+            ReqCtx.Tags = tags;
+        }
+
+        private void btArtistRemoveTag_Click(object sender, EventArgs e)
+        {
+            string performer;
+            string tag;
+
+            using (var form = new ArtistDeleteAddTagsReqForm(_programSettings))
+            {
+                if (form.ShowDialog() == DialogResult.OK)
+                {
+                    performer = form.Performer;
+                    if (string.IsNullOrEmpty(performer))
+                    {
+                        tbLog.AppendText($"[{DateTime.Now}] Не указан performer!" + Environment.NewLine);
+                        btArtistRemoveTag.LightWarningColorResult();
+                        return;
+                    }
+
+                    tag = form.TagsArray.FirstOrDefault() ?? "";
+                    if (tag.IsNullOrEmpty())
+                    {
+                        tbLog.AppendText($"[{DateTime.Now}] Не указаны tags!" + Environment.NewLine);
+                        btArtistRemoveTag.LightWarningColorResult();
+                        return;
+                    }
+                }
+                else
+                {
+                    return;
+                }
+            }
+
+            //DisableButtons(sender);
+
+            ReqCtx.Performer = performer;
+            ReqCtx.Tag = tag;
         }
     }
 }

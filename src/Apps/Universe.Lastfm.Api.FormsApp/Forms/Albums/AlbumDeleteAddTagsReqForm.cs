@@ -4,20 +4,20 @@ using Universe.Lastfm.Api.FormsApp.Themes;
 
 namespace Universe.Lastfm.Api.FormsApp.Forms.Albums
 {
-    public partial class AlbumAddTagsReqForm : AlbumReqInfoForm
+    public partial class AlbumDeleteAddTagsReqForm : AlbumReqInfoForm
     {
-        protected string TagNames => tbCreatingTags.Text;
+        protected string TagNames => tbRemovingTags.Text;
 
         public string[] TagsArray { get; set; }
 
-        public AlbumAddTagsReqForm()
+        public AlbumDeleteAddTagsReqForm()
         {
             InitializeComponent();
 
             TagsArray = new string[] { };
         }
 
-        public AlbumAddTagsReqForm(UniverseLastApiAppSettings settings) : base(settings)
+        public AlbumDeleteAddTagsReqForm(UniverseLastApiAppSettings settings)
         {
             InitializeComponent();
 
@@ -30,7 +30,7 @@ namespace Universe.Lastfm.Api.FormsApp.Forms.Albums
         protected override void btOk_Click(object sender, EventArgs e)
         {
             TagsArray = TagNames.Split(";");
-           base.btOk_Click(sender, e);
+            base.btOk_Click(sender, e);
         }
     }
 }

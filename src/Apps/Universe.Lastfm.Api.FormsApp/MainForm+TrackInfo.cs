@@ -26,6 +26,7 @@ namespace Universe.Lastfm.Api.FormsApp
                     if (string.IsNullOrEmpty(performer))
                     {
                         tbLog.AppendText($"[{DateTime.Now}] Не указан performer!" + Environment.NewLine);
+                        btTrackGetInfo.LightWarningColorResult();
                         return;
                     }
 
@@ -33,6 +34,7 @@ namespace Universe.Lastfm.Api.FormsApp
                     if (string.IsNullOrEmpty(trackName))
                     {
                         tbLog.AppendText($"[{DateTime.Now}] Не указан track!" + Environment.NewLine);
+                        btTrackGetInfo.LightWarningColorResult();
                         return;
                     }
                 }
@@ -102,6 +104,7 @@ namespace Universe.Lastfm.Api.FormsApp
                     if (string.IsNullOrEmpty(performer))
                     {
                         tbLog.AppendText($"[{DateTime.Now}] Не указан performer!" + Environment.NewLine);
+                        btTrackGetTags.LightWarningColorResult();
                         return;
                     }
 
@@ -109,6 +112,7 @@ namespace Universe.Lastfm.Api.FormsApp
                     if (string.IsNullOrEmpty(trackName))
                     {
                         tbLog.AppendText($"[{DateTime.Now}] Не указан track!" + Environment.NewLine);
+                        btTrackGetTags.LightWarningColorResult();
                         return;
                     }
 
@@ -116,6 +120,7 @@ namespace Universe.Lastfm.Api.FormsApp
                     if (string.IsNullOrEmpty(user))
                     {
                         tbLog.AppendText($"[{DateTime.Now}] Не указан user!" + Environment.NewLine);
+                        btTrackGetTags.LightWarningColorResult();
                         return;
                     }
                 }
@@ -179,6 +184,7 @@ namespace Universe.Lastfm.Api.FormsApp
                     if (string.IsNullOrEmpty(performer))
                     {
                         tbLog.AppendText($"[{DateTime.Now}] Не указан performer!" + Environment.NewLine);
+                        btTrackSearch.LightWarningColorResult();
                         return;
                     }
 
@@ -186,6 +192,7 @@ namespace Universe.Lastfm.Api.FormsApp
                     if (string.IsNullOrEmpty(performer))
                     {
                         tbLog.AppendText($"[{DateTime.Now}] Не указан track!" + Environment.NewLine);
+                        btTrackSearch.LightWarningColorResult();
                         return;
                     }
                 }
