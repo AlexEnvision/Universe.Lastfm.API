@@ -341,7 +341,7 @@ namespace Universe.Lastfm.Api.FormsApp
                     (Scope.GetQuery<SearchPerformersQuery>(), btArtistSearch),
 
                     (Scope.GetQuery<GetTrackInfoQuery>(), btTrackGetInfo),
-                    //(Scope.GetQuery<GetTrackTagsQuery>(), btGetTrackTags),
+                    (Scope.GetQuery<GetTrackTagQuery>(), btTrackGetTags),
                     (Scope.GetQuery<SearchTrackQuery>(), btTrackSearch),
                 };
 

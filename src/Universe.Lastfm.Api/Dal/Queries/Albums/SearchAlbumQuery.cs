@@ -96,11 +96,21 @@ namespace Universe.Lastfm.Api.Dal.Queries.Albums
         /// </summary>
         public class GetAlbumSearchRequest : BaseRequest
         {
+            private int _limit;
+            private int _page;
             public string Album { get; set; }
 
-            public int Limit { get; set; }
+            public int Limit
+            {
+                get => _limit == 0 ? 50 : _limit;
+                set => _limit = value;
+            }
 
-            public int Page { get; set; }
+            public int Page
+            {
+                get => _page == 0 ? 1 : _page;
+                set => _page = value;
+            }
 
             public GetAlbumSearchRequest()
             {

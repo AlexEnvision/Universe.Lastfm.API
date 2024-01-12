@@ -50,10 +50,10 @@ namespace Universe.Lastfm.Api.Dal.Queries.Track
     ///     The query does search of an Track of the Last.fm.
     ///     Запрос, ведущий поиск альбома на Last.fm. 
     /// </summary>
-    public class SearchTrackQuery : LastQuery<GetTrackSearchRequest, GetTrackSearchResponce>
+    public class GetTrackTagQuery : LastQuery<GetTrackTagRequest, GetTrackTagResponce>
     {
         protected override Func<BaseRequest, BaseResponce> ExecutableBaseFunc =>
-            req => Execute(req.As<GetTrackSearchRequest>());
+            req => Execute(req.As<GetTrackTagRequest>());
 
         /// <summary>
         ///     Search for an Track by name. Returns Track matches sorted by relevance.
@@ -71,18 +71,20 @@ namespace Universe.Lastfm.Api.Dal.Queries.Track
         ///     Request with parameters.
         /// </param>
         /// <returns></returns>
-        public override GetTrackSearchResponce Execute(
-            GetTrackSearchRequest request)
+        public override GetTrackTagResponce Execute(
+            GetTrackTagRequest request)
         {
             string performer = request.Performer;
             string track = request.Track;
+            string user = request.User;
             int page = request.Page;
             int limit = request.Limit;
 
-            var sessionResponce = Adapter.GetRequest("track.search",
+            var sessionResponce = Adapter.GetRequest("track.getTags",
                 Argument.Create("api_key", Settings.ApiKey),
                 Argument.Create("artist", performer),
                 Argument.Create("track", track),
+                Argument.Create("user", user),
                 Argument.Create("page", page.ToString()),
                 Argument.Create("limit", limit.ToString()),
                 Argument.Create("format", "json"),
@@ -90,7 +92,7 @@ namespace Universe.Lastfm.Api.Dal.Queries.Track
 
             Adapter.FixCallback(sessionResponce);
 
-            var getTrackInfoResponce = ResponceExt.CreateFrom<BaseResponce, GetTrackSearchResponce>(sessionResponce);
+            var getTrackInfoResponce = ResponceExt.CreateFrom<BaseResponce, GetTrackTagResponce>(sessionResponce);
             return getTrackInfoResponce;
         }
     }
@@ -99,7 +101,7 @@ namespace Universe.Lastfm.Api.Dal.Queries.Track
     ///     The request with full information about Track of the Last.fm.
     ///     Запрос с полной информацией о поиске Last.fm.
     /// </summary>
-    public class GetTrackSearchRequest : BaseRequest
+    public class GetTrackTagRequest : BaseRequest
     {
         private int _page;
         private int _limit;
@@ -120,7 +122,9 @@ namespace Universe.Lastfm.Api.Dal.Queries.Track
 
         public string Track { get; set; }
 
-        public GetTrackSearchRequest()
+        public string User { get; set; }
+
+        public GetTrackTagRequest()
         {
             Page = 1;
             Limit = 50;
@@ -131,7 +135,7 @@ namespace Universe.Lastfm.Api.Dal.Queries.Track
     ///     The responce with full information about Track of the Last.fm.
     ///     Ответ с полной информацией о поиске Last.fm.
     /// </summary>
-    public class GetTrackSearchResponce : LastFmBaseResponce<TrackSearchContainer>
+    public class GetTrackTagResponce : LastFmBaseResponce<TrackTagContainer>
     {
     }
 
@@ -139,75 +143,56 @@ namespace Universe.Lastfm.Api.Dal.Queries.Track
     ///     The container with information about the top Tracks listened to by a track on the Last.fm.
     ///     Контейнер с информацией о поиске трэков, которые прослушивал пользователь на Last.fm.
     /// </summary>
-    public class TrackSearchContainer : LastFmBaseContainer
+    public class TrackTagContainer : LastFmBaseContainer
     {
-        public SearchDto Results { get; set; }
+        public TrackTagDto Tags { get; set; }
     }
 
     /// <summary>
     ///     The full information about track on the Last.fm.
     ///     Полная информация о поиске на Last.fm.
     /// </summary>
-    public class SearchDto
+    public class TrackTagDto
     {
         /*
-             <results for="Believe" xmlns:opensearch="http://a9.com/-/spec/opensearch/1.1/">
-              <opensearch:Query role="request" searchTerms="Believe" startPage="1"/>
-              <opensearch:totalResults>25329</opensearch:totalResults>
-              <opensearch:startIndex>0</opensearch:startIndex>
-              <opensearch:itemsPerPage>20</opensearch:itemsPerPage>
-              <trackmatches>
-                <track>
-                  <name>Believe</name>
-                  <artist>Disturbed</artist>
-                  <url>http://www.last.fm/music/Disturbed/_/Believe</url>
-                  <streamable fulltrack="0">1</streamable>
-                  <listeners>66068</listeners>
-                  <image size="small">...</image>
-                </track>
-                ...
-              </trackmatches>
-             </results>
+             <tags artist="Sally Shapiro" track="I'll be by your side">
+              <tag>
+                <name>swedish</name>
+                <url>http://www.last.fm/tag/swedish</url>
+              </tag>
+              ...
+            </tags>
         */
 
-        public SearchAttribute Attribute { get; set; }
-
-        public TrackMatchesDto TrackMatches { get; set; }
-    }
-
-    /// <summary>
-    ///     The list of matches in a search.
-    ///     Список совпадений в поиске.
-    /// </summary>
-    public class TrackMatchesDto
-    {
-        public TrackShort[] Track { get; set; }
-    }
-
-    public class TrackShort : LastFmBaseModel
-    {
-        //public StreamableDescription Streamable { get; set; }
-
-        public string Listeners { get; set; }
+        public TrackTagAttribute Attribute { get; set; }
 
         public string Artist { get; set; }
 
+        public string Track { get; set; }
 
-        //public Wiki Wiki { get; set; }
+        public Tag[] Tag { get; set; }
+    }
+
+    public class TagsDto : LastFmBaseModel
+    {
+        public string Artist { get; set; }
+
+        public string Track { get; set; }
+
+        public Tag[] Tag { get; set; }
     }
 
     /// <summary>
-    ///     The special attribite of <see cref="SearchDto"/>
+    ///     The special attribite of <see cref="TrackTagDto"/>
     /// </summary>
-    public class SearchAttribute
+    public class TrackTagAttribute
     {
         /*
-            "@attr":
-            {
-            "for": "Age Of Shadows"
-            },
+            @attr":{"artist":"Ayreon","track":"Age of Shadows"}
         */
 
-        public string For { get; set; }
+        public string Artist { get; set; }
+
+        public string Track { get; set; }
     }
 }

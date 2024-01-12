@@ -90,7 +90,80 @@ namespace Universe.Lastfm.Api.FormsApp
 
         private void btTrackGetTags_Click(object sender, EventArgs e)
         {
+            string performer;
+            string trackName;
+            string user;
 
+            using (var form = new TrackTagsReqForm(_programSettings))
+            {
+                if (form.ShowDialog() == DialogResult.OK)
+                {
+                    performer = form.Performer;
+                    if (string.IsNullOrEmpty(performer))
+                    {
+                        tbLog.AppendText($"[{DateTime.Now}] Не указан performer!" + Environment.NewLine);
+                        return;
+                    }
+
+                    trackName = form.Track;
+                    if (string.IsNullOrEmpty(trackName))
+                    {
+                        tbLog.AppendText($"[{DateTime.Now}] Не указан track!" + Environment.NewLine);
+                        return;
+                    }
+
+                    user = form.User;
+                    if (string.IsNullOrEmpty(user))
+                    {
+                        tbLog.AppendText($"[{DateTime.Now}] Не указан user!" + Environment.NewLine);
+                        return;
+                    }
+                }
+                else
+                {
+                    return;
+                }
+            }
+
+            DisableButtons(sender);
+            ReqCtx.Track = trackName;
+            ReqCtx.Performer = performer;
+            ReqCtx.User = user;
+
+            ThreadMachine.Create(1).RunInMultiTheadsWithoutWaiting(() =>
+            {
+                try
+                {
+                    var responce = Scope.GetQuery<GetTrackTagQuery>().Execute(ReqCtx.As<GetTrackTagRequest>()).LightColorResult(btTrackGetTags);
+                    if (!responce.IsSuccessful)
+                    {
+                        _log.Info($"{responce.Message} {responce.ServiceAnswer}");
+                    }
+
+                    _log.Info(
+                        $"Успешно выгружена информация по альбому {trackName} исполнителя {performer}: {Environment.NewLine}{Environment.NewLine}{responce.ServiceAnswer}{Environment.NewLine}.");
+
+                    var tags = responce.DataContainer.Tags;
+                    var metalGenres = tags.Tag.Where(x => x.Name.ToLower().Contains("metal")).ToList();
+
+                    var tagsStr = string.Join(", ", tags.Tag.Select(x => x.Name));
+                    var metalGenresStr = string.Join(", ", metalGenres.Select(x => x.Name));
+                    _log.Info($"Теги трэка на Last.fm: {tagsStr}.");
+                    _log.Info($"Метал жанры в трэке: {metalGenresStr}.");
+
+                    _log.Info(Environment.NewLine);
+                }
+                catch (Exception ex)
+                {
+                    _log.Error(ex, ex.Message);
+                    Thread.Sleep(LightErrorDelay);
+                    btTrackGetTags.LightErrorColorResult();
+                }
+                finally
+                {
+                    EnableButtonsSafe();
+                }
+            });
         }
 
         private void btTrackSearch_Click(object sender, EventArgs e)
