@@ -239,5 +239,227 @@ namespace Universe.Lastfm.Api.FormsApp
                 }
             });
         }
+
+        private void btTrackGetSimilar_Click(object sender, EventArgs e)
+        {
+            string trackName;
+
+            using (var form = new TrackGetSimilarReqForm(_programSettings))
+            {
+                if (form.ShowDialog() == DialogResult.OK)
+                {
+                    trackName = form.Track;
+                    if (string.IsNullOrEmpty(trackName))
+                    {
+                        tbLog.AppendText($"[{DateTime.Now}] Не указан track!" + Environment.NewLine);
+                        btTrackGetSimilar.LightWarningColorResult();
+                        return;
+                    }
+                }
+                else
+                {
+                    return;
+                }
+            }
+
+            DisableButtons(sender);
+            ReqCtx.Tag = trackName;
+
+            ThreadMachine.Create(1).RunInMultiTheadsWithoutWaiting(() =>
+            {
+                try
+                {
+                    var responce = Scope.GetQuery<GetTrackSimilarQuery>().Execute(ReqCtx.As<GetTrackSimilarRequest>())
+                        .LightColorResult(btTrackGetSimilar);
+                    if (!responce.IsSuccessful)
+                    {
+                        _log.Info($"{responce.Message} {responce.ServiceAnswer}");
+                    }
+
+                    _log.Info(
+                        $"Успешно выгружена информация по тэгу / жанру {trackName}: {Environment.NewLine}{Environment.NewLine}{responce.ServiceAnswer}{Environment.NewLine}.");
+
+                    var data = responce.DataContainer.Similartracks;
+                    var dataStr = string.Join(", ", data.Track.Select(x => x.Name));
+
+                    _log.Info($"Get similar track result by the name {trackName} / Результат похожего трэка по названию {trackName}: {dataStr}.");
+
+                    _log.Info(Environment.NewLine);
+                }
+                catch (Exception ex)
+                {
+                    _log.Error(ex, ex.Message);
+                    Thread.Sleep(LightErrorDelay);
+                    btTrackGetSimilar.LightErrorColorResult();
+                }
+                finally
+                {
+                    EnableButtonsSafe();
+                }
+            });
+        }
+
+        private void brTrackGetCorrection_Click(object sender, EventArgs e)
+        {
+            string performer;
+            string trackName;
+
+            using (var form = new TrackGetCorrectionReqForm(_programSettings))
+            {
+                if (form.ShowDialog() == DialogResult.OK)
+                {
+                    performer = form.Performer;
+                    if (string.IsNullOrEmpty(performer))
+                    {
+                        tbLog.AppendText($"[{DateTime.Now}] Не указан performer!" + Environment.NewLine);
+                        btTrackGetCorrection.LightWarningColorResult();
+                        return;
+                    }
+
+                    trackName = form.Track;
+                    if (string.IsNullOrEmpty(performer))
+                    {
+                        tbLog.AppendText($"[{DateTime.Now}] Не указан track!" + Environment.NewLine);
+                        btTrackSearch.LightWarningColorResult();
+                        return;
+                    }
+                }
+                else
+                {
+                    return;
+                }
+            }
+
+            DisableButtons(sender);
+            ReqCtx.Performer = performer;
+            ReqCtx.Track = trackName;
+
+            ThreadMachine.Create(1).RunInMultiTheadsWithoutWaiting(() =>
+            {
+                try
+                {
+                    var responce = Scope.GetQuery<GetTrackGetCorrectionQuery>().Execute(ReqCtx.As<GetTrackCorrectionRequest>())
+                        .LightColorResult(btTrackGetCorrection);
+                    if (!responce.IsSuccessful)
+                    {
+                        _log.Info($"{responce.Message} {responce.ServiceAnswer}");
+                    }
+
+                    _log.Info(
+                        $"Успешно выгружена информация по исполнителю {performer}: {Environment.NewLine}{Environment.NewLine}{responce.ServiceAnswer}{Environment.NewLine}.");
+
+                    var data = responce.DataContainer.Corrections;
+                    var dataStr = string.Join(", ", data.Correction.Track.Name);
+
+                    _log.Info($"Search artist result by the name {performer} / Результат поиска исполнителей по названию {performer}: {dataStr}.");
+
+                    _log.Info(Environment.NewLine);
+                }
+                catch (Exception ex)
+                {
+                    _log.Error(ex, ex.Message);
+                    Thread.Sleep(LightErrorDelay);
+                    btTrackGetCorrection.LightErrorColorResult();
+                }
+                finally
+                {
+                    EnableButtonsSafe();
+                }
+            });
+        }
+
+        private void btTrackGetTopTags_Click(object sender, EventArgs e)
+        {
+            string performer;
+            string trackName;
+
+            using (var form = new TrackGetTopTagsReqForm(_programSettings))
+            {
+                if (form.ShowDialog() == DialogResult.OK)
+                {
+                    performer = form.Performer;
+                    if (string.IsNullOrEmpty(performer))
+                    {
+                        tbLog.AppendText($"[{DateTime.Now}] Не указан performer!" + Environment.NewLine);
+                        btTrackGetTopTags.LightWarningColorResult();
+                        return;
+                    }
+
+                    trackName = form.Track;
+                    if (string.IsNullOrEmpty(performer))
+                    {
+                        tbLog.AppendText($"[{DateTime.Now}] Не указан track!" + Environment.NewLine);
+                        btTrackGetTopTags.LightWarningColorResult();
+                        return;
+                    }
+                }
+                else
+                {
+                    return;
+                }
+            }
+
+            DisableButtons(sender);
+            ReqCtx.Performer = performer;
+            ReqCtx.Track = trackName;
+
+            ThreadMachine.Create(1).RunInMultiTheadsWithoutWaiting(() =>
+            {
+                try
+                {
+                    var responce = Scope.GetQuery<GetTrackTopTagsQuery>().Execute(ReqCtx.As<GetTrackTopTagsRequest>())
+                        .LightColorResult(btTrackGetTopTags);
+                    if (!responce.IsSuccessful)
+                    {
+                        _log.Info($"{responce.Message} {responce.ServiceAnswer}");
+                    }
+
+                    _log.Info(
+                        $"Успешно выгружена информация по исполнителю {performer}: {Environment.NewLine}{Environment.NewLine}{responce.ServiceAnswer}{Environment.NewLine}.");
+
+                    var data = responce.DataContainer.TopTags;
+                    var dataStr = string.Join(", ", data.TopTags.Track.Name);
+
+                    _log.Info($"Search artist result by the name {performer} / Результат поиска исполнителей по названию {performer}: {dataStr}.");
+
+                    _log.Info(Environment.NewLine);
+                }
+                catch (Exception ex)
+                {
+                    _log.Error(ex, ex.Message);
+                    Thread.Sleep(LightErrorDelay);
+                    btTrackGetTopTags.LightErrorColorResult();
+                }
+                finally
+                {
+                    EnableButtonsSafe();
+                }
+            });
+        }
+
+        private void btTrackAddTags_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btTrackRemoveTag_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btTrackLove_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btTrackUnlove_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btTrackUpdateNowPlaying_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

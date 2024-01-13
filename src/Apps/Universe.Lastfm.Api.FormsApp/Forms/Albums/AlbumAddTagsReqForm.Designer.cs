@@ -49,7 +49,6 @@
             tbCreatingTags.Name = "tbCreatingTags";
             tbCreatingTags.Size = new System.Drawing.Size(389, 68);
             tbCreatingTags.TabIndex = 5;
-            tbCreatingTags.Text = "Progressive Metal";
             // 
             // AlbumAddTagsReqForm
             // 

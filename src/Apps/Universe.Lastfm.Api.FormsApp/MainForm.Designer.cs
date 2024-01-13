@@ -40,6 +40,15 @@
             btConnect = new System.Windows.Forms.Button();
             groupBox2 = new System.Windows.Forms.GroupBox();
             pApiControls = new System.Windows.Forms.Panel();
+            groupBox12 = new System.Windows.Forms.GroupBox();
+            btTrackUpdateNowPlaying = new System.Windows.Forms.Button();
+            btTrackUnlove = new System.Windows.Forms.Button();
+            btTrackRemoveTag = new System.Windows.Forms.Button();
+            btTrackAddTags = new System.Windows.Forms.Button();
+            btTrackLove = new System.Windows.Forms.Button();
+            groupBox11 = new System.Windows.Forms.GroupBox();
+            btArtistRemoveTag = new System.Windows.Forms.Button();
+            btArtistAddTags = new System.Windows.Forms.Button();
             groupBox10 = new System.Windows.Forms.GroupBox();
             btAlbumRemoveTag = new System.Windows.Forms.Button();
             btAlbumAddTags = new System.Windows.Forms.Button();
@@ -61,7 +70,10 @@
             groupBox8 = new System.Windows.Forms.GroupBox();
             btTrackGetTags = new System.Windows.Forms.Button();
             btTrackSearch = new System.Windows.Forms.Button();
+            btTrackGetTopTags = new System.Windows.Forms.Button();
             btTrackGetInfo = new System.Windows.Forms.Button();
+            btTrackGetSimilar = new System.Windows.Forms.Button();
+            btTrackGetCorrection = new System.Windows.Forms.Button();
             groupBox7 = new System.Windows.Forms.GroupBox();
             btTagGetInfo = new System.Windows.Forms.Button();
             groupBox5 = new System.Windows.Forms.GroupBox();
@@ -93,14 +105,13 @@
             fullRubberyUIToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             spaceModeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            groupBox11 = new System.Windows.Forms.GroupBox();
-            btArtistRemoveTag = new System.Windows.Forms.Button();
-            btArtistAddTags = new System.Windows.Forms.Button();
             groupBox1.SuspendLayout();
             gbBorders002.SuspendLayout();
             gbBorders001.SuspendLayout();
             groupBox2.SuspendLayout();
             pApiControls.SuspendLayout();
+            groupBox12.SuspendLayout();
+            groupBox11.SuspendLayout();
             groupBox10.SuspendLayout();
             groupBox6.SuspendLayout();
             groupBox9.SuspendLayout();
@@ -112,7 +123,6 @@
             pMainForm.SuspendLayout();
             gbBorders003.SuspendLayout();
             menuStrip1.SuspendLayout();
-            groupBox11.SuspendLayout();
             SuspendLayout();
             // 
             // btRun
@@ -232,6 +242,7 @@
             // 
             // pApiControls
             // 
+            pApiControls.Controls.Add(groupBox12);
             pApiControls.Controls.Add(groupBox11);
             pApiControls.Controls.Add(groupBox10);
             pApiControls.Controls.Add(groupBox6);
@@ -246,6 +257,110 @@
             pApiControls.Name = "pApiControls";
             pApiControls.Size = new System.Drawing.Size(1330, 512);
             pApiControls.TabIndex = 1;
+            // 
+            // groupBox12
+            // 
+            groupBox12.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
+            groupBox12.Controls.Add(btTrackUpdateNowPlaying);
+            groupBox12.Controls.Add(btTrackUnlove);
+            groupBox12.Controls.Add(btTrackRemoveTag);
+            groupBox12.Controls.Add(btTrackAddTags);
+            groupBox12.Controls.Add(btTrackLove);
+            groupBox12.Location = new System.Drawing.Point(741, 270);
+            groupBox12.Name = "groupBox12";
+            groupBox12.Size = new System.Drawing.Size(195, 230);
+            groupBox12.TabIndex = 12;
+            groupBox12.TabStop = false;
+            groupBox12.Text = "track commands";
+            // 
+            // btTrackUpdateNowPlaying
+            // 
+            btTrackUpdateNowPlaying.Enabled = false;
+            btTrackUpdateNowPlaying.Location = new System.Drawing.Point(8, 157);
+            btTrackUpdateNowPlaying.Name = "btTrackUpdateNowPlaying";
+            btTrackUpdateNowPlaying.Size = new System.Drawing.Size(181, 32);
+            btTrackUpdateNowPlaying.TabIndex = 17;
+            btTrackUpdateNowPlaying.Text = "track.updateNowPlaying";
+            btTrackUpdateNowPlaying.UseVisualStyleBackColor = true;
+            btTrackUpdateNowPlaying.Click += btTrackUpdateNowPlaying_Click;
+            // 
+            // btTrackUnlove
+            // 
+            btTrackUnlove.Enabled = false;
+            btTrackUnlove.Location = new System.Drawing.Point(8, 122);
+            btTrackUnlove.Name = "btTrackUnlove";
+            btTrackUnlove.Size = new System.Drawing.Size(181, 33);
+            btTrackUnlove.TabIndex = 16;
+            btTrackUnlove.Text = "track.unlove";
+            btTrackUnlove.UseVisualStyleBackColor = true;
+            btTrackUnlove.Click += btTrackUnlove_Click;
+            // 
+            // btTrackRemoveTag
+            // 
+            btTrackRemoveTag.Enabled = false;
+            btTrackRemoveTag.Location = new System.Drawing.Point(8, 54);
+            btTrackRemoveTag.Name = "btTrackRemoveTag";
+            btTrackRemoveTag.Size = new System.Drawing.Size(181, 33);
+            btTrackRemoveTag.TabIndex = 6;
+            btTrackRemoveTag.Text = "track.removeTag";
+            btTrackRemoveTag.UseVisualStyleBackColor = true;
+            btTrackRemoveTag.Click += btTrackRemoveTag_Click;
+            // 
+            // btTrackAddTags
+            // 
+            btTrackAddTags.Enabled = false;
+            btTrackAddTags.Location = new System.Drawing.Point(7, 21);
+            btTrackAddTags.Name = "btTrackAddTags";
+            btTrackAddTags.Size = new System.Drawing.Size(182, 32);
+            btTrackAddTags.TabIndex = 5;
+            btTrackAddTags.Text = "track.addTags";
+            btTrackAddTags.UseVisualStyleBackColor = true;
+            btTrackAddTags.Click += btTrackAddTags_Click;
+            // 
+            // btTrackLove
+            // 
+            btTrackLove.Enabled = false;
+            btTrackLove.Location = new System.Drawing.Point(8, 88);
+            btTrackLove.Name = "btTrackLove";
+            btTrackLove.Size = new System.Drawing.Size(181, 33);
+            btTrackLove.TabIndex = 14;
+            btTrackLove.Text = "track.love";
+            btTrackLove.UseVisualStyleBackColor = true;
+            btTrackLove.Click += btTrackLove_Click;
+            // 
+            // groupBox11
+            // 
+            groupBox11.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
+            groupBox11.Controls.Add(btArtistRemoveTag);
+            groupBox11.Controls.Add(btArtistAddTags);
+            groupBox11.Location = new System.Drawing.Point(187, 340);
+            groupBox11.Name = "groupBox11";
+            groupBox11.Size = new System.Drawing.Size(178, 160);
+            groupBox11.TabIndex = 11;
+            groupBox11.TabStop = false;
+            groupBox11.Text = "artist commands";
+            // 
+            // btArtistRemoveTag
+            // 
+            btArtistRemoveTag.Enabled = false;
+            btArtistRemoveTag.Location = new System.Drawing.Point(6, 86);
+            btArtistRemoveTag.Name = "btArtistRemoveTag";
+            btArtistRemoveTag.Size = new System.Drawing.Size(166, 33);
+            btArtistRemoveTag.TabIndex = 6;
+            btArtistRemoveTag.Text = "artist.removeTag";
+            btArtistRemoveTag.UseVisualStyleBackColor = true;
+            btArtistRemoveTag.Click += btArtistRemoveTag_Click;
+            // 
+            // btArtistAddTags
+            // 
+            btArtistAddTags.Enabled = false;
+            btArtistAddTags.Location = new System.Drawing.Point(6, 53);
+            btArtistAddTags.Name = "btArtistAddTags";
+            btArtistAddTags.Size = new System.Drawing.Size(166, 32);
+            btArtistAddTags.TabIndex = 5;
+            btArtistAddTags.Text = "artist.addTags";
+            btArtistAddTags.UseVisualStyleBackColor = true;
+            btArtistAddTags.Click += btArtistAddTags_Click;
             // 
             // groupBox10
             // 
@@ -285,9 +400,9 @@
             // 
             groupBox6.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
             groupBox6.Controls.Add(btTrackScrobble);
-            groupBox6.Location = new System.Drawing.Point(1169, 11);
+            groupBox6.Location = new System.Drawing.Point(1188, 11);
             groupBox6.Name = "groupBox6";
-            groupBox6.Size = new System.Drawing.Size(150, 489);
+            groupBox6.Size = new System.Drawing.Size(131, 489);
             groupBox6.TabIndex = 6;
             groupBox6.TabStop = false;
             groupBox6.Text = "scrobbling";
@@ -297,7 +412,7 @@
             btTrackScrobble.Enabled = false;
             btTrackScrobble.Location = new System.Drawing.Point(6, 39);
             btTrackScrobble.Name = "btTrackScrobble";
-            btTrackScrobble.Size = new System.Drawing.Size(138, 35);
+            btTrackScrobble.Size = new System.Drawing.Size(118, 35);
             btTrackScrobble.TabIndex = 0;
             btTrackScrobble.Text = "track.scrobble";
             btTrackScrobble.UseVisualStyleBackColor = true;
@@ -318,7 +433,7 @@
             groupBox9.Controls.Add(btUserGetTopAlbums);
             groupBox9.Controls.Add(btUserGetTopArtists);
             groupBox9.Controls.Add(btUserGetInfo);
-            groupBox9.Location = new System.Drawing.Point(925, 11);
+            groupBox9.Location = new System.Drawing.Point(942, 11);
             groupBox9.Name = "groupBox9";
             groupBox9.Size = new System.Drawing.Size(238, 489);
             groupBox9.TabIndex = 8;
@@ -459,13 +574,15 @@
             // 
             // groupBox8
             // 
-            groupBox8.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
             groupBox8.Controls.Add(btTrackGetTags);
             groupBox8.Controls.Add(btTrackSearch);
+            groupBox8.Controls.Add(btTrackGetTopTags);
             groupBox8.Controls.Add(btTrackGetInfo);
+            groupBox8.Controls.Add(btTrackGetSimilar);
+            groupBox8.Controls.Add(btTrackGetCorrection);
             groupBox8.Location = new System.Drawing.Point(740, 11);
             groupBox8.Name = "groupBox8";
-            groupBox8.Size = new System.Drawing.Size(179, 489);
+            groupBox8.Size = new System.Drawing.Size(196, 253);
             groupBox8.TabIndex = 8;
             groupBox8.TabStop = false;
             groupBox8.Text = "track";
@@ -475,7 +592,7 @@
             btTrackGetTags.Enabled = false;
             btTrackGetTags.Location = new System.Drawing.Point(8, 75);
             btTrackGetTags.Name = "btTrackGetTags";
-            btTrackGetTags.Size = new System.Drawing.Size(165, 32);
+            btTrackGetTags.Size = new System.Drawing.Size(182, 32);
             btTrackGetTags.TabIndex = 2;
             btTrackGetTags.Text = "track.getTags";
             btTrackGetTags.Click += btTrackGetTags_Click;
@@ -485,22 +602,55 @@
             btTrackSearch.Enabled = false;
             btTrackSearch.Location = new System.Drawing.Point(8, 108);
             btTrackSearch.Name = "btTrackSearch";
-            btTrackSearch.Size = new System.Drawing.Size(165, 32);
+            btTrackSearch.Size = new System.Drawing.Size(182, 32);
             btTrackSearch.TabIndex = 5;
             btTrackSearch.Text = "track.search";
             btTrackSearch.UseVisualStyleBackColor = true;
             btTrackSearch.Click += btTrackSearch_Click;
+            // 
+            // btTrackGetTopTags
+            // 
+            btTrackGetTopTags.Enabled = false;
+            btTrackGetTopTags.Location = new System.Drawing.Point(8, 211);
+            btTrackGetTopTags.Name = "btTrackGetTopTags";
+            btTrackGetTopTags.Size = new System.Drawing.Size(182, 32);
+            btTrackGetTopTags.TabIndex = 15;
+            btTrackGetTopTags.Text = "track.getTopTags";
+            btTrackGetTopTags.UseVisualStyleBackColor = true;
+            btTrackGetTopTags.Click += btTrackGetTopTags_Click;
             // 
             // btTrackGetInfo
             // 
             btTrackGetInfo.Enabled = false;
             btTrackGetInfo.Location = new System.Drawing.Point(8, 39);
             btTrackGetInfo.Name = "btTrackGetInfo";
-            btTrackGetInfo.Size = new System.Drawing.Size(165, 35);
+            btTrackGetInfo.Size = new System.Drawing.Size(182, 35);
             btTrackGetInfo.TabIndex = 3;
             btTrackGetInfo.Text = "track.getInfo";
             btTrackGetInfo.UseVisualStyleBackColor = true;
             btTrackGetInfo.Click += btTrackGetInfo_Click;
+            // 
+            // btTrackGetSimilar
+            // 
+            btTrackGetSimilar.Enabled = false;
+            btTrackGetSimilar.Location = new System.Drawing.Point(8, 142);
+            btTrackGetSimilar.Name = "btTrackGetSimilar";
+            btTrackGetSimilar.Size = new System.Drawing.Size(182, 32);
+            btTrackGetSimilar.TabIndex = 12;
+            btTrackGetSimilar.Text = "track.getSimilar";
+            btTrackGetSimilar.UseVisualStyleBackColor = true;
+            btTrackGetSimilar.Click += btTrackGetSimilar_Click;
+            // 
+            // btTrackGetCorrection
+            // 
+            btTrackGetCorrection.Enabled = false;
+            btTrackGetCorrection.Location = new System.Drawing.Point(8, 176);
+            btTrackGetCorrection.Name = "btTrackGetCorrection";
+            btTrackGetCorrection.Size = new System.Drawing.Size(182, 33);
+            btTrackGetCorrection.TabIndex = 13;
+            btTrackGetCorrection.Text = "track.getCorrection";
+            btTrackGetCorrection.UseVisualStyleBackColor = true;
+            btTrackGetCorrection.Click += brTrackGetCorrection_Click;
             // 
             // groupBox7
             // 
@@ -811,40 +961,6 @@
             aboutToolStripMenuItem.Size = new System.Drawing.Size(64, 24);
             aboutToolStripMenuItem.Text = "About";
             // 
-            // groupBox11
-            // 
-            groupBox11.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
-            groupBox11.Controls.Add(btArtistRemoveTag);
-            groupBox11.Controls.Add(btArtistAddTags);
-            groupBox11.Location = new System.Drawing.Point(187, 340);
-            groupBox11.Name = "groupBox11";
-            groupBox11.Size = new System.Drawing.Size(178, 160);
-            groupBox11.TabIndex = 11;
-            groupBox11.TabStop = false;
-            groupBox11.Text = "artist commands";
-            // 
-            // btArtistRemoveTag
-            // 
-            btArtistRemoveTag.Enabled = false;
-            btArtistRemoveTag.Location = new System.Drawing.Point(6, 86);
-            btArtistRemoveTag.Name = "btArtistRemoveTag";
-            btArtistRemoveTag.Size = new System.Drawing.Size(166, 33);
-            btArtistRemoveTag.TabIndex = 6;
-            btArtistRemoveTag.Text = "artist.removeTag";
-            btArtistRemoveTag.UseVisualStyleBackColor = true;
-            btArtistRemoveTag.Click += btArtistRemoveTag_Click;
-            // 
-            // btArtistAddTags
-            // 
-            btArtistAddTags.Enabled = false;
-            btArtistAddTags.Location = new System.Drawing.Point(6, 53);
-            btArtistAddTags.Name = "btArtistAddTags";
-            btArtistAddTags.Size = new System.Drawing.Size(166, 32);
-            btArtistAddTags.TabIndex = 5;
-            btArtistAddTags.Text = "artist.addTags";
-            btArtistAddTags.UseVisualStyleBackColor = true;
-            btArtistAddTags.Click += btArtistAddTags_Click;
-            // 
             // MainForm
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
@@ -867,6 +983,8 @@
             gbBorders001.PerformLayout();
             groupBox2.ResumeLayout(false);
             pApiControls.ResumeLayout(false);
+            groupBox12.ResumeLayout(false);
+            groupBox11.ResumeLayout(false);
             groupBox10.ResumeLayout(false);
             groupBox6.ResumeLayout(false);
             groupBox9.ResumeLayout(false);
@@ -880,7 +998,6 @@
             gbBorders003.PerformLayout();
             menuStrip1.ResumeLayout(false);
             menuStrip1.PerformLayout();
-            groupBox11.ResumeLayout(false);
             ResumeLayout(false);
             PerformLayout();
         }
@@ -956,5 +1073,14 @@
         private System.Windows.Forms.GroupBox groupBox11;
         private System.Windows.Forms.Button btArtistRemoveTag;
         private System.Windows.Forms.Button btArtistAddTags;
+        private System.Windows.Forms.Button btTrackUnlove;
+        private System.Windows.Forms.Button btTrackGetTopTags;
+        private System.Windows.Forms.Button btTrackLove;
+        private System.Windows.Forms.Button btTrackGetSimilar;
+        private System.Windows.Forms.Button btTrackGetCorrection;
+        private System.Windows.Forms.GroupBox groupBox12;
+        private System.Windows.Forms.Button btTrackRemoveTag;
+        private System.Windows.Forms.Button btTrackAddTags;
+        private System.Windows.Forms.Button btTrackUpdateNowPlaying;
     }
 }

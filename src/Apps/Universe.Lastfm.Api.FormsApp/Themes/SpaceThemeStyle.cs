@@ -101,13 +101,35 @@ namespace Universe.Lastfm.Api.FormsApp.Themes
         private void BtCtrl_MouseHover(object sender, EventArgs e)
         {
             Button box = (Button)sender;
-            box.BackColor = MainHoverCaptureColor;
+            if (box.BackColor == SuccessfulColor)
+            {
+                box.BackColor = SuccessfulColor;
+            }
+            else if (box.BackColor == UnsuccesfulColor)
+            {
+                box.BackColor = UnsuccesfulColor;
+            }
+            else
+            {
+                box.BackColor = MainHoverCaptureColor;
+            }
         }
 
         private void BtCtrl_MouseLeave(object sender, EventArgs e)
         {
             Button box = (Button)sender;
-            box.BackColor = MainBackColor;
+            if (box.BackColor == SuccessfulColor)
+            {
+                box.BackColor = SuccessfulColor;
+            }
+            else if (box.BackColor == UnsuccesfulColor)
+            {
+                box.BackColor = UnsuccesfulColor;
+            }
+            else
+            {
+                box.BackColor = MainBackColor;
+            }
         }
 
         private void RePaintBorderlessGroupBox(object sender, PaintEventArgs p)

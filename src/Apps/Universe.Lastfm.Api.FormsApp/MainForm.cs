@@ -57,9 +57,6 @@ using Universe.Lastfm.Api.Dal.Queries.Users;
 using Universe.Lastfm.Api.Dto.GetArtists;
 using Universe.Lastfm.Api.FormsApp.Extensions;
 using Universe.Lastfm.Api.FormsApp.Extensions.Model;
-using Universe.Lastfm.Api.FormsApp.Forms.Genres;
-using Universe.Lastfm.Api.FormsApp.Forms.Performers;
-using Universe.Lastfm.Api.FormsApp.Forms.Tracks;
 using Universe.Lastfm.Api.FormsApp.Infrastracture;
 using Universe.Lastfm.Api.FormsApp.Settings;
 using Universe.Lastfm.Api.Helpers;
@@ -69,13 +66,9 @@ using Universe.Lastfm.Api.Models;
 using Universe.Windows.Forms.Controls;
 using Universe.Windows.Forms.Controls.Settings;
 using Universe.Lastfm.Api.FormsApp.Themes;
-using Universe.Lastfm.Api.Models.Base;
-using Universe.Lastfm.Api.Models.Req;
-using Universe.Lastfm.Api.Models.Res;
 using Universe.Types.Collection;
 using Universe.Lastfm.Api.Dto.Base;
 using Universe.Lastfm.Api.FormsApp.Forms;
-using Universe.Lastfm.Api.Dto.Common;
 
 namespace Universe.Lastfm.Api.FormsApp
 {
@@ -421,6 +414,9 @@ namespace Universe.Lastfm.Api.FormsApp
                     (Scope.GetQuery<GetTrackInfoQuery>(), btTrackGetInfo),
                     (Scope.GetQuery<GetTrackTagQuery>(), btTrackGetTags),
                     (Scope.GetQuery<SearchTrackQuery>(), btTrackSearch),
+                    (Scope.GetQuery<GetTrackSimilarQuery>(), btTrackGetSimilar),
+                    (Scope.GetQuery<GetTrackGetCorrectionQuery>(), btTrackGetCorrection),
+                    (Scope.GetQuery<GetTrackTopTagsQuery>(), btTrackGetTopTags),
 
                     (Scope.GetQuery<GetUserInfoQuery>(), btUserGetInfo),
                     (Scope.GetQuery<GetUserTopArtistsQuery>(),btUserGetTopArtists),
@@ -440,7 +436,8 @@ namespace Universe.Lastfm.Api.FormsApp
                 foreach (var query in queries)
                 {
                     var responce = query.Itself.ExecuteBaseSafe(ReqCtx).ReportResult(tbLog).LightColorResult(query.Ctrl, 50) as LastFmBaseContainer;
-                    data += responce.DataContainer;
+                    if (responce != null) 
+                        data += responce.DataContainer;
                 }
 
                 var fullInfo = JsonConvert.SerializeObject(data, Formatting.Indented);

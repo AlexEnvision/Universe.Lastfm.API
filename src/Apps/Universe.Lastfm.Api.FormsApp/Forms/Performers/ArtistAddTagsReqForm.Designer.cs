@@ -49,16 +49,15 @@
             tbCreatingTags.Name = "tbCreatingTags";
             tbCreatingTags.Size = new System.Drawing.Size(389, 68);
             tbCreatingTags.TabIndex = 5;
-            tbCreatingTags.Text = "Progressive Metal";
             // 
-            // AlbumAddTagsReqForm
+            // ArtistAddTagsReqForm
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             ClientSize = new System.Drawing.Size(512, 273);
             Controls.Add(label3);
             Controls.Add(tbCreatingTags);
-            Name = "AlbumAddTagsReqForm";
+            Name = "ArtistAddTagsReqForm";
             Controls.SetChildIndex(tbCreatingTags, 0);
             Controls.SetChildIndex(label3, 0);
             ResumeLayout(false);

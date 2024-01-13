@@ -49,16 +49,15 @@
             tbRemovingTags.Name = "tbRemovingTags";
             tbRemovingTags.Size = new System.Drawing.Size(389, 68);
             tbRemovingTags.TabIndex = 7;
-            tbRemovingTags.Text = "Progressive Metal";
             // 
-            // DeleteAddTagsReqForm
+            // ArtistDeleteAddTagsReqForm
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             ClientSize = new System.Drawing.Size(512, 273);
             Controls.Add(label3);
             Controls.Add(tbRemovingTags);
-            Name = "DeleteAddTagsReqForm";
+            Name = "ArtistDeleteAddTagsReqForm";
             Text = "DeleteAddTagsReqForm";
             Controls.SetChildIndex(tbRemovingTags, 0);
             Controls.SetChildIndex(label3, 0);

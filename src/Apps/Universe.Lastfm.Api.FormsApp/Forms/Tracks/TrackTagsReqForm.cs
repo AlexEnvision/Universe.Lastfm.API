@@ -1,15 +1,7 @@
-﻿using Microsoft.VisualBasic.ApplicationServices;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+﻿using System;
 using Universe.Lastfm.Api.FormsApp.Settings;
 using Universe.Lastfm.Api.FormsApp.Themes;
+using Universe.Lastfm.Api.Models;
 
 namespace Universe.Lastfm.Api.FormsApp.Forms.Tracks
 {
@@ -30,6 +22,15 @@ namespace Universe.Lastfm.Api.FormsApp.Forms.Tracks
 
             if (settings.IsSpaceMode)
                 SpaceThemeStyle.Set.Apply(this);
+
+            InitializeParametersByReqCtx(settings.ReqCtx);
+        }
+
+        protected override void InitializeParametersByReqCtx(ReqContext reqCtx)
+        {
+            if (tbUser != null) 
+                tbUser.Text = reqCtx.User ?? tbUser.Text;
+            base.InitializeParametersByReqCtx(reqCtx);
         }
 
         protected override void btOk_Click(object sender, EventArgs e)

@@ -31,7 +31,7 @@ namespace Universe.Lastfm.Api.FormsApp.Forms.Performers
         protected override void btOk_Click(object sender, EventArgs e)
         {
             TagsArray = TagNames.Split(";");
-           base.btOk_Click(sender, e);
+            base.btOk_Click(sender, e);
         }
     }
 }
