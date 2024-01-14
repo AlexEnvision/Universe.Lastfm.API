@@ -33,12 +33,35 @@
 //  ║                                                                                 ║
 //  ╚═════════════════════════════════════════════════════════════════════════════════╝
 
-using Universe.Lastfm.Api.Dto.Base;
+using Universe.Lastfm.Api.Dto.Common;
+using Universe.Lastfm.Api.Dto.GetArtistInfo;
+using Universe.Lastfm.Api.Dto.GetTrackInfo;
+using Universe.Lastfm.Api.Models.Res.Base;
 
-namespace Universe.Lastfm.Api.Dto.Common
+namespace Universe.Lastfm.Api.Models.Res
 {
-    public class TagsContainer : LastFmBaseContainer
+    /// <summary>
+    ///     The chart with tracks
+    /// </summary>
+    public class ChartGetTopTracksResponce : LastFmBaseResponce<ChartTracksContainer>
     {
-        public Tag[] Tag { get; set; }
+        /*
+            <tracks page="1" perPage="50" totalPages="20" total="1000">
+              <track>
+                <name>Dark Fantasy</name>
+                <playcount>124394</playcount>
+                <listeners>42141</listeners>
+                <mbid/>
+                <url>http://www.last.fm/music/Kanye+West/_/Dark+Fantasy</url>
+                <streamable fulltrack="0">0</streamable>
+                <artist>
+                  <name>Kanye West</name>
+                  <mbid>164f0d73-1234-4e2c-8743-d77bf2191051</mbid>
+                  <url>http://www.last.fm/music/Kanye+West</url>
+                </artist>
+              </track>
+              ...
+            </tracks>
+       */
     }
 }

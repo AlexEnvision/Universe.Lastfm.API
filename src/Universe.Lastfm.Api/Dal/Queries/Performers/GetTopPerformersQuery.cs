@@ -33,20 +33,43 @@
 //  ║                                                                                 ║
 //  ╚═════════════════════════════════════════════════════════════════════════════════╝
 
+using System;
 using Universe.Lastfm.Api.Helpers;
 using Universe.Lastfm.Api.Models;
 using Universe.Lastfm.Api.Models.Base;
+using Universe.Lastfm.Api.Models.Req;
 using Universe.Lastfm.Api.Models.Res;
 
 namespace Universe.Lastfm.Api.Dal.Queries.Performers
 {
-    public class GetTopPerformersQuery : LastQuery
+    /// <summary>
+    ///     The query gets the top artists chart.
+    /// </summary>
+    public class GetTopPerformersQuery : LastQuery<ChartGetTopArtistsRequest, ChartGetTopArtistsResponce>
     {
-        public ChartGetTopArtistsResponce Execute(
-            int page = 1,
-            int limit = 50)
+        protected override Func<BaseRequest, BaseResponce> ExecutableBaseFunc => 
+            req => Execute(req.As<ChartGetTopArtistsRequest>());
+
+        /// <summary>
+        ///     Get the top artists chart.
+        /// </summary>
+        /// <param name="request.page">
+        ///     The page number to fetch. Defaults to first page.
+        /// </param>
+        /// <param name="request.limit">
+        ///     The number of results to fetch per page. Defaults to 50.
+        /// </param>
+        /// <param name="request">
+        ///     The request with parameters, that could you'll see above.
+        /// </param>
+        /// <returns></returns>
+        public override ChartGetTopArtistsResponce Execute(
+            ChartGetTopArtistsRequest request)
         {
-            var sessionResponce = Adapter.GetRequest("chart.gettopartists",
+            var page = request.Page;
+            var limit = request.Limit;
+
+            var sessionResponce = Adapter.GetRequest("chart.getTopArtists",
                 Argument.Create("api_key", Settings.ApiKey),
                 Argument.Create("page", page.ToString()),
                 Argument.Create("limit", limit.ToString()),

@@ -49,5 +49,9 @@ namespace Universe.Lastfm.Api.Dto.Common
         //public StreamableDescription Streamable { get; set; }
 
         public ArtistShort Artist { get; set; }
+
+        public int ChartPosition { get; set; }
+
+        public int Playcount { get; set; }
     }
 }

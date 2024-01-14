@@ -33,18 +33,53 @@
 //  ║                                                                                 ║
 //  ╚═════════════════════════════════════════════════════════════════════════════════╝
 
-using Universe.Lastfm.Api.Dto.Common;
-using Universe.Lastfm.Api.Dto.Common.Short;
-using Universe.Lastfm.Api.Dto.GetTagInfo;
+using System;
+using Universe.Lastfm.Api.Helpers;
+using Universe.Lastfm.Api.Models;
+using Universe.Lastfm.Api.Models.Base;
+using Universe.Lastfm.Api.Models.Req;
+using Universe.Lastfm.Api.Models.Res;
 
-namespace Universe.Lastfm.Api.Dto.GetArtistInfo
+namespace Universe.Lastfm.Api.Dal.Queries.Performers
 {
-    public class ArtistFull : ArtistShort
+    /// <summary>
+    ///     The query gets the top tags chart
+    /// </summary>
+    public class GetTopTagsQuery : LastQuery<ChartGetTopTagsRequest, ChartGetTopTagsResponce>
     {
-        public TagsContainer Tags { get; set; }
+        protected override Func<BaseRequest, BaseResponce> ExecutableBaseFunc =>
+            req => Execute(req.As<ChartGetTopTagsRequest>());
 
-        public Similar Similar { get; set; }
+        /// <summary>
+        ///     Get the top tags chart.
+        /// </summary>
+        /// <param name="request.page">
+        ///     The page number to fetch. Defaults to first page.
+        /// </param>
+        /// <param name="request.limit">
+        ///     The number of results to fetch per page. Defaults to 50.
+        /// </param>
+        /// <param name="request">
+        ///     The request with parameters, that could you'll see above.
+        /// </param>
+        /// <returns></returns>
+        public override ChartGetTopTagsResponce Execute(
+            ChartGetTopTagsRequest request)
+        {
+            var page = request.Page;
+            var limit = request.Limit;
 
-        public Wiki Bio { get; set; }
+            var sessionResponce = Adapter.GetRequest("chart.getTopTags",
+                Argument.Create("api_key", Settings.ApiKey),
+                Argument.Create("page", page.ToString()),
+                Argument.Create("limit", limit.ToString()),
+                Argument.Create("format", "json"),
+                Argument.Create("callback", "?"));
+
+            Adapter.FixCallback(sessionResponce);
+
+            var chartGetTopTracksResponce = ResponceExt.CreateFrom<BaseResponce, ChartGetTopTagsResponce>(sessionResponce);
+            return chartGetTopTracksResponce;
+        }
     }
 }

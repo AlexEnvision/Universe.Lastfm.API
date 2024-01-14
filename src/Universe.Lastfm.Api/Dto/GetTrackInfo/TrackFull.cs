@@ -37,6 +37,7 @@ using Universe.Lastfm.Api.Dto.Base;
 using Universe.Lastfm.Api.Dto.Common;
 using Universe.Lastfm.Api.Dto.Common.Short;
 using Universe.Lastfm.Api.Dto.GetAlbumInfo;
+using Universe.Lastfm.Api.Dto.GetTagInfo;
 
 namespace Universe.Lastfm.Api.Dto.GetTrackInfo
 {

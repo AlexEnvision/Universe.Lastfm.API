@@ -33,18 +33,36 @@
 //  ║                                                                                 ║
 //  ╚═════════════════════════════════════════════════════════════════════════════════╝
 
-using Universe.Lastfm.Api.Dto.Common;
-using Universe.Lastfm.Api.Dto.Common.Short;
 using Universe.Lastfm.Api.Dto.GetTagInfo;
+using Universe.Lastfm.Api.Models.Res.Base;
 
-namespace Universe.Lastfm.Api.Dto.GetArtistInfo
+namespace Universe.Lastfm.Api.Models.Res
 {
-    public class ArtistFull : ArtistShort
+    /// <summary>
+    ///     The chart with tags
+    /// </summary>
+    public class ChartGetTopTagsResponce : LastFmBaseResponce<ChartTagsContainer>
     {
-        public TagsContainer Tags { get; set; }
-
-        public Similar Similar { get; set; }
-
-        public Wiki Bio { get; set; }
+        /*
+            <tags page="1" perPage="50" totalPages="5" total="250">
+              <tag>
+                <name>rock</name>
+                <url>http://www.last.fm/tag/rock</url>
+                <reach>309437</reach>
+                <taggings>3064604</taggings>
+                <streamable>1</streamable>
+                <wiki>
+                  <published>Sun, 24 Oct 2010 17:40:33 +0000</published>
+                  <summary>
+            Rock music is a genre of music started in America. It h...
+                  </summary>
+                  <content>
+            Rock music is a genre of music started in America. It has its roots in 1940s and 1950s rock and roll and rockabilly, which evolved from blues, country music and other influences. According to the All Music Guide, “In its pu...
+                  </content>
+                </wiki>
+            </tag>
+            ...
+            </tags>
+       */
     }
 }

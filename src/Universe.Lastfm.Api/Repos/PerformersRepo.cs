@@ -52,7 +52,7 @@ namespace Universe.Lastfm.Api.Repos
             int page = 1,
             int limit = 50)
         {
-            return DomainScope.GetQuery<GetTopPerformersQuery>().Execute(page, limit);
+            return DomainScope.GetQuery<GetTopPerformersQuery>().Execute(new ChartGetTopArtistsRequest());
         }
 
         public BaseResponce GetPerformerInfo(string artist)

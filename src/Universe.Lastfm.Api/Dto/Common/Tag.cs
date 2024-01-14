@@ -39,5 +39,8 @@ namespace Universe.Lastfm.Api.Dto.Common
 {
     public class Tag : LastFmBaseModel
     {
+        public int Playcount { get; set; }
+
+        public int ChartPosition { get; set; }
     }
 }

@@ -68,7 +68,11 @@ using Universe.Windows.Forms.Controls.Settings;
 using Universe.Lastfm.Api.FormsApp.Themes;
 using Universe.Types.Collection;
 using Universe.Lastfm.Api.Dto.Base;
+using Universe.Lastfm.Api.Dto.Common;
+using Universe.Lastfm.Api.Dto.GetTagInfo;
+using Universe.Lastfm.Api.Dto.GetTrackInfo;
 using Universe.Lastfm.Api.FormsApp.Forms;
+using Universe.Lastfm.Api.Models.Req;
 
 namespace Universe.Lastfm.Api.FormsApp
 {
@@ -409,6 +413,10 @@ namespace Universe.Lastfm.Api.FormsApp
                     (Scope.GetQuery<GetPerformerGetTopTagsQuery>(), btArtistGetTopTags),
                     (Scope.GetQuery<GetPerformerGetTopTracksQuery>(), btArtistGetTopTracks),
 
+                    (Scope.GetQuery<GetTopPerformersQuery>(), btChartGetTopArtists),
+                    (Scope.GetQuery<GetTopTracksQuery>(), btChartGetTopTracks),
+                    (Scope.GetQuery<GetTopTagsQuery>(), btChartGetTopTags),
+
                     (Scope.GetQuery<GetTagInfoQuery>(), btTagGetInfo),
 
                     (Scope.GetQuery<GetTrackInfoQuery>(), btTrackGetInfo),
@@ -436,7 +444,7 @@ namespace Universe.Lastfm.Api.FormsApp
                 foreach (var query in queries)
                 {
                     var responce = query.Itself.ExecuteBaseSafe(ReqCtx).ReportResult(tbLog).LightColorResult(query.Ctrl, 50) as LastFmBaseContainer;
-                    if (responce != null) 
+                    if (responce != null)
                         data += responce.DataContainer;
                 }
 
@@ -483,8 +491,12 @@ namespace Universe.Lastfm.Api.FormsApp
 
                     for (int index = 1; index <= maxPages; index++)
                     {
+                        ReqCtx.Page = index;
+                        ReqCtx.Limit = pageSize;
+
                         //_adapter.ChartGetTopArtists(index, pageSize);
-                        var responce = Scope.GetQuery<GetTopPerformersQuery>().Execute(index, pageSize);
+                        var responce = Scope.GetQuery<GetTopPerformersQuery>().Execute(ReqCtx.As<ChartGetTopArtistsRequest>()).
+                            LightColorResult(btChartGetTopArtists);
                         if (!responce.IsSuccessful)
                         {
                             _log.Info($"{responce.Message} {responce.ServiceAnswer}");
@@ -509,11 +521,14 @@ namespace Universe.Lastfm.Api.FormsApp
                             maxArtists = deserialized.Artists.ArtistsAttribute.Total;
                         }
 
-                        //if (index == 500)
-                        //    break;
+                        if (index == 500)
+                        {
+                            _log.Info("Loaded first 500 performers from Last.fm");
+                            break;
+                        }
 
                         loadedPages++;
-                        _log.Info($"Загружено {loadedPages * pageSize} исполнителей с Last.fm из {maxArtists}.");
+                        _log.Info($"Загружено {(loadedPages * pageSize) + 1} исполнителей с Last.fm из {maxArtists}.");
                     }
 
                     artists = artists.OrderByDescending(x => x.Playcount).ToList();
@@ -531,12 +546,188 @@ namespace Universe.Lastfm.Api.FormsApp
                     {
                         writer.WriteLine(serviceAnswer);
                     }
-
-                    EnableButtonsSafe();
                 }
                 catch (Exception ex)
                 {
                     _log.Error(ex, ex.Message);
+                    btChartGetTopArtists.LightErrorColorResult();
+                }
+                finally
+                {
+                    EnableButtonsSafe();
+                }
+            });
+        }
+
+        private void btChartGetTopTracks_Click(object sender, EventArgs e)
+        {
+            DisableButtons(sender);
+
+            ThreadMachine.Create(1).RunInMultiTheadsWithoutWaiting(() =>
+            {
+                try
+                {
+                    var filename = "ChartGetTopTracksResearchRes.json";
+                    var maxPages = 50;
+                    var pageSize = 50;
+                    var tracks = new List<Track>();
+                    var loadedPages = 0;
+                    var maxArtists = 500 * 100;
+
+                    var unSuccessCounter = 0;
+                    var chartPosition = 0;
+
+                    for (int index = 1; index <= maxPages; index++)
+                    {
+                        ReqCtx.Page = index;
+                        ReqCtx.Limit = pageSize;
+
+                        var responce = Scope.GetQuery<GetTopTracksQuery>().Execute(ReqCtx.As<ChartGetTopTracksRequest>()).
+                            LightColorResult(btChartGetTopTracks);
+                        if (!responce.IsSuccessful)
+                        {
+                            _log.Info($"{responce.Message} {responce.ServiceAnswer}");
+                            unSuccessCounter++;
+                            if (unSuccessCounter >= 50)
+                                break;
+
+                            continue;
+                        }
+
+                        unSuccessCounter = 0;
+                        if (index == 1)
+                            responce.ServiceAnswer = responce.ServiceAnswer.Replace("@attr", "TracksAttribute");
+
+                        var deserialized = JsonConvert.DeserializeObject<ChartTracksContainer>(responce.ServiceAnswer);
+
+                        tracks.AddRange(deserialized.Tracks.Track);
+
+                        if (index == 1)
+                        {
+                            maxPages = deserialized.Tracks.TracksAttribute.TotalPages;
+                            maxArtists = deserialized.Tracks.TracksAttribute.Total;
+                        }
+
+                        if (index == 500)
+                        {
+                            _log.Info("Loaded first 500 performers from Last.fm");
+                            break;
+                        }
+
+                        loadedPages++;
+                        _log.Info($"Загружено {(loadedPages * pageSize) + 1} исполнителей с Last.fm из {maxArtists}.");
+                    }
+
+                    tracks = tracks.OrderByDescending(x => x.Playcount).ToList();
+                    foreach (var track in tracks)
+                    {
+                        track.ChartPosition = ++chartPosition;
+                    }
+
+                    var serviceAnswer = JsonConvert.SerializeObject(tracks, Formatting.Indented);
+
+                    _log.Info(
+                        $"Успешно выгружено {loadedPages} страниц по {pageSize} элементов в файл {filename}.");
+
+                    using (var writer = File.CreateText(filename))
+                    {
+                        writer.WriteLine(serviceAnswer);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    _log.Error(ex, ex.Message);
+                    btChartGetTopTracks.LightErrorColorResult();
+                }
+                finally
+                {
+                    EnableButtonsSafe();
+                }
+            });
+        }
+
+        private void btChartGetTopTags_Click(object sender, EventArgs e)
+        {
+            DisableButtons(sender);
+
+            ThreadMachine.Create(1).RunInMultiTheadsWithoutWaiting(() =>
+            {
+                try
+                {
+                    var filename = "ChartGetTopTagsResearchRes.json";
+                    var maxPages = 50;
+                    var pageSize = 50;
+                    var tags = new List<Tag>();
+                    var loadedPages = 0;
+                    var maxArtists = 500 * 100;
+
+                    var unSuccessCounter = 0;
+                    var chartPosition = 0;
+
+                    for (int index = 1; index <= maxPages; index++)
+                    {
+                        ReqCtx.Page = index;
+                        ReqCtx.Limit = pageSize;
+
+                        var responce = Scope.GetQuery<GetTopTagsQuery>().Execute(ReqCtx.As<ChartGetTopTagsRequest>()).
+                            LightColorResult(btChartGetTopTags);
+                        if (!responce.IsSuccessful)
+                        {
+                            _log.Info($"{responce.Message} {responce.ServiceAnswer}");
+                            unSuccessCounter++;
+                            if (unSuccessCounter >= 50)
+                                break;
+
+                            continue;
+                        }
+
+                        unSuccessCounter = 0;
+                        if (index == 1)
+                            responce.ServiceAnswer = responce.ServiceAnswer.Replace("@attr", "TagsAttribute");
+
+                        var deserialized = JsonConvert.DeserializeObject<ChartTagsContainer>(responce.ServiceAnswer);
+
+                        tags.AddRange(deserialized.Tags.Tag);
+
+                        if (index == 1)
+                        {
+                            maxPages = deserialized.Tags.TagsAttribute.TotalPages;
+                            maxArtists = deserialized.Tags.TagsAttribute.Total;
+                        }
+
+                        if (index == 500)
+                        {
+                            _log.Info("Loaded first 500 performers from Last.fm");
+                            break;
+                        }
+
+                        loadedPages++;
+                        _log.Info($"Загружено {(loadedPages * pageSize) + 1} исполнителей с Last.fm из {maxArtists}.");
+                    }
+
+                    tags = tags.OrderByDescending(x => x.Playcount).ToList();
+                    foreach (var tag in tags)
+                    {
+                        tag.ChartPosition = ++chartPosition;
+                    }
+
+                    var serviceAnswer = JsonConvert.SerializeObject(tags, Formatting.Indented);
+
+                    _log.Info(
+                        $"Успешно выгружено {loadedPages} страниц по {pageSize} элементов в файл {filename}.");
+
+                    using (var writer = File.CreateText(filename))
+                    {
+                        writer.WriteLine(serviceAnswer);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    _log.Error(ex, ex.Message);
+                    btChartGetTopTags.LightErrorColorResult();
+                }
+                finally
+                {
                     EnableButtonsSafe();
                 }
             });

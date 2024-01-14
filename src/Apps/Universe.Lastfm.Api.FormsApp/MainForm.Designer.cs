@@ -105,6 +105,8 @@
             fullRubberyUIToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             spaceModeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            btChartGetTopTracks = new System.Windows.Forms.Button();
+            btChartGetTopTags = new System.Windows.Forms.Button();
             groupBox1.SuspendLayout();
             gbBorders002.SuspendLayout();
             gbBorders001.SuspendLayout();
@@ -677,6 +679,8 @@
             // groupBox5
             // 
             groupBox5.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
+            groupBox5.Controls.Add(btChartGetTopTags);
+            groupBox5.Controls.Add(btChartGetTopTracks);
             groupBox5.Controls.Add(btChartGetTopArtists);
             groupBox5.Location = new System.Drawing.Point(371, 11);
             groupBox5.Name = "groupBox5";
@@ -961,6 +965,28 @@
             aboutToolStripMenuItem.Size = new System.Drawing.Size(64, 24);
             aboutToolStripMenuItem.Text = "About";
             // 
+            // btChartGetTopTracks
+            // 
+            btChartGetTopTracks.Enabled = false;
+            btChartGetTopTracks.Location = new System.Drawing.Point(6, 74);
+            btChartGetTopTracks.Name = "btChartGetTopTracks";
+            btChartGetTopTracks.Size = new System.Drawing.Size(165, 32);
+            btChartGetTopTracks.TabIndex = 2;
+            btChartGetTopTracks.Text = "chart.getTopTracks";
+            btChartGetTopTracks.UseVisualStyleBackColor = true;
+            btChartGetTopTracks.Click += btChartGetTopTracks_Click;
+            // 
+            // btChartGetTopTags
+            // 
+            btChartGetTopTags.Enabled = false;
+            btChartGetTopTags.Location = new System.Drawing.Point(6, 107);
+            btChartGetTopTags.Name = "btChartGetTopTags";
+            btChartGetTopTags.Size = new System.Drawing.Size(165, 33);
+            btChartGetTopTags.TabIndex = 3;
+            btChartGetTopTags.Text = "chart.getTopTags";
+            btChartGetTopTags.UseVisualStyleBackColor = true;
+            btChartGetTopTags.Click += btChartGetTopTags_Click;
+            // 
             // MainForm
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
@@ -1082,5 +1108,7 @@
         private System.Windows.Forms.Button btTrackRemoveTag;
         private System.Windows.Forms.Button btTrackAddTags;
         private System.Windows.Forms.Button btTrackUpdateNowPlaying;
+        private System.Windows.Forms.Button btChartGetTopTags;
+        private System.Windows.Forms.Button btChartGetTopTracks;
     }
 }

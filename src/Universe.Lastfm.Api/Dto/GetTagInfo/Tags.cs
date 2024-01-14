@@ -34,17 +34,13 @@
 //  ╚═════════════════════════════════════════════════════════════════════════════════╝
 
 using Universe.Lastfm.Api.Dto.Common;
-using Universe.Lastfm.Api.Dto.Common.Short;
-using Universe.Lastfm.Api.Dto.GetTagInfo;
 
-namespace Universe.Lastfm.Api.Dto.GetArtistInfo
+namespace Universe.Lastfm.Api.Dto.GetTagInfo
 {
-    public class ArtistFull : ArtistShort
+    public class Tags
     {
-        public TagsContainer Tags { get; set; }
+        public TagPageAttribute TagsAttribute { get; set; }
 
-        public Similar Similar { get; set; }
-
-        public Wiki Bio { get; set; }
+        public Tag[] Tag { get; set; }
     }
 }
