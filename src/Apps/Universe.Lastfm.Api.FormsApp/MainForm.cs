@@ -418,6 +418,12 @@ namespace Universe.Lastfm.Api.FormsApp
                     (Scope.GetQuery<GetTopTagsQuery>(), btChartGetTopTags),
 
                     (Scope.GetQuery<GetTagInfoQuery>(), btTagGetInfo),
+                    (Scope.GetQuery<GetTagSimilarQuery>(), btTagGetSimilar),
+                    (Scope.GetQuery<GetTagTopAlbumsQuery>(), btTagGetTopAlbums),
+                    (Scope.GetQuery<GetTagTopArtistsQuery>(), btTagGetTopArtists),
+                    (Scope.GetQuery<GetTagTopTracksQuery>(), btTagGetTopTracks),
+                    (Scope.GetQuery<GetTagTopTagsQuery>(), btTagGetTopTags),
+                    (Scope.GetQuery<GetTagWeeklyChartListQuery>(), btTagGetWeeklyChartList),
 
                     (Scope.GetQuery<GetTrackInfoQuery>(), btTrackGetInfo),
                     (Scope.GetQuery<GetTrackTagQuery>(), btTrackGetTags),

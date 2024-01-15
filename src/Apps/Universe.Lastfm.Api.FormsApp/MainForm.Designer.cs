@@ -75,8 +75,16 @@
             btTrackGetSimilar = new System.Windows.Forms.Button();
             btTrackGetCorrection = new System.Windows.Forms.Button();
             groupBox7 = new System.Windows.Forms.GroupBox();
+            btTagGetWeeklyChartList = new System.Windows.Forms.Button();
+            btTagGetTopAlbums = new System.Windows.Forms.Button();
+            btTagGetTopTags = new System.Windows.Forms.Button();
+            btTagGetTopArtists = new System.Windows.Forms.Button();
+            btTagGetTopTracks = new System.Windows.Forms.Button();
+            btTagGetSimilar = new System.Windows.Forms.Button();
             btTagGetInfo = new System.Windows.Forms.Button();
             groupBox5 = new System.Windows.Forms.GroupBox();
+            btChartGetTopTags = new System.Windows.Forms.Button();
+            btChartGetTopTracks = new System.Windows.Forms.Button();
             btChartGetTopArtists = new System.Windows.Forms.Button();
             groupBox4 = new System.Windows.Forms.GroupBox();
             btArtistGetTopTracks = new System.Windows.Forms.Button();
@@ -105,8 +113,6 @@
             fullRubberyUIToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             spaceModeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            btChartGetTopTracks = new System.Windows.Forms.Button();
-            btChartGetTopTags = new System.Windows.Forms.Button();
             groupBox1.SuspendLayout();
             gbBorders002.SuspendLayout();
             gbBorders001.SuspendLayout();
@@ -657,6 +663,12 @@
             // groupBox7
             // 
             groupBox7.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
+            groupBox7.Controls.Add(btTagGetWeeklyChartList);
+            groupBox7.Controls.Add(btTagGetTopAlbums);
+            groupBox7.Controls.Add(btTagGetTopTags);
+            groupBox7.Controls.Add(btTagGetTopArtists);
+            groupBox7.Controls.Add(btTagGetTopTracks);
+            groupBox7.Controls.Add(btTagGetSimilar);
             groupBox7.Controls.Add(btTagGetInfo);
             groupBox7.Location = new System.Drawing.Point(555, 11);
             groupBox7.Name = "groupBox7";
@@ -664,6 +676,72 @@
             groupBox7.TabIndex = 7;
             groupBox7.TabStop = false;
             groupBox7.Text = "tag/genre";
+            // 
+            // btTagGetWeeklyChartList
+            // 
+            btTagGetWeeklyChartList.Enabled = false;
+            btTagGetWeeklyChartList.Location = new System.Drawing.Point(8, 245);
+            btTagGetWeeklyChartList.Name = "btTagGetWeeklyChartList";
+            btTagGetWeeklyChartList.Size = new System.Drawing.Size(165, 32);
+            btTagGetWeeklyChartList.TabIndex = 20;
+            btTagGetWeeklyChartList.Text = "tag.getWeeklyChart";
+            btTagGetWeeklyChartList.UseVisualStyleBackColor = true;
+            btTagGetWeeklyChartList.Click += btTagGetWeeklyChartList_Click;
+            // 
+            // btTagGetTopAlbums
+            // 
+            btTagGetTopAlbums.Enabled = false;
+            btTagGetTopAlbums.Location = new System.Drawing.Point(8, 109);
+            btTagGetTopAlbums.Name = "btTagGetTopAlbums";
+            btTagGetTopAlbums.Size = new System.Drawing.Size(165, 32);
+            btTagGetTopAlbums.TabIndex = 16;
+            btTagGetTopAlbums.Text = "tag.getTopAlbums";
+            btTagGetTopAlbums.UseVisualStyleBackColor = true;
+            btTagGetTopAlbums.Click += btTagGetTopAlbums_Click;
+            // 
+            // btTagGetTopTags
+            // 
+            btTagGetTopTags.Enabled = false;
+            btTagGetTopTags.Location = new System.Drawing.Point(8, 212);
+            btTagGetTopTags.Name = "btTagGetTopTags";
+            btTagGetTopTags.Size = new System.Drawing.Size(165, 32);
+            btTagGetTopTags.TabIndex = 19;
+            btTagGetTopTags.Text = "tag.getTopTags";
+            btTagGetTopTags.UseVisualStyleBackColor = true;
+            btTagGetTopTags.Click += btTagGetTopTags_Click;
+            // 
+            // btTagGetTopArtists
+            // 
+            btTagGetTopArtists.Enabled = false;
+            btTagGetTopArtists.Location = new System.Drawing.Point(8, 143);
+            btTagGetTopArtists.Name = "btTagGetTopArtists";
+            btTagGetTopArtists.Size = new System.Drawing.Size(165, 32);
+            btTagGetTopArtists.TabIndex = 17;
+            btTagGetTopArtists.Text = "tag.getTopArtists";
+            btTagGetTopArtists.UseVisualStyleBackColor = true;
+            btTagGetTopArtists.Click += btTagGetTopArtists_Click;
+            // 
+            // btTagGetTopTracks
+            // 
+            btTagGetTopTracks.Enabled = false;
+            btTagGetTopTracks.Location = new System.Drawing.Point(8, 177);
+            btTagGetTopTracks.Name = "btTagGetTopTracks";
+            btTagGetTopTracks.Size = new System.Drawing.Size(165, 33);
+            btTagGetTopTracks.TabIndex = 18;
+            btTagGetTopTracks.Text = "tag.getTopTracks";
+            btTagGetTopTracks.UseVisualStyleBackColor = true;
+            btTagGetTopTracks.Click += btTagGetTopTracks_Click;
+            // 
+            // btTagGetSimilar
+            // 
+            btTagGetSimilar.Enabled = false;
+            btTagGetSimilar.Location = new System.Drawing.Point(8, 78);
+            btTagGetSimilar.Name = "btTagGetSimilar";
+            btTagGetSimilar.Size = new System.Drawing.Size(165, 29);
+            btTagGetSimilar.TabIndex = 13;
+            btTagGetSimilar.Text = "tag.getSimilar";
+            btTagGetSimilar.UseVisualStyleBackColor = true;
+            btTagGetSimilar.Click += btTagGetSimilar_Click;
             // 
             // btTagGetInfo
             // 
@@ -688,6 +766,28 @@
             groupBox5.TabIndex = 5;
             groupBox5.TabStop = false;
             groupBox5.Text = "chart";
+            // 
+            // btChartGetTopTags
+            // 
+            btChartGetTopTags.Enabled = false;
+            btChartGetTopTags.Location = new System.Drawing.Point(6, 107);
+            btChartGetTopTags.Name = "btChartGetTopTags";
+            btChartGetTopTags.Size = new System.Drawing.Size(165, 33);
+            btChartGetTopTags.TabIndex = 3;
+            btChartGetTopTags.Text = "chart.getTopTags";
+            btChartGetTopTags.UseVisualStyleBackColor = true;
+            btChartGetTopTags.Click += btChartGetTopTags_Click;
+            // 
+            // btChartGetTopTracks
+            // 
+            btChartGetTopTracks.Enabled = false;
+            btChartGetTopTracks.Location = new System.Drawing.Point(6, 74);
+            btChartGetTopTracks.Name = "btChartGetTopTracks";
+            btChartGetTopTracks.Size = new System.Drawing.Size(165, 32);
+            btChartGetTopTracks.TabIndex = 2;
+            btChartGetTopTracks.Text = "chart.getTopTracks";
+            btChartGetTopTracks.UseVisualStyleBackColor = true;
+            btChartGetTopTracks.Click += btChartGetTopTracks_Click;
             // 
             // btChartGetTopArtists
             // 
@@ -869,7 +969,7 @@
             pMainForm.Controls.Add(groupBox2);
             pMainForm.Location = new System.Drawing.Point(0, 34);
             pMainForm.Name = "pMainForm";
-            pMainForm.Size = new System.Drawing.Size(1739, 807);
+            pMainForm.Size = new System.Drawing.Size(1759, 807);
             pMainForm.TabIndex = 6;
             // 
             // gbBorders003
@@ -878,7 +978,7 @@
             gbBorders003.Controls.Add(tbLog);
             gbBorders003.Location = new System.Drawing.Point(1365, 9);
             gbBorders003.Name = "gbBorders003";
-            gbBorders003.Size = new System.Drawing.Size(361, 787);
+            gbBorders003.Size = new System.Drawing.Size(381, 787);
             gbBorders003.TabIndex = 8;
             gbBorders003.TabStop = false;
             // 
@@ -890,7 +990,7 @@
             tbLog.Multiline = true;
             tbLog.Name = "tbLog";
             tbLog.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            tbLog.Size = new System.Drawing.Size(349, 765);
+            tbLog.Size = new System.Drawing.Size(369, 765);
             tbLog.TabIndex = 4;
             // 
             // menuStrip1
@@ -899,7 +999,7 @@
             menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { applicationToolStripMenuItem, viewToolStripMenuItem, viewToolStripMenuItem1, aboutToolStripMenuItem });
             menuStrip1.Location = new System.Drawing.Point(0, 0);
             menuStrip1.Name = "menuStrip1";
-            menuStrip1.Size = new System.Drawing.Size(1739, 28);
+            menuStrip1.Size = new System.Drawing.Size(1759, 28);
             menuStrip1.TabIndex = 7;
             menuStrip1.Text = "menuStrip1";
             // 
@@ -965,33 +1065,11 @@
             aboutToolStripMenuItem.Size = new System.Drawing.Size(64, 24);
             aboutToolStripMenuItem.Text = "About";
             // 
-            // btChartGetTopTracks
-            // 
-            btChartGetTopTracks.Enabled = false;
-            btChartGetTopTracks.Location = new System.Drawing.Point(6, 74);
-            btChartGetTopTracks.Name = "btChartGetTopTracks";
-            btChartGetTopTracks.Size = new System.Drawing.Size(165, 32);
-            btChartGetTopTracks.TabIndex = 2;
-            btChartGetTopTracks.Text = "chart.getTopTracks";
-            btChartGetTopTracks.UseVisualStyleBackColor = true;
-            btChartGetTopTracks.Click += btChartGetTopTracks_Click;
-            // 
-            // btChartGetTopTags
-            // 
-            btChartGetTopTags.Enabled = false;
-            btChartGetTopTags.Location = new System.Drawing.Point(6, 107);
-            btChartGetTopTags.Name = "btChartGetTopTags";
-            btChartGetTopTags.Size = new System.Drawing.Size(165, 33);
-            btChartGetTopTags.TabIndex = 3;
-            btChartGetTopTags.Text = "chart.getTopTags";
-            btChartGetTopTags.UseVisualStyleBackColor = true;
-            btChartGetTopTags.Click += btChartGetTopTags_Click;
-            // 
             // MainForm
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            ClientSize = new System.Drawing.Size(1739, 843);
+            ClientSize = new System.Drawing.Size(1759, 843);
             Controls.Add(menuStrip1);
             Controls.Add(pMainForm);
             MinimumSize = new System.Drawing.Size(1757, 865);
@@ -1110,5 +1188,11 @@
         private System.Windows.Forms.Button btTrackUpdateNowPlaying;
         private System.Windows.Forms.Button btChartGetTopTags;
         private System.Windows.Forms.Button btChartGetTopTracks;
+        private System.Windows.Forms.Button btTagGetSimilar;
+        private System.Windows.Forms.Button btTagGetTopAlbums;
+        private System.Windows.Forms.Button btTagGetTopTags;
+        private System.Windows.Forms.Button btTagGetTopArtists;
+        private System.Windows.Forms.Button btTagGetTopTracks;
+        private System.Windows.Forms.Button btTagGetWeeklyChartList;
     }
 }
