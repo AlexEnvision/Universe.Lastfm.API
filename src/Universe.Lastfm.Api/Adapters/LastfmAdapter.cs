@@ -139,9 +139,9 @@ namespace Universe.Lastfm.Api.Adapters
             return CreateGetRequest(method, arguments);
         }
 
-        public BaseResponce PostRequest(string method, string submissionReqString)
+        public BaseResponce PostRequest(string submissionReqString)
         {
-            return CreatePostRequest(method, submissionReqString);
+            return CreatePostRequest(submissionReqString);
         }
     }
 }

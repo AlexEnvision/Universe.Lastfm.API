@@ -105,7 +105,7 @@ namespace Universe.Lastfm.Api.Adapters
             };
         }
 
-        protected BaseResponce CreatePostRequest(string method, string submissionReqString)
+        protected BaseResponce CreatePostRequest(string submissionReqString)
         {
             HttpWebRequest submissionRequest = (HttpWebRequest)WebRequest.Create(BaseAdress); // адрес запроса без параметров
 
@@ -120,7 +120,7 @@ namespace Universe.Lastfm.Api.Adapters
             submissionRequest.ContentType = "application/x-www-form-urlencoded";
 
             // ставим таймаут, чтобы программа не повисла при неудаче обращения к серверу, а выкинула Exception
-            submissionRequest.Timeout = 6000;
+            submissionRequest.Timeout = 60000;
 
             // Преобразуем данные в соответствующую кодировку, получаем массив байтов из строки с параметрами (UTF8 обязательно)
             byte[] encodedPostParams = Encoding.UTF8.GetBytes(submissionReqString);

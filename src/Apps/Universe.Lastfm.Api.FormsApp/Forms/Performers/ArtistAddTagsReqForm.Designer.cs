@@ -34,27 +34,27 @@
             // 
             // label3
             // 
-            label3.Location = new System.Drawing.Point(13, 149);
+            label3.Location = new System.Drawing.Point(13, 94);
             label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             label3.Name = "label3";
-            label3.Size = new System.Drawing.Size(80, 65);
+            label3.Size = new System.Drawing.Size(68, 65);
             label3.TabIndex = 6;
             label3.Text = "Tags for creation:";
             // 
             // tbCreatingTags
             // 
-            tbCreatingTags.Location = new System.Drawing.Point(101, 146);
+            tbCreatingTags.Location = new System.Drawing.Point(101, 91);
             tbCreatingTags.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             tbCreatingTags.Multiline = true;
             tbCreatingTags.Name = "tbCreatingTags";
-            tbCreatingTags.Size = new System.Drawing.Size(389, 68);
+            tbCreatingTags.Size = new System.Drawing.Size(377, 68);
             tbCreatingTags.TabIndex = 5;
             // 
             // ArtistAddTagsReqForm
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            ClientSize = new System.Drawing.Size(512, 273);
+            ClientSize = new System.Drawing.Size(512, 218);
             Controls.Add(label3);
             Controls.Add(tbCreatingTags);
             Name = "ArtistAddTagsReqForm";

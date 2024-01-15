@@ -92,7 +92,7 @@ namespace Universe.Lastfm.Api.Dal.Command.Scrobble
             submissionReqString += "&api_sig=" + md5Validator.Hash(signature);
 
             // и на этот раз делаем POST запрос на нужную страницу
-            var result = Adapter.PostRequest("", submissionReqString);
+            var result = Adapter.PostRequest(submissionReqString);
 
             // считываем поток ответа
             string submissionResult = result.ServiceAnswer;

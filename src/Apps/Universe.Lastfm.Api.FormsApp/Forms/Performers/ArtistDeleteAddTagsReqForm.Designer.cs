@@ -34,27 +34,27 @@
             // 
             // label3
             // 
-            label3.Location = new System.Drawing.Point(13, 149);
+            label3.Location = new System.Drawing.Point(13, 79);
             label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             label3.Name = "label3";
-            label3.Size = new System.Drawing.Size(80, 65);
+            label3.Size = new System.Drawing.Size(68, 65);
             label3.TabIndex = 8;
             label3.Text = "Tags for deletion:";
             // 
             // tbRemovingTags
             // 
-            tbRemovingTags.Location = new System.Drawing.Point(101, 146);
+            tbRemovingTags.Location = new System.Drawing.Point(101, 76);
             tbRemovingTags.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             tbRemovingTags.Multiline = true;
             tbRemovingTags.Name = "tbRemovingTags";
-            tbRemovingTags.Size = new System.Drawing.Size(389, 68);
+            tbRemovingTags.Size = new System.Drawing.Size(377, 68);
             tbRemovingTags.TabIndex = 7;
             // 
             // ArtistDeleteAddTagsReqForm
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            ClientSize = new System.Drawing.Size(512, 273);
+            ClientSize = new System.Drawing.Size(512, 218);
             Controls.Add(label3);
             Controls.Add(tbRemovingTags);
             Name = "ArtistDeleteAddTagsReqForm";

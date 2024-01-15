@@ -3,6 +3,8 @@ using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
 using Universe.Algorithm.MultiThreading;
+using Universe.Lastfm.Api.Dal.Command.Performers;
+using Universe.Lastfm.Api.Dal.Command.Tracks;
 using Universe.Lastfm.Api.Dal.Queries.Track;
 using Universe.Lastfm.Api.FormsApp.Extensions;
 using Universe.Lastfm.Api.FormsApp.Forms.Tracks;
@@ -449,7 +451,73 @@ namespace Universe.Lastfm.Api.FormsApp
 
         private void btTrackLove_Click(object sender, EventArgs e)
         {
+            string performer;
+            string trackName;
 
+            using (var form = new TrackLoveReqForm(_programSettings))
+            {
+                if (form.ShowDialog() == DialogResult.OK)
+                {
+                    performer = form.Performer;
+                    if (string.IsNullOrEmpty(performer))
+                    {
+                        tbLog.AppendText($"[{DateTime.Now}] Не указан performer!" + Environment.NewLine);
+                        btTrackLove.LightWarningColorResult();
+                        return;
+                    }
+
+                    trackName = form.Track;
+                    if (string.IsNullOrEmpty(performer))
+                    {
+                        tbLog.AppendText($"[{DateTime.Now}] Не указан track!" + Environment.NewLine);
+                        btTrackLove.LightWarningColorResult();
+                        return;
+                    }
+                }
+                else
+                {
+                    return;
+                }
+            }
+
+            DisableButtons(sender);
+            ReqCtx.Performer = performer;
+            ReqCtx.Track = trackName;
+
+            ThreadMachine.Create(1).RunInMultiTheadsWithoutWaiting(() =>
+            {
+                try
+                {
+                    var responce = Scope.GetCommand<UpdateTrackAsLoveCommand>().Execute(ReqCtx.As<UpdateTrackAsLoveRequest>())
+                        .LightColorResult(btTrackLove);
+                    if (!responce.IsSuccessful)
+                    {
+                        _log.Info($"{responce.Message} {responce.ServiceAnswer}");
+                    }
+
+                    _log.Info(
+                        $"Успешно выгружена информация по пользователю {performer}: {Environment.NewLine}{Environment.NewLine}{responce.ServiceAnswer}{Environment.NewLine}.");
+
+                    var tagsStr = string.Join(";", ReqCtx.Tags);
+
+                    var data = responce.DataContainer;
+                    var dataStr = data.Lfm.Status;
+
+                    _log.Info($"Result of adding tags/genres of artist by the names {tagsStr} / Результат добавления тэгов/жанров альбома по названиям {tagsStr}: {dataStr}.");
+
+                    _log.Info(Environment.NewLine);
+                }
+                catch (Exception ex)
+                {
+                    _log.Error(ex, ex.Message);
+                    Thread.Sleep(LightErrorDelay);
+                    btTrackLove.LightErrorColorResult();
+                }
+                finally
+                {
+                    EnableButtonsSafe();
+                }
+            });
         }
 
         private void btTrackUnlove_Click(object sender, EventArgs e)

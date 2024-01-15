@@ -4,6 +4,8 @@ using System.Threading;
 using System.Windows.Forms;
 using Universe.Algorithm.MultiThreading;
 using Universe.Helpers.Extensions;
+using Universe.Lastfm.Api.Dal.Command.Albums;
+using Universe.Lastfm.Api.Dal.Command.Performers;
 using Universe.Lastfm.Api.Dal.Queries.Performers;
 using Universe.Lastfm.Api.Dto.Common;
 using Universe.Lastfm.Api.FormsApp.Extensions;
@@ -534,10 +536,45 @@ namespace Universe.Lastfm.Api.FormsApp
                 }
             }
 
-            //DisableButtons(sender);
+            DisableButtons(sender);
 
             ReqCtx.Performer = performer;
             ReqCtx.Tags = tags;
+
+            ThreadMachine.Create(1).RunInMultiTheadsWithoutWaiting(() =>
+            {
+                try
+                {
+                    var responce = Scope.GetCommand<AddArtistTagsCommand>().Execute(ReqCtx.As<AddArtistTagsRequest>())
+                        .LightColorResult(btArtistAddTags);
+                    if (!responce.IsSuccessful)
+                    {
+                        _log.Info($"{responce.Message} {responce.ServiceAnswer}");
+                    }
+
+                    _log.Info(
+                        $"Успешно выгружена информация по пользователю {performer}: {Environment.NewLine}{Environment.NewLine}{responce.ServiceAnswer}{Environment.NewLine}.");
+
+                    var tagsStr = string.Join(";", ReqCtx.Tags);
+
+                    var data = responce.Responces.Select(x => x.DataContainer);
+                    var dataStr = string.Join(", ", data.SelectMany(x => x.Lfm.Status));
+
+                    _log.Info($"Result of adding tags/genres of artist by the names {tagsStr} / Результат добавления тэгов/жанров альбома по названиям {tagsStr}: {dataStr}.");
+
+                    _log.Info(Environment.NewLine);
+                }
+                catch (Exception ex)
+                {
+                    _log.Error(ex, ex.Message);
+                    Thread.Sleep(LightErrorDelay);
+                    btArtistAddTags.LightErrorColorResult();
+                }
+                finally
+                {
+                    EnableButtonsSafe();
+                }
+            });
         }
 
         private void btArtistRemoveTag_Click(object sender, EventArgs e)
@@ -571,10 +608,45 @@ namespace Universe.Lastfm.Api.FormsApp
                 }
             }
 
-            //DisableButtons(sender);
+            DisableButtons(sender);
 
             ReqCtx.Performer = performer;
             ReqCtx.Tag = tag;
+
+            ThreadMachine.Create(1).RunInMultiTheadsWithoutWaiting(() =>
+            {
+                try
+                {
+                    var responce = Scope.GetCommand<DeleteArtistTagsCommand>().Execute(ReqCtx.As<DeleteArtistTagsRequest>())
+                        .LightColorResult(btArtistAddTags);
+                    if (!responce.IsSuccessful)
+                    {
+                        _log.Info($"{responce.Message} {responce.ServiceAnswer}");
+                    }
+
+                    _log.Info(
+                        $"Успешно выгружена информация по пользователю {performer}: {Environment.NewLine}{Environment.NewLine}{responce.ServiceAnswer}{Environment.NewLine}.");
+
+                    var tagsStr = string.Join(";", ReqCtx.Tags);
+
+                    var data = responce.DataContainer;
+                    var dataStr = data.Lfm.Status;
+
+                    _log.Info($"Result of adding tags/genres of artist by the names {tagsStr} / Результат добавления тэгов/жанров альбома по названиям {tagsStr}: {dataStr}.");
+
+                    _log.Info(Environment.NewLine);
+                }
+                catch (Exception ex)
+                {
+                    _log.Error(ex, ex.Message);
+                    Thread.Sleep(LightErrorDelay);
+                    btArtistAddTags.LightErrorColorResult();
+                }
+                finally
+                {
+                    EnableButtonsSafe();
+                }
+            });
         }
     }
 }

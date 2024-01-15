@@ -5,7 +5,7 @@ using Universe.Lastfm.Api.FormsApp.Themes;
 
 namespace Universe.Lastfm.Api.FormsApp.Forms.Performers
 {
-    public partial class ArtistDeleteAddTagsReqForm : AlbumReqInfoForm
+    public partial class ArtistDeleteAddTagsReqForm : ArtistReqInfoForm
     {
         protected string TagNames => tbRemovingTags.Text;
 

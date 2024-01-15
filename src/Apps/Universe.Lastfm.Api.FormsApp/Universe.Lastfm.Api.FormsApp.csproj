@@ -30,9 +30,7 @@
     <Compile Update="Forms\Genres\TagInfoReqForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="Forms\Performers\ArtistAddTagsReqForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Update="Forms\Performers\ArtistAddTagsReqForm.cs" />
     <Compile Update="Forms\Performers\ArtistDeleteAddTagsReqForm.cs">
       <SubType>Form</SubType>
     </Compile>

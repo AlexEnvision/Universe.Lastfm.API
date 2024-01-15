@@ -5,7 +5,7 @@ using Universe.Lastfm.Api.FormsApp.Themes;
 
 namespace Universe.Lastfm.Api.FormsApp.Forms.Performers
 {
-    public partial class ArtistAddTagsReqForm : AlbumReqInfoForm
+    public partial class ArtistAddTagsReqForm : ArtistReqInfoForm
     {
         protected string TagNames => tbCreatingTags.Text;
 
