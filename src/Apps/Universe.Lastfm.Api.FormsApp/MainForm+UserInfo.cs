@@ -96,6 +96,7 @@ namespace Universe.Lastfm.Api.FormsApp
                     if (!responce.IsSuccessful)
                     {
                         _log.Info($"{responce.Message} {responce.ServiceAnswer}");
+                        return;
                     }
 
                     _log.Info(
@@ -157,6 +158,7 @@ namespace Universe.Lastfm.Api.FormsApp
                     if (!responce.IsSuccessful)
                     {
                         _log.Info($"{responce.Message} {responce.ServiceAnswer}");
+                        return;
                     }
 
                     _log.Info(
@@ -215,6 +217,7 @@ namespace Universe.Lastfm.Api.FormsApp
                     if (!responce.IsSuccessful)
                     {
                         _log.Info($"{responce.Message} {responce.ServiceAnswer}");
+                        return;
                     }
 
                     _log.Info(
@@ -275,6 +278,7 @@ namespace Universe.Lastfm.Api.FormsApp
                     if (!responce.IsSuccessful)
                     {
                         _log.Info($"{responce.Message} {responce.ServiceAnswer}");
+                        return;
                     }
 
                     _log.Info(
@@ -335,6 +339,7 @@ namespace Universe.Lastfm.Api.FormsApp
                     if (!responce.IsSuccessful)
                     {
                         _log.Info($"{responce.Message} {responce.ServiceAnswer}");
+                        return;
                     }
 
                     _log.Info(
@@ -395,6 +400,7 @@ namespace Universe.Lastfm.Api.FormsApp
                     if (!responce.IsSuccessful)
                     {
                         _log.Info($"{responce.Message} {responce.ServiceAnswer}");
+                        return;
                     }
 
                     _log.Info(
@@ -474,6 +480,7 @@ namespace Universe.Lastfm.Api.FormsApp
                     if (!responce.IsSuccessful)
                     {
                         _log.Info($"{responce.Message} {responce.ServiceAnswer}");
+                        return;
                     }
 
                     _log.Info(
@@ -533,6 +540,7 @@ namespace Universe.Lastfm.Api.FormsApp
                     if (!responce.IsSuccessful)
                     {
                         _log.Info($"{responce.Message} {responce.ServiceAnswer}");
+                        return;
                     }
 
                     _log.Info(
@@ -593,6 +601,7 @@ namespace Universe.Lastfm.Api.FormsApp
                     if (!responce.IsSuccessful)
                     {
                         _log.Info($"{responce.Message} {responce.ServiceAnswer}");
+                        return;
                     }
 
                     _log.Info(
@@ -652,6 +661,7 @@ namespace Universe.Lastfm.Api.FormsApp
                     if (!responce.IsSuccessful)
                     {
                         _log.Info($"{responce.Message} {responce.ServiceAnswer}");
+                        return;
                     }
 
                     _log.Info(
@@ -712,6 +722,7 @@ namespace Universe.Lastfm.Api.FormsApp
                     if (!responce.IsSuccessful)
                     {
                         _log.Info($"{responce.Message} {responce.ServiceAnswer}");
+                        return;
                     }
 
                     _log.Info(
@@ -773,6 +784,7 @@ namespace Universe.Lastfm.Api.FormsApp
                     if (!responce.IsSuccessful)
                     {
                         _log.Info($"{responce.Message} {responce.ServiceAnswer}");
+                        return;
                     }
 
                     _log.Info(

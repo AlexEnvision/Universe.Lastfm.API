@@ -10,4 +10,10 @@
     <PackageReference Include="Universe.NetCore.CQRS" Version="1.0.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="Images\icon.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

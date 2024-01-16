@@ -58,6 +58,7 @@ namespace Universe.Lastfm.Api.FormsApp
                     if (!responce.IsSuccessful)
                     {
                         _log.Info($"{responce.Message} {responce.ServiceAnswer}");
+                        return;
                     }
 
                     _log.Info(
@@ -145,6 +146,7 @@ namespace Universe.Lastfm.Api.FormsApp
                     if (!responce.IsSuccessful)
                     {
                         _log.Info($"{responce.Message} {responce.ServiceAnswer}");
+                        return;
                     }
 
                     _log.Info(
@@ -217,6 +219,7 @@ namespace Universe.Lastfm.Api.FormsApp
                     if (!responce.IsSuccessful)
                     {
                         _log.Info($"{responce.Message} {responce.ServiceAnswer}");
+                        return;
                     }
 
                     _log.Info(
@@ -276,6 +279,7 @@ namespace Universe.Lastfm.Api.FormsApp
                     if (!responce.IsSuccessful)
                     {
                         _log.Info($"{responce.Message} {responce.ServiceAnswer}");
+                        return;
                     }
 
                     _log.Info(
@@ -345,6 +349,7 @@ namespace Universe.Lastfm.Api.FormsApp
                     if (!responce.IsSuccessful)
                     {
                         _log.Info($"{responce.Message} {responce.ServiceAnswer}");
+                        return;
                     }
 
                     _log.Info(
@@ -414,6 +419,7 @@ namespace Universe.Lastfm.Api.FormsApp
                     if (!responce.IsSuccessful)
                     {
                         _log.Info($"{responce.Message} {responce.ServiceAnswer}");
+                        return;
                     }
 
                     _log.Info(
@@ -493,17 +499,16 @@ namespace Universe.Lastfm.Api.FormsApp
                     if (!responce.IsSuccessful)
                     {
                         _log.Info($"{responce.Message} {responce.ServiceAnswer}");
+                        return;
                     }
 
                     _log.Info(
-                        $"Успешно выгружена информация по пользователю {performer}: {Environment.NewLine}{Environment.NewLine}{responce.ServiceAnswer}{Environment.NewLine}.");
+                        $"Успешно внесены изменения по треку {performer} - {trackName}: {Environment.NewLine}{Environment.NewLine}{responce.ServiceAnswer}{Environment.NewLine}.");
 
-                    var tagsStr = string.Join(";", ReqCtx.Tags);
+                    //var data = responce.DataContainer;
+                    //var dataStr = data.Lfm.Status;
 
-                    var data = responce.DataContainer;
-                    var dataStr = data.Lfm.Status;
-
-                    _log.Info($"Result of adding tags/genres of artist by the names {tagsStr} / Результат добавления тэгов/жанров альбома по названиям {tagsStr}: {dataStr}.");
+                    //_log.Info($"Result of adding tags/genres of artist by the names {tagsStr} / Результат добавления тэгов/жанров альбома по названиям {tagsStr}: {dataStr}.");
 
                     _log.Info(Environment.NewLine);
                 }

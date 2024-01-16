@@ -25,6 +25,8 @@ namespace Universe.Lastfm.Api.FormsApp.Forms.Albums
 
             if (settings.IsSpaceMode)
                 SpaceThemeStyle.Set.Apply(this);
+
+            InitializeParametersByReqCtx(settings.ReqCtx);
         }
 
         protected override void btOk_Click(object sender, EventArgs e)

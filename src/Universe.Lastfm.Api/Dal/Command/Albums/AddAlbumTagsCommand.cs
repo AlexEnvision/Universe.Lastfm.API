@@ -86,22 +86,22 @@ namespace Universe.Lastfm.Api.Dal.Command.Albums
                 var getMd5Hash = new Md5HashQuery();
                 string apiSig = getMd5Hash.Execute(md5Hash, sig);
 
-                var sessionResponce = Adapter.GetRequest(method,
+                var sessionResponce = Adapter.PostRequest(method,
                     Argument.Create("api_key", Settings.ApiKey),
+                    Argument.Create("sk", sk),
                     Argument.Create("artist", artist),
                     Argument.Create("album", album),
-                    Argument.Create("tags", tags),
-                    Argument.Create("sk", sk),
-                    Argument.Create("api_sig", apiSig),
-                    Argument.Create("format", "json"),
-                    Argument.Create("callback", "?"));
+                    Argument.Create("tags", tags)
+                );
 
                 Adapter.FixCallback(sessionResponce);
                 AddAlbumTagsCommandResponce infoResponce = ResponceExt.CreateFrom<BaseResponce, AddAlbumTagsCommandResponce>(sessionResponce);
 
                 responce.Responces += infoResponce;
             }
-            
+
+            responce.IsSuccessful = true;
+            responce.Message = "OK";
             return responce;
         }
     }

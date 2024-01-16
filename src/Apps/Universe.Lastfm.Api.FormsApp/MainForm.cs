@@ -46,6 +46,8 @@ using Universe.CQRS.Infrastructure;
 using Universe.Diagnostic.Logger;
 using Universe.Lastfm.Api.Dal.Command;
 using Universe.Lastfm.Api.Dal.Command.Albums;
+using Universe.Lastfm.Api.Dal.Command.Performers;
+using Universe.Lastfm.Api.Dal.Command.Tracks;
 using Universe.Lastfm.Api.Dal.Queries;
 using Universe.Lastfm.Api.Dal.Queries.Albums;
 using Universe.Lastfm.Api.Dal.Queries.ApiConnect;
@@ -184,7 +186,12 @@ namespace Universe.Lastfm.Api.FormsApp
 
             _programSettings.IsSpaceMode = spaceModeToolStripMenuItem.Checked;
 
+            // A session key must be cleared if you want to save a context
+            ReqCtx.SessionKey = string.Empty;
+            // And token clearing too
+            ReqCtx.Token = string.Empty;
             _programSettings.ReqCtx = ReqCtx;
+
         }
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
@@ -460,7 +467,12 @@ namespace Universe.Lastfm.Api.FormsApp
                 var commands = new (BaseCommand Itself, Control Ctrl)[]
                 {
                     (Scope.GetCommand<AddAlbumTagsCommand>(), btAlbumAddTags),
-                    (Scope.GetCommand<DeleteAlbumTagsCommand>(), btAlbumRemoveTag)
+                    (Scope.GetCommand<DeleteAlbumTagsCommand>(), btAlbumRemoveTag),
+
+                    (Scope.GetCommand<AddArtistTagsCommand>(), btArtistAddTags),
+                    (Scope.GetCommand<DeleteArtistTagsCommand>(), btArtistRemoveTag),
+
+                    (Scope.GetCommand<UpdateTrackAsLoveCommand>(), btTrackLove),
                 };
 
                 foreach (var command in commands)

@@ -48,7 +48,7 @@ namespace Universe.Lastfm.Api.Dal.Command.Albums
             DeleteAlbumTagsRequest request)
         {
             if (request.RemTag.IsNullOrEmpty())
-                throw new ArgumentException("request.Tag is empty. Need to specify one or more tags");
+                throw new ArgumentException("request.Tag is empty. This is required parameter");
             if (request.Album.IsNullOrEmpty())
                 throw new ArgumentException("request.Album is empty. This is required parameter");
             if (request.Performer.IsNullOrEmpty())
@@ -66,33 +66,30 @@ namespace Universe.Lastfm.Api.Dal.Command.Albums
             string album = request.Album;
             string artist = request.Performer;
 
-                string tag = request.RemTag;
+            string tag = request.RemTag;
 
-                string sk = request.SessionKey;
+            string sk = request.SessionKey;
 
-                //  A Last.fm method signature. See authentication for more information.
-                //string sig = "api_key" + Settings.ApiKey + "methodalbum.addTags" + request.Token + request.SecretKey;
-                string sig = $"method{method}api_key{Settings.ApiKey}sk{sk}artist{artist}album{album}tag{tag}{request.SecretKey}";
+            //  A Last.fm method signature. See authentication for more information.
+            //string sig = "api_key" + Settings.ApiKey + "methodalbum.addTags" + request.Token + request.SecretKey;
+            string sig = $"method{method}api_key{Settings.ApiKey}sk{sk}artist{artist}album{album}tag{tag}{request.SecretKey}";
 
-                var md5Hash = MD5.Create();
-                var getMd5Hash = new Md5HashQuery();
-                string apiSig = getMd5Hash.Execute(md5Hash, sig);
+            var md5Hash = MD5.Create();
+            var getMd5Hash = new Md5HashQuery();
+            string apiSig = getMd5Hash.Execute(md5Hash, sig);
 
-                var sessionResponce = Adapter.GetRequest(method,
-                    Argument.Create("api_key", Settings.ApiKey),
-                    Argument.Create("artist", artist),
-                    Argument.Create("album", album),
-                    Argument.Create("tag", tag),
-                    Argument.Create("sk", sk),
-                    Argument.Create("api_sig", apiSig),
-                    Argument.Create("format", "json"),
-                    Argument.Create("callback", "?"));
+            var sessionResponce = Adapter.PostRequest(method,
+                Argument.Create("api_key", Settings.ApiKey),
+                Argument.Create("sk", sk),
+                Argument.Create("artist", artist),
+                Argument.Create("album", album),
+                Argument.Create("tag", tag)
+            );
 
-                Adapter.FixCallback(sessionResponce);
-                DeleteAlbumTagsCommandResponce infoResponce = ResponceExt.CreateFrom<BaseResponce, DeleteAlbumTagsCommandResponce>(sessionResponce);
-                
+            Adapter.FixCallback(sessionResponce);
+            DeleteAlbumTagsCommandResponce infoResponce = ResponceExt.CreateFrom<BaseResponce, DeleteAlbumTagsCommandResponce>(sessionResponce);
 
-                return infoResponce;
+            return infoResponce;
         }
     }
 

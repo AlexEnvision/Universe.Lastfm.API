@@ -1,5 +1,6 @@
 ﻿using Microsoft.SqlServer.Server;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
 using Newtonsoft.Json;
@@ -66,7 +67,7 @@ namespace Universe.Lastfm.Api.Dal.Command.Tracks
             string sk = request.SessionKey;
 
             //  A Last.fm method signature. See authentication for more information.
-            string sig = $"api_key{Settings.ApiKey}method{method}sk{sk}artist{artist}track{track}{request.SecretKey}";
+            string sig = $"method{method}api_key{Settings.ApiKey}sk{sk}artist{artist}track{track}{request.SecretKey}";
 
             var md5Hash = MD5.Create();
             var getMd5Hash = new Md5HashQuery();
@@ -76,15 +77,20 @@ namespace Universe.Lastfm.Api.Dal.Command.Tracks
             {
                 method = method,
                 api_key = Settings.ApiKey,
+                api_sig = apiSig,
+                sk = sk,
                 artist = artist,
                 track = track,
-                sk = sk,
-                api_sig = apiSig
             };
 
             var parametersSfy = JsonConvert.SerializeObject(parameters);
 
-            var sessionResponce = Adapter.PostRequest(parametersSfy);
+            var sessionResponce = Adapter.PostRequest(method,
+                    Argument.Create("api_key", Settings.ApiKey),
+                    Argument.Create("sk", sk),
+                    Argument.Create("artist", artist),
+                    Argument.Create("track", track)
+            );
 
             Adapter.FixCallback(sessionResponce);
             UpdateTrackAsLoveCommandResponce infoResponce = ResponceExt.CreateFrom<BaseResponce, UpdateTrackAsLoveCommandResponce>(sessionResponce);
@@ -125,7 +131,7 @@ namespace Universe.Lastfm.Api.Dal.Command.Tracks
         {
         }
 
-        public static UpdateTrackAsLoveRequest Build(string artist, string Artist, 
+        public static UpdateTrackAsLoveRequest Build(string artist, 
             string apiSig, string[] tags, string session)
         {
             return new UpdateTrackAsLoveRequest

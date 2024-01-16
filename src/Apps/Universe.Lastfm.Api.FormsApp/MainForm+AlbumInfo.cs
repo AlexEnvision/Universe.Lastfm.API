@@ -67,6 +67,7 @@ namespace Universe.Lastfm.Api.FormsApp
                     if (!responce.IsSuccessful)
                     {
                         _log.Info($"{responce.Message} {responce.ServiceAnswer}");
+                        return;
                     }
 
                     _log.Info(
@@ -149,6 +150,7 @@ namespace Universe.Lastfm.Api.FormsApp
                     if (!responce.IsSuccessful)
                     {
                         _log.Info($"{responce.Message} {responce.ServiceAnswer}");
+                        return;
                     }
 
                     _log.Info(
@@ -219,6 +221,7 @@ namespace Universe.Lastfm.Api.FormsApp
                     if (!responce.IsSuccessful)
                     {
                         _log.Info($"{responce.Message} {responce.ServiceAnswer}");
+                        return;
                     }
 
                     _log.Info(
@@ -289,6 +292,7 @@ namespace Universe.Lastfm.Api.FormsApp
                     if (!responce.IsSuccessful)
                     {
                         _log.Info($"{responce.Message} {responce.ServiceAnswer}");
+                        return;
                     }
 
                     _log.Info(
@@ -369,19 +373,22 @@ namespace Universe.Lastfm.Api.FormsApp
                     if (!responce.IsSuccessful)
                     {
                         _log.Info($"{responce.Message} {responce.ServiceAnswer}");
+                        return;
                     }
 
-                    _log.Info(
-                        $"Успешно выгружена информация по пользователю {albumName}: {Environment.NewLine}{Environment.NewLine}{responce.ServiceAnswer}{Environment.NewLine}.");
+                    _log.Info($"Update {albumName} responce result: {string.Join("", responce.Responces.Select(x => x.ServiceAnswer).ToList())}{Environment.NewLine}");
 
-                    var tagsStr = string.Join(";", ReqCtx.Tags);
+                    //_log.Info(
+                    //    $"Успешно выгружена информация по пользователю {albumName}: {Environment.NewLine}{Environment.NewLine}{responce.ServiceAnswer}{Environment.NewLine}.");
 
-                    var data = responce.Responces.Select(x => x.DataContainer);
-                    var dataStr = string.Join(", ", data.SelectMany(x => x.Lfm.Status));
+                    //var tagsStr = string.Join(";", ReqCtx.Tags);
 
-                    _log.Info($"Result of adding tags/genres of album by the names {tagsStr} / Результат добавления тэгов/жанров альбома по названиям {tagsStr}: {dataStr}.");
+                    //var data = responce.Responces.Select(x => x.DataContainer);
+                    //var dataStr = string.Join(", ", data.SelectMany(x => x.Lfm.Status));
 
-                    _log.Info(Environment.NewLine);
+                    //_log.Info($"Result of adding tags/genres of album by the names {tagsStr} / Результат добавления тэгов/жанров альбома по названиям {tagsStr}: {dataStr}.");
+
+                    //_log.Info(Environment.NewLine);
                 }
                 catch (Exception ex)
                 {
@@ -439,7 +446,7 @@ namespace Universe.Lastfm.Api.FormsApp
             DisableButtons(sender);
             ReqCtx.Album = albumName;
             ReqCtx.Performer = performer;
-            ReqCtx.Tag = tag;
+            ReqCtx.RemTag = tag;
 
             ThreadMachine.Create(1).RunInMultiTheadsWithoutWaiting(() =>
             {
@@ -450,19 +457,22 @@ namespace Universe.Lastfm.Api.FormsApp
                     if (!responce.IsSuccessful)
                     {
                         _log.Info($"{responce.Message} {responce.ServiceAnswer}");
+                        return;
                     }
 
-                    _log.Info(
-                        $"Успешно выгружена информация по пользователю {albumName}: {Environment.NewLine}{Environment.NewLine}{responce.ServiceAnswer}{Environment.NewLine}.");
+                    _log.Info($"Update {albumName} responce result: {responce.ServiceAnswer}{Environment.NewLine}");
 
-                    var tagsStr = string.Join(";", ReqCtx.Tags);
+                    //_log.Info(
+                    //    $"Успешно выгружена информация по пользователю {albumName}: {Environment.NewLine}{Environment.NewLine}{responce.ServiceAnswer}{Environment.NewLine}.");
 
-                    var data = responce.DataContainer;
-                    var dataStr = string.Join(", ", data.Lfm.Status);
+                    //var tagsStr = string.Join(";", ReqCtx.Tags);
 
-                    _log.Info($"Result of deleting tags/genres of album by the names {tagsStr} / Результат удаления тэгов/жанров альбома по названиям {tagsStr}: {dataStr}.");
+                    //var data = responce.DataContainer;
+                    //var dataStr = string.Join(", ", data.Lfm.Status);
 
-                    _log.Info(Environment.NewLine);
+                    //_log.Info($"Result of deleting tags/genres of album by the names {tagsStr} / Результат удаления тэгов/жанров альбома по названиям {tagsStr}: {dataStr}.");
+
+                    //_log.Info(Environment.NewLine);
                 }
                 catch (Exception ex)
                 {

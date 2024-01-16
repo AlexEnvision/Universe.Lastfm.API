@@ -34,6 +34,8 @@
 //  ╚═════════════════════════════════════════════════════════════════════════════════╝
 
 using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using Universe.Lastfm.Api.Helpers;
 using Universe.Lastfm.Api.IO.Validators;
 using Universe.Lastfm.Api.Models;
@@ -139,9 +141,25 @@ namespace Universe.Lastfm.Api.Adapters
             return CreateGetRequest(method, arguments);
         }
 
+        /// <summary>
+        ///     Version I - doesn't work
+        /// </summary>
+        /// <param name="submissionReqString"></param>
+        /// <returns></returns>
         public BaseResponce PostRequest(string submissionReqString)
         {
             return CreatePostRequest(submissionReqString);
+        }
+
+        /// <summary>
+        ///     Version III - is working
+        /// </summary>
+        /// <param name="method"></param>
+        /// <param name="arguments"></param>
+        /// <returns></returns>
+        public BaseResponce PostRequest(string method, params Argument[] arguments)
+        {
+            return CreatePostRequest(method, _mySecret, arguments);
         }
     }
 }

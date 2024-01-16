@@ -7,6 +7,7 @@
     <owners>Alex Envision</owners>
     <license type="file">APACHE-2.0 LICENSE.txt</license>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <iconUrl>https://gitlab.com/AlexEnvision/Universe.Lastfm.API/-/tree/main/src/Universe.Lastfm.Api/Images/icon.png</iconUrl>
     <description>The library is working with Last.fm API. The part of Universe.Framework / Пакет с библиотекой, работающей с API Last.fm. Входит в состав  Universe.Framework</description>
 	  <repository type="git" url="https://gitlab.com/AlexEnvision/Universe.Lastfm.API" branch="master" />
     <releaseNotes></releaseNotes>
@@ -52,6 +53,7 @@
     </dependencies>
   </metadata>
   <files>
+    <file src="..\Universe.Lastfm.Api\Images\icon.png" target="" />
     <file src="..\License\APACHE-2.0 LICENSE.txt" target="" />
     <file src="..\Universe.Lastfm.Api\bin\Release\net5.0\Universe.Lastfm.Api.dll" target="lib\net5.0" />
     <file src="..\Universe.Lastfm.Api\bin\Release\net5.0\Universe.Lastfm.Api.dll" target="lib\monoandroid8.0" />
