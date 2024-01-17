@@ -38,6 +38,9 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="Forms\Tracks\TrackDeleteTagsReqForm.cs" />
+    <Compile Update="Forms\Tracks\TrackUnloveReqForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="Properties\Resources.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>

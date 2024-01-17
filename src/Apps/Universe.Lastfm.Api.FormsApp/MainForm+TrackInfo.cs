@@ -646,7 +646,67 @@ namespace Universe.Lastfm.Api.FormsApp
 
         private void btTrackUnlove_Click(object sender, EventArgs e)
         {
+            string performer;
+            string trackName;
 
+            using (var form = new TrackUnloveReqForm(_programSettings))
+            {
+                if (form.ShowDialog() == DialogResult.OK)
+                {
+                    performer = form.Performer;
+                    if (string.IsNullOrEmpty(performer))
+                    {
+                        tbLog.AppendText($"[{DateTime.Now}] Не указан performer!" + Environment.NewLine);
+                        btTrackUnlove.LightWarningColorResult();
+                        return;
+                    }
+
+                    trackName = form.Track;
+                    if (string.IsNullOrEmpty(performer))
+                    {
+                        tbLog.AppendText($"[{DateTime.Now}] Не указан track!" + Environment.NewLine);
+                        btTrackUnlove.LightWarningColorResult();
+                        return;
+                    }
+                }
+                else
+                {
+                    return;
+                }
+            }
+
+            DisableButtons(sender);
+            ReqCtx.Performer = performer;
+            ReqCtx.Track = trackName;
+
+            ThreadMachine.Create(1).RunInMultiTheadsWithoutWaiting(() =>
+            {
+                try
+                {
+                    var responce = Scope.GetCommand<UpdateTrackAsUnloveCommand>().Execute(ReqCtx.As<UpdateTrackAsUnloveRequest>())
+                        .LightColorResult(btTrackUnlove);
+                    if (!responce.IsSuccessful)
+                    {
+                        _log.Info($"{responce.Message} {responce.ServiceAnswer}");
+                        return;
+                    }
+
+                    _log.Info(
+                        $"Успешно внесены изменения по треку {performer} - {trackName}: {Environment.NewLine}{Environment.NewLine}{responce.ServiceAnswer}{Environment.NewLine}.");
+
+                    _log.Info(Environment.NewLine);
+                }
+                catch (Exception ex)
+                {
+                    _log.Error(ex, ex.Message);
+                    Thread.Sleep(LightErrorDelay);
+                    btTrackUnlove.LightErrorColorResult();
+                }
+                finally
+                {
+                    EnableButtonsSafe();
+                }
+            });
         }
 
         private void btTrackUpdateNowPlaying_Click(object sender, EventArgs e)
