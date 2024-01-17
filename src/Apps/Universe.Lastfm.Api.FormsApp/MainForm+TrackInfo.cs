@@ -3,10 +3,12 @@ using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
 using Universe.Algorithm.MultiThreading;
+using Universe.Helpers.Extensions;
 using Universe.Lastfm.Api.Dal.Command.Performers;
 using Universe.Lastfm.Api.Dal.Command.Tracks;
 using Universe.Lastfm.Api.Dal.Queries.Track;
 using Universe.Lastfm.Api.FormsApp.Extensions;
+using Universe.Lastfm.Api.FormsApp.Forms.Performers;
 using Universe.Lastfm.Api.FormsApp.Forms.Tracks;
 using Universe.Lastfm.Api.Helpers;
 using Universe.Lastfm.Api.Models.Req;
@@ -447,12 +449,129 @@ namespace Universe.Lastfm.Api.FormsApp
 
         private void btTrackAddTags_Click(object sender, EventArgs e)
         {
+            string performer;
+            string track;
+            string[] tags;
 
+            using (var form = new TrackAddTagsReqForm(_programSettings))
+            {
+                if (form.ShowDialog() == DialogResult.OK)
+                {
+                    performer = form.Performer;
+                    if (string.IsNullOrEmpty(performer))
+                    {
+                        tbLog.AppendText($"[{DateTime.Now}] Не указан performer!" + Environment.NewLine);
+                        btTrackAddTags.LightWarningColorResult();
+                        return;
+                    }
+
+                    tags = form.TagsArray;
+                    if (tags.Length == 0)
+                    {
+                        tbLog.AppendText($"[{DateTime.Now}] Не указаны tags!" + Environment.NewLine);
+                        btTrackAddTags.LightWarningColorResult();
+                        return;
+                    }
+                }
+                else
+                {
+                    return;
+                }
+            }
+
+            DisableButtons(sender);
+
+            ReqCtx.Performer = performer;
+            ReqCtx.Tags = tags;
+
+            ThreadMachine.Create(1).RunInMultiTheadsWithoutWaiting(() =>
+            {
+                try
+                {
+                    var responce = Scope.GetCommand<AddTrackTagsCommand>().Execute(ReqCtx.As<AddTrackTagsRequest>())
+                        .LightColorResult(btTrackAddTags);
+                    if (!responce.IsSuccessful)
+                    {
+                        _log.Info($"{responce.Message} {responce.ServiceAnswer}");
+                        return;
+                    }
+
+                    _log.Info($"Update {performer} result: {string.Join("", responce.Responces.Select(x => x.ServiceAnswer).ToList())}{Environment.NewLine}");
+                }
+                catch (Exception ex)
+                {
+                    _log.Error(ex, ex.Message);
+                    Thread.Sleep(LightErrorDelay);
+                    btTrackAddTags.LightErrorColorResult();
+                }
+                finally
+                {
+                    EnableButtonsSafe();
+                }
+            });
         }
 
         private void btTrackRemoveTag_Click(object sender, EventArgs e)
         {
+            string performer;
+            string tag;
 
+            using (var form = new TrackDeleteTagsReqForm(_programSettings))
+            {
+                if (form.ShowDialog() == DialogResult.OK)
+                {
+                    performer = form.Performer;
+                    if (string.IsNullOrEmpty(performer))
+                    {
+                        tbLog.AppendText($"[{DateTime.Now}] Не указан performer!" + Environment.NewLine);
+                        btTrackRemoveTag.LightWarningColorResult();
+                        return;
+                    }
+
+                    tag = form.TagsArray.FirstOrDefault() ?? "";
+                    if (tag.IsNullOrEmpty())
+                    {
+                        tbLog.AppendText($"[{DateTime.Now}] Не указаны tags!" + Environment.NewLine);
+                        btTrackRemoveTag.LightWarningColorResult();
+                        return;
+                    }
+                }
+                else
+                {
+                    return;
+                }
+            }
+
+            DisableButtons(sender);
+
+            ReqCtx.Performer = performer;
+            ReqCtx.RemTag = tag;
+
+            ThreadMachine.Create(1).RunInMultiTheadsWithoutWaiting(() =>
+            {
+                try
+                {
+                    var responce = Scope.GetCommand<DeleteTrackTagsCommand>().Execute(ReqCtx.As<DeleteTrackTagsRequest>())
+                        .LightColorResult(btTrackRemoveTag);
+                    if (!responce.IsSuccessful)
+                    {
+                        _log.Info($"{responce.Message} {responce.ServiceAnswer}");
+                        return;
+                    }
+
+                    _log.Info($"Update {performer} result: {responce.ServiceAnswer}{Environment.NewLine}");
+                }
+                catch (Exception ex)
+                {
+                    _log.Error(ex, ex.Message);
+                    Thread.Sleep(LightErrorDelay);
+                    btTrackRemoveTag.LightErrorColorResult();
+                }
+                finally
+                {
+                    EnableButtonsSafe();
+                }
+            });
         }
 
         private void btTrackLove_Click(object sender, EventArgs e)

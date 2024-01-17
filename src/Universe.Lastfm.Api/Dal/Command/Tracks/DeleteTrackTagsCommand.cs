@@ -10,29 +10,29 @@ using Universe.Lastfm.Api.Models.Base;
 using Universe.Lastfm.Api.Models.Res.Base;
 using Universe.Types.Collection;
 
-namespace Universe.Lastfm.Api.Dal.Command.Performers
+namespace Universe.Lastfm.Api.Dal.Command.Tracks
 {
     /// <summary>
-    ///     The command deletes tag an artist using a list of user supplied tags.
+    ///     The command deletes tag an Track using a list of user supplied tags.
     /// </summary>
-    public class DeleteArtistTagsCommand : LastCommand<DeleteArtistTagsRequest, DeleteArtistTagsCommandResponce>
+    public class DeleteTrackTagsCommand : LastCommand<DeleteTrackTagsRequest, DeleteTrackTagsCommandResponce>
     {
         protected override Func<BaseRequest, BaseResponce> ExecutableBaseFunc =>
-            req => Execute(req.As<DeleteArtistTagsRequest>());
+            req => Execute(req.As<DeleteTrackTagsRequest>());
 
         /// <summary>
-        ///     Remove a user's tag from an artist.
+        ///     Remove a user's tag from an Track.
         /// </summary>
         /// <param name="request.artist">
-        ///     The artist name.
+        ///     The performer name.
         ///     (Required (unless mbid)] 
         /// </param>
-        /// <param name="request.Artist">
-        ///     The Artist name.
+        /// <param name="request.track">
+        ///     The track name.
         ///     (Required (unless mbid)] 
         /// </param>
         /// <param name="request.tag">
-        ///     A single user tag to remove from this Artist.
+        ///     A single user tag to remove from this Track.
         /// </param>
         /// <param name="request.token">
         ///     The auth token.
@@ -44,13 +44,15 @@ namespace Universe.Lastfm.Api.Dal.Command.Performers
         /// </param>
         /// <param name="request"></param>
         /// <returns></returns>
-        public override DeleteArtistTagsCommandResponce Execute(
-            DeleteArtistTagsRequest request)
+        public override DeleteTrackTagsCommandResponce Execute(
+            DeleteTrackTagsRequest request)
         {
             if (request.RemTag.IsNullOrEmpty())
                 throw new ArgumentException("request.Tag is empty. Need to specify one or more tags");
             if (request.Performer.IsNullOrEmpty())
                 throw new ArgumentException("request.Performer is empty. This is required parameter");
+            if (request.Track.IsNullOrEmpty())
+                throw new ArgumentException("request.Track is empty. This is required parameter");
 
             if (request.SecretKey.IsNullOrEmpty())
                 throw new ArgumentException("request.SecretKey is empty. This is required parameter");
@@ -59,17 +61,18 @@ namespace Universe.Lastfm.Api.Dal.Command.Performers
             if (request.SessionKey.IsNullOrEmpty())
                 throw new ArgumentException("request.SessionKey is empty. This is required parameter");
 
-            string method = "artist.removeTag";
+            string method = "track.removeTag";
 
-            string artist = request.Performer;
+            string performer = request.Performer;
+            string track = request.Track;
 
             string tag = request.RemTag;
 
             string sk = request.SessionKey;
 
             //  A Last.fm method signature. See authentication for more information.
-            //string sig = "api_key" + Settings.ApiKey + "methodArtist.addTags" + request.Token + request.SecretKey;
-            string sig = $"method{method}api_key{Settings.ApiKey}sk{sk}artist{artist}tag{tag}{request.SecretKey}";
+            //string sig = "api_key" + Settings.ApiKey + "methodTrack.addTags" + request.Token + request.SecretKey;
+            string sig = $"method{method}api_key{Settings.ApiKey}sk{sk}Track{track}tag{tag}{request.SecretKey}";
 
             var md5Hash = MD5.Create();
             var getMd5Hash = new Md5HashQuery();
@@ -78,25 +81,28 @@ namespace Universe.Lastfm.Api.Dal.Command.Performers
             var sessionResponce = Adapter.PostRequest(method,
                 Argument.Create("api_key", Settings.ApiKey),
                 Argument.Create("sk", sk),
-                Argument.Create("artist", artist),
+                Argument.Create("artist", performer),
+                Argument.Create("track", track),
                 Argument.Create("tag", tag)
             );
 
             Adapter.FixCallback(sessionResponce);
-                DeleteArtistTagsCommandResponce infoResponce =
-                    ResponceExt.CreateFrom<BaseResponce, DeleteArtistTagsCommandResponce>(sessionResponce);
+            DeleteTrackTagsCommandResponce infoResponce =
+                ResponceExt.CreateFrom<BaseResponce, DeleteTrackTagsCommandResponce>(sessionResponce);
 
-                return infoResponce;
+            return infoResponce;
         }
     }
 
     /// <summary>
-    ///     The request with parameters for full information about Artist on the Last.fm.
+    ///     The request with parameters for full information about Track on the Last.fm.
     ///     Запрос с параметрами для добавления тэгов альбома Last.fm.
     /// </summary>
-    public class DeleteArtistTagsRequest : BaseRequest
+    public class DeleteTrackTagsRequest : BaseRequest
     {
         public string Performer { get; set; }
+
+        public string Track { get; set; }
 
         /// <summary>
         ///     A Last.fm method signature. See authentication for more information.
@@ -114,21 +120,21 @@ namespace Universe.Lastfm.Api.Dal.Command.Performers
         public string SecretKey { get; set; }
 
         /// <summary>
-        ///    A single user tag to remove from this Artist.
+        ///    A single user tag to remove from this Track.
         /// </summary>
         public string RemTag { get; set; }
 
-        public DeleteArtistTagsRequest()
+        public DeleteTrackTagsRequest()
         {
         }
 
-        public static DeleteArtistTagsRequest Build(string artist,
+        public static DeleteTrackTagsRequest Build(string Track,
             string apiSig, string tag, string session)
         {
-            return new DeleteArtistTagsRequest
+            return new DeleteTrackTagsRequest
             {
                 Token = apiSig,
-                Performer = artist,
+                Performer = Track,
                 RemTag = tag, 
                 SessionKey = session
             };
@@ -139,13 +145,13 @@ namespace Universe.Lastfm.Api.Dal.Command.Performers
     ///     The responces with full information about tag addings of the Last.fm.
     ///     Ответы с полной информацией о добавлении тэгов Last.fm.
     /// </summary>
-    public class MassDeleteArtistTagsCommandResponce : BaseResponce
+    public class MassDeleteTrackTagsCommandResponce : BaseResponce
     {
-        public MatList<DeleteArtistTagsCommandResponce> Responces { get; set; }
+        public MatList<DeleteTrackTagsCommandResponce> Responces { get; set; }
 
-        public MassDeleteArtistTagsCommandResponce()
+        public MassDeleteTrackTagsCommandResponce()
         {
-            Responces = new MatList<DeleteArtistTagsCommandResponce>();
+            Responces = new MatList<DeleteTrackTagsCommandResponce>();
         }
     }
 
@@ -153,11 +159,11 @@ namespace Universe.Lastfm.Api.Dal.Command.Performers
     ///     The responce with full information about tag addings of the Last.fm.
     ///     Ответ с полной информацией о добавлении тэгов Last.fm.
     /// </summary>
-    public class DeleteArtistTagsCommandResponce : LastFmBaseResponce<DeleteArtistTagsContainer>
+    public class DeleteTrackTagsCommandResponce : LastFmBaseResponce<DeleteTrackTagsContainer>
     {
     }
 
-    public class DeleteArtistTagsContainer : LastFmBaseContainer
+    public class DeleteTrackTagsContainer : LastFmBaseContainer
     {
         public LfmResultDto Lfm { get; set; }
     }

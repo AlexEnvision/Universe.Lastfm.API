@@ -1,23 +1,24 @@
 ﻿using System;
+using Universe.Lastfm.Api.FormsApp.Forms.Albums;
 using Universe.Lastfm.Api.FormsApp.Settings;
 using Universe.Lastfm.Api.FormsApp.Themes;
 
-namespace Universe.Lastfm.Api.FormsApp.Forms.Performers
+namespace Universe.Lastfm.Api.FormsApp.Forms.Tracks
 {
-    public partial class ArtistDeleteAddTagsReqForm : ArtistReqInfoForm
+    public partial class TrackDeleteTagsReqForm : TrackInfoReqForm
     {
         protected string TagNames => tbRemovingTags.Text;
 
         public string[] TagsArray { get; set; }
 
-        public ArtistDeleteAddTagsReqForm()
+        public TrackDeleteTagsReqForm()
         {
             InitializeComponent();
 
             TagsArray = new string[] { };
         }
 
-        public ArtistDeleteAddTagsReqForm(UniverseLastApiAppSettings settings)
+        public TrackDeleteTagsReqForm(UniverseLastApiAppSettings settings)
         {
             InitializeComponent();
 

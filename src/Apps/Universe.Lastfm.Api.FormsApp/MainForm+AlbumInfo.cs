@@ -376,19 +376,7 @@ namespace Universe.Lastfm.Api.FormsApp
                         return;
                     }
 
-                    _log.Info($"Update {albumName} responce result: {string.Join("", responce.Responces.Select(x => x.ServiceAnswer).ToList())}{Environment.NewLine}");
-
-                    //_log.Info(
-                    //    $"Успешно выгружена информация по пользователю {albumName}: {Environment.NewLine}{Environment.NewLine}{responce.ServiceAnswer}{Environment.NewLine}.");
-
-                    //var tagsStr = string.Join(";", ReqCtx.Tags);
-
-                    //var data = responce.Responces.Select(x => x.DataContainer);
-                    //var dataStr = string.Join(", ", data.SelectMany(x => x.Lfm.Status));
-
-                    //_log.Info($"Result of adding tags/genres of album by the names {tagsStr} / Результат добавления тэгов/жанров альбома по названиям {tagsStr}: {dataStr}.");
-
-                    //_log.Info(Environment.NewLine);
+                    _log.Info($"Update {albumName} result: {string.Join("", responce.Responces.Select(x => x.ServiceAnswer).ToList())}{Environment.NewLine}");
                 }
                 catch (Exception ex)
                 {
@@ -460,19 +448,7 @@ namespace Universe.Lastfm.Api.FormsApp
                         return;
                     }
 
-                    _log.Info($"Update {albumName} responce result: {responce.ServiceAnswer}{Environment.NewLine}");
-
-                    //_log.Info(
-                    //    $"Успешно выгружена информация по пользователю {albumName}: {Environment.NewLine}{Environment.NewLine}{responce.ServiceAnswer}{Environment.NewLine}.");
-
-                    //var tagsStr = string.Join(";", ReqCtx.Tags);
-
-                    //var data = responce.DataContainer;
-                    //var dataStr = string.Join(", ", data.Lfm.Status);
-
-                    //_log.Info($"Result of deleting tags/genres of album by the names {tagsStr} / Результат удаления тэгов/жанров альбома по названиям {tagsStr}: {dataStr}.");
-
-                    //_log.Info(Environment.NewLine);
+                    _log.Info($"Update {albumName} result: {responce.ServiceAnswer}{Environment.NewLine}");
                 }
                 catch (Exception ex)
                 {

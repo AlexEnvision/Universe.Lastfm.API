@@ -11,25 +11,29 @@ using Universe.Lastfm.Api.Models.Base;
 using Universe.Lastfm.Api.Models.Res.Base;
 using Universe.Types.Collection;
 
-namespace Universe.Lastfm.Api.Dal.Command.Performers
+namespace Universe.Lastfm.Api.Dal.Command.Tracks
 {
     /// <summary>
-    ///     The command adds tag an artist using a list of user supplied tags.
+    ///     The command adds tag an Track using a list of user supplied tags.
     /// </summary>
-    public class AddArtistTagsCommand : LastCommand<AddArtistTagsRequest, MassAddArtistTagsCommandResponce>
+    public class AddTrackTagsCommand : LastCommand<AddTrackTagsRequest, MassAddTrackTagsCommandResponce>
     {
         protected override Func<BaseRequest, BaseResponce> ExecutableBaseFunc =>
-            req => Execute(req.As<AddArtistTagsRequest>());
+            req => Execute(req.As<AddTrackTagsRequest>());
 
         /// <summary>
-        ///     Tag an artist with one or more user supplied tags.
+        ///     Tag an Track with one or more user supplied tags.
         /// </summary>
         /// <param name="request.artist">
-        ///     The artist name.
+        ///     The performer name.
+        ///     (Required (unless mbid)] 
+        /// </param>
+        /// <param name="request.track">
+        ///     The track name.
         ///     (Required (unless mbid)] 
         /// </param>
         /// <param name="request.tags">
-        ///     A comma delimited list of user supplied tags to apply to this Artist.
+        ///     A comma delimited list of user supplied tags to apply to this Track.
         ///     Accepts a maximum of 10 tags.
         /// </param>
         /// <param name="request.token">
@@ -42,13 +46,15 @@ namespace Universe.Lastfm.Api.Dal.Command.Performers
         /// </param>
         /// <param name="request"></param>
         /// <returns></returns>
-        public override MassAddArtistTagsCommandResponce Execute(
-            AddArtistTagsRequest request)
+        public override MassAddTrackTagsCommandResponce Execute(
+            AddTrackTagsRequest request)
         {
             if (request.Tags.Length == 0)
                 throw new ArgumentException("request.Tags is empty. Need to specify one or more tags");
             if (request.Performer.IsNullOrEmpty())
                 throw new ArgumentException("request.Performer is empty. This is required parameter");
+            if (request.Track.IsNullOrEmpty())
+                throw new ArgumentException("request.Track is empty. This is required parameter");
 
             if (request.SecretKey.IsNullOrEmpty())
                 throw new ArgumentException("request.SecretKey is empty. This is required parameter");
@@ -57,11 +63,12 @@ namespace Universe.Lastfm.Api.Dal.Command.Performers
             if (request.SessionKey.IsNullOrEmpty())
                 throw new ArgumentException("request.SessionKey is empty. This is required parameter");
 
-            string method = "artist.addTags";
+            string method = "track.addTags";
 
-            string artist = request.Performer;
+            string performer = request.Performer;
+            string track = request.Track;
 
-            var responce = new MassAddArtistTagsCommandResponce();
+            var responce = new MassAddTrackTagsCommandResponce();
 
             var batchSize = 10;
             for (int i = 0; i < request.Tags.Length; i += batchSize)
@@ -72,8 +79,8 @@ namespace Universe.Lastfm.Api.Dal.Command.Performers
                 string sk = request.SessionKey;
 
                 //  A Last.fm method signature. See authentication for more information.
-                //string sig = "api_key" + Settings.ApiKey + "methodArtist.addTags" + request.Token + request.SecretKey;
-                string sig = $"api_key{Settings.ApiKey}artist{artist}method{method}sk{sk}tags{tags}{request.SecretKey}";
+                //string sig = "api_key" + Settings.ApiKey + "methodTrack.addTags" + request.Token + request.SecretKey;
+                string sig = $"api_key{Settings.ApiKey}track{track}method{method}sk{sk}tags{tags}{request.SecretKey}";
 
                 var md5Hash = MD5.Create();
                 var getMd5Hash = new Md5HashQuery();
@@ -82,12 +89,13 @@ namespace Universe.Lastfm.Api.Dal.Command.Performers
                 var sessionResponce = Adapter.PostRequest(method,
                     Argument.Create("api_key", Settings.ApiKey),
                     Argument.Create("sk", sk),
-                    Argument.Create("artist", artist),
+                    Argument.Create("artist", performer),
+                    Argument.Create("track", track),
                     Argument.Create("tags", tags)
                 );
 
                 Adapter.FixCallback(sessionResponce);
-                AddArtistTagsCommandResponce infoResponce = ResponceExt.CreateFrom<BaseResponce, AddArtistTagsCommandResponce>(sessionResponce);
+                AddTrackTagsCommandResponce infoResponce = ResponceExt.CreateFrom<BaseResponce, AddTrackTagsCommandResponce>(sessionResponce);
 
                 responce.Responces += infoResponce;
             }
@@ -99,12 +107,14 @@ namespace Universe.Lastfm.Api.Dal.Command.Performers
     }
 
     /// <summary>
-    ///     The request with parameters for full information about Artist on the Last.fm.
+    ///     The request with parameters for full information about Track on the Last.fm.
     ///     Запрос с параметрами для добавления тэгов альбома Last.fm.
     /// </summary>
-    public class AddArtistTagsRequest : BaseRequest
+    public class AddTrackTagsRequest : BaseRequest
     {
         public string Performer { get; set; }
+
+        public string Track { get; set; }
 
         /// <summary>
         ///     A Last.fm method signature. See authentication for more information.
@@ -117,7 +127,7 @@ namespace Universe.Lastfm.Api.Dal.Command.Performers
         public string SessionKey { get; set; }
 
         /// <summary>
-        ///    A comma delimited list of user supplied tags to apply to this Artist. Accepts a maximum of 10 tags.
+        ///    A comma delimited list of user supplied tags to apply to this Track. Accepts a maximum of 10 tags.
         /// </summary>
         public string[] Tags { get; set; }
 
@@ -126,17 +136,18 @@ namespace Universe.Lastfm.Api.Dal.Command.Performers
         /// </summary>
         public string SecretKey { get; set; }
 
-        public AddArtistTagsRequest()
+        public AddTrackTagsRequest()
         {
         }
 
-        public static AddArtistTagsRequest Build(string artist, string Artist, 
+        public static AddTrackTagsRequest Build(string performer, string track, 
             string apiSig, string[] tags, string session)
         {
-            return new AddArtistTagsRequest
+            return new AddTrackTagsRequest
             {
                 Token = apiSig,
-                Performer = artist,
+                Performer = performer,
+                Track = track,
                 Tags = tags, 
                 SessionKey = session
             };
@@ -147,13 +158,13 @@ namespace Universe.Lastfm.Api.Dal.Command.Performers
     ///     The responces with full information about tag addings of the Last.fm.
     ///     Ответы с полной информацией о добавлении тэгов Last.fm.
     /// </summary>
-    public class MassAddArtistTagsCommandResponce : BaseResponce
+    public class MassAddTrackTagsCommandResponce : BaseResponce
     {
-        public MatList<AddArtistTagsCommandResponce> Responces { get; set; }
+        public MatList<AddTrackTagsCommandResponce> Responces { get; set; }
 
-        public MassAddArtistTagsCommandResponce()
+        public MassAddTrackTagsCommandResponce()
         {
-            Responces = new MatList<AddArtistTagsCommandResponce>();
+            Responces = new MatList<AddTrackTagsCommandResponce>();
         }
     }
 
@@ -161,11 +172,11 @@ namespace Universe.Lastfm.Api.Dal.Command.Performers
     ///     The responce with full information about tag addings of the Last.fm.
     ///     Ответ с полной информацией о добавлении тэгов Last.fm.
     /// </summary>
-    public class AddArtistTagsCommandResponce : LastFmBaseResponce<AddArtistTagsContainer>
+    public class AddTrackTagsCommandResponce : LastFmBaseResponce<AddTrackTagsContainer>
     {
     }
 
-    public class AddArtistTagsContainer : LastFmBaseContainer
+    public class AddTrackTagsContainer : LastFmBaseContainer
     {
         public LfmResultDto Lfm { get; set; }
     }

@@ -34,6 +34,10 @@
     <Compile Update="Forms\Performers\ArtistDeleteAddTagsReqForm.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="Forms\Tracks\TrackAddTagsReqForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Forms\Tracks\TrackDeleteTagsReqForm.cs" />
     <Compile Update="Properties\Resources.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>

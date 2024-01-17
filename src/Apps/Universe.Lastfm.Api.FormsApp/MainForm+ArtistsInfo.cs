@@ -4,16 +4,12 @@ using System.Threading;
 using System.Windows.Forms;
 using Universe.Algorithm.MultiThreading;
 using Universe.Helpers.Extensions;
-using Universe.Lastfm.Api.Dal.Command.Albums;
 using Universe.Lastfm.Api.Dal.Command.Performers;
 using Universe.Lastfm.Api.Dal.Queries.Performers;
-using Universe.Lastfm.Api.Dto.Common;
 using Universe.Lastfm.Api.FormsApp.Extensions;
-using Universe.Lastfm.Api.FormsApp.Forms.Albums;
 using Universe.Lastfm.Api.FormsApp.Forms.Performers;
 using Universe.Lastfm.Api.Helpers;
 using Universe.Lastfm.Api.Models.Req;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace Universe.Lastfm.Api.FormsApp
 {
@@ -561,17 +557,7 @@ namespace Universe.Lastfm.Api.FormsApp
                         return;
                     }
 
-                    _log.Info(
-                        $"Успешно выгружена информация по пользователю {performer}: {Environment.NewLine}{Environment.NewLine}{responce.ServiceAnswer}{Environment.NewLine}.");
-
-                    var tagsStr = string.Join(";", ReqCtx.Tags);
-
-                    var data = responce.Responces.Select(x => x.DataContainer);
-                    var dataStr = string.Join(", ", data.SelectMany(x => x.Lfm.Status));
-
-                    _log.Info($"Result of adding tags/genres of artist by the names {tagsStr} / Результат добавления тэгов/жанров альбома по названиям {tagsStr}: {dataStr}.");
-
-                    _log.Info(Environment.NewLine);
+                    _log.Info($"Update {performer} result: {string.Join("", responce.Responces.Select(x => x.ServiceAnswer).ToList())}{Environment.NewLine}");
                 }
                 catch (Exception ex)
                 {
@@ -620,37 +606,27 @@ namespace Universe.Lastfm.Api.FormsApp
             DisableButtons(sender);
 
             ReqCtx.Performer = performer;
-            ReqCtx.Tag = tag;
+            ReqCtx.RemTag = tag;
 
             ThreadMachine.Create(1).RunInMultiTheadsWithoutWaiting(() =>
             {
                 try
                 {
                     var responce = Scope.GetCommand<DeleteArtistTagsCommand>().Execute(ReqCtx.As<DeleteArtistTagsRequest>())
-                        .LightColorResult(btArtistAddTags);
+                        .LightColorResult(btArtistRemoveTag);
                     if (!responce.IsSuccessful)
                     {
                         _log.Info($"{responce.Message} {responce.ServiceAnswer}");
                         return;
                     }
 
-                    _log.Info(
-                        $"Успешно выгружена информация по пользователю {performer}: {Environment.NewLine}{Environment.NewLine}{responce.ServiceAnswer}{Environment.NewLine}.");
-
-                    var tagsStr = string.Join(";", ReqCtx.Tags);
-
-                    var data = responce.DataContainer;
-                    var dataStr = data.Lfm.Status;
-
-                    _log.Info($"Result of adding tags/genres of artist by the names {tagsStr} / Результат добавления тэгов/жанров альбома по названиям {tagsStr}: {dataStr}.");
-
-                    _log.Info(Environment.NewLine);
+                    _log.Info($"Update {performer} result: {responce.ServiceAnswer}{Environment.NewLine}");
                 }
                 catch (Exception ex)
                 {
                     _log.Error(ex, ex.Message);
                     Thread.Sleep(LightErrorDelay);
-                    btArtistAddTags.LightErrorColorResult();
+                    btArtistRemoveTag.LightErrorColorResult();
                 }
                 finally
                 {
