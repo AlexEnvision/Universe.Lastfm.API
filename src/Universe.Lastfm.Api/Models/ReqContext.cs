@@ -44,5 +44,7 @@ namespace Universe.Lastfm.Api.Models
         public string[] Tags { get; set; }
 
         public string RemTag { get; set; }
+
+        public long? Timestamp { get; set; }
     }
 }

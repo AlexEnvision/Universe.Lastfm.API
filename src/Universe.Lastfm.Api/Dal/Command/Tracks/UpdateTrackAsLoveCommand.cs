@@ -1,7 +1,4 @@
-﻿using Microsoft.SqlServer.Server;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System;
 using System.Security.Cryptography;
 using Newtonsoft.Json;
 using Universe.Helpers.Extensions;
@@ -12,12 +9,11 @@ using Universe.Lastfm.Api.Helpers;
 using Universe.Lastfm.Api.Models;
 using Universe.Lastfm.Api.Models.Base;
 using Universe.Lastfm.Api.Models.Res.Base;
-using Universe.Types.Collection;
 
 namespace Universe.Lastfm.Api.Dal.Command.Tracks
 {
     /// <summary>
-    ///     The command adds tag an artist using a list of user supplied tags.
+    ///     The command sets love-state a track for a user profile.
     /// </summary>
     public class UpdateTrackAsLoveCommand : LastCommand<UpdateTrackAsLoveRequest, UpdateTrackAsLoveCommandResponce>
     {
@@ -25,13 +21,13 @@ namespace Universe.Lastfm.Api.Dal.Command.Tracks
             req => Execute(req.As<UpdateTrackAsLoveRequest>());
 
         /// <summary>
-        ///     Tag an artist with one or more user supplied tags.
+        ///     Love a track for a user profile.
         /// </summary>
         /// <param name="request.artist">
         ///     The artist name.
         ///     (Required (unless mbid)] 
         /// </param>
-        /// <param name="request.tags">
+        /// <param name="request.track">
         ///     A comma delimited list of user supplied tags to apply to this Artist.
         ///     Accepts a maximum of 10 tags.
         /// </param>

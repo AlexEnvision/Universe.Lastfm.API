@@ -67,5 +67,31 @@ namespace Universe.Lastfm.Api.Helpers
             dateTime = dateTime.AddSeconds(unixTimeStamp).ToLocalTime();
             return dateTime;
         }
+
+        /// <summary>
+        ///     Transform DateTime to UnixTimeStamp
+        /// </summary>
+        /// <param name="source">Datetime to the time stamp</param>
+        /// <returns>The time stamp</returns>
+        public static double ToUnixTimeStampDouble(this DateTime source)
+        {
+            // Unix timestamp is seconds past epoch
+            DateTime dateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
+            var unixTimeStamp = (source - dateTime).TotalSeconds;
+            return unixTimeStamp;
+        }
+
+        /// <summary>
+        ///     Transform DateTime to UnixTimeStamp
+        /// </summary>
+        /// <param name="source">Datetime to the time stamp</param>
+        /// <returns>The time stamp</returns>
+        public static long ToUnixTimeStampInt64(this DateTime source)
+        {
+            // Unix timestamp is seconds past epoch
+            DateTime dateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
+            var unixTimeStamp = (long)(source - dateTime).TotalSeconds;
+            return unixTimeStamp;
+        }
     }
 }

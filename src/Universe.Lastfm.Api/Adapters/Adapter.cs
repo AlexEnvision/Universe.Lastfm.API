@@ -50,6 +50,7 @@ using Universe.Lastfm.Api.Models.Base;
 using static Universe.Lastfm.Api.Adapters.Adapter;
 using Universe.Lastfm.Api.Helpers;
 using System.Web;
+using Universe.Helpers.Extensions;
 
 namespace Universe.Lastfm.Api.Adapters
 {

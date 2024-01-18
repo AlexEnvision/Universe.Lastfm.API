@@ -75,6 +75,8 @@ using Universe.Lastfm.Api.Dto.GetTagInfo;
 using Universe.Lastfm.Api.Dto.GetTrackInfo;
 using Universe.Lastfm.Api.FormsApp.Forms;
 using Universe.Lastfm.Api.Models.Req;
+using System.Threading;
+using Universe.Lastfm.Api.Dal.Command.Scrobble;
 
 namespace Universe.Lastfm.Api.FormsApp
 {
@@ -750,10 +752,99 @@ namespace Universe.Lastfm.Api.FormsApp
                 }
             });
         }
-
         private void btTrackScrobble_Click(object sender, EventArgs e)
         {
+            string performer;
+            string albumName;
+            string trackName;
+            long timestamp;
+
+            string userName;
+
+            using (var form = new ScrobbleForm(_programSettings))
+            {
+                if (form.ShowDialog() == DialogResult.OK)
+                {
+                    performer = form.Performer;
+                    if (string.IsNullOrEmpty(performer))
+                    {
+                        tbLog.AppendText($"[{DateTime.Now}] Не указан performer!" + Environment.NewLine);
+                        btTrackScrobble.LightWarningColorResult();
+                        return;
+                    }
+
+                    albumName = form.Album;
+                    if (string.IsNullOrEmpty(albumName))
+                    {
+                        tbLog.AppendText($"[{DateTime.Now}] Не указан album!" + Environment.NewLine);
+                        btTrackScrobble.LightWarningColorResult();
+                        return;
+                    }
+
+                    trackName = form.Track;
+                    if (string.IsNullOrEmpty(trackName))
+                    {
+                        tbLog.AppendText($"[{DateTime.Now}] Не указан track!" + Environment.NewLine);
+                        btTrackScrobble.LightWarningColorResult();
+                        return;
+                    }
+
+                    timestamp = form.Timestamp;
+                    if (timestamp == 0)
+                    {
+                        tbLog.AppendText($"[{DateTime.Now}] Не указан timestamp!" + Environment.NewLine);
+                        btTrackScrobble.LightWarningColorResult();
+                        return;
+                    }
+
+                    userName = form.User;
+                    if (string.IsNullOrEmpty(userName))
+                    {
+                        tbLog.AppendText($"[{DateTime.Now}] Не указано userName!" + Environment.NewLine);
+                        btTrackScrobble.LightWarningColorResult();
+                        return;
+                    }
+                }
+                else
+                {
+                    return;
+                }
+            }
+
             DisableButtons(sender);
+            ReqCtx.Performer = performer;
+            ReqCtx.Track = trackName;
+            ReqCtx.Album = albumName;
+            ReqCtx.Timestamp = timestamp;
+
+            ThreadMachine.Create(1).RunInMultiTheadsWithoutWaiting(() =>
+            {
+                try
+                {
+                    var responce = Scope.GetCommand<ScrobblingTrackCommand>().Execute(ReqCtx.As<ScrobblingTrackRequest>())
+                        .LightColorResult(btTrackScrobble);
+                    if (!responce.IsSuccessful)
+                    {
+                        _log.Info($"{responce.Message} {responce.ServiceAnswer}");
+                        return;
+                    }
+
+                    _log.Info(
+                        $"Успешно внесены изменения по треку {performer} - {trackName}: {Environment.NewLine}{Environment.NewLine}{responce.ServiceAnswer}{Environment.NewLine}.");
+
+                    _log.Info(Environment.NewLine);
+                }
+                catch (Exception ex)
+                {
+                    _log.Error(ex, ex.Message);
+                    Thread.Sleep(LightErrorDelay);
+                    btTrackScrobble.LightErrorColorResult();
+                }
+                finally
+                {
+                    EnableButtonsSafe();
+                }
+            });
         }
 
         private void MainForm_MaximumSizeChanged(object sender, EventArgs e)

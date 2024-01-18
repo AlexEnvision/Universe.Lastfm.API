@@ -35,7 +35,9 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
+using Universe.Helpers.Extensions;
 using Universe.Lastfm.Api.Helpers;
 using Universe.Lastfm.Api.IO.Validators;
 using Universe.Lastfm.Api.Models;
@@ -160,6 +162,12 @@ namespace Universe.Lastfm.Api.Adapters
         public BaseResponce PostRequest(string method, params Argument[] arguments)
         {
             return CreatePostRequest(method, _mySecret, arguments);
+        }
+
+        public BaseResponce PostRequestNonEmptyArguments(string method, params Argument[] arguments)
+        {
+            var nonEmptyArguments = arguments.Where(x => !x.ArgumentValue.IsNullOrEmpty()).ToArray();
+            return CreatePostRequest(method, _mySecret, nonEmptyArguments);
         }
     }
 }

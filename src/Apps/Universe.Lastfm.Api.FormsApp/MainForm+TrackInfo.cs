@@ -711,7 +711,71 @@ namespace Universe.Lastfm.Api.FormsApp
 
         private void btTrackUpdateNowPlaying_Click(object sender, EventArgs e)
         {
+            string performer;
+            string trackName;
+            string albumName;
 
+            using (var form = new TrackUpdateNowPlayingReqForm(_programSettings))
+            {
+                if (form.ShowDialog() == DialogResult.OK)
+                {
+                    performer = form.Performer;
+                    if (string.IsNullOrEmpty(performer))
+                    {
+                        tbLog.AppendText($"[{DateTime.Now}] Не указан performer!" + Environment.NewLine);
+                        btTrackUpdateNowPlaying.LightWarningColorResult();
+                        return;
+                    }
+
+                    trackName = form.Track;
+                    if (string.IsNullOrEmpty(performer))
+                    {
+                        tbLog.AppendText($"[{DateTime.Now}] Не указан track!" + Environment.NewLine);
+                        btTrackUpdateNowPlaying.LightWarningColorResult();
+                        return;
+                    }
+
+                    albumName = form.Album;
+                }
+                else
+                {
+                    return;
+                }
+            }
+
+            DisableButtons(sender);
+            ReqCtx.Performer = performer;
+            ReqCtx.Track = trackName;
+            ReqCtx.Album = albumName;
+
+            ThreadMachine.Create(1).RunInMultiTheadsWithoutWaiting(() =>
+            {
+                try
+                {
+                    var responce = Scope.GetCommand<UpdateTrackUpdateNowPlayingCommand>().Execute(ReqCtx.As<UpdateTrackUpdateNowPlayingRequest>())
+                        .LightColorResult(btTrackUpdateNowPlaying);
+                    if (!responce.IsSuccessful)
+                    {
+                        _log.Info($"{responce.Message} {responce.ServiceAnswer}");
+                        return;
+                    }
+
+                    _log.Info(
+                        $"Успешно внесены изменения по треку {performer} - {trackName}: {Environment.NewLine}{Environment.NewLine}{responce.ServiceAnswer}{Environment.NewLine}.");
+
+                    _log.Info(Environment.NewLine);
+                }
+                catch (Exception ex)
+                {
+                    _log.Error(ex, ex.Message);
+                    Thread.Sleep(LightErrorDelay);
+                    btTrackUpdateNowPlaying.LightErrorColorResult();
+                }
+                finally
+                {
+                    EnableButtonsSafe();
+                }
+            });
         }
     }
 }

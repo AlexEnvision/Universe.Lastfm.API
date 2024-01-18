@@ -13,7 +13,7 @@ using Universe.Lastfm.Api.Models.Res.Base;
 namespace Universe.Lastfm.Api.Dal.Command.Tracks
 {
     /// <summary>
-    ///     The command adds tag an artist using a list of user supplied tags.
+    ///     The command sets unlove-state a track for a user profile.
     /// </summary>
     public class UpdateTrackAsUnloveCommand : LastCommand<UpdateTrackAsUnloveRequest, UpdateTrackAsUnloveCommandResponce>
     {
@@ -21,13 +21,13 @@ namespace Universe.Lastfm.Api.Dal.Command.Tracks
             req => Execute(req.As<UpdateTrackAsUnloveRequest>());
 
         /// <summary>
-        ///     Tag an artist with one or more user supplied tags.
+        ///     UnLove a track for a user profile.
         /// </summary>
         /// <param name="request.artist">
         ///     The artist name.
         ///     (Required (unless mbid)] 
         /// </param>
-        /// <param name="request.tags">
+        /// <param name="request.track">
         ///     A comma delimited list of user supplied tags to apply to this Artist.
         ///     Accepts a maximum of 10 tags.
         /// </param>
