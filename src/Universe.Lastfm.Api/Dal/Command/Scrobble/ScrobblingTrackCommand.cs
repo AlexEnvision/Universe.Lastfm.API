@@ -1,4 +1,39 @@
-﻿using System;
+﻿//  ╔═════════════════════════════════════════════════════════════════════════════════╗
+//  ║                                                                                 ║
+//  ║   Copyright 2024 Universe.Lastfm.Api                                            ║
+//  ║                                                                                 ║
+//  ║   Licensed under the Apache License, Version 2.0 (the "License");               ║
+//  ║   you may not use this file except in compliance with the License.              ║
+//  ║   You may obtain a copy of the License at                                       ║
+//  ║                                                                                 ║
+//  ║       http://www.apache.org/licenses/LICENSE-2.0                                ║
+//  ║                                                                                 ║
+//  ║   Unless required by applicable law or agreed to in writing, software           ║
+//  ║   distributed under the License is distributed on an "AS IS" BASIS,             ║
+//  ║   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.      ║
+//  ║   See the License for the specific language governing permissions and           ║
+//  ║   limitations under the License.                                                ║
+//  ║                                                                                 ║
+//  ║                                                                                 ║
+//  ║   Copyright 2024 Universe.Lastfm.Api                                            ║
+//  ║                                                                                 ║
+//  ║   Лицензировано согласно Лицензии Apache, Версия 2.0 ("Лицензия");              ║
+//  ║   вы можете использовать этот файл только в соответствии с Лицензией.           ║
+//  ║   Вы можете найти копию Лицензии по адресу                                      ║
+//  ║                                                                                 ║
+//  ║       http://www.apache.org/licenses/LICENSE-2.0.                               ║
+//  ║                                                                                 ║
+//  ║   За исключением случаев, когда это регламентировано существующим               ║
+//  ║   законодательством или если это не оговорено в письменном соглашении,          ║
+//  ║   программное обеспечение распространяемое на условиях данной Лицензии,         ║
+//  ║   предоставляется "КАК ЕСТЬ" и любые явные или неявные ГАРАНТИИ ОТВЕРГАЮТСЯ.    ║
+//  ║   Информацию об основных правах и ограничениях,                                 ║
+//  ║   применяемых к определенному языку согласно Лицензии,                          ║
+//  ║   вы можете найти в данной Лицензии.                                            ║
+//  ║                                                                                 ║
+//  ╚═════════════════════════════════════════════════════════════════════════════════╝
+
+using System;
 using Universe.Helpers.Extensions;
 using Universe.Lastfm.Api.Dto.Base;
 using Universe.Lastfm.Api.Dto.Common;
@@ -204,6 +239,46 @@ namespace Universe.Lastfm.Api.Dal.Command.Scrobble
 
     public class ScrobblingTrackContainer : LastFmBaseContainer
     {
+        /*
+            Example for a single scrobble sent:
+            <?xml version='1.0' encoding='utf-8'?>
+            <lfm status="ok">
+              <scrobbles accepted="1" ignored="0">
+                <scrobble>
+                  <track corrected="0">Test Track</track>
+                  <artist corrected="0">Test Artist</artist>
+                  <album corrected="0"></album>
+                  <albumArtist corrected="0"></albumArtist>
+                  <timestamp>1287140447</timestamp>
+                  <ignoredMessage code="0"></ignoredMessage>
+                </scrobble>
+              </scrobbles>
+            </lfm>
+
+            Example for 2 scrobbles sent:
+            <?xml version='1.0' encoding='utf-8'?>
+            <lfm status="ok">
+              <scrobbles accepted="2" ignored="0">
+                <scrobble>
+                  <track corrected="0">Test Track 0</track>
+                  <artist corrected="0">Test Artist 0</artist>
+                  <album corrected="0"></album>
+                  <albumArtist corrected="0"></albumArtist>
+                  <timestamp>1287141093</timestamp>
+                  <ignoredMessage code="0"></ignoredMessage>
+                </scrobble>
+                <scrobble>
+                  <track corrected="0">Test Track 1</track>
+                  <artist corrected="0">Test Artist 1</artist>
+                  <album corrected="0"></album>
+                  <albumArtist corrected="0"></albumArtist>
+                  <timestamp>1287141093</timestamp>
+                  <ignoredMessage code="0"></ignoredMessage>
+                </scrobble>
+              </scrobbles>
+            </lfm>
+         */
+
         public LfmResultDto Lfm { get; set; }
     }
 }

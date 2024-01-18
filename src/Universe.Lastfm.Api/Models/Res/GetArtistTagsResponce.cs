@@ -36,7 +36,6 @@
 using Newtonsoft.Json;
 using Universe.Lastfm.Api.Dal.Queries.Performers;
 using Universe.Lastfm.Api.Dto.GetTagInfo;
-using Universe.Lastfm.Api.Models.Base;
 using Universe.Lastfm.Api.Models.Res.Base;
 
 namespace Universe.Lastfm.Api.Models.Res

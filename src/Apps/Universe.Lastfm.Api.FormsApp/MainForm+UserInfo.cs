@@ -37,19 +37,11 @@ using System;
 using System.Linq;
 using System.Windows.Forms;
 using Universe.Algorithm.MultiThreading;
-using Universe.CQRS.Infrastructure;
 using Universe.Lastfm.Api.Dal.Queries.Users;
 using Universe.Lastfm.Api.FormsApp.Extensions;
 using Universe.Lastfm.Api.FormsApp.Forms.Users;
 using Universe.Lastfm.Api.Helpers;
-using Universe.Lastfm.Api.Models;
 using Universe.Lastfm.Api.Models.Req;
-
-using static Universe.Lastfm.Api.Dal.Queries.Users.GetUserTopAlbumsQuery;
-using static Universe.Lastfm.Api.Dal.Queries.Users.GetUserTopArtistsQuery;
-using static Universe.Lastfm.Api.Dal.Queries.Users.GetUserTopTagsQuery;
-using static Universe.Lastfm.Api.Dal.Queries.Users.GetUserTopTracksQuery;
-
 using static Universe.Lastfm.Api.Dal.Queries.Users.GetUserLovedTracksQuery;
 using static Universe.Lastfm.Api.Dal.Queries.Users.GetUserRecentTracksQuery;
 using static Universe.Lastfm.Api.Dal.Queries.Users.GetPersonalTagsQuery;

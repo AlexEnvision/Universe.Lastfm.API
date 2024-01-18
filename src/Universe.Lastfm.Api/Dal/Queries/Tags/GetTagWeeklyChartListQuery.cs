@@ -34,12 +34,10 @@
 //  ╚═════════════════════════════════════════════════════════════════════════════════╝
 
 using System;
-using Universe.Lastfm.Api.Adapters;
 using Universe.Lastfm.Api.Dto.Base;
-using Universe.Lastfm.Api.Dto.GetArtistInfo;
 using Universe.Lastfm.Api.Helpers;
-using Universe.Lastfm.Api.Models.Base;
 using Universe.Lastfm.Api.Models;
+using Universe.Lastfm.Api.Models.Base;
 using Universe.Lastfm.Api.Models.Req.Genre;
 using Universe.Lastfm.Api.Models.Res.Base;
 

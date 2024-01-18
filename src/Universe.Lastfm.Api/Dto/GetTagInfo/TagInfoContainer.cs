@@ -34,7 +34,6 @@
 //  ╚═════════════════════════════════════════════════════════════════════════════════╝
 
 using Universe.Lastfm.Api.Dto.Base;
-using Universe.Lastfm.Api.Models.Base;
 
 namespace Universe.Lastfm.Api.Dto.GetTagInfo
 {

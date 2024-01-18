@@ -39,10 +39,8 @@ using Universe.Lastfm.Api.Dto.GetAlbumInfo;
 using Universe.Lastfm.Api.Helpers;
 using Universe.Lastfm.Api.Models;
 using Universe.Lastfm.Api.Models.Base;
-using Universe.Lastfm.Api.Models.Req;
 using Universe.Lastfm.Api.Models.Res.Base;
 using static Universe.Lastfm.Api.Dal.Queries.Users.GetUserTopAlbumsQuery;
-using static Universe.Lastfm.Api.Dal.Queries.Users.GetUserTopArtistsQuery;
 
 namespace Universe.Lastfm.Api.Dal.Queries.Users
 {

@@ -39,7 +39,6 @@ using Universe.Lastfm.Api.Dal.Command;
 using Universe.Lastfm.Api.Dal.Queries;
 using Universe.Lastfm.Api.Infrastracture;
 using Universe.Lastfm.Api.Meta.Consts;
-using Universe.Lastfm.Api.Models.Base;
 
 namespace Universe.Lastfm.Api.Helpers
 {

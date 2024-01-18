@@ -33,8 +33,8 @@
 //  ║                                                                                 ║
 //  ╚═════════════════════════════════════════════════════════════════════════════════╝
 
-using System.Linq;
 using System;
+using System.Linq;
 
 namespace Universe.Lastfm.Api.Models.Base
 {

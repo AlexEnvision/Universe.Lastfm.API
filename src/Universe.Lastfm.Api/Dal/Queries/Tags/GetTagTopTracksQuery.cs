@@ -34,9 +34,7 @@
 //  ╚═════════════════════════════════════════════════════════════════════════════════╝
 
 using System;
-using Unity;
 using Universe.Lastfm.Api.Dto.Base;
-using Universe.Lastfm.Api.Dto.GetArtistInfo;
 using Universe.Lastfm.Api.Dto.GetTrackInfo;
 using Universe.Lastfm.Api.Helpers;
 using Universe.Lastfm.Api.Models;

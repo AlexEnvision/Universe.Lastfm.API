@@ -33,8 +33,6 @@
 //  ║                                                                                 ║
 //  ╚═════════════════════════════════════════════════════════════════════════════════╝
 
-using Universe.Lastfm.Api.Dto.Common;
-using Universe.Lastfm.Api.Dto.GetArtistInfo;
 using Universe.Lastfm.Api.Dto.GetTrackInfo;
 using Universe.Lastfm.Api.Models.Res.Base;
 

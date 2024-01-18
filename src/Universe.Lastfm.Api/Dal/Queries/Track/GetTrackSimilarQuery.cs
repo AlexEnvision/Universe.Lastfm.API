@@ -35,7 +35,6 @@
 
 using System;
 using Universe.Lastfm.Api.Dto.Base;
-using Universe.Lastfm.Api.Dto.Common;
 using Universe.Lastfm.Api.Helpers;
 using Universe.Lastfm.Api.Models;
 using Universe.Lastfm.Api.Models.Base;

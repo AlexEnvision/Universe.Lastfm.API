@@ -33,7 +33,6 @@
 //  ║                                                                                 ║
 //  ╚═════════════════════════════════════════════════════════════════════════════════╝
 
-using System;
 using System.IO;
 using System.Net;
 using System.Security.Cryptography;

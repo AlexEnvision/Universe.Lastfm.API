@@ -39,9 +39,7 @@ using Universe.Lastfm.Api.Dto.Common;
 using Universe.Lastfm.Api.Helpers;
 using Universe.Lastfm.Api.Models;
 using Universe.Lastfm.Api.Models.Base;
-using Universe.Lastfm.Api.Models.Req;
 using Universe.Lastfm.Api.Models.Req.Genre;
-using Universe.Lastfm.Api.Models.Res;
 using Universe.Lastfm.Api.Models.Res.Base;
 
 namespace Universe.Lastfm.Api.Dal.Queries.Tags

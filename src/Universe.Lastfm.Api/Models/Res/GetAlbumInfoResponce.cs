@@ -35,7 +35,6 @@
 
 using Newtonsoft.Json;
 using Universe.Lastfm.Api.Dto.GetAlbumInfo;
-using Universe.Lastfm.Api.Models.Base;
 using Universe.Lastfm.Api.Models.Res.Base;
 
 namespace Universe.Lastfm.Api.Models.Res
