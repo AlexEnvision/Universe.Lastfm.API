@@ -47,5 +47,11 @@ namespace Universe.Lastfm.Api.Infrastracture
         string ApiKey { get; set; }
 
         string SecretKey { get; set; }
+
+        string WebDriverExecutableFilePath { get; set; }
+
+        string Login { get; set; }
+
+        string Password { get; set; }
     }
 }

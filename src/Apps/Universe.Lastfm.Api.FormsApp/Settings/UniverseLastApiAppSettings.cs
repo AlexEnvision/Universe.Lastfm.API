@@ -58,7 +58,13 @@ namespace Universe.Lastfm.Api.FormsApp.Settings
 
         public bool IsSpaceMode { get; set; }
 
+        public string WebDriverExecutableFilePath { get; set; }
+
         public ReqContext ReqCtx { get; set; }
+
+        public string Login { get; set; }
+
+        public string Password { get; set; }
 
         public UniverseLastApiAppSettings()
         {

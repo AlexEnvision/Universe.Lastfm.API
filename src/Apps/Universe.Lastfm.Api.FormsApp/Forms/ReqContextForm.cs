@@ -39,6 +39,7 @@ using System.Windows.Forms;
 using Universe.Helpers.Extensions;
 using Universe.Lastfm.Api.FormsApp.Settings;
 using Universe.Lastfm.Api.FormsApp.Themes;
+using Universe.Lastfm.Api.Helpers;
 using Universe.Lastfm.Api.Models;
 
 namespace Universe.Lastfm.Api.FormsApp.Forms
@@ -73,6 +74,10 @@ namespace Universe.Lastfm.Api.FormsApp.Forms
 
         public string[] DelTagArray { get; set; }
 
+        protected DateTime? TimestampTime => dtTimeStampPicker?.Value;
+
+        public long Timestamp { get; protected set; }
+
         protected string OutputFilePath => tbOutputPath.Text;
 
         public string OutputFile => OutputFilePath;
@@ -87,6 +92,9 @@ namespace Universe.Lastfm.Api.FormsApp.Forms
             DelTagArray = new string[] { };
 
             InitializePaths();
+
+            dtTimeStampPicker.Value = DateTime.Now;
+            dtTimeStampPicker.Text = dtTimeStampPicker.Value.ToShortTimeString();
         }
 
         private void InitializePaths()
@@ -112,6 +120,14 @@ namespace Universe.Lastfm.Api.FormsApp.Forms
 
             InitializePaths();
             InitializeParametersByReqCtx(settings.ReqCtx);
+
+            var tShift = DateTimeOffset.Now.Offset.Hours;
+            var timestamp = DateTime.Now.AddHours(-1 * tShift);
+            if (DateTime.Now.Hour - tShift < 0)
+                timestamp = timestamp.AddDays(-1);
+
+            dtTimeStampPicker.Value = timestamp;
+            dtTimeStampPicker.Text = dtTimeStampPicker.Value.ToShortTimeString();
         }
 
         private void InitializeParametersByReqCtx(ReqContext reqCtx)
@@ -136,6 +152,8 @@ namespace Universe.Lastfm.Api.FormsApp.Forms
             User = UserName.Trim();
             AddTagsArray = AddTagNames.Split(";");
             DelTagArray = DelTagNames.Split(";");
+
+            Timestamp = TimestampTime.Value.ToUnixTimeStampInt64();
             Close();
         }
 

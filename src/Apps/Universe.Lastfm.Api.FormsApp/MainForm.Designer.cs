@@ -30,6 +30,12 @@
         {
             btRun = new System.Windows.Forms.Button();
             groupBox1 = new System.Windows.Forms.GroupBox();
+            gbBorders005 = new System.Windows.Forms.GroupBox();
+            tbPassword = new System.Windows.Forms.TextBox();
+            gbBorders004 = new System.Windows.Forms.GroupBox();
+            tbLogin = new System.Windows.Forms.TextBox();
+            label1 = new System.Windows.Forms.Label();
+            label2 = new System.Windows.Forms.Label();
             gbBorders002 = new System.Windows.Forms.GroupBox();
             tbSecretKey = new System.Windows.Forms.TextBox();
             gbBorders001 = new System.Windows.Forms.GroupBox();
@@ -114,6 +120,8 @@
             spaceModeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             groupBox1.SuspendLayout();
+            gbBorders005.SuspendLayout();
+            gbBorders004.SuspendLayout();
             gbBorders002.SuspendLayout();
             gbBorders001.SuspendLayout();
             groupBox2.SuspendLayout();
@@ -147,6 +155,10 @@
             // 
             // groupBox1
             // 
+            groupBox1.Controls.Add(gbBorders005);
+            groupBox1.Controls.Add(gbBorders004);
+            groupBox1.Controls.Add(label1);
+            groupBox1.Controls.Add(label2);
             groupBox1.Controls.Add(gbBorders002);
             groupBox1.Controls.Add(gbBorders001);
             groupBox1.Controls.Add(lbSecretKey);
@@ -160,12 +172,66 @@
             groupBox1.TabStop = false;
             groupBox1.Text = "Last.fm API access settings";
             // 
+            // gbBorders005
+            // 
+            gbBorders005.Controls.Add(tbPassword);
+            gbBorders005.Location = new System.Drawing.Point(747, 68);
+            gbBorders005.Name = "gbBorders005";
+            gbBorders005.Size = new System.Drawing.Size(575, 49);
+            gbBorders005.TabIndex = 21;
+            gbBorders005.TabStop = false;
+            // 
+            // tbPassword
+            // 
+            tbPassword.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            tbPassword.Location = new System.Drawing.Point(6, 16);
+            tbPassword.Name = "tbPassword";
+            tbPassword.PasswordChar = '*';
+            tbPassword.Size = new System.Drawing.Size(563, 20);
+            tbPassword.TabIndex = 6;
+            // 
+            // gbBorders004
+            // 
+            gbBorders004.Controls.Add(tbLogin);
+            gbBorders004.Location = new System.Drawing.Point(747, 21);
+            gbBorders004.Name = "gbBorders004";
+            gbBorders004.Size = new System.Drawing.Size(575, 48);
+            gbBorders004.TabIndex = 20;
+            gbBorders004.TabStop = false;
+            // 
+            // tbLogin
+            // 
+            tbLogin.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            tbLogin.Location = new System.Drawing.Point(6, 18);
+            tbLogin.Name = "tbLogin";
+            tbLogin.PasswordChar = '*';
+            tbLogin.Size = new System.Drawing.Size(563, 20);
+            tbLogin.TabIndex = 4;
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Location = new System.Drawing.Point(651, 83);
+            label1.Name = "label1";
+            label1.Size = new System.Drawing.Size(90, 20);
+            label1.TabIndex = 19;
+            label1.Text = "PASSWORD:";
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Location = new System.Drawing.Point(651, 39);
+            label2.Name = "label2";
+            label2.Size = new System.Drawing.Size(54, 20);
+            label2.TabIndex = 18;
+            label2.Text = "LOGIN:";
+            // 
             // gbBorders002
             // 
             gbBorders002.Controls.Add(tbSecretKey);
             gbBorders002.Location = new System.Drawing.Point(107, 69);
             gbBorders002.Name = "gbBorders002";
-            gbBorders002.Size = new System.Drawing.Size(1214, 49);
+            gbBorders002.Size = new System.Drawing.Size(535, 49);
             gbBorders002.TabIndex = 17;
             gbBorders002.TabStop = false;
             // 
@@ -175,7 +241,7 @@
             tbSecretKey.Location = new System.Drawing.Point(6, 16);
             tbSecretKey.Name = "tbSecretKey";
             tbSecretKey.PasswordChar = '*';
-            tbSecretKey.Size = new System.Drawing.Size(1202, 20);
+            tbSecretKey.Size = new System.Drawing.Size(521, 20);
             tbSecretKey.TabIndex = 6;
             tbSecretKey.TextChanged += tbClientSecret_TextChanged;
             // 
@@ -184,7 +250,7 @@
             gbBorders001.Controls.Add(tbApiKey);
             gbBorders001.Location = new System.Drawing.Point(107, 20);
             gbBorders001.Name = "gbBorders001";
-            gbBorders001.Size = new System.Drawing.Size(1214, 48);
+            gbBorders001.Size = new System.Drawing.Size(535, 48);
             gbBorders001.TabIndex = 16;
             gbBorders001.TabStop = false;
             // 
@@ -194,7 +260,7 @@
             tbApiKey.Location = new System.Drawing.Point(6, 18);
             tbApiKey.Name = "tbApiKey";
             tbApiKey.PasswordChar = '*';
-            tbApiKey.Size = new System.Drawing.Size(1202, 20);
+            tbApiKey.Size = new System.Drawing.Size(521, 20);
             tbApiKey.TabIndex = 4;
             tbApiKey.TextChanged += tbApiKey_TextChanged;
             // 
@@ -229,9 +295,9 @@
             // 
             // btConnect
             // 
-            btConnect.Location = new System.Drawing.Point(778, 129);
+            btConnect.Location = new System.Drawing.Point(752, 129);
             btConnect.Name = "btConnect";
-            btConnect.Size = new System.Drawing.Size(539, 39);
+            btConnect.Size = new System.Drawing.Size(565, 39);
             btConnect.TabIndex = 14;
             btConnect.Text = "Connect";
             btConnect.UseVisualStyleBackColor = true;
@@ -274,9 +340,9 @@
             groupBox12.Controls.Add(btTrackRemoveTag);
             groupBox12.Controls.Add(btTrackAddTags);
             groupBox12.Controls.Add(btTrackLove);
-            groupBox12.Location = new System.Drawing.Point(741, 270);
+            groupBox12.Location = new System.Drawing.Point(741, 267);
             groupBox12.Name = "groupBox12";
-            groupBox12.Size = new System.Drawing.Size(195, 230);
+            groupBox12.Size = new System.Drawing.Size(195, 233);
             groupBox12.TabIndex = 12;
             groupBox12.TabStop = false;
             groupBox12.Text = "track commands";
@@ -284,7 +350,7 @@
             // btTrackUpdateNowPlaying
             // 
             btTrackUpdateNowPlaying.Enabled = false;
-            btTrackUpdateNowPlaying.Location = new System.Drawing.Point(8, 157);
+            btTrackUpdateNowPlaying.Location = new System.Drawing.Point(8, 159);
             btTrackUpdateNowPlaying.Name = "btTrackUpdateNowPlaying";
             btTrackUpdateNowPlaying.Size = new System.Drawing.Size(181, 32);
             btTrackUpdateNowPlaying.TabIndex = 17;
@@ -295,7 +361,7 @@
             // btTrackUnlove
             // 
             btTrackUnlove.Enabled = false;
-            btTrackUnlove.Location = new System.Drawing.Point(8, 122);
+            btTrackUnlove.Location = new System.Drawing.Point(8, 124);
             btTrackUnlove.Name = "btTrackUnlove";
             btTrackUnlove.Size = new System.Drawing.Size(181, 33);
             btTrackUnlove.TabIndex = 16;
@@ -306,7 +372,7 @@
             // btTrackRemoveTag
             // 
             btTrackRemoveTag.Enabled = false;
-            btTrackRemoveTag.Location = new System.Drawing.Point(8, 54);
+            btTrackRemoveTag.Location = new System.Drawing.Point(8, 56);
             btTrackRemoveTag.Name = "btTrackRemoveTag";
             btTrackRemoveTag.Size = new System.Drawing.Size(181, 33);
             btTrackRemoveTag.TabIndex = 6;
@@ -317,9 +383,9 @@
             // btTrackAddTags
             // 
             btTrackAddTags.Enabled = false;
-            btTrackAddTags.Location = new System.Drawing.Point(7, 21);
+            btTrackAddTags.Location = new System.Drawing.Point(8, 23);
             btTrackAddTags.Name = "btTrackAddTags";
-            btTrackAddTags.Size = new System.Drawing.Size(182, 32);
+            btTrackAddTags.Size = new System.Drawing.Size(181, 32);
             btTrackAddTags.TabIndex = 5;
             btTrackAddTags.Text = "track.addTags";
             btTrackAddTags.UseVisualStyleBackColor = true;
@@ -328,7 +394,7 @@
             // btTrackLove
             // 
             btTrackLove.Enabled = false;
-            btTrackLove.Location = new System.Drawing.Point(8, 88);
+            btTrackLove.Location = new System.Drawing.Point(8, 90);
             btTrackLove.Name = "btTrackLove";
             btTrackLove.Size = new System.Drawing.Size(181, 33);
             btTrackLove.TabIndex = 14;
@@ -420,7 +486,7 @@
             btTrackScrobble.Enabled = false;
             btTrackScrobble.Location = new System.Drawing.Point(6, 39);
             btTrackScrobble.Name = "btTrackScrobble";
-            btTrackScrobble.Size = new System.Drawing.Size(118, 35);
+            btTrackScrobble.Size = new System.Drawing.Size(118, 409);
             btTrackScrobble.TabIndex = 0;
             btTrackScrobble.Text = "track.scrobble";
             btTrackScrobble.UseVisualStyleBackColor = true;
@@ -1081,6 +1147,10 @@
             SizeChanged += MainForm_SizeChanged;
             groupBox1.ResumeLayout(false);
             groupBox1.PerformLayout();
+            gbBorders005.ResumeLayout(false);
+            gbBorders005.PerformLayout();
+            gbBorders004.ResumeLayout(false);
+            gbBorders004.PerformLayout();
             gbBorders002.ResumeLayout(false);
             gbBorders002.PerformLayout();
             gbBorders001.ResumeLayout(false);
@@ -1194,5 +1264,11 @@
         private System.Windows.Forms.Button btTagGetTopArtists;
         private System.Windows.Forms.Button btTagGetTopTracks;
         private System.Windows.Forms.Button btTagGetWeeklyChartList;
+        private System.Windows.Forms.GroupBox gbBorders005;
+        private System.Windows.Forms.TextBox tbPassword;
+        private System.Windows.Forms.GroupBox gbBorders004;
+        private System.Windows.Forms.TextBox tbLogin;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label2;
     }
 }

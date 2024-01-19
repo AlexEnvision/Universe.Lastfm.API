@@ -81,7 +81,12 @@ namespace Universe.Lastfm.Api.FormsApp.Forms
 
             InitializeParametersByReqCtx(settings.ReqCtx);
 
-            dtTimeStampPicker.Value = DateTime.Now;
+            var tShift = DateTimeOffset.Now.Offset.Hours;
+            var timestamp = DateTime.Now.AddHours(-1 * tShift);
+            if (DateTime.Now.Hour - tShift < 0)
+                timestamp = timestamp.AddDays(-1);
+
+            dtTimeStampPicker.Value = timestamp;
             dtTimeStampPicker.Text = dtTimeStampPicker.Value.ToShortTimeString();
         }
 

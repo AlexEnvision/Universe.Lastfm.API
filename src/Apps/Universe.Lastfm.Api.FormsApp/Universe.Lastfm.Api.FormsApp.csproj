@@ -55,4 +55,14 @@
     </EmbeddedResource>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="WebDriver\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="WebDriver\chromedriver.exe">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

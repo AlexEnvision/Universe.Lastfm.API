@@ -35,7 +35,10 @@
 
 using System;
 using System.Linq;
+using System.Security.Policy;
+using System.Threading;
 using Universe.Helpers.Extensions;
+using Universe.Lastfm.Api.Browser;
 using Universe.Lastfm.Api.Helpers;
 using Universe.Lastfm.Api.IO.Validators;
 using Universe.Lastfm.Api.Models;
@@ -74,8 +77,9 @@ namespace Universe.Lastfm.Api.Adapters
             {
                 // запускаем в браузере по умолчанию страницу http://www.last.fm/api/auth/ c параметрами API Key и только что полученным токеном)
                 //Process.Start("http://www.last.fm/api/auth/?api_key=" + ApiKey + "&token=" + token);
-                var authurl = "http://www.last.fm/api/auth/?api_key=" + ApiKey + "&token=" + token;
-                authurl.OpenUrl();
+                
+                //var authurl = "http://www.last.fm/api/auth/?api_key=" + ApiKey + "&token=" + token;
+                //authurl.OpenUrl();
             }
 
             var allowAccessResponce = ResponceExt.CreateFrom<BaseResponce, AllowAccessResponce>(responce);

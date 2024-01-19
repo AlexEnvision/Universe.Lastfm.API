@@ -91,6 +91,8 @@ namespace Universe.Lastfm.Api.Dal.Command.Scrobble
                 throw new ArgumentException("request.Performer is empty. This is required parameter");
             if (request.Track.IsNullOrEmpty())
                 throw new ArgumentException("request.Track is empty. This is required parameter");
+            if (request.Timestamp == 0)
+                throw new ArgumentException("request.Timestamp equals zero. This is required parameter");
 
             if (request.SecretKey.IsNullOrEmpty())
                 throw new ArgumentException("request.SecretKey is empty. This is required parameter");

@@ -38,6 +38,8 @@ using System.Net;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
+using Universe.Helpers.Extensions;
+using Universe.Lastfm.Api.Browser;
 using Universe.Lastfm.Api.Dal.Queries.Hash;
 using Universe.Lastfm.Api.Helpers;
 
@@ -47,6 +49,8 @@ namespace Universe.Lastfm.Api.Dal.Queries.ApiConnect
     {
         private string _token;
         private string _sessionKey;
+
+        public int MinWaitPause => 1000;
 
         public void Connect(bool needApprovement)
         {
@@ -60,11 +64,23 @@ namespace Universe.Lastfm.Api.Dal.Queries.ApiConnect
                 //WebRequest request = WebRequest.Create("http://ws.audioscrobbler.com/2.0/?method=auth.gettoken&api_key=" + Settings.ApiKey);
 
                 var url = "http://www.last.fm/api/auth/?api_key=" + Settings.ApiKey + "&token=" + _token;
-                url.OpenUrl();
-                //После этого пользователь должен потвердить согласие
-                //На это есть 15 секунд
 
-                Thread.Sleep(15 * 1000);
+                if (!Settings.WebDriverExecutableFilePath.IsNullOrEmpty() && 
+                    !Settings.Login.IsNullOrEmpty() && 
+                    !Settings.Password.IsNullOrEmpty())
+                {
+                    var engine = new OpenBrowserEngine(Settings);
+                    engine.Run(new OpenBrowserParameters { SiteNav = url });
+                }
+                else
+                {
+                    url.OpenUrl();
+
+                    //После этого пользователь должен потвердить согласие
+                    //На это есть 15 секунд
+
+                    Thread.Sleep(15 * MinWaitPause);
+                }
             }
         }
 

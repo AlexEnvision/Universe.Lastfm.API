@@ -46,6 +46,8 @@
             label8 = new System.Windows.Forms.Label();
             tbOutputPath = new System.Windows.Forms.TextBox();
             btChoosePath = new System.Windows.Forms.Button();
+            dtTimeStampPicker = new System.Windows.Forms.DateTimePicker();
+            label9 = new System.Windows.Forms.Label();
             SuspendLayout();
             // 
             // label1
@@ -60,7 +62,7 @@
             // 
             // tbPerformer
             // 
-            tbPerformer.Location = new System.Drawing.Point(101, 39);
+            tbPerformer.Location = new System.Drawing.Point(118, 39);
             tbPerformer.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             tbPerformer.Name = "tbPerformer";
             tbPerformer.Size = new System.Drawing.Size(379, 27);
@@ -109,7 +111,7 @@
             // 
             // tbAlbum
             // 
-            tbAlbum.Location = new System.Drawing.Point(101, 88);
+            tbAlbum.Location = new System.Drawing.Point(118, 88);
             tbAlbum.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             tbAlbum.Name = "tbAlbum";
             tbAlbum.Size = new System.Drawing.Size(379, 27);
@@ -128,7 +130,7 @@
             // 
             // tbTrack
             // 
-            tbTrack.Location = new System.Drawing.Point(101, 140);
+            tbTrack.Location = new System.Drawing.Point(118, 140);
             tbTrack.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             tbTrack.Name = "tbTrack";
             tbTrack.Size = new System.Drawing.Size(379, 27);
@@ -147,7 +149,7 @@
             // 
             // tbTag
             // 
-            tbTag.Location = new System.Drawing.Point(101, 190);
+            tbTag.Location = new System.Drawing.Point(118, 190);
             tbTag.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             tbTag.Name = "tbTag";
             tbTag.Size = new System.Drawing.Size(379, 27);
@@ -220,11 +222,34 @@
             btChoosePath.UseVisualStyleBackColor = true;
             btChoosePath.Click += btChoosePath_Click;
             // 
+            // dtTimeStampPicker
+            // 
+            dtTimeStampPicker.DropDownAlign = System.Windows.Forms.LeftRightAlignment.Right;
+            dtTimeStampPicker.Format = System.Windows.Forms.DateTimePickerFormat.Time;
+            dtTimeStampPicker.Location = new System.Drawing.Point(118, 241);
+            dtTimeStampPicker.Name = "dtTimeStampPicker";
+            dtTimeStampPicker.ShowUpDown = true;
+            dtTimeStampPicker.Size = new System.Drawing.Size(379, 27);
+            dtTimeStampPicker.TabIndex = 49;
+            dtTimeStampPicker.Value = new System.DateTime(2024, 1, 19, 1, 6, 0, 0);
+            // 
+            // label9
+            // 
+            label9.AutoSize = true;
+            label9.Location = new System.Drawing.Point(13, 242);
+            label9.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            label9.Name = "label9";
+            label9.Size = new System.Drawing.Size(83, 20);
+            label9.TabIndex = 48;
+            label9.Text = "Timestamp";
+            // 
             // ReqContextForm
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             ClientSize = new System.Drawing.Size(1042, 403);
+            Controls.Add(dtTimeStampPicker);
+            Controls.Add(label9);
             Controls.Add(btChoosePath);
             Controls.Add(tbOutputPath);
             Controls.Add(label8);
@@ -269,5 +294,7 @@
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.TextBox tbOutputPath;
         private System.Windows.Forms.Button btChoosePath;
+        private System.Windows.Forms.DateTimePicker dtTimeStampPicker;
+        private System.Windows.Forms.Label label9;
     }
 }

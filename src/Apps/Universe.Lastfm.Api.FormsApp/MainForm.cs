@@ -45,6 +45,7 @@ using Universe.Algorithm.MultiThreading;
 using Universe.CQRS;
 using Universe.CQRS.Infrastructure;
 using Universe.Diagnostic.Logger;
+using Universe.Helpers.Extensions;
 using Universe.Lastfm.Api.Dal.Command;
 using Universe.Lastfm.Api.Dal.Command.Albums;
 using Universe.Lastfm.Api.Dal.Command.Performers;
@@ -156,6 +157,9 @@ namespace Universe.Lastfm.Api.FormsApp
             fullRubberyUIToolStripMenuItem.Checked = _programSettings.IsFullRubberUI;
             spaceModeToolStripMenuItem.Checked = _programSettings.IsSpaceMode;
 
+            tbLogin.Text = _programSettings.Login;
+            tbPassword.Text = _programSettings.Password;
+
             if (_programSettings.IsMaximized)
                 this.WindowState = FormWindowState.Maximized;
 
@@ -166,6 +170,14 @@ namespace Universe.Lastfm.Api.FormsApp
                 SpaceThemeStyle.Set.Apply(pMainForm);
 
             ReqCtx = _programSettings.ReqCtx;
+
+            if (_programSettings.WebDriverExecutableFilePath.IsNullOrEmpty())
+            {
+                _programSettings.WebDriverExecutableFilePath =
+                    Path.Combine(Directory.GetCurrentDirectory(), "WebDriver/chromedriver.exe");
+                if (!File.Exists(_programSettings.WebDriverExecutableFilePath))
+                    _programSettings.WebDriverExecutableFilePath = string.Empty;
+            }
         }
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
@@ -187,6 +199,9 @@ namespace Universe.Lastfm.Api.FormsApp
             _programSettings.IsFullRubberUI = fullRubberyUIToolStripMenuItem.Checked;
 
             _programSettings.IsSpaceMode = spaceModeToolStripMenuItem.Checked;
+
+            _programSettings.Login = tbLogin.Text;
+            _programSettings.Password = tbPassword.Text;
 
             // A session key must be cleared if you want to save a context
             ReqCtx.SessionKey = string.Empty;
@@ -328,6 +343,8 @@ namespace Universe.Lastfm.Api.FormsApp
             string[] addTags = new string[] { };
             string[] delTags = new string[] { };
 
+            long timestamp;
+
             string outputFile;
 
             using (var form = new ReqContextForm(_programSettings))
@@ -382,6 +399,22 @@ namespace Universe.Lastfm.Api.FormsApp
                         return;
                     }
 
+                    delTags = form.DelTagArray;
+                    if (addTags.Length == 0)
+                    {
+                        tbLog.AppendText($"[{DateTime.Now}] Не указаны tags for deletion!" + Environment.NewLine);
+                        btRun.LightWarningColorResult();
+                        return;
+                    }
+
+                    timestamp = form.Timestamp;
+                    if (timestamp == 0)
+                    {
+                        tbLog.AppendText($"[{DateTime.Now}] Не указан timestamp!" + Environment.NewLine);
+                        btRun.LightWarningColorResult();
+                        return;
+                    }
+
                     outputFile = form.OutputFile;
                 }
                 else
@@ -403,6 +436,8 @@ namespace Universe.Lastfm.Api.FormsApp
             ReqCtx.Period = "";
             ReqCtx.Page = 2;
             ReqCtx.Limit = 25;
+
+            ReqCtx.Timestamp = timestamp;
 
             ThreadMachine.Create(1).RunInMultiTheadsWithoutWaiting(() =>
             {
@@ -474,7 +509,13 @@ namespace Universe.Lastfm.Api.FormsApp
                     (Scope.GetCommand<AddArtistTagsCommand>(), btArtistAddTags),
                     (Scope.GetCommand<DeleteArtistTagsCommand>(), btArtistRemoveTag),
 
+                    (Scope.GetCommand<AddTrackTagsCommand>(), btTrackAddTags),
+                    (Scope.GetCommand<DeleteTrackTagsCommand>(), btTrackRemoveTag),
                     (Scope.GetCommand<UpdateTrackAsLoveCommand>(), btTrackLove),
+                    (Scope.GetCommand<UpdateTrackAsLoveCommand>(), btTrackUnlove),
+                    (Scope.GetCommand<UpdateTrackUpdateNowPlayingCommand>(), btTrackUpdateNowPlaying),
+
+                    (Scope.GetCommand<ScrobblingTrackCommand>(), btTrackScrobble),
                 };
 
                 foreach (var command in commands)

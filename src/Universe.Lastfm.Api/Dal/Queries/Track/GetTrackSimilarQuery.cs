@@ -35,6 +35,7 @@
 
 using System;
 using Universe.Lastfm.Api.Dto.Base;
+using Universe.Lastfm.Api.Dto.GetTrackInfo;
 using Universe.Lastfm.Api.Helpers;
 using Universe.Lastfm.Api.Models;
 using Universe.Lastfm.Api.Models.Base;
@@ -176,7 +177,7 @@ namespace Universe.Lastfm.Api.Dal.Queries.Track
 
         public string Artist { get; set; }
 
-        public TrackShort[] Track { get; set; }
+        public TrackFull[] Track { get; set; }
     }
 
     /// <summary>

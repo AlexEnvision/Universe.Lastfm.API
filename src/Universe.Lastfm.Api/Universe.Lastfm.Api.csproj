@@ -6,6 +6,8 @@
 
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="Selenium.WebDriver" Version="4.16.2" />
+    <PackageReference Include="System.Management" Version="8.0.0" />
     <PackageReference Include="Unity" Version="5.11.10" />
     <PackageReference Include="Universe.NetCore.CQRS" Version="1.0.0" />
   </ItemGroup>
