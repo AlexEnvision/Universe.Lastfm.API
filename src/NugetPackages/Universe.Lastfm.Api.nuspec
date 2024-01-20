@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>Universe.Lastfm.Api</id>
-    <version>0.9.4</version>
+    <version>0.9.9.5</version>
     <authors>Alex Envision</authors>
     <owners>Alex Envision</owners>
     <license type="file">APACHE-2.0 LICENSE.txt</license>
@@ -22,6 +22,7 @@
          <dependency id="Unity" version="5.11.10" />
          <dependency id="Universe.NetCore.CQRS" version="1.0.0" />
          <dependency id="Newtonsoft.Json" version="13.0.3" />
+         <dependency id="Selenium.WebDriver" version="4.16.2" />
        </group>
       <group targetFramework=".NET5.0" >
         <dependency id="Universe.NetCore.Types" version="1.0.0.0" />
@@ -31,6 +32,7 @@
         <dependency id="Unity" version="5.11.10" />
         <dependency id="Universe.NetCore.CQRS" version="1.0.0" />
         <dependency id="Newtonsoft.Json" version="13.0.3" />
+        <dependency id="Selenium.WebDriver" version="4.16.2" />
       </group>
       <group targetFramework=".NET6.0" >
         <dependency id="Universe.NetCore.Types" version="1.0.0.0" />
@@ -40,6 +42,7 @@
         <dependency id="Unity" version="5.11.10" />
         <dependency id="Universe.NetCore.CQRS" version="1.0.0" />
         <dependency id="Newtonsoft.Json" version="13.0.3" />
+        <dependency id="Selenium.WebDriver" version="4.16.2" />
       </group>
       <group targetFramework="monoandroid8.0" >
         <dependency id="Universe.NetCore.Types" version="1.0.0.0" />
@@ -49,6 +52,7 @@
         <dependency id="Unity" version="5.11.10" />
         <dependency id="Universe.NetCore.CQRS" version="1.0.0" />
         <dependency id="Newtonsoft.Json" version="13.0.3" />
+        <dependency id="Selenium.WebDriver" version="4.16.2" />
       </group>
     </dependencies>
   </metadata>
