@@ -1,5 +1,9 @@
-﻿namespace Universe.Lastfm.Api.FormsApp.Forms.Users
+namespace Universe.Lastfm.Api.FormsApp.Forms.Users
 {
+    /// <summary>
+    /// <author>Alex Universe</author>
+    /// <author>Alex Envision</author>
+    /// </summary>
     partial class UserTopAlbumsReqForm
     {
         /// <summary>

@@ -42,6 +42,8 @@ namespace Universe.Lastfm.Api.Infrastracture
 {
     /// <summary>
     /// <author>Alex Envision</author>
+    /// <author>Alex Universe</author>
+    /// <author>Alex Envision</author>
     /// </summary>
     public class UnityProfileApp
     {

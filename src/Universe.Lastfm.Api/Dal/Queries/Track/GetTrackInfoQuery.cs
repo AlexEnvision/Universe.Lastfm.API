@@ -1,4 +1,4 @@
-﻿//  ╔═════════════════════════════════════════════════════════════════════════════════╗
+//  ╔═════════════════════════════════════════════════════════════════════════════════╗
 //  ║                                                                                 ║
 //  ║   Copyright 2024 Universe.Lastfm.Api                                            ║
 //  ║                                                                                 ║
@@ -45,6 +45,8 @@ namespace Universe.Lastfm.Api.Dal.Queries.Track
     /// <summary>
     ///     The query gets the full information about track on the Last.fm.
     ///     Запрос, получающий полную информацию о трэке на Last.fm. 
+    /// <author>Alex Universe</author>
+    /// <author>Alex Envision</author>
     /// </summary>
     public class GetTrackInfoQuery : LastQuery<GetTrackInfoRequest, GetTrackInfoResponce>
     {

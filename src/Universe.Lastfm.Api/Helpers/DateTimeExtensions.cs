@@ -1,4 +1,4 @@
-﻿//  ╔═════════════════════════════════════════════════════════════════════════════════╗
+//  ╔═════════════════════════════════════════════════════════════════════════════════╗
 //  ║                                                                                 ║
 //  ║   Copyright 2024 Universe.Lastfm.Api                                            ║
 //  ║                                                                                 ║
@@ -39,6 +39,8 @@ namespace Universe.Lastfm.Api.Helpers
 {
     /// <summary>
     ///     Contains extensions are relating and associating with <see cref="DateTime"/>
+    /// <author>Alex Universe</author>
+    /// <author>Alex Envision</author>
     /// </summary>
     public static class DateTimeExtensions
     {

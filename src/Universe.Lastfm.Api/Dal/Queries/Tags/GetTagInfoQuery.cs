@@ -1,4 +1,4 @@
-﻿//  ╔═════════════════════════════════════════════════════════════════════════════════╗
+//  ╔═════════════════════════════════════════════════════════════════════════════════╗
 //  ║                                                                                 ║
 //  ║   Copyright 2024 Universe.Lastfm.Api                                            ║
 //  ║                                                                                 ║
@@ -45,6 +45,8 @@ namespace Universe.Lastfm.Api.Dal.Queries.Tags
     /// <summary>
     ///     The query gets the full information about Last.fm tag/genre.
     ///     Запрос, получающий полную информацию об Last.fm тэге/жанре. 
+    /// <author>Alex Universe</author>
+    /// <author>Alex Envision</author>
     /// </summary>
     public class GetTagInfoQuery : LastQuery<GetTagInfoRequest, GetTagInfoResponce>
     {

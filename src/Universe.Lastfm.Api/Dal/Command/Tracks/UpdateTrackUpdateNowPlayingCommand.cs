@@ -1,4 +1,4 @@
-﻿//  ╔═════════════════════════════════════════════════════════════════════════════════╗
+//  ╔═════════════════════════════════════════════════════════════════════════════════╗
 //  ║                                                                                 ║
 //  ║   Copyright 2024 Universe.Lastfm.Api                                            ║
 //  ║                                                                                 ║
@@ -48,6 +48,8 @@ namespace Universe.Lastfm.Api.Dal.Command.Tracks
     ///     The command uses to notify Last.fm that a user
     ///     has started listening to a track.
     ///     Parameter names are case sensitive.
+    /// <author>Alex Universe</author>
+    /// <author>Alex Envision</author>
     /// </summary>
     public class UpdateTrackUpdateNowPlayingCommand : LastCommand<UpdateTrackUpdateNowPlayingRequest, UpdateTrackUpdateNowPlayingCommandResponce>
     {

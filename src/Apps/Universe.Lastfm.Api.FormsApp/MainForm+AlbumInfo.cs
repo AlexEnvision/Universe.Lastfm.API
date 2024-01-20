@@ -1,4 +1,4 @@
-﻿//  ╔═════════════════════════════════════════════════════════════════════════════════╗
+//  ╔═════════════════════════════════════════════════════════════════════════════════╗
 //  ║                                                                                 ║
 //  ║   Copyright 2024 Universe.Lastfm.Api                                            ║
 //  ║                                                                                 ║
@@ -49,6 +49,10 @@ using static Universe.Lastfm.Api.Dal.Queries.Albums.SearchAlbumQuery;
 
 namespace Universe.Lastfm.Api.FormsApp
 {
+    /// <summary>
+    /// <author>Alex Universe</author>
+    /// <author>Alex Envision</author>
+    /// </summary>
     public partial class MainForm
     {
         private void btAlbumGetInfo_Click(object sender, EventArgs e)

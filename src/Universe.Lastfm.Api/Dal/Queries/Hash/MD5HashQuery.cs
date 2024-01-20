@@ -1,4 +1,4 @@
-﻿//  ╔═════════════════════════════════════════════════════════════════════════════════╗
+//  ╔═════════════════════════════════════════════════════════════════════════════════╗
 //  ║                                                                                 ║
 //  ║   Copyright 2024 Universe.Lastfm.Api                                            ║
 //  ║                                                                                 ║
@@ -38,6 +38,10 @@ using System.Text;
 
 namespace Universe.Lastfm.Api.Dal.Queries.Hash
 {
+    /// <summary>
+    /// <author>Alex Universe</author>
+    /// <author>Alex Envision</author>
+    /// </summary>
     public class Md5HashQuery : BaseQuery
     {
         public string Execute(MD5 md5Hash, string input)

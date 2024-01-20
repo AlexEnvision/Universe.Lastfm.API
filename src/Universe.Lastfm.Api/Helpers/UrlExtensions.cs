@@ -1,4 +1,4 @@
-﻿//  ╔═════════════════════════════════════════════════════════════════════════════════╗
+//  ╔═════════════════════════════════════════════════════════════════════════════════╗
 //  ║                                                                                 ║
 //  ║   Copyright 2024 Universe.Lastfm.Api                                            ║
 //  ║                                                                                 ║
@@ -38,6 +38,10 @@ using System.Runtime.InteropServices;
 
 namespace Universe.Lastfm.Api.Helpers
 {
+    /// <summary>
+    /// <author>Alex Universe</author>
+    /// <author>Alex Envision</author>
+    /// </summary>
     public static class UrlExtensions
     {
         public static void OpenUrl(this string url)

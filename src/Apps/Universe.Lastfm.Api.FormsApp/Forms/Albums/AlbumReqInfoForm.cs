@@ -1,4 +1,4 @@
-﻿//  ╔═════════════════════════════════════════════════════════════════════════════════╗
+//  ╔═════════════════════════════════════════════════════════════════════════════════╗
 //  ║                                                                                 ║
 //  ║   Copyright 2024 Universe.Lastfm.Api                                            ║
 //  ║                                                                                 ║
@@ -41,6 +41,10 @@ using Universe.Lastfm.Api.Models;
 
 namespace Universe.Lastfm.Api.FormsApp.Forms.Albums
 {
+    /// <summary>
+    /// <author>Alex Universe</author>
+    /// <author>Alex Envision</author>
+    /// </summary>
     public partial class AlbumReqInfoForm : Form
     {
         protected string PerformerName => tbPerformer?.Text;

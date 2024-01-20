@@ -1,5 +1,9 @@
-﻿namespace Universe.Lastfm.Api.FormsApp.Forms
+namespace Universe.Lastfm.Api.FormsApp.Forms
 {
+    /// <summary>
+    /// <author>Alex Universe</author>
+    /// <author>Alex Envision</author>
+    /// </summary>
     partial class ScrobbleForm
     {
         /// <summary>

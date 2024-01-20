@@ -1,4 +1,4 @@
-﻿//  ╔═════════════════════════════════════════════════════════════════════════════════╗
+//  ╔═════════════════════════════════════════════════════════════════════════════════╗
 //  ║                                                                                 ║
 //  ║   Copyright 2024 Universe.Lastfm.Api                                            ║
 //  ║                                                                                 ║
@@ -46,6 +46,8 @@ namespace Universe.Lastfm.Api.Dal.Queries.Track
     /// <summary>
     ///     The query does search of a similar track of the Last.fm.
     ///     Запрос, ведущий поиск похожих трэков на Last.fm. 
+    /// <author>Alex Universe</author>
+    /// <author>Alex Envision</author>
     /// </summary>
     public class GetTrackSimilarQuery : LastQuery<GetTrackSimilarRequest, GetTrackSimilarResponce>
     {

@@ -1,4 +1,4 @@
-﻿//  ╔═════════════════════════════════════════════════════════════════════════════════╗
+//  ╔═════════════════════════════════════════════════════════════════════════════════╗
 //  ║                                                                                 ║
 //  ║   Copyright 2024 Universe.Lastfm.Api                                            ║
 //  ║                                                                                 ║
@@ -41,6 +41,8 @@ namespace Universe.Lastfm.Api.Dto.GetTagInfo
     /// <summary>
     ///     The full information about Last.fm tag / genre.
     ///     Полная информация об Last.fm тэге / жанре.
+    /// <author>Alex Universe</author>
+    /// <author>Alex Envision</author>
     /// </summary>
     public class TagFull : LastFmBaseModel
     {

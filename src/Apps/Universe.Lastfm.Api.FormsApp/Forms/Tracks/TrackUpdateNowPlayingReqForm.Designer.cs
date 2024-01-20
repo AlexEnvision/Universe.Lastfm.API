@@ -1,5 +1,9 @@
-﻿namespace Universe.Lastfm.Api.FormsApp.Forms.Tracks
+namespace Universe.Lastfm.Api.FormsApp.Forms.Tracks
 {
+    /// <summary>
+    /// <author>Alex Universe</author>
+    /// <author>Alex Envision</author>
+    /// </summary>
     partial class TrackUpdateNowPlayingReqForm
     {
         /// <summary>

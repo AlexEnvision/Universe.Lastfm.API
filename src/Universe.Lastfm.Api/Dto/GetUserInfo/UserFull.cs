@@ -1,4 +1,4 @@
-﻿//  ╔═════════════════════════════════════════════════════════════════════════════════╗
+//  ╔═════════════════════════════════════════════════════════════════════════════════╗
 //  ║                                                                                 ║
 //  ║   Copyright 2024 Universe.Lastfm.Api                                            ║
 //  ║                                                                                 ║
@@ -41,6 +41,8 @@ namespace Universe.Lastfm.Api.Dto.GetUserInfo
     /// <summary>
     ///     The full information about user of the Last.fm.
     ///     Полная информация о пользователе Last.fm.
+    /// <author>Alex Universe</author>
+    /// <author>Alex Envision</author>
     /// </summary>
     public class UserFull : LastFmBaseModel
     {

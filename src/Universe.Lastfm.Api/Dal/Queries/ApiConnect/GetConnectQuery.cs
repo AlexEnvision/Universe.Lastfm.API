@@ -1,4 +1,4 @@
-﻿//  ╔═════════════════════════════════════════════════════════════════════════════════╗
+//  ╔═════════════════════════════════════════════════════════════════════════════════╗
 //  ║                                                                                 ║
 //  ║   Copyright 2024 Universe.Lastfm.Api                                            ║
 //  ║                                                                                 ║
@@ -45,6 +45,10 @@ using Universe.Lastfm.Api.Helpers;
 
 namespace Universe.Lastfm.Api.Dal.Queries.ApiConnect
 {
+    /// <summary>
+    /// <author>Alex Universe</author>
+    /// <author>Alex Envision</author>
+    /// </summary>
     public class GetConnectQuery : LastQuery
     {
         private string _token;

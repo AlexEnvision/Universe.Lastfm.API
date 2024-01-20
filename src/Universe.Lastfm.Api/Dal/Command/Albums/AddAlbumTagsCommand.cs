@@ -1,4 +1,4 @@
-﻿//  ╔═════════════════════════════════════════════════════════════════════════════════╗
+//  ╔═════════════════════════════════════════════════════════════════════════════════╗
 //  ║                                                                                 ║
 //  ║   Copyright 2024 Universe.Lastfm.Api                                            ║
 //  ║                                                                                 ║
@@ -50,6 +50,8 @@ namespace Universe.Lastfm.Api.Dal.Command.Albums
 {
     /// <summary>
     ///     The command adds tag an album using a list of user supplied tags.
+    /// <author>Alex Universe</author>
+    /// <author>Alex Envision</author>
     /// </summary>
     public class AddAlbumTagsCommand : LastCommand<AddAlbumTagsRequest, MassAddAlbumTagsCommandResponce>
     {

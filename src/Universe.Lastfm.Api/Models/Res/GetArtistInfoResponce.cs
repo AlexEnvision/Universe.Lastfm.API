@@ -1,4 +1,4 @@
-﻿//  ╔═════════════════════════════════════════════════════════════════════════════════╗
+//  ╔═════════════════════════════════════════════════════════════════════════════════╗
 //  ║                                                                                 ║
 //  ║   Copyright 2024 Universe.Lastfm.Api                                            ║
 //  ║                                                                                 ║
@@ -42,6 +42,8 @@ namespace Universe.Lastfm.Api.Models.Res
     /// <summary>
     ///     The responce with the full information about artist/performer on the Last.fm.
     ///     Ответ с полнуй информацией об артисте/исполнителе на Last.fm. 
+    /// <author>Alex Universe</author>
+    /// <author>Alex Envision</author>
     /// </summary>
     public class GetArtistInfoResponce : LastFmBaseResponce<ArtistInfoContainer>
     {

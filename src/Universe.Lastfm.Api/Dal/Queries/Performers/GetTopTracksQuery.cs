@@ -1,4 +1,4 @@
-﻿//  ╔═════════════════════════════════════════════════════════════════════════════════╗
+//  ╔═════════════════════════════════════════════════════════════════════════════════╗
 //  ║                                                                                 ║
 //  ║   Copyright 2024 Universe.Lastfm.Api                                            ║
 //  ║                                                                                 ║
@@ -44,6 +44,8 @@ namespace Universe.Lastfm.Api.Dal.Queries.Performers
 {
     /// <summary>
     ///     The query gets the top tracks chart
+    /// <author>Alex Universe</author>
+    /// <author>Alex Envision</author>
     /// </summary>
     public class GetTopTracksQuery : LastQuery<ChartGetTopTracksRequest, ChartGetTopTracksResponce>
     {

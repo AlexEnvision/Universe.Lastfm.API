@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Diagnostics;
 using System.Threading;
 using OpenQA.Selenium;
@@ -8,6 +8,10 @@ using Universe.Lastfm.Api.Infrastracture;
 
 namespace Universe.Lastfm.Api.Browser
 {
+    /// <summary>
+    /// <author>Alex Universe</author>
+    /// <author>Alex Envision</author>
+    /// </summary>
     internal class OpenBrowserEngine
     {
         private readonly IUniverseLastApiSettings _settings;

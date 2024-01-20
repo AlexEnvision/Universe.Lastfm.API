@@ -1,4 +1,4 @@
-﻿//  ╔═════════════════════════════════════════════════════════════════════════════════╗
+//  ╔═════════════════════════════════════════════════════════════════════════════════╗
 //  ║                                                                                 ║
 //  ║   Copyright 2024 Universe.Lastfm.Api                                            ║
 //  ║                                                                                 ║
@@ -40,6 +40,8 @@ namespace Universe.Lastfm.Api.Models.Req
     /// <summary>
     ///     The request with full information about track on the Last.fm.
     ///     Запрос на полную информацию о трэке на Last.fm.
+    /// <author>Alex Universe</author>
+    /// <author>Alex Envision</author>
     /// </summary>
     public class GetTrackInfoRequest : BaseRequest
     {

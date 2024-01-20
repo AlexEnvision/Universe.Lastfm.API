@@ -1,4 +1,4 @@
-﻿//  ╔═════════════════════════════════════════════════════════════════════════════════╗
+//  ╔═════════════════════════════════════════════════════════════════════════════════╗
 //  ║                                                                                 ║
 //  ║   Copyright 2024 Universe.Lastfm.Api                                            ║
 //  ║                                                                                 ║
@@ -49,6 +49,8 @@ namespace Universe.Lastfm.Api.Dal.Command.Tracks
 {
     /// <summary>
     ///     The command sets unlove-state a track for a user profile.
+    /// <author>Alex Universe</author>
+    /// <author>Alex Envision</author>
     /// </summary>
     public class UpdateTrackAsUnloveCommand : LastCommand<UpdateTrackAsUnloveRequest, UpdateTrackAsUnloveCommandResponce>
     {

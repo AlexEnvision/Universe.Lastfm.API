@@ -1,4 +1,4 @@
-﻿//  ╔═════════════════════════════════════════════════════════════════════════════════╗
+//  ╔═════════════════════════════════════════════════════════════════════════════════╗
 //  ║                                                                                 ║
 //  ║   Copyright 2024 Universe.Lastfm.Api                                            ║
 //  ║                                                                                 ║
@@ -46,6 +46,8 @@ namespace Universe.Lastfm.Api.Dal.Queries.Tags
 {
     /// <summary>
     ///     The query gets the top albums tagged by this tag, ordered by tag count.
+    /// <author>Alex Universe</author>
+    /// <author>Alex Envision</author>
     /// </summary>
     public class GetTagTopAlbumsQuery : LastQuery<GetTagTopAlbumsRequest, GetTagTopAlbumsResponce>
     {

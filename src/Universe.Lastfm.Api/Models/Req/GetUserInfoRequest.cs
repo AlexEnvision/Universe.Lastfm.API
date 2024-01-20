@@ -1,4 +1,4 @@
-﻿//  ╔═════════════════════════════════════════════════════════════════════════════════╗
+//  ╔═════════════════════════════════════════════════════════════════════════════════╗
 //  ║                                                                                 ║
 //  ║   Copyright 2024 Universe.Lastfm.Api                                            ║
 //  ║                                                                                 ║
@@ -40,6 +40,8 @@ namespace Universe.Lastfm.Api.Models.Req
     /// <summary>
     ///     The request with parameters for full information about user of the Last.fm.
     ///     Запрос с параметрами для полной информацией о пользователе Last.fm.
+    /// <author>Alex Universe</author>
+    /// <author>Alex Envision</author>
     /// </summary>
     public class GetUserInfoRequest : BaseRequest
     {

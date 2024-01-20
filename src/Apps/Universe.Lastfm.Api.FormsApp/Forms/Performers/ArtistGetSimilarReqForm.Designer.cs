@@ -1,5 +1,9 @@
-﻿namespace Universe.Lastfm.Api.FormsApp.Forms.Performers
+namespace Universe.Lastfm.Api.FormsApp.Forms.Performers
 {
+    /// <summary>
+    /// <author>Alex Universe</author>
+    /// <author>Alex Envision</author>
+    /// </summary>
     partial class ArtistGetSimilarReqForm
     {
         /// <summary>

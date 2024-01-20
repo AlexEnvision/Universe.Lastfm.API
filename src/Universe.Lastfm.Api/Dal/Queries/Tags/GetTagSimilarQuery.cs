@@ -1,4 +1,4 @@
-﻿//  ╔═════════════════════════════════════════════════════════════════════════════════╗
+//  ╔═════════════════════════════════════════════════════════════════════════════════╗
 //  ║                                                                                 ║
 //  ║   Copyright 2024 Universe.Lastfm.Api                                            ║
 //  ║                                                                                 ║
@@ -47,6 +47,8 @@ namespace Universe.Lastfm.Api.Dal.Queries.Tags
     /// <summary>
     ///     The query searches for tags similar to this one.
     ///     Returns tags ranked by similarity, based on listening data.
+    /// <author>Alex Universe</author>
+    /// <author>Alex Envision</author>
     /// </summary>
     public class GetTagSimilarQuery : LastQuery<GetTagSimilarRequest, GetTagSimilarResponce>
     {

@@ -1,5 +1,9 @@
-﻿namespace Universe.Lastfm.Api.FormsApp.Forms.Albums
+namespace Universe.Lastfm.Api.FormsApp.Forms.Albums
 {
+    /// <summary>
+    /// <author>Alex Universe</author>
+    /// <author>Alex Envision</author>
+    /// </summary>
     partial class AlbumDeleteTagsReqForm
     {
         /// <summary>

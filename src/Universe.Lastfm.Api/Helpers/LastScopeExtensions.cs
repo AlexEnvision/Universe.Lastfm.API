@@ -1,4 +1,4 @@
-﻿//  ╔═════════════════════════════════════════════════════════════════════════════════╗
+//  ╔═════════════════════════════════════════════════════════════════════════════════╗
 //  ║                                                                                 ║
 //  ║   Copyright 2024 Universe.Lastfm.Api                                            ║
 //  ║                                                                                 ║
@@ -42,6 +42,10 @@ using Universe.Lastfm.Api.Meta.Consts;
 
 namespace Universe.Lastfm.Api.Helpers
 {
+    /// <summary>
+    /// <author>Alex Universe</author>
+    /// <author>Alex Envision</author>
+    /// </summary>
     public static class LastScopeExtensions
     {
         public static T GetQuery<T>(this UniverseLastApiScope scope) where T : BaseQuery, new()

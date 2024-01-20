@@ -1,4 +1,4 @@
-﻿//  ╔═════════════════════════════════════════════════════════════════════════════════╗
+//  ╔═════════════════════════════════════════════════════════════════════════════════╗
 //  ║                                                                                 ║
 //  ║   Copyright 2024 Universe.Lastfm.Api                                            ║
 //  ║                                                                                 ║
@@ -42,6 +42,8 @@ namespace Universe.Lastfm.Api.Models.Res
     /// <summary>
     ///     The responce with full information about user of the Last.fm.
     ///     Ответ с полной информацией о пользователе Last.fm.
+    /// <author>Alex Universe</author>
+    /// <author>Alex Envision</author>
     /// </summary>
     public class GetUserInfoResponce : LastFmBaseResponce<UserInfoContainer>
     {

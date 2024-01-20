@@ -1,4 +1,4 @@
-﻿//  ╔═════════════════════════════════════════════════════════════════════════════════╗
+//  ╔═════════════════════════════════════════════════════════════════════════════════╗
 //  ║                                                                                 ║
 //  ║   Copyright 2024 Universe.Lastfm.Api                                            ║
 //  ║                                                                                 ║
@@ -46,6 +46,8 @@ namespace Universe.Lastfm.Api.Dal.Queries.Performers
     /// <summary>
     ///     The query does search of an similar artist of the Last.fm.
     ///     Запрос, ведущий поиск похожих исполнителей на Last.fm. 
+    /// <author>Alex Universe</author>
+    /// <author>Alex Envision</author>
     /// </summary>
     public class GetSimilarPerformersQuery : LastQuery<GetSimilarPerformersQuery.GetSimilarRequest, GetSimilarPerformersQuery.GetSimilarResponce>
     {

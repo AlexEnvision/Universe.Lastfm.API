@@ -1,4 +1,4 @@
-﻿//  ╔═════════════════════════════════════════════════════════════════════════════════╗
+//  ╔═════════════════════════════════════════════════════════════════════════════════╗
 //  ║                                                                                 ║
 //  ║   Copyright 2024 Universe.Lastfm.Api                                            ║
 //  ║                                                                                 ║
@@ -42,6 +42,10 @@ using Universe.Lastfm.Api.FormsApp.Properties;
 
 namespace Universe.Lastfm.Api.FormsApp.Themes
 {
+    /// <summary>
+    /// <author>Alex Universe</author>
+    /// <author>Alex Envision</author>
+    /// </summary>
     public class SpaceThemeStyle
     {
         public Color MainBackColor => Color.FromArgb(1, 7, 51);

@@ -1,4 +1,4 @@
-﻿//  ╔═════════════════════════════════════════════════════════════════════════════════╗
+//  ╔═════════════════════════════════════════════════════════════════════════════════╗
 //  ║                                                                                 ║
 //  ║   Copyright 2024 Universe.Lastfm.Api                                            ║
 //  ║                                                                                 ║
@@ -40,6 +40,8 @@ namespace Universe.Lastfm.Api.Models.Res
 {
     /// <summary>
     ///     The chart with tags
+    /// <author>Alex Universe</author>
+    /// <author>Alex Envision</author>
     /// </summary>
     public class ChartGetTopTagsResponce : LastFmBaseResponce<ChartTagsContainer>
     {

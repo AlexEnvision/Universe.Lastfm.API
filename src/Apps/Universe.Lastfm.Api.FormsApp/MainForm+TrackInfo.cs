@@ -1,4 +1,4 @@
-﻿//  ╔═════════════════════════════════════════════════════════════════════════════════╗
+//  ╔═════════════════════════════════════════════════════════════════════════════════╗
 //  ║                                                                                 ║
 //  ║   Copyright 2024 Universe.Lastfm.Api                                            ║
 //  ║                                                                                 ║
@@ -48,6 +48,10 @@ using Universe.Lastfm.Api.Models.Req;
 
 namespace Universe.Lastfm.Api.FormsApp
 {
+    /// <summary>
+    /// <author>Alex Universe</author>
+    /// <author>Alex Envision</author>
+    /// </summary>
     public partial class MainForm
     {
         private void btTrackGetInfo_Click(object sender, EventArgs e)

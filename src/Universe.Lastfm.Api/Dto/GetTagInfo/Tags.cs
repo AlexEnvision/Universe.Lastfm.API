@@ -1,4 +1,4 @@
-﻿//  ╔═════════════════════════════════════════════════════════════════════════════════╗
+//  ╔═════════════════════════════════════════════════════════════════════════════════╗
 //  ║                                                                                 ║
 //  ║   Copyright 2024 Universe.Lastfm.Api                                            ║
 //  ║                                                                                 ║
@@ -37,6 +37,10 @@ using Universe.Lastfm.Api.Dto.Common;
 
 namespace Universe.Lastfm.Api.Dto.GetTagInfo
 {
+    /// <summary>
+    /// <author>Alex Universe</author>
+    /// <author>Alex Envision</author>
+    /// </summary>
     public class Tags
     {
         public TagPageAttribute TagsAttribute { get; set; }

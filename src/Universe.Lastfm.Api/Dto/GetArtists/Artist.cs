@@ -1,4 +1,4 @@
-﻿//  ╔═════════════════════════════════════════════════════════════════════════════════╗
+//  ╔═════════════════════════════════════════════════════════════════════════════════╗
 //  ║                                                                                 ║
 //  ║   Copyright 2024 Universe.Lastfm.Api                                            ║
 //  ║                                                                                 ║
@@ -38,6 +38,10 @@ using Universe.Lastfm.Api.Dto.Common.Short;
 
 namespace Universe.Lastfm.Api.Dto.GetArtists
 {
+    /// <summary>
+    /// <author>Alex Universe</author>
+    /// <author>Alex Envision</author>
+    /// </summary>
     public class Artist : ArtistShort
     {
         public long ChartPosition { get; set; }

@@ -1,4 +1,4 @@
-﻿//  ╔═════════════════════════════════════════════════════════════════════════════════╗
+//  ╔═════════════════════════════════════════════════════════════════════════════════╗
 //  ║                                                                                 ║
 //  ║   Copyright 2024 Universe.Lastfm.Api                                            ║
 //  ║                                                                                 ║
@@ -42,6 +42,8 @@ namespace Universe.Lastfm.Api.Models.Res
 {
     /// <summary>
     ///     The responce that contains of tags, which has returned of query <see cref="GetPerformersTagsQuery"/>
+    /// <author>Alex Universe</author>
+    /// <author>Alex Envision</author>
     /// </summary>
     public class GetArtistTagsResponce : LastFmBaseResponce<TagsContainer>
     {

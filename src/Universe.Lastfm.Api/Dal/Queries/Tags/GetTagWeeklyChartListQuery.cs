@@ -1,4 +1,4 @@
-﻿//  ╔═════════════════════════════════════════════════════════════════════════════════╗
+//  ╔═════════════════════════════════════════════════════════════════════════════════╗
 //  ║                                                                                 ║
 //  ║   Copyright 2024 Universe.Lastfm.Api                                            ║
 //  ║                                                                                 ║
@@ -45,6 +45,8 @@ namespace Universe.Lastfm.Api.Dal.Queries.Tags
 {
     /// <summary>
     ///     The query fetches the top global tags on Last.fm, sorted by popularity (number of times used)
+    /// <author>Alex Universe</author>
+    /// <author>Alex Envision</author>
     /// </summary>
     public class GetTagWeeklyChartListQuery : LastQuery<GetTagWeeklyChartListRequest, GetTagWeeklyChartListResponce>
     {

@@ -1,4 +1,4 @@
-﻿//  ╔═════════════════════════════════════════════════════════════════════════════════╗
+//  ╔═════════════════════════════════════════════════════════════════════════════════╗
 //  ║                                                                                 ║
 //  ║   Copyright 2024 Universe.Lastfm.Api                                            ║
 //  ║                                                                                 ║
@@ -45,6 +45,8 @@ namespace Universe.Lastfm.Api.Dal.Queries.Track
     /// <summary>
     ///     The query does search of an Track of the Last.fm.
     ///     Запрос, ведущий поиск альбома на Last.fm. 
+    /// <author>Alex Universe</author>
+    /// <author>Alex Envision</author>
     /// </summary>
     public class SearchTrackQuery : LastQuery<GetTrackSearchRequest, GetTrackSearchResponce>
     {

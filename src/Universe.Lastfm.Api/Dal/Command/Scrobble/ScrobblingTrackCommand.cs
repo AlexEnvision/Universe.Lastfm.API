@@ -1,4 +1,4 @@
-﻿//  ╔═════════════════════════════════════════════════════════════════════════════════╗
+//  ╔═════════════════════════════════════════════════════════════════════════════════╗
 //  ║                                                                                 ║
 //  ║   Copyright 2024 Universe.Lastfm.Api                                            ║
 //  ║                                                                                 ║
@@ -47,6 +47,8 @@ namespace Universe.Lastfm.Api.Dal.Command.Scrobble
     /// <summary>
     ///     The command used to add a track-play to a user's profile.
     ///     Scrobble a track, or a batch of tracks.
+    /// <author>Alex Universe</author>
+    /// <author>Alex Envision</author>
     /// </summary>
     public class ScrobblingTrackCommand : LastCommand<ScrobblingTrackRequest, ScrobblingTrackCommandResponce>
     {

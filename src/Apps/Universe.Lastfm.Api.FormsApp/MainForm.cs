@@ -1,4 +1,4 @@
-﻿//  ╔═════════════════════════════════════════════════════════════════════════════════╗
+//  ╔═════════════════════════════════════════════════════════════════════════════════╗
 //  ║                                                                                 ║
 //  ║   Copyright 2024 Universe.Lastfm.Api                                            ║
 //  ║                                                                                 ║
@@ -81,6 +81,10 @@ using Universe.Windows.Forms.Controls.Settings;
 
 namespace Universe.Lastfm.Api.FormsApp
 {
+    /// <summary>
+    /// <author>Alex Universe</author>
+    /// <author>Alex Envision</author>
+    /// </summary>
     public partial class MainForm : Form
     {
         //private GenreRepo _genreService;

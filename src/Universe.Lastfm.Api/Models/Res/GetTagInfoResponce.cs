@@ -1,4 +1,4 @@
-﻿//  ╔═════════════════════════════════════════════════════════════════════════════════╗
+//  ╔═════════════════════════════════════════════════════════════════════════════════╗
 //  ║                                                                                 ║
 //  ║   Copyright 2024 Universe.Lastfm.Api                                            ║
 //  ║                                                                                 ║
@@ -42,6 +42,8 @@ namespace Universe.Lastfm.Api.Models.Res
     /// <summary>
     ///     The responce that contains the full information about Last.fm tag / genre.
     ///     Ответ, содержащий полную информацию об Last.fm тэге / жанре. 
+    /// <author>Alex Universe</author>
+    /// <author>Alex Envision</author>
     /// </summary>
     public class GetTagInfoResponce : LastFmBaseResponce<TagInfoContainer>
     {

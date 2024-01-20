@@ -1,5 +1,9 @@
-﻿namespace Universe.Lastfm.Api.FormsApp.Forms.Genres
+namespace Universe.Lastfm.Api.FormsApp.Forms.Genres
 {
+    /// <summary>
+    /// <author>Alex Universe</author>
+    /// <author>Alex Envision</author>
+    /// </summary>
     partial class TagGetTopArtistsReqForm
     {
         /// <summary>

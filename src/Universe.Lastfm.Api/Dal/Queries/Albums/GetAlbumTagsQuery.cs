@@ -1,4 +1,4 @@
-﻿//  ╔═════════════════════════════════════════════════════════════════════════════════╗
+//  ╔═════════════════════════════════════════════════════════════════════════════════╗
 //  ║                                                                                 ║
 //  ║   Copyright 2024 Universe.Lastfm.Api                                            ║
 //  ║                                                                                 ║
@@ -44,6 +44,8 @@ namespace Universe.Lastfm.Api.Dal.Queries.Albums
 {
     /// <summary>
     ///     The query gets tags of an album
+    /// <author>Alex Universe</author>
+    /// <author>Alex Envision</author>
     /// </summary>
     public class GetAlbumTagsQuery : LastQuery<GetAlbumTagsRequest, GetAlbumTagsResponce>
     {

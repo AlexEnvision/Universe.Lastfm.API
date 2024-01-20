@@ -1,4 +1,4 @@
-﻿//  ╔═════════════════════════════════════════════════════════════════════════════════╗
+//  ╔═════════════════════════════════════════════════════════════════════════════════╗
 //  ║                                                                                 ║
 //  ║   Copyright 2024 Universe.Lastfm.Api                                            ║
 //  ║                                                                                 ║
@@ -40,6 +40,10 @@ using Universe.Lastfm.Api.Models.Base;
 
 namespace Universe.Lastfm.Api.Dal.Command
 {
+    /// <summary>
+    /// <author>Alex Universe</author>
+    /// <author>Alex Envision</author>
+    /// </summary>
     public abstract class BaseCommand : CQRS.Dal.Commands.Base.BaseCommand
     {
         protected virtual Func<BaseRequest, BaseResponce> ExecutableBaseFunc => null;

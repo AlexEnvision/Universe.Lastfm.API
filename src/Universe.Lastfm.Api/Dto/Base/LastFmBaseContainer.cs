@@ -1,4 +1,4 @@
-﻿//  ╔═════════════════════════════════════════════════════════════════════════════════╗
+//  ╔═════════════════════════════════════════════════════════════════════════════════╗
 //  ║                                                                                 ║
 //  ║   Copyright 2024 Universe.Lastfm.Api                                            ║
 //  ║                                                                                 ║
@@ -40,6 +40,8 @@ namespace Universe.Lastfm.Api.Dto.Base
     /// <summary>
     ///     Base container with result from the API of the Last.fm.
     ///     Базовый контейнер с результатом от API Last.fm.
+    /// <author>Alex Universe</author>
+    /// <author>Alex Envision</author>
     /// </summary>
     public abstract class LastFmBaseContainer : BaseResponce
     {

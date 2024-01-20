@@ -1,4 +1,4 @@
-﻿//  ╔═════════════════════════════════════════════════════════════════════════════════╗
+//  ╔═════════════════════════════════════════════════════════════════════════════════╗
 //  ║                                                                                 ║
 //  ║   Copyright 2024 Universe.Lastfm.Api                                            ║
 //  ║                                                                                 ║
@@ -38,6 +38,10 @@ using Universe.Lastfm.Api.Dto.Common;
 
 namespace Universe.Lastfm.Api.Dto.GetTrackInfo
 {
+    /// <summary>
+    /// <author>Alex Universe</author>
+    /// <author>Alex Envision</author>
+    /// </summary>
     public class ChartTracksContainer : LastFmBaseContainer
     {
         public Tracks Tracks { get; set; }

@@ -1,4 +1,4 @@
-﻿//  ╔═════════════════════════════════════════════════════════════════════════════════╗
+//  ╔═════════════════════════════════════════════════════════════════════════════════╗
 //  ║                                                                                 ║
 //  ║   Copyright 2024 Universe.Lastfm.Api                                            ║
 //  ║                                                                                 ║
@@ -44,6 +44,8 @@ namespace Universe.Lastfm.Api.Dto.GetTrackInfo
     /// <summary>
     ///     The full information about track on the Last.fm.
     ///     Полная информация о трэке на Last.fm.
+    /// <author>Alex Universe</author>
+    /// <author>Alex Envision</author>
     /// </summary>
     public class TrackFull : LastFmBaseModel
     {

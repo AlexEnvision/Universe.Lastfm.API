@@ -1,4 +1,4 @@
-﻿//  ╔═════════════════════════════════════════════════════════════════════════════════╗
+//  ╔═════════════════════════════════════════════════════════════════════════════════╗
 //  ║                                                                                 ║
 //  ║   Copyright 2024 Universe.Lastfm.Api                                            ║
 //  ║                                                                                 ║
@@ -47,6 +47,8 @@ namespace Universe.Lastfm.Api.Dal.Queries.Users
     /// <summary>
     ///     The query gets the full information about top albums of an user of the Last.fm.
     ///     Запрос, получающий полную информацию о топ-альбомах пользователя Last.fm. 
+    /// <author>Alex Universe</author>
+    /// <author>Alex Envision</author>
     /// </summary>
     public class GetUserTopAlbumsQuery : LastQuery<GetUserTopAlbumsRequest, GetUserTopAlbumsResponce>
     {

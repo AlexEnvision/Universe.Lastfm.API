@@ -1,4 +1,4 @@
-﻿//  ╔═════════════════════════════════════════════════════════════════════════════════╗
+//  ╔═════════════════════════════════════════════════════════════════════════════════╗
 //  ║                                                                                 ║
 //  ║   Copyright 2024 Universe.Lastfm.Api                                            ║
 //  ║                                                                                 ║
@@ -47,6 +47,8 @@ namespace Universe.Lastfm.Api.Dal.Queries.Users
     /// <summary>
     ///     The query gets the full information about personal tags of an user of the Last.fm.
     ///     Запрос, получающий полную информацию о персональных тэгах пользователя Last.fm. 
+    /// <author>Alex Universe</author>
+    /// <author>Alex Envision</author>
     /// </summary>
     public class GetPersonalTagsQuery : LastQuery<GetUserPersonalTagsRequest, GetUserPersonalTagsResponce>
     {

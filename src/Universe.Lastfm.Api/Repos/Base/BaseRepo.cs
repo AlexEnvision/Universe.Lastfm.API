@@ -1,4 +1,4 @@
-﻿//  ╔═════════════════════════════════════════════════════════════════════════════════╗
+//  ╔═════════════════════════════════════════════════════════════════════════════════╗
 //  ║                                                                                 ║
 //  ║   Copyright 2024 Universe.Lastfm.Api                                            ║
 //  ║                                                                                 ║
@@ -39,6 +39,10 @@ using Universe.Lastfm.Api.Dal.Queries;
 
 namespace Universe.Lastfm.Api.Repos.Base
 {
+    /// <summary>
+    /// <author>Alex Universe</author>
+    /// <author>Alex Envision</author>
+    /// </summary>
     public abstract class BaseRepo
     {
         protected IUniverseScope DomainScope;

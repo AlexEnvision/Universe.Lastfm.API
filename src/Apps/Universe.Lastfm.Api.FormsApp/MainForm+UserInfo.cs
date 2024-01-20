@@ -1,4 +1,4 @@
-﻿//  ╔═════════════════════════════════════════════════════════════════════════════════╗
+//  ╔═════════════════════════════════════════════════════════════════════════════════╗
 //  ║                                                                                 ║
 //  ║   Copyright 2024 Universe.Lastfm.Api                                            ║
 //  ║                                                                                 ║
@@ -53,6 +53,10 @@ using static Universe.Lastfm.Api.Dal.Queries.Users.GetUserWeeklyChartListQuery;
 
 namespace Universe.Lastfm.Api.FormsApp
 {
+    /// <summary>
+    /// <author>Alex Universe</author>
+    /// <author>Alex Envision</author>
+    /// </summary>
     public partial class MainForm : Form
     {
 

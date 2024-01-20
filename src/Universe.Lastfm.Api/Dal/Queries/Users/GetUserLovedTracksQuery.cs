@@ -1,4 +1,4 @@
-﻿//  ╔═════════════════════════════════════════════════════════════════════════════════╗
+//  ╔═════════════════════════════════════════════════════════════════════════════════╗
 //  ║                                                                                 ║
 //  ║   Copyright 2024 Universe.Lastfm.Api                                            ║
 //  ║                                                                                 ║
@@ -48,6 +48,8 @@ namespace Universe.Lastfm.Api.Dal.Queries.Users
     /// <summary>
     ///     The query gets the full information about loved listened tracks of an user of the Last.fm.
     ///     Запрос, получающий полную информацию о топ прослушиваемых трэках пользователя Last.fm. 
+    /// <author>Alex Universe</author>
+    /// <author>Alex Envision</author>
     /// </summary>
     public class GetUserLovedTracksQuery : LastQuery<GetUserLovedTracksRequest, GetUserLovedTracksResponce>
     {

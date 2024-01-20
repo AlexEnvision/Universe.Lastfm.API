@@ -1,4 +1,4 @@
-﻿//  ╔═════════════════════════════════════════════════════════════════════════════════╗
+//  ╔═════════════════════════════════════════════════════════════════════════════════╗
 //  ║                                                                                 ║
 //  ║   Copyright 2024 Universe.Lastfm.Api                                            ║
 //  ║                                                                                 ║
@@ -42,6 +42,10 @@ using Universe.Windows.Forms.Controls;
 
 namespace Universe.Lastfm.Api.FormsApp.Extensions
 {
+    /// <summary>
+    /// <author>Alex Universe</author>
+    /// <author>Alex Envision</author>
+    /// </summary>
     public static class BaseResponceExtensions
     {
         public static BaseResponce LightColorResult(this BaseResponce responce, Control control, int delayAfter = 0)

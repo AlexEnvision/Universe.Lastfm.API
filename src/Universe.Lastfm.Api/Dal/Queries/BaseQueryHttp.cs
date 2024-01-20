@@ -1,4 +1,4 @@
-﻿//  ╔═════════════════════════════════════════════════════════════════════════════════╗
+//  ╔═════════════════════════════════════════════════════════════════════════════════╗
 //  ║                                                                                 ║
 //  ║   Copyright 2024 Universe.Lastfm.Api                                            ║
 //  ║                                                                                 ║
@@ -40,6 +40,10 @@ using Newtonsoft.Json;
 
 namespace Universe.Lastfm.Api.Dal.Queries
 {
+    /// <summary>
+    /// <author>Alex Universe</author>
+    /// <author>Alex Envision</author>
+    /// </summary>
     public class BaseQueryHttp : BaseQuery
     {
         protected T GetResult<T>(string method, KeyValuePair<string, string>[] parameters)

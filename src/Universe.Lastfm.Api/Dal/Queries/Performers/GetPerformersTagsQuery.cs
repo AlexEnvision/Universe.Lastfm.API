@@ -1,4 +1,4 @@
-﻿//  ╔═════════════════════════════════════════════════════════════════════════════════╗
+//  ╔═════════════════════════════════════════════════════════════════════════════════╗
 //  ║                                                                                 ║
 //  ║   Copyright 2024 Universe.Lastfm.Api                                            ║
 //  ║                                                                                 ║
@@ -47,6 +47,8 @@ namespace Universe.Lastfm.Api.Dal.Queries.Performers
     ///     If accessed as an authenticated service /and/ you don't supply a user parameter then
     ///     this service will return tags for the authenticated user.
     ///     To retrieve the list of top tags applied to an artist by all users use artist.getTopTags.
+    /// <author>Alex Universe</author>
+    /// <author>Alex Envision</author>
     /// </summary>
     public class GetPerformersTagsQuery : LastQuery<GetPerformerTagsRequest, GetArtistTagsResponce>
     {

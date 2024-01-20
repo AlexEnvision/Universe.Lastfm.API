@@ -1,4 +1,4 @@
-﻿//  ╔═════════════════════════════════════════════════════════════════════════════════╗
+//  ╔═════════════════════════════════════════════════════════════════════════════════╗
 //  ║                                                                                 ║
 //  ║   Copyright 2024 Universe.Lastfm.Api                                            ║
 //  ║                                                                                 ║
@@ -39,6 +39,10 @@ using Universe.Lastfm.Api.Dto.GetAlbumInfo;
 
 namespace Universe.Lastfm.Api.Dto.Common
 {
+    /// <summary>
+    /// <author>Alex Universe</author>
+    /// <author>Alex Envision</author>
+    /// </summary>
     public class Track: LastFmBaseModel
     {
         public string Duration { get; set; }

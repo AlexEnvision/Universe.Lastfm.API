@@ -1,4 +1,4 @@
-﻿//  ╔═════════════════════════════════════════════════════════════════════════════════╗
+//  ╔═════════════════════════════════════════════════════════════════════════════════╗
 //  ║                                                                                 ║
 //  ║   Copyright 2024 Universe.Lastfm.Api                                            ║
 //  ║                                                                                 ║
@@ -40,6 +40,10 @@ using Universe.Lastfm.Api.Dto.GetTrackInfo;
 
 namespace Universe.Lastfm.Api.Dto.GetAlbumInfo
 {
+    /// <summary>
+    /// <author>Alex Universe</author>
+    /// <author>Alex Envision</author>
+    /// </summary>
     public class Album : LastFmBaseModel
     {
         public string Artist { get; set; }

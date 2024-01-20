@@ -42,6 +42,8 @@ namespace Universe.Lastfm.Api.FormsApp.Infrastracture
     /// <summary>
     /// Specifies the Unity configuration for the main container.
     /// <author>Alex Envision</author>
+    /// <author>Alex Universe</author>
+    /// <author>Alex Envision</author>
     /// </summary>
     public static class UnityAppConfig
     {

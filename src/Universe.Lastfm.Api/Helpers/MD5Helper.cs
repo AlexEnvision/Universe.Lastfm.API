@@ -1,4 +1,4 @@
-﻿//  ╔═════════════════════════════════════════════════════════════════════════════════╗
+//  ╔═════════════════════════════════════════════════════════════════════════════════╗
 //  ║                                                                                 ║
 //  ║   Copyright 2024 Universe.Lastfm.Api                                            ║
 //  ║                                                                                 ║
@@ -51,6 +51,8 @@ namespace Universe.Lastfm.Api.Helpers
 
     /// <summary>
     ///     Raw implementation of the MD5 hash algorithm rom RFC 1321.
+    /// <author>Alex Universe</author>
+    /// <author>Alex Envision</author>
     /// </summary>
     public sealed class MD5Helper
     {

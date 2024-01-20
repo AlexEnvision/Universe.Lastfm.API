@@ -1,4 +1,4 @@
-﻿//  ╔═════════════════════════════════════════════════════════════════════════════════╗
+//  ╔═════════════════════════════════════════════════════════════════════════════════╗
 //  ║                                                                                 ║
 //  ║   Copyright 2024 Universe.Lastfm.Api                                            ║
 //  ║                                                                                 ║
@@ -37,6 +37,10 @@ using Universe.Lastfm.Api.Dto.Base;
 
 namespace Universe.Lastfm.Api.Dto.GetTagInfo
 {
+    /// <summary>
+    /// <author>Alex Universe</author>
+    /// <author>Alex Envision</author>
+    /// </summary>
     public class ChartTagsContainer : LastFmBaseContainer
     {
         public Tags Tags { get; set; }

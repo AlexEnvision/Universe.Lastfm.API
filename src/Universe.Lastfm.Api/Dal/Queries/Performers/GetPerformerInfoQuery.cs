@@ -1,4 +1,4 @@
-﻿//  ╔═════════════════════════════════════════════════════════════════════════════════╗
+//  ╔═════════════════════════════════════════════════════════════════════════════════╗
 //  ║                                                                                 ║
 //  ║   Copyright 2024 Universe.Lastfm.Api                                            ║
 //  ║                                                                                 ║
@@ -45,6 +45,8 @@ namespace Universe.Lastfm.Api.Dal.Queries.Performers
     /// <summary>
     ///     The query gets the full information about artist/performer on the Last.fm.
     ///     Запрос, получающий полную информацию об артисте/исполнителе на Last.fm. 
+    /// <author>Alex Universe</author>
+    /// <author>Alex Envision</author>
     /// </summary>
     public class GetPerformerInfoQuery : LastQuery<GetPerformerInfoRequest, GetArtistInfoResponce>
     {

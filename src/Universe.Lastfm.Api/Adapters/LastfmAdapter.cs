@@ -1,4 +1,4 @@
-﻿//  ╔═════════════════════════════════════════════════════════════════════════════════╗
+//  ╔═════════════════════════════════════════════════════════════════════════════════╗
 //  ║                                                                                 ║
 //  ║   Copyright 2024 Universe.Lastfm.Api                                            ║
 //  ║                                                                                 ║
@@ -47,6 +47,10 @@ using Universe.Lastfm.Api.Models.Res;
 
 namespace Universe.Lastfm.Api.Adapters
 {
+    /// <summary>
+    /// <author>Alex Universe</author>
+    /// <author>Alex Envision</author>
+    /// </summary>
     public class LastAdapter : Adapter
     {   
         public LastfmSessionContext LastfmSessionContext { get; protected set; }

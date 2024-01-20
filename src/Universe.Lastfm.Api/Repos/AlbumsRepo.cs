@@ -1,4 +1,4 @@
-﻿//  ╔═════════════════════════════════════════════════════════════════════════════════╗
+//  ╔═════════════════════════════════════════════════════════════════════════════════╗
 //  ║                                                                                 ║
 //  ║   Copyright 2024 Universe.Lastfm.Api                                            ║
 //  ║                                                                                 ║
@@ -41,6 +41,10 @@ using Universe.Lastfm.Api.Repos.Base;
 
 namespace Universe.Lastfm.Api.Repos
 {
+    /// <summary>
+    /// <author>Alex Universe</author>
+    /// <author>Alex Envision</author>
+    /// </summary>
     public class AlbumsRepo : BaseRepo
     {
         public AlbumsRepo(CQRS.Infrastructure.IUniverseScope domainScope) : base(domainScope)

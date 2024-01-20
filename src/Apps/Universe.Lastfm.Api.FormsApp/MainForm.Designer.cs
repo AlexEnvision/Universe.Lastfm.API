@@ -1,5 +1,9 @@
-﻿namespace Universe.Lastfm.Api.FormsApp
+namespace Universe.Lastfm.Api.FormsApp
 {
+    /// <summary>
+    /// <author>Alex Universe</author>
+    /// <author>Alex Envision</author>
+    /// </summary>
     partial class MainForm
     {
         /// <summary>

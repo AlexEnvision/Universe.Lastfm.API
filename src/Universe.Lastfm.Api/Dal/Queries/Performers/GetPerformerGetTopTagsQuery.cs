@@ -1,4 +1,4 @@
-﻿//  ╔═════════════════════════════════════════════════════════════════════════════════╗
+//  ╔═════════════════════════════════════════════════════════════════════════════════╗
 //  ║                                                                                 ║
 //  ║   Copyright 2024 Universe.Lastfm.Api                                            ║
 //  ║                                                                                 ║
@@ -46,6 +46,8 @@ namespace Universe.Lastfm.Api.Dal.Queries.Performers
     /// <summary>
     ///     The query gets performer tags of the Last.fm.
     ///     Запрос, получающий тэги исполнителей на Last.fm. 
+    /// <author>Alex Universe</author>
+    /// <author>Alex Envision</author>
     /// </summary>
     public class GetPerformerGetTopTagsQuery : LastQuery<GetPerformerGetTopTagsQuery.GetPerformerGetTopTagsRequest, GetPerformerGetTopTagsQuery.GetPerformerGetTopTagsResponce>
     {

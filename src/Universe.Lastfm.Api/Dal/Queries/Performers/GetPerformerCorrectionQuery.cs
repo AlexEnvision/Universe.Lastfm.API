@@ -1,4 +1,4 @@
-﻿//  ╔═════════════════════════════════════════════════════════════════════════════════╗
+//  ╔═════════════════════════════════════════════════════════════════════════════════╗
 //  ║                                                                                 ║
 //  ║   Copyright 2024 Universe.Lastfm.Api                                            ║
 //  ║                                                                                 ║
@@ -45,6 +45,8 @@ namespace Universe.Lastfm.Api.Dal.Queries.Performers
     /// <summary>
     ///     The query gets performer corrected artist of the Last.fm.
     ///     Запрос, получающий скорректированных исполнителей на Last.fm. 
+    /// <author>Alex Universe</author>
+    /// <author>Alex Envision</author>
     /// </summary>
     public class GetPerformerCorrectionQuery : LastQuery<GetPerformerCorrectionQuery.GetPerformerCorrectionRequest, GetPerformerCorrectionQuery.GetPerformerCorrectionResponce>
     {

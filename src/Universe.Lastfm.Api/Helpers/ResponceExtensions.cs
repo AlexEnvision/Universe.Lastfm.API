@@ -1,4 +1,4 @@
-﻿//  ╔═════════════════════════════════════════════════════════════════════════════════╗
+//  ╔═════════════════════════════════════════════════════════════════════════════════╗
 //  ║                                                                                 ║
 //  ║   Copyright 2024 Universe.Lastfm.Api                                            ║
 //  ║                                                                                 ║
@@ -37,6 +37,10 @@ using Universe.Lastfm.Api.Models.Base;
 
 namespace Universe.Lastfm.Api.Helpers
 {
+    /// <summary>
+    /// <author>Alex Universe</author>
+    /// <author>Alex Envision</author>
+    /// </summary>
     public static class ResponceExt
     {
         public static TResponce CreateFrom<TResponce>(BaseResponce responce) where TResponce : BaseResponce, new()
