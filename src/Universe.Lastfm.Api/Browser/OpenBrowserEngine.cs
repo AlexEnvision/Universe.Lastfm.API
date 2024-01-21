@@ -26,12 +26,14 @@ namespace Universe.Lastfm.Api.Browser
 
         public int ChromeDriverPid { get; set; }
 
-        public int MinWaitPause => 250;
+        public int MinWaitPause { get; set; }
 
         public OpenBrowserEngine(IUniverseLastApiSettings settings)
         {
             _settings = settings;
             _sessionId = Guid.NewGuid().ToString();
+
+            MinWaitPause = 250;
         }
 
         private IWebDriver GetWebDriver(OpenBrowserParameters searchParameters)

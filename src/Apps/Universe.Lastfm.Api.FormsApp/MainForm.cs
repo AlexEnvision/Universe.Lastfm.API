@@ -295,11 +295,13 @@ namespace Universe.Lastfm.Api.FormsApp
                     //var auth = Scope.GetQuery<AuthQuery>().ExecuteBaseSafe(new AuthRequest { Token = allowAccess.Token });
 
                     var connection = Scope.GetQuery<GetConnectQuery>();
+                    connection.SetMinPause(100);
 
                     var needApprovement = !this.SafeCallResult(() => chTrustedApp.Checked);
                     if (needApprovement)
                     {
-                        _log.Info("You have 15 second for allow auth in opened browser page...");
+                        var seconds = (connection.MinWaitPause * connection.WaitingMultuplicator) / 1000.0;
+                        _log.Info($"You have {seconds} second for allow auth in opened browser page...");
                     }
                     connection.Connect(needApprovement);
 

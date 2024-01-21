@@ -54,11 +54,15 @@ namespace Universe.Lastfm.Api.Dal.Queries.ApiConnect
         private string _token;
         private string _sessionKey;
 
-        public int MinWaitPause => 1000;
+        public int MinWaitPause { get; private set; }
+
+        public int WaitingMultuplicator => 15;
 
         public void Connect(bool needApprovement)
         {
             SetToken(Settings.ApiKey);
+            if (MinWaitPause == 0)
+                SetMinPause(1000);
 
             //WebRequest request = WebRequest.Create("http://ws.audioscrobbler.com/2.0/?method=auth.gettoken&api_key=" + Settings.ApiKey);
             //Process s = Process.Start("http://www.last.fm/api/auth/?api_key=" + _api_key + "&token=" + _token);
@@ -74,6 +78,7 @@ namespace Universe.Lastfm.Api.Dal.Queries.ApiConnect
                     !Settings.Password.IsNullOrEmpty())
                 {
                     var engine = new OpenBrowserEngine(Settings);
+                    engine.MinWaitPause = MinWaitPause;
                     engine.Run(new OpenBrowserParameters { SiteNav = url });
                 }
                 else
@@ -83,9 +88,14 @@ namespace Universe.Lastfm.Api.Dal.Queries.ApiConnect
                     //После этого пользователь должен потвердить согласие
                     //На это есть 15 секунд
 
-                    Thread.Sleep(15 * MinWaitPause);
+                    Thread.Sleep(WaitingMultuplicator * MinWaitPause);
                 }
             }
+        }
+
+        public void SetMinPause(int timeout)
+        {
+            MinWaitPause = timeout;
         }
 
         private void SetToken(string apiKey)
