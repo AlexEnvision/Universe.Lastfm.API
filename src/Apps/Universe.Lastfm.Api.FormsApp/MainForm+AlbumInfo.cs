@@ -106,20 +106,19 @@ namespace Universe.Lastfm.Api.FormsApp
                     _log.Info(
                         $"Успешно выгружена информация по альбому {album} исполнителя {performer}: {Environment.NewLine}{Environment.NewLine}{responce.ServiceAnswer}{Environment.NewLine}.");
 
-                    var tags = responce.DataContainer.Album.Tags.Tag;
-                    var metalGenres = tags.Where(x => x.Name.ToLower().Contains("metal")).ToList();
+                    var albumInfo = responce.DataContainer.Album;
 
-                    var tagsStr = string.Join(", ", tags.Select(x => x.Name));
-                    var metalGenresStr = string.Join(", ", metalGenres.Select(x => x.Name));
-                    _log.Info($"Теги Last.fm: {tagsStr}.");
-                    _log.Info($"Метал жанры: {metalGenresStr}.");
+                    _log.Info(
+                        $"Performer: {albumInfo.Artist}");
+                    _log.Info(
+                        $"Playcounts: {albumInfo.Playcount}");
 
                 }
                 catch (Exception ex)
                 {
                     _log.Error(ex, ex.Message);
                     Thread.Sleep(LightErrorDelay);
-                    btUserGetInfo.LightErrorColorResult();
+                    btAlbumGetInfo.LightErrorColorResult();
                 }
                 finally
                 {
