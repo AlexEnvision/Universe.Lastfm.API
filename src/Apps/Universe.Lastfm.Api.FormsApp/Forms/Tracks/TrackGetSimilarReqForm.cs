@@ -33,6 +33,7 @@
 //  ║                                                                                 ║
 //  ╚═════════════════════════════════════════════════════════════════════════════════╝
 
+using System;
 using System.Windows.Forms;
 using Universe.Lastfm.Api.FormsApp.Settings;
 using Universe.Lastfm.Api.FormsApp.Themes;
@@ -45,6 +46,8 @@ namespace Universe.Lastfm.Api.FormsApp.Forms.Tracks
     /// </summary>
     public partial class TrackGetSimilarReqForm : TrackInfoReqForm
     {
+        protected override Action InitializeBase => this.InitializeComponent;
+
         public TrackGetSimilarReqForm()
         {
             InitializeComponent();

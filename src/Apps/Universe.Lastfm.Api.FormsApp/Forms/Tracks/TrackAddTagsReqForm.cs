@@ -45,6 +45,8 @@ namespace Universe.Lastfm.Api.FormsApp.Forms.Tracks
     /// </summary>
     public partial class TrackAddTagsReqForm : TrackInfoReqForm
     {
+        protected override Action InitializeBase => this.InitializeComponent;
+
         protected string TagNames => tbCreatingTags.Text;
 
         public string[] TagsArray { get; set; }

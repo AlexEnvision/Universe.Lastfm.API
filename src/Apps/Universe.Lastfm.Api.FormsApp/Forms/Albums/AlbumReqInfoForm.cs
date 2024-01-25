@@ -47,6 +47,8 @@ namespace Universe.Lastfm.Api.FormsApp.Forms.Albums
     /// </summary>
     public partial class AlbumReqInfoForm : Form
     {
+        protected virtual Action InitializeBase { get; }
+
         protected string PerformerName => tbPerformer?.Text;
 
         protected string AlbumName => tbAlbum?.Text;
@@ -65,6 +67,7 @@ namespace Universe.Lastfm.Api.FormsApp.Forms.Albums
         public AlbumReqInfoForm(UniverseLastApiAppSettings settings)
         {
             InitializeComponent();
+            InitializeBase?.Invoke();
 
             StartPosition = FormStartPosition.CenterScreen;
 

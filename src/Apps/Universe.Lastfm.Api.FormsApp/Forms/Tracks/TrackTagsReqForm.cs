@@ -46,6 +46,8 @@ namespace Universe.Lastfm.Api.FormsApp.Forms.Tracks
     /// </summary>
     public partial class TrackTagsReqForm : TrackInfoReqForm
     {
+        protected override Action InitializeBase => this.InitializeComponent;
+
         protected string UserName => tbUser?.Text;
 
         public string User { get; set; }
@@ -67,9 +69,9 @@ namespace Universe.Lastfm.Api.FormsApp.Forms.Tracks
 
         protected override void InitializeParametersByReqCtx(ReqContext reqCtx)
         {
-            if (tbUser != null) 
-                tbUser.Text = reqCtx.User ?? tbUser.Text;
             base.InitializeParametersByReqCtx(reqCtx);
+            if (tbUser != null)
+                tbUser.Text = reqCtx.User ?? tbUser.Text;
         }
 
         protected override void btOk_Click(object sender, EventArgs e)

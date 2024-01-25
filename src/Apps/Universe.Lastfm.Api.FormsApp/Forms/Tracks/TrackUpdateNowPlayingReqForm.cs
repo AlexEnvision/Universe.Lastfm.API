@@ -47,6 +47,8 @@ namespace Universe.Lastfm.Api.FormsApp.Forms.Tracks
     /// </summary>
     public partial class TrackUpdateNowPlayingReqForm : TrackInfoReqForm
     {
+        protected override Action InitializeBase => this.InitializeComponent;
+
         protected string AlbumName => tbAlbum.Text;
 
         public string Album { get; set; }

@@ -33,6 +33,7 @@
 //  ║                                                                                 ║
 //  ╚═════════════════════════════════════════════════════════════════════════════════╝
 
+using System;
 using Universe.Lastfm.Api.FormsApp.Settings;
 
 namespace Universe.Lastfm.Api.FormsApp.Forms.Albums
@@ -43,6 +44,8 @@ namespace Universe.Lastfm.Api.FormsApp.Forms.Albums
     /// </summary>
     public partial class AlbumSearchReqForm : AlbumReqInfoForm
     {
+        protected override Action InitializeBase => this.InitializeComponent;
+
         public AlbumSearchReqForm(UniverseLastApiAppSettings settings) : base(settings)
         {
             InitializeComponent();

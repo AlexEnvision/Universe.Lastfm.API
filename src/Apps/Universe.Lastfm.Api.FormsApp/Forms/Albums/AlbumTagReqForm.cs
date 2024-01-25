@@ -37,6 +37,8 @@ using System;
 using System.Windows.Forms;
 using Universe.Lastfm.Api.FormsApp.Settings;
 using Universe.Lastfm.Api.FormsApp.Themes;
+using Universe.Lastfm.Api.Dto.GetAlbumInfo;
+using Universe.Lastfm.Api.Models;
 
 namespace Universe.Lastfm.Api.FormsApp.Forms.Albums
 {
@@ -46,18 +48,28 @@ namespace Universe.Lastfm.Api.FormsApp.Forms.Albums
     /// </summary>
     public partial class AlbumTagReqForm : AlbumReqInfoForm
     {
+        protected override Action InitializeBase => this.InitializeComponent;
+
         protected string UserName => tbUser?.Text;
 
         public string User { get; set; }
 
         public AlbumTagReqForm(UniverseLastApiAppSettings settings) : base(settings)
         {
-            InitializeComponent();
+            this.InitializeComponent();
 
             StartPosition = FormStartPosition.CenterScreen;
 
             if (settings.IsSpaceMode)
                 SpaceThemeStyle.Set.Apply(this);
+
+            InitializeParametersByReqCtx(settings.ReqCtx);
+        }
+
+        protected override void InitializeParametersByReqCtx(ReqContext reqCtx)
+        {
+            base.InitializeParametersByReqCtx(reqCtx);
+            tbUser.Text = reqCtx.User;
         }
 
         protected override void btOk_Click(object sender, EventArgs e)

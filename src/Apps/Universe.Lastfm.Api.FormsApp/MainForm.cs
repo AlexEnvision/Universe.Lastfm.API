@@ -179,8 +179,13 @@ namespace Universe.Lastfm.Api.FormsApp
             {
                 _programSettings.WebDriverExecutableFilePath =
                     Path.Combine(Directory.GetCurrentDirectory(), "WebDriver/chromedriver.exe");
+            }
+            else
+            {
                 if (!File.Exists(_programSettings.WebDriverExecutableFilePath))
+                {
                     _programSettings.WebDriverExecutableFilePath = string.Empty;
+                }
             }
         }
 

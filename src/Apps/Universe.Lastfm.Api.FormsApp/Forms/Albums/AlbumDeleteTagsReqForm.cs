@@ -45,6 +45,8 @@ namespace Universe.Lastfm.Api.FormsApp.Forms.Albums
     /// </summary>
     public partial class AlbumDeleteTagsReqForm : AlbumReqInfoForm
     {
+        protected override Action InitializeBase => this.InitializeComponent;
+
         protected string TagNames => tbRemovingTags.Text;
 
         public string[] TagsArray { get; set; }

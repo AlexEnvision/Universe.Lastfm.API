@@ -47,6 +47,8 @@ namespace Universe.Lastfm.Api.FormsApp.Forms.Tracks
     /// </summary>
     public partial class TrackInfoReqForm : Form
     {
+        protected virtual Action InitializeBase { get; }
+
         protected string PerformerName => tbPerformer?.Text;
 
         protected string TrackName => tbTrack?.Text;

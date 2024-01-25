@@ -45,6 +45,8 @@ namespace Universe.Lastfm.Api.FormsApp.Forms.Albums
     /// </summary>
     public partial class AlbumAddTagsReqForm : AlbumReqInfoForm
     {
+        protected override Action InitializeBase => this.InitializeComponent;
+
         protected string TagNames => tbCreatingTags.Text;
 
         public string[] TagsArray { get; set; }

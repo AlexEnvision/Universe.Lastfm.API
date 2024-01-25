@@ -33,6 +33,7 @@
 //  ║                                                                                 ║
 //  ╚═════════════════════════════════════════════════════════════════════════════════╝
 
+using System;
 using Universe.Lastfm.Api.FormsApp.Settings;
 
 namespace Universe.Lastfm.Api.FormsApp.Forms.Tracks
@@ -43,6 +44,8 @@ namespace Universe.Lastfm.Api.FormsApp.Forms.Tracks
     /// </summary>
     public partial class TrackSearchReqForm : TrackInfoReqForm
     {
+        protected override Action InitializeBase => this.InitializeComponent;
+
         public TrackSearchReqForm()
         {
             InitializeComponent();
