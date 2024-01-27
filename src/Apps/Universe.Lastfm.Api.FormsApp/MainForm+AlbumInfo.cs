@@ -41,10 +41,12 @@ using Universe.Algorithm.MultiThreading;
 using Universe.Helpers.Extensions;
 using Universe.Lastfm.Api.Dal.Command.Albums;
 using Universe.Lastfm.Api.Dal.Queries.Albums;
+using Universe.Lastfm.Api.Dto.GetAlbumInfo;
 using Universe.Lastfm.Api.FormsApp.Extensions;
 using Universe.Lastfm.Api.FormsApp.Forms.Albums;
 using Universe.Lastfm.Api.Helpers;
 using Universe.Lastfm.Api.Models.Req;
+using Universe.Lastfm.Api.Models.Res;
 using static Universe.Lastfm.Api.Dal.Queries.Albums.SearchAlbumQuery;
 
 namespace Universe.Lastfm.Api.FormsApp
@@ -95,7 +97,7 @@ namespace Universe.Lastfm.Api.FormsApp
                 try
                 {
                     // _adapter.GetAlbumInfo(performer, album);
-                    var responce = Scope.GetQuery<GetAlbumInfoQuery>().Execute(ReqCtx.As<GetAlbumInfoRequest>())
+                    GetAlbumInfoResponce responce = Scope.GetQuery<GetAlbumInfoQuery>().Execute(ReqCtx.As<GetAlbumInfoRequest>())
                         .LightColorResult(btAlbumGetInfo);
                     if (!responce.IsSuccessful)
                     {
@@ -106,7 +108,7 @@ namespace Universe.Lastfm.Api.FormsApp
                     _log.Info(
                         $"Успешно выгружена информация по альбому {album} исполнителя {performer}: {Environment.NewLine}{Environment.NewLine}{responce.ServiceAnswer}{Environment.NewLine}.");
 
-                    var albumInfo = responce.DataContainer.Album;
+                    Album? albumInfo = responce.DataContainer.Album;
 
                     _log.Info(
                         $"Performer: {albumInfo.Artist}");

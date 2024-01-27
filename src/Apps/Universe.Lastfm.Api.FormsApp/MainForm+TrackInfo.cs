@@ -41,10 +41,12 @@ using Universe.Algorithm.MultiThreading;
 using Universe.Helpers.Extensions;
 using Universe.Lastfm.Api.Dal.Command.Tracks;
 using Universe.Lastfm.Api.Dal.Queries.Track;
+using Universe.Lastfm.Api.Dto.GetTrackInfo;
 using Universe.Lastfm.Api.FormsApp.Extensions;
 using Universe.Lastfm.Api.FormsApp.Forms.Tracks;
 using Universe.Lastfm.Api.Helpers;
 using Universe.Lastfm.Api.Models.Req;
+using Universe.Lastfm.Api.Models.Res;
 
 namespace Universe.Lastfm.Api.FormsApp
 {
@@ -93,7 +95,7 @@ namespace Universe.Lastfm.Api.FormsApp
             {
                 try
                 {
-                    var responce = Scope.GetQuery<GetTrackInfoQuery>().Execute(ReqCtx.As<GetTrackInfoRequest>()).LightColorResult(btTrackGetInfo);
+                    GetTrackInfoResponce responce = Scope.GetQuery<GetTrackInfoQuery>().Execute(ReqCtx.As<GetTrackInfoRequest>()).LightColorResult(btTrackGetInfo);
                     if (!responce.IsSuccessful)
                     {
                         _log.Info($"{responce.Message} {responce.ServiceAnswer}");
@@ -111,7 +113,7 @@ namespace Universe.Lastfm.Api.FormsApp
                     _log.Info($"Теги трэка на Last.fm: {tagsStr}.");
                     _log.Info($"Метал жанры в трэке: {metalGenresStr}.");
 
-                    var track = responce.DataContainer.Track;
+                    TrackFull? track = responce.DataContainer.Track;
 
                     _log.Info($"Total / Прослушиваний: {track.Playcount}.");
                     _log.Info($"Short description / Краткое описание: {track.Wiki.Summary}.");
@@ -650,7 +652,7 @@ namespace Universe.Lastfm.Api.FormsApp
             {
                 try
                 {
-                    var responce = Scope.GetCommand<UpdateTrackAsLoveCommand>().Execute(ReqCtx.As<UpdateTrackAsLoveRequest>())
+                    UpdateTrackAsLoveCommandResponce responce = Scope.GetCommand<UpdateTrackAsLoveCommand>().Execute(ReqCtx.As<UpdateTrackAsLoveRequest>())
                         .LightColorResult(btTrackLove);
                     if (!responce.IsSuccessful)
                     {
