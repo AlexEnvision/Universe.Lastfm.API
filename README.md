@@ -86,25 +86,26 @@ Gets a track information:
 
 ````
 
-where container - the DI-container, that helps for an implenmentation of dependency ingections for your project 
+where: 
+   * container - the DI-container, that helps for an implenmentation of dependency ingections for your project 
                   and also storages was created before instances of classes. Important: you need to add UnityAppConfig 
                   as project 'Universe.Lastfm.Api.FormsApp' that lies in the folder 'Infrastracture';
 
-      scope - the object, which could execute queries and commands. This is an activity sphere other words;
-      reqCtx - the object was created for a development comfort. Inherits from object 'BaseRequest'. In this case replaced 
+   * scope - the object, which could execute queries and commands. This is an activity sphere other words;
+   * reqCtx - the object was created for a development comfort. Inherits from object 'BaseRequest'. In this case replaced 
                request usage was implemented in the class 'GetTrackInfoRequest'. Of course you might use the class 
                GetTrackInfoRequest. The class GetTrackInfoRequest definates parameters 'TrackName' and 'Performer'.
                This is required parameters and they will be described below;
 
-      trackName - the track name;
-      performer - the artist name;
+   * trackName - the track name;
+   * performer - the artist name;
 
-	  GetQuery<GetTrackInfoQuery>().Execute( - this is a method that generates a request and
+   * GetQuery<GetTrackInfoQuery>().Execute( - this is a method that generates a request and
 				which takes GetTrackInfoRequest (BaseRequest) as an argument containing required parameters.
                 In this case gets the metadata for a track on Last.fm using the artist/track name or a musicbrainz id;
 
-      responce - the responce with full information about track on the Last.fm. Inferites from BaseResponce;
-      track - the track information model. You might get it from the property 'DataContainer' that is deserializing 
+   * responce - the responce with full information about track on the Last.fm. Inferites from BaseResponce;
+   * track - the track information model. You might get it from the property 'DataContainer' that is deserializing 
               property 'ServiceAnswer'.
 
 Marks a track as the loved track:
@@ -126,25 +127,26 @@ Marks a track as the loved track:
 
 ````
 
-where container - the DI-container, that helps for an implenmentation of dependency ingections for your project 
+where: 
+   * container - the DI-container, that helps for an implenmentation of dependency ingections for your project 
                   and also storages was created before instances of classes. Important: you need to add UnityAppConfig 
                   as project 'Universe.Lastfm.Api.FormsApp' that lies in the folder 'Infrastracture';
 
-      scope - the object, which could execute queries and commands. This is an activity sphere other words;
-      reqCtx - the object was created for a development comfort. Inherits from object 'BaseRequest'. In this case replaced 
+   * scope - the object, which could execute queries and commands. This is an activity sphere other words;
+   * reqCtx - the object was created for a development comfort. Inherits from object 'BaseRequest'. In this case replaced 
                request usage was implemented in the class 'UpdateTrackAsLoveRequest'. Of course you might use the class 
                UpdateTrackAsLoveRequest. The class UpdateTrackAsLoveRequest definates parameters 'TrackName' and 'Performer'.
                This is required parameters and they will be described below;
 
-      trackName - the track name;
-      performer - the artist name;
+   * trackName - the track name;
+   * performer - the artist name;
 
-	  GetQuery<UpdateTrackAsLoveCommand>().Execute( - this is a method that generates a request and
+   * GetQuery<UpdateTrackAsLoveCommand>().Execute( - this is a method that generates a request and
 				which takes UpdateTrackAsLoveRequest (BaseRequest) as an argument containing required parameters.
                 In this case gets the metadata for a track on Last.fm using the artist/track name or a musicbrainz id;
 
-      responce - the responce with answer of the command. Inferites from BaseResponce;
-      track - the track information model. You might get it from the property 'DataContainer' that is deserializing 
+   * responce - the responce with answer of the command. Inferites from BaseResponce;
+   * track - the track information model. You might get it from the property 'DataContainer' that is deserializing 
               property 'ServiceAnswer'.
 
 Gets an album information:
@@ -166,23 +168,24 @@ Gets an album information:
 
 ````
 
-where container - the DI-container, that helps for an implenmentation of dependency ingections for your project 
+where: 
+   * container - the DI-container, that helps for an implenmentation of dependency ingections for your project 
                   and also storages was created before instances of classes. Important: you need to add UnityAppConfig 
                   as project 'Universe.Lastfm.Api.FormsApp' that lies in the folder 'Infrastracture';
 
-      scope - the object, which could execute queries and commands. This is an activity sphere other words;
-      reqCtx - the object was created for a development comfort. Inherits from object 'BaseRequest'. In this case replaced 
+   * scope - the object, which could execute queries and commands. This is an activity sphere other words;
+   * reqCtx - the object was created for a development comfort. Inherits from object 'BaseRequest'. In this case replaced 
                request usage was implemented in the class 'GetAlbumInfoRequest'. Of course you might use the class 
                GetAlbumInfoRequest. The class GetAlbumInfoRequest definates parameters 'TrackName' and 'Performer'.
                This is required parameters and they will be described below;
 
-      album - the album name;
-      performer - the artist name;
+   * album - the album name;
+   * performer - the artist name;
 
-	  GetQuery<GetAlbumInfoRequest>().Execute( - this is a method that generates a request and
+   * GetQuery<GetAlbumInfoRequest>().Execute( - this is a method that generates a request and
 				which takes GetAlbumInfoRequest (BaseRequest) as an argument containing required parameters.
                 In this case gets the metadata for a album on Last.fm using the artist/album name or a musicbrainz id;
 
-      responce - the responce with full information about track on the Last.fm. Inferites from BaseResponce;
-      albumInfo - the album information model. You might get it from the property 'DataContainer' that is deserializing 
+   * responce - the responce with full information about track on the Last.fm. Inferites from BaseResponce;
+   * albumInfo - the album information model. You might get it from the property 'DataContainer' that is deserializing 
               property 'ServiceAnswer'.
