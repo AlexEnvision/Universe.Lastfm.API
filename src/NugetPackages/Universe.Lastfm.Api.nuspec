@@ -2,12 +2,12 @@
 <package >
   <metadata>
     <id>Universe.Lastfm.Api</id>
-    <version>0.9.9.505</version>
+    <version>0.9.9.601</version>
     <authors>Alex Envision</authors>
     <owners>Alex Envision</owners>
     <license type="file">APACHE-2.0 LICENSE.txt</license>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <iconUrl>https://gitlab.com/AlexEnvision/Universe.Lastfm.API/-/tree/main/src/Universe.Lastfm.Api/Images/icon.png</iconUrl>
+    <iconUrl>https://gitlab.com/AlexEnvision/Universe.Lastfm.API/-/raw/main/src/Universe.Lastfm.Api/Images/icon.png</iconUrl>
     <description>The library is working with Last.fm API. The part of Universe.Framework / Пакет с библиотекой, работающей с API Last.fm. Входит в состав  Universe.Framework</description>
 	  <repository type="git" url="https://gitlab.com/AlexEnvision/Universe.Lastfm.API" branch="master" />
     <releaseNotes></releaseNotes>
