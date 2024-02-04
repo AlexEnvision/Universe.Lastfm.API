@@ -163,21 +163,4 @@ namespace Universe.Lastfm.Api.FormsApp.Extensions
             }
         }
     }
-
-    public static class GraphicExtensions
-    {
-        //public static void DrawCenteredString(Graphics g, String text, Rectangle rect, Font font)
-        //{
-        //    // Get the FontMetrics
-        //    FontMetrics metrics = g.GetFontMetrics(font);
-        //    // Determine the X coordinate for the text
-        //    int x = rect.x + (rect.width - metrics.stringWidth(text)) / 2;
-        //    // Determine the Y coordinate for the text (note we add the ascent, as in java 2d 0 is top of the screen)
-        //    int y = rect.y + ((rect.height - metrics.getHeight()) / 2) + metrics.getAscent();
-        //    // Set the font
-        //    g.setFont(font);
-        //    // Draw the String
-        //    g.drawString(text, x, y);
-        //}
-    }
 }

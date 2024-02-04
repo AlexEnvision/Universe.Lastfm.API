@@ -11,7 +11,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "+APPS", "+APPS", "{F371E4CB
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Universe.Lastfm.Api.FormsApp", "Apps\Universe.Lastfm.Api.FormsApp\Universe.Lastfm.Api.FormsApp.csproj", "{DEFBE490-9B0C-4A8A-B634-1DAC1EA6066A}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "~SolutionItems", "~SolutionItems", "{7048CEA3-5483-46DF-B951-8E150D57EF31}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "~SOLUTION ITEMS", "~SOLUTION ITEMS", "{7048CEA3-5483-46DF-B951-8E150D57EF31}"
 	ProjectSection(SolutionItems) = preProject
 		..\README.md = ..\README.md
 		..\Version.txt = ..\Version.txt
