@@ -1,6 +1,6 @@
 # Description of the Universe.Lastfm.API
 
-Here is a project of a Last.fm api, the purpose of which is to simplify the development of solutions 
+Here is a project of the Last.fm api, the purpose of which is to simplify the development of solutions 
 in the C# programming language, such as scrobbler for example.
 
 # Version control    
