@@ -38,7 +38,6 @@ using System.Linq;
 using System.Security.Policy;
 using System.Threading;
 using Universe.Helpers.Extensions;
-using Universe.Lastfm.Api.Browser;
 using Universe.Lastfm.Api.Helpers;
 using Universe.Lastfm.Api.IO.Validators;
 using Universe.Lastfm.Api.Models;

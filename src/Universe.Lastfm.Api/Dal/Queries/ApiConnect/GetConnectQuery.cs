@@ -39,7 +39,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
 using Universe.Helpers.Extensions;
-using Universe.Lastfm.Api.Browser;
+using Universe.Lastfm.Api.Algorithm;
 using Universe.Lastfm.Api.Dal.Queries.Hash;
 using Universe.Lastfm.Api.Helpers;
 

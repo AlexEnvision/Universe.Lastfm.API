@@ -37,6 +37,7 @@ using System;
 using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
+using Newtonsoft.Json;
 using Universe.Algorithm.MultiThreading;
 using Universe.Helpers.Extensions;
 using Universe.Lastfm.Api.Dal.Command.Performers;
@@ -94,7 +95,21 @@ namespace Universe.Lastfm.Api.FormsApp
                     _log.Info(
                         $"Успешно выгружена информация по исполнителю {performer}: {Environment.NewLine}{Environment.NewLine}{responce.ServiceAnswer}{Environment.NewLine}.");
 
-                    var tags = responce.DataContainer.Artist.Tags.Tag;
+                    var artist = responce.DataContainer.Artist;
+                    var imResponce = Scope.GetQuery<GetPerformerImagesQuery>().Execute(
+                        new GetPerformerImagesQuery.GetPerformerImagesRequest
+                        {
+                            Limit = 5,
+                            Log = _log,
+                            Performer = artist
+                        });
+
+                    var largeImageSize =
+                        JsonConvert.SerializeObject(imResponce.LargeSizeImageLinks, Formatting.Indented);
+                    _log.Info(
+                        $"Успешно выгружены ссылки на Large изображения по исполнителю {performer}: {Environment.NewLine}{Environment.NewLine}{largeImageSize}{Environment.NewLine}.");
+
+                    var tags = artist.Tags.Tag;
                     var metalGenres = tags.Where(x => x.Name.ToLower().Contains("metal")).ToList();
 
                     var tagsStr = string.Join(", ", tags.Select(x => x.Name));

@@ -1,3 +1,38 @@
+//  ╔═════════════════════════════════════════════════════════════════════════════════╗
+//  ║                                                                                 ║
+//  ║   Copyright 2024 Universe.Lastfm.Api                                            ║
+//  ║                                                                                 ║
+//  ║   Licensed under the Apache License, Version 2.0 (the "License");               ║
+//  ║   you may not use this file except in compliance with the License.              ║
+//  ║   You may obtain a copy of the License at                                       ║
+//  ║                                                                                 ║
+//  ║       http://www.apache.org/licenses/LICENSE-2.0                                ║
+//  ║                                                                                 ║
+//  ║   Unless required by applicable law or agreed to in writing, software           ║
+//  ║   distributed under the License is distributed on an "AS IS" BASIS,             ║
+//  ║   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.      ║
+//  ║   See the License for the specific language governing permissions and           ║
+//  ║   limitations under the License.                                                ║
+//  ║                                                                                 ║
+//  ║                                                                                 ║
+//  ║   Copyright 2024 Universe.Lastfm.Api                                            ║
+//  ║                                                                                 ║
+//  ║   Лицензировано согласно Лицензии Apache, Версия 2.0 ("Лицензия");              ║
+//  ║   вы можете использовать этот файл только в соответствии с Лицензией.           ║
+//  ║   Вы можете найти копию Лицензии по адресу                                      ║
+//  ║                                                                                 ║
+//  ║       http://www.apache.org/licenses/LICENSE-2.0.                               ║
+//  ║                                                                                 ║
+//  ║   За исключением случаев, когда это регламентировано существующим               ║
+//  ║   законодательством или если это не оговорено в письменном соглашении,          ║
+//  ║   программное обеспечение распространяемое на условиях данной Лицензии,         ║
+//  ║   предоставляется "КАК ЕСТЬ" и любые явные или неявные ГАРАНТИИ ОТВЕРГАЮТСЯ.    ║
+//  ║   Информацию об основных правах и ограничениях,                                 ║
+//  ║   применяемых к определенному языку согласно Лицензии,                          ║
+//  ║   вы можете найти в данной Лицензии.                                            ║
+//  ║                                                                                 ║
+//  ╚═════════════════════════════════════════════════════════════════════════════════╝
+
 using System;
 using System.Diagnostics;
 using System.Threading;
@@ -6,7 +41,7 @@ using OpenQA.Selenium.Chrome;
 using Universe.Helpers.Extensions;
 using Universe.Lastfm.Api.Infrastracture;
 
-namespace Universe.Lastfm.Api.Browser
+namespace Universe.Lastfm.Api.Algorithm
 {
     /// <summary>
     /// <author>Alex Universe</author>
@@ -36,7 +71,7 @@ namespace Universe.Lastfm.Api.Browser
             MinWaitPause = 250;
         }
 
-        private IWebDriver GetWebDriver(OpenBrowserParameters searchParameters)
+        protected virtual IWebDriver GetWebDriver(OpenBrowserParameters searchParameters)
         {
             var driverId = @"""" + _sessionId.Replace(" ", "-") + @"""";
 
@@ -52,6 +87,8 @@ namespace Universe.Lastfm.Api.Browser
             chromeOptions.AddArgument("--ignore-ssl-errors");
             chromeOptions.AddArgument("--disable-popup-blocking");
             chromeOptions.AddArguments("--disable-notifications"); // to disable notification
+
+            chromeOptions.AddArguments("--headless");
 
             // Разрешить режим инкогнито
             //chromeOptions.AddArgument("--incognito");
@@ -94,13 +131,15 @@ namespace Universe.Lastfm.Api.Browser
                 throw new Exception($"{_sessionId} Не указан путь к драйверу браузера!");
 
             var service = ChromeDriverService.CreateDefaultService(webDriverExecutableFilePath);
-            var webDriver = new ChromeDriver(service, chromeOptions, new TimeSpan(0, 30, 0));
+            service.HideCommandPromptWindow = true;
             ChromeDriverPid = service.ProcessId;
 
-            CompleteBrowserPid(driverId, searchParameters, ChromeDriverPid);
+            var webDriver = new ChromeDriver(
+                service,
+                chromeOptions,
+                new TimeSpan(0, 30, 0));
 
-            //    _scope.GetCommand<UpdateEntityCommand<SearchAlgorithmInstanceDb>>()
-            //.Execute(searchInstance);
+            CompleteBrowserPid(driverId, searchParameters, ChromeDriverPid);
 
             return webDriver;
         }
@@ -167,7 +206,7 @@ namespace Universe.Lastfm.Api.Browser
         }
     }
 
-    internal class OpenBrowserParameters
+    public class OpenBrowserParameters
     {
         public string SiteNav { get; set;}
     }
