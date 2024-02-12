@@ -33,6 +33,7 @@
 //  ║                                                                                 ║
 //  ╚═════════════════════════════════════════════════════════════════════════════════╝
 
+using Newtonsoft.Json;
 using System;
 using System.Linq;
 using System.Threading;
@@ -41,6 +42,7 @@ using Universe.Algorithm.MultiThreading;
 using Universe.Helpers.Extensions;
 using Universe.Lastfm.Api.Dal.Command.Albums;
 using Universe.Lastfm.Api.Dal.Queries.Albums;
+using Universe.Lastfm.Api.Dal.Queries.Performers;
 using Universe.Lastfm.Api.Dto.GetAlbumInfo;
 using Universe.Lastfm.Api.FormsApp.Extensions;
 using Universe.Lastfm.Api.FormsApp.Forms.Albums;
@@ -107,6 +109,20 @@ namespace Universe.Lastfm.Api.FormsApp
 
                     _log.Info(
                         $"Успешно выгружена информация по альбому {album} исполнителя {performer}: {Environment.NewLine}{Environment.NewLine}{responce.ServiceAnswer}{Environment.NewLine}.");
+
+                    var albumRes = responce.DataContainer.Album;
+                    var imResponce = Scope.GetQuery<GetAlbumImagesQuery>().Execute(
+                        new GetAlbumImagesQuery.GetAlbumImagesRequest
+                        {
+                            Limit = 5,
+                            Log = _log,
+                            Album = albumRes
+                        });
+
+                    var largeImageSize =
+                        JsonConvert.SerializeObject(imResponce.LargeSizeImageLinks, Formatting.Indented);
+                    _log.Info(
+                        $"Успешно выгружены ссылки на Large изображения по альбому {album}: {Environment.NewLine}{Environment.NewLine}{largeImageSize}{Environment.NewLine}.");
 
                     Album? albumInfo = responce.DataContainer.Album;
 
