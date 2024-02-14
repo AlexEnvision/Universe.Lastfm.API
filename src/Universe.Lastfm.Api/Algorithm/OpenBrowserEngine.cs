@@ -51,7 +51,7 @@ namespace Universe.Lastfm.Api.Algorithm
     {
         private readonly IUniverseLastApiSettings _settings;
 
-        private string _sessionId;
+        protected string SessionId;
 
         private IWebDriver _driver;
 
@@ -66,14 +66,14 @@ namespace Universe.Lastfm.Api.Algorithm
         public OpenBrowserEngine(IUniverseLastApiSettings settings)
         {
             _settings = settings;
-            _sessionId = Guid.NewGuid().ToString();
+            SessionId = Guid.NewGuid().ToString();
 
             MinWaitPause = 250;
         }
 
         protected virtual IWebDriver GetWebDriver(OpenBrowserParameters searchParameters)
         {
-            var driverId = @"""" + _sessionId.Replace(" ", "-") + @"""";
+            var driverId = @"""" + SessionId.Replace(" ", "-") + @"""";
 
             var chromeOptions = new ChromeOptions
             {
@@ -128,7 +128,7 @@ namespace Universe.Lastfm.Api.Algorithm
 
             var webDriverExecutableFilePath = _settings.WebDriverExecutableFilePath;
             if (webDriverExecutableFilePath.IsNullOrWhiteSpace())
-                throw new Exception($"{_sessionId} Не указан путь к драйверу браузера!");
+                throw new Exception($"{SessionId} Не указан путь к драйверу браузера!");
 
             var service = ChromeDriverService.CreateDefaultService(webDriverExecutableFilePath);
             service.HideCommandPromptWindow = true;

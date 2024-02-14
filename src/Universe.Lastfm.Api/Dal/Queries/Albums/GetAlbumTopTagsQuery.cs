@@ -71,7 +71,7 @@ namespace Universe.Lastfm.Api.Dal.Queries.Albums
         /// 
         /// </param>
         /// <returns></returns>
-        public GetAlbumTopTagsResponce Execute(
+        public override GetAlbumTopTagsResponce Execute(
             GetAlbumTopTagsRequest request)
         {
             string album = request.Album;

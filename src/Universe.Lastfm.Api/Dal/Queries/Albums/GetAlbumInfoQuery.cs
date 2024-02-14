@@ -39,10 +39,12 @@ using Universe.Lastfm.Api.Models;
 using Universe.Lastfm.Api.Models.Base;
 using Universe.Lastfm.Api.Models.Req;
 using Universe.Lastfm.Api.Models.Res;
+using static Universe.Lastfm.Api.Dal.Queries.Albums.GetAlbumImagesQuery;
 
 namespace Universe.Lastfm.Api.Dal.Queries.Albums
 {
     /// <summary>
+    ///      The query gets metadata and tracklist for an album on Last.fm using the album name or a musicbrainz id
     /// <author>Alex Universe</author>
     /// <author>Alex Envision</author>
     /// </summary>
@@ -51,16 +53,41 @@ namespace Universe.Lastfm.Api.Dal.Queries.Albums
         protected override Func<BaseRequest, BaseResponce> ExecutableBaseFunc =>
             req => Execute(req.As<GetAlbumInfoRequest>());
 
+        /// <summary>
+        ///     Get the metadata and tracklist for an album on Last.fm using the album name or a musicbrainz id.
+        /// </summary>
+        /// <param name="request.performer">
+        ///     The artist name
+        ///     Required(unless mbid)
+        /// </param>
+        /// <param name="request.album">
+        ///     The album name
+        ///     Required(unless mbid)
+        /// </param>
+        /// <param name="request.lang">
+        ///     The language to return the biography in, expressed as an ISO 639 alpha-2 code.
+        ///     Optional
+        /// </param>
+        /// <param name="request">
+        ///     Request with parameters.
+        /// </param>
+        /// <returns></returns>
         public override GetAlbumInfoResponce Execute(
             GetAlbumInfoRequest request)
         {
+            //artist(Required(unless mbid)] : The artist name
+            //album(Required(unless mbid)] : The album name
+
             string artist = request.Performer;
             string album = request.Album;
+
+            string lang = request.Lang;
 
             var sessionResponce = Adapter.GetRequest("album.getInfo",
                 Argument.Create("api_key", Settings.ApiKey),
                 Argument.Create("artist", artist),
                 Argument.Create("album", album),
+                Argument.Create("lang", lang),
                 Argument.Create("format", "json"),
                 Argument.Create("callback", "?"));
 

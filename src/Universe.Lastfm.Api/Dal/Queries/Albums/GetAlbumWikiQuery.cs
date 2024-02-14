@@ -33,55 +33,82 @@
 //  ║                                                                                 ║
 //  ╚═════════════════════════════════════════════════════════════════════════════════╝
 
+using System;
+using Newtonsoft.Json;
+using Universe.Helpers.Extensions;
+using Universe.Lastfm.Api.Algorithm;
+using Universe.Lastfm.Api.Dto.Common;
 using Universe.Lastfm.Api.Models.Base;
+using Universe.Lastfm.Api.Models.Req;
+using Universe.Lastfm.Api.Models.Res;
 
-namespace Universe.Lastfm.Api.Models
+namespace Universe.Lastfm.Api.Dal.Queries.Albums
 {
     /// <summary>
+    ///      The query gets wiki for an album on Last.fm using the album name.
     /// <author>Alex Universe</author>
     /// <author>Alex Envision</author>
     /// </summary>
-    public class ReqContext : BaseRequest
+    public class GetAlbumWikiQuery : LastQuery<GetAlbumWikiRequest, GetAlbumWikiResponce>
     {
-        public string SessionKey { get; set; }
-
-        public string Token { get; set; }
+        protected override Func<BaseRequest, BaseResponce> ExecutableBaseFunc =>
+            req => Execute(req.As<GetAlbumWikiRequest>());
 
         /// <summary>
-        ///     The secret key from setting of the application
+        ///     Get the metadata and tracklist for an album on Last.fm using the album name or a musicbrainz id.
         /// </summary>
-        public string SecretKey { get; set; }
+        /// <param name="request.album">
+        ///     The album model, that ges by query <see cref="GetAlbumInfoQuery"/>
+        ///     Required(unless mbid)
+        /// </param>
+        /// <param name="request">
+        ///     Request with parameters.
+        /// </param>
+        /// <returns></returns>
+        public override GetAlbumWikiResponce Execute(
+            GetAlbumWikiRequest request)
+        {
+            if (request == null)
+                throw new ArgumentNullException(nameof(request));
 
-        public string User { get; set; }
+            if (request.Album == null)
+                throw new ArgumentNullException(nameof(request.Album));
 
-        public string Period { get; set; }
+            if (request.Album.Url.IsNullOrEmpty())
+                throw new ArgumentNullException(nameof(request.Album.Url));
 
-        public int Page { get; set; }
+            var album = request.Album;
+            var url = album.Url;
 
-        public int Limit { get; set; }
+            var engine = new DescriptionBrowserNavigationEngine(Settings, request.Log);
+            var result = engine.Run(new DescriptionNavigateParameters
+            {
+                SiteNav = url,
+                Limit = request.Limit
+            });
 
-        public string From { get; set; }
+            var serviceAnswer = JsonConvert.SerializeObject(result, Formatting.Indented);
 
-        public string To { get; set; }
+            if (result.Description == null || result.Description.Count == 0)
+                return new GetAlbumWikiResponce
+                {
+                    ServiceAnswer = serviceAnswer,
+                    IsSuccessful = false
+                };
 
-        public string Extend { get; set; }
+            var content = string.Join("; ", result.Description);
+            var summary = content.CutString(255);
 
-        public string Taggingtype { get; set; }
+            var wiki = new Wiki {
+                Content = content,
+                Summary = summary
+            };
 
-        public string Tag { get; set; }
-
-        public string Performer { get; set; }
-
-        public string Album { get; set; }
-
-        public string Track { get; set; }
-
-        public string[] Tags { get; set; }
-
-        public string RemTag { get; set; }
-
-        public long? Timestamp { get; set; }
-
-        public string Lang { get; set; }
+            return new GetAlbumWikiResponce
+            {
+                Wiki = wiki,
+                ServiceAnswer = serviceAnswer
+            };
+        }
     }
 }

@@ -33,55 +33,45 @@
 //  ║                                                                                 ║
 //  ╚═════════════════════════════════════════════════════════════════════════════════╝
 
-using Universe.Lastfm.Api.Models.Base;
+using Newtonsoft.Json;
+using System.Collections.Generic;
+using Universe.Lastfm.Api.Algorithm;
+using Universe.Lastfm.Api.Algorithm.Searchers;
+using Universe.Lastfm.Api.Dto.Common;
+using Universe.Lastfm.Api.Dto.GetAlbumInfo;
+using Universe.Lastfm.Api.Models.Res.Base;
 
-namespace Universe.Lastfm.Api.Models
+namespace Universe.Lastfm.Api.Models.Res
 {
     /// <summary>
     /// <author>Alex Universe</author>
     /// <author>Alex Envision</author>
     /// </summary>
-    public class ReqContext : BaseRequest
+    public class GetAlbumWikiResponce : LastFmBaseResponce<AlbumInfoContainer>
     {
-        public string SessionKey { get; set; }
+        public List<DescriptionInformation> Description { get; set; }
 
-        public string Token { get; set; }
+        public override AlbumInfoContainer DataContainer
+        {
+            get
+            {
+                if (_dataContainer == null)
+                {
+                    if (string.IsNullOrEmpty(ServiceAnswer))
+                        return _dataContainer;
 
-        /// <summary>
-        ///     The secret key from setting of the application
-        /// </summary>
-        public string SecretKey { get; set; }
+                    var answer = ServiceAnswer.Replace("@attr", "TrackAttribute");
+                    var deserialized = JsonConvert.DeserializeObject<AlbumInfoContainer>(answer);
+                    _dataContainer = deserialized;
+                    return _dataContainer;
+                }
 
-        public string User { get; set; }
+                return _dataContainer;
+            }
+        }
 
-        public string Period { get; set; }
+        public Wiki Wiki { get; set; }
 
-        public int Page { get; set; }
-
-        public int Limit { get; set; }
-
-        public string From { get; set; }
-
-        public string To { get; set; }
-
-        public string Extend { get; set; }
-
-        public string Taggingtype { get; set; }
-
-        public string Tag { get; set; }
-
-        public string Performer { get; set; }
-
-        public string Album { get; set; }
-
-        public string Track { get; set; }
-
-        public string[] Tags { get; set; }
-
-        public string RemTag { get; set; }
-
-        public long? Timestamp { get; set; }
-
-        public string Lang { get; set; }
+        private AlbumInfoContainer _dataContainer;
     }
 }

@@ -93,6 +93,7 @@ namespace Universe.Lastfm.Api.FormsApp
             DisableButtons(sender);
             ReqCtx.Album = album;
             ReqCtx.Performer = performer;
+            //ReqCtx.Lang = "en";
 
             ThreadMachine.Create(1).RunInMultiTheadsWithoutWaiting(() =>
             {
@@ -109,6 +110,22 @@ namespace Universe.Lastfm.Api.FormsApp
 
                     _log.Info(
                         $"Успешно выгружена информация по альбому {album} исполнителя {performer}: {Environment.NewLine}{Environment.NewLine}{responce.ServiceAnswer}{Environment.NewLine}.");
+
+                    var req = new GetAlbumWikiRequest()
+                    {
+                        Album = responce.DataContainer.Album,
+                        Log = _log,
+                    };
+                    GetAlbumWikiResponce wikiResponce = Scope.GetQuery<GetAlbumWikiQuery>().Execute(req)
+                        .LightColorResult(btAlbumGetInfo);
+                    if (!responce.IsSuccessful)
+                    {
+                        _log.Info($"{responce.Message} {responce.ServiceAnswer}");
+                        return;
+                    }
+
+                    _log.Info(
+                        $"Успешно выгружена wiki по альбому {album} исполнителя {performer}: {Environment.NewLine}{Environment.NewLine}{wikiResponce.ServiceAnswer}{Environment.NewLine}.");
 
                     var albumRes = responce.DataContainer.Album;
                     var imResponce = Scope.GetQuery<GetAlbumImagesQuery>().Execute(

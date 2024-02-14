@@ -48,5 +48,7 @@ namespace Universe.Lastfm.Api.Models.Req
         public string Performer { get; set; }
 
         public string Album { get; set; }
+
+        public string Lang { get; set; }
     }
 }
