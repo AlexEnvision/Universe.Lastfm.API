@@ -124,8 +124,11 @@ namespace Universe.Lastfm.Api.FormsApp
                         return;
                     }
 
+                    var wiki = wikiResponce.DataContainer.Wiki;
+                    var wikiSfy = JsonConvert.SerializeObject(wiki, Formatting.Indented);
+
                     _log.Info(
-                        $"Успешно выгружена wiki по альбому {album} исполнителя {performer}: {Environment.NewLine}{Environment.NewLine}{wikiResponce.ServiceAnswer}{Environment.NewLine}.");
+                        $"Успешно выгружена wiki по альбому {album} исполнителя {performer}: {Environment.NewLine}{Environment.NewLine}{wikiSfy}{Environment.NewLine}.");
 
                     var albumRes = responce.DataContainer.Album;
                     var imResponce = Scope.GetQuery<GetAlbumImagesQuery>().Execute(

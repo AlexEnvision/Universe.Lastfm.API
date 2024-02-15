@@ -34,10 +34,13 @@
 //  ╚═════════════════════════════════════════════════════════════════════════════════╝
 
 using System;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using Newtonsoft.Json;
 using Universe.Helpers.Extensions;
 using Universe.Lastfm.Api.Algorithm;
 using Universe.Lastfm.Api.Dto.Common;
+using Universe.Lastfm.Api.Dto.GetAlbumInfo;
 using Universe.Lastfm.Api.Models.Base;
 using Universe.Lastfm.Api.Models.Req;
 using Universe.Lastfm.Api.Models.Res;
@@ -96,7 +99,9 @@ namespace Universe.Lastfm.Api.Dal.Queries.Albums
                     IsSuccessful = false
                 };
 
-            var content = string.Join("; ", result.Description);
+            var innerHtmls = result.Description.Select(x => x.InnerHtml).ToArray();
+
+            var content = string.Join("; ", innerHtmls);
             var summary = content.CutString(255);
 
             var wiki = new Wiki {
@@ -104,10 +109,21 @@ namespace Universe.Lastfm.Api.Dal.Queries.Albums
                 Summary = summary
             };
 
+            var albumWikiContainer = new AlbumWikiContainer()
+            {
+                Description = result.Description,
+                Wiki = wiki,
+                IsSuccessful = true,
+                Message = "ОК"
+            };
+
+            var albumWikiContainerSfy = JsonConvert.SerializeObject(albumWikiContainer, Formatting.Indented);
+
             return new GetAlbumWikiResponce
             {
-                Wiki = wiki,
-                ServiceAnswer = serviceAnswer
+                ServiceAnswer = albumWikiContainerSfy,
+                IsSuccessful = true,
+                Message = "ОК"
             };
         }
     }

@@ -33,41 +33,21 @@
 //  ║                                                                                 ║
 //  ╚═════════════════════════════════════════════════════════════════════════════════╝
 
-using Newtonsoft.Json;
 using System.Collections.Generic;
-using Universe.Lastfm.Api.Algorithm;
 using Universe.Lastfm.Api.Algorithm.Searchers;
+using Universe.Lastfm.Api.Dto.Base;
 using Universe.Lastfm.Api.Dto.Common;
-using Universe.Lastfm.Api.Dto.GetAlbumInfo;
-using Universe.Lastfm.Api.Models.Res.Base;
 
-namespace Universe.Lastfm.Api.Models.Res
+namespace Universe.Lastfm.Api.Dto.GetAlbumInfo
 {
     /// <summary>
     /// <author>Alex Universe</author>
     /// <author>Alex Envision</author>
     /// </summary>
-    public class GetAlbumWikiResponce : LastFmBaseResponce<AlbumWikiContainer>
+    public class AlbumWikiContainer : LastFmBaseContainer
     {
-        public override AlbumWikiContainer DataContainer
-        {
-            get
-            {
-                if (_dataContainer == null)
-                {
-                    if (string.IsNullOrEmpty(ServiceAnswer))
-                        return _dataContainer;
+        public Wiki Wiki { get; set; }
 
-                    var answer = ServiceAnswer.Replace("@attr", "AlbumAttribute");
-                    var deserialized = JsonConvert.DeserializeObject<AlbumWikiContainer>(answer);
-                    _dataContainer = deserialized;
-                    return _dataContainer;
-                }
-
-                return _dataContainer;
-            }
-        }
-
-        private AlbumWikiContainer _dataContainer;
+        public List<DescriptionInformation> Description { get; set; }
     }
 }
